@@ -20,6 +20,7 @@ public class Cart {
         return this.cartProducts;
     }
 
+    // Adds the product to cartProducts
     public void addToCart(Product product) {
         try {
             cartProducts.add(product);
@@ -28,10 +29,15 @@ public class Cart {
         }
     }
 
+    // Purchases all the products in the cart for the specific customer
     public void purchaseCart() {
         for (Product p : cartProducts) {
             Customer.getCustomerById(customerID).purchaseProduct(p);
             cartProducts.remove(p);
         }
+    }
+
+    public void display() {
+        throw new UnsupportedOperationException("Unimplemented method 'display'");
     }
 }

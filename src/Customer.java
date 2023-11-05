@@ -8,20 +8,24 @@ public class Customer extends User implements UserInterface {
         this.cart = cart;
     }
 
+    // Exports customer purchase history
     @Override
     public void exportData() {
         throw new UnsupportedOperationException("Unsupported operation 'exportPurchaseHistory");
     }
 
+    // unnecessary method
     @Override
     public void importData() {
-        throw new UnsupportedOperationException("Unimplemented method 'importData'");
+        return;
     }
 
+    // Purchases a product
     public void purchaseProduct(Product product) {
         throw new UnsupportedOperationException("Unsupported operation 'purchaseProduct");
     }
 
+    // Retrieves customer by id
     public static Customer getCustomerById(int customerId) {
         throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
     }

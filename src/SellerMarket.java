@@ -1,23 +1,41 @@
 import java.util.ArrayList;
 
-public class SellerMarket extends Market<Seller> implements MarketInterface {
-    public SellerMarket(ArrayList<Store> stores, Seller seller, Dashboard<Seller> dashboard) {
-        super(stores, seller, dashboard);
+public class SellerMarket extends Market<Seller> implements MarketInterface<Customer, Product> {
+    private Dashboard<Customer, Product> dashboard;
+
+    public SellerMarket(ArrayList<Store> stores, Seller seller, Dashboard<Customer, Product> dashboard) {
+        super(stores, seller);
+        this.dashboard = dashboard;
     }
 
     @Override
-    public void display() {
+    public void displayMarketplace() {
         throw new UnsupportedOperationException("Unimplemented method 'marketplace'");
     }
 
     // For creating, editing, or deleting a product
     @Override
-    public void productPage(Product product) {
+    public void displayProductPage(Product product) {
         throw new UnsupportedOperationException("Unimplemented method 'productPage'");
     }
 
     @Override
-    public void dashboard() {
+    public void displayDashboard() {
         throw new UnsupportedOperationException("Unimplemented method 'dashboard'");
+    }
+
+    @Override
+    public Dashboard<Customer, Product> getDashboard() {
+        return dashboard;
+    }
+
+    @Override
+    public void setDashboard(Dashboard<Customer, Product> dashboard) {
+        this.dashboard = dashboard;
+    }
+
+    @Override
+    public void displayCart() {
+        throw new UnsupportedOperationException("Unimplemented method 'displayCart'");
     }
 }

@@ -5,14 +5,13 @@ import java.util.ArrayList;
 public class Market<T> {
     private ArrayList<Store> stores;
     private T user;
-    private Dashboard<T> dashboard;
 
-    public Market(ArrayList<Store> stores, T user, Dashboard<T> dashboard) {
+    public Market(ArrayList<Store> stores, T user) {
         this.stores = stores;
         this.user = user;
-        this.dashboard = dashboard;
     }
 
+    // Entry point for the program
     public static void main(String[] args) {
         throw new UnsupportedOperationException("Unimplemented method 'main'");
     }
@@ -37,18 +36,12 @@ public class Market<T> {
         throw new UnsupportedOperationException("Unimplemented method 'setUserById(int id)'");
     }
 
-    public Dashboard<T> getDashboard() {
-        return dashboard;
-    }
-
-    public void setDashboard(Dashboard<T> dashboard) {
-        this.dashboard = dashboard;
-    }
-
+    // Read the data to restore a previous session
     public void readData(String filename) {
         throw new UnsupportedOperationException("Unimplemented method 'readData'");
     }
 
+    // Persist the data by writing it to storage
     public void writeData(String filename) {
         throw new UnsupportedOperationException("Unimplemented method 'writeData'");
     }

@@ -8,23 +8,28 @@ public class Seller extends User implements UserInterface {
         this.sales = sales;
     }
 
+    // Add a product to the sellers products list
     public void createProduct() {
         throw new UnsupportedOperationException("Unimplemented method 'createProduct'");
     }
 
+    // Edit a product from the sellers products list
     public void editProduct(Product product) {
         throw new UnsupportedOperationException("Unimplemented method 'editProduct'");
     }
 
+    // Delete a product to the sellers products list
     public void deleteProduct(Product product) {
         throw new UnsupportedOperationException("Unimplemented method 'deleteProduct'");
     }
 
+    // Export products to a csv file
     @Override
     public void exportData() {
         throw new UnsupportedOperationException("Unimplemented method 'exportData'");
     }
 
+    // Import products from a csv file
     @Override
     public void importData() {
         throw new UnsupportedOperationException("Unimplemented method 'importData'");

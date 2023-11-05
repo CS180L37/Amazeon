@@ -33,6 +33,7 @@ public class Sale {
         this.cost = cost;
     }
 
+    // Calculate the total cost of a sale
     public double calculateCost() {
         throw new UnsupportedOperationException("Unsupported Operation 'calculateCost");
     }

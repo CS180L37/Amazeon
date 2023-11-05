@@ -1,23 +1,54 @@
-public class CustomerMarket extends Market<Customer> implements MarketInterface {
+import java.util.ArrayList;
 
-    public CustomerMarket(ArrayList<Store> stores, Customer user, Dashboard<Customer> dashboard) {
-        super(stores, user, dashboard);
+public class CustomerMarket extends Market<Customer> implements MarketInterface<Store, Store> {
+    private Dashboard<Store, Store> dashboard;
+
+    public CustomerMarket(ArrayList<Store> stores, Customer user, Dashboard<Store, Store> dashboard) {
+        super(stores, user);
+        this.dashboard = dashboard;
     }
 
+    // Displays the list of products
     @Override
-    public void display() {
+    public void displayMarketplace() {
         throw new UnsupportedOperationException("Unimplemented method 'display'");
     }
 
     // When clicking on an individual product
     @Override
-    public void productPage(Product product) {
+    public void displayProductPage(Product product) {
         throw new UnsupportedOperationException("Unimplemented method 'productPage'");
     }
 
+    // Display/work with the dashboard for customers
     @Override
-    public void dashboard() {
+    public void displayDashboard() {
         throw new UnsupportedOperationException("Unimplemented method 'dashboard'");
+    }
+
+    @Override
+    public Dashboard<Store, Store> getDashboard() {
+        return dashboard;
+    }
+
+    @Override
+    public void setDashboard(Dashboard<Store, Store> dashboard) {
+        this.dashboard = dashboard;
+    }
+
+    // Sort the marketplace
+    public void sort(boolean price, boolean quantityAvailable) {
+        throw new UnsupportedOperationException("Unimplemented method 'sort'");
+    }
+
+    // Search the marketplace by name, storeId, or description
+    public ArrayList<Product> search(String name, int storeId, String description) {
+        throw new UnsupportedOperationException("Unimplemented method 'search'");
+    }
+
+    @Override
+    public void displayCart() {
+        throw new UnsupportedOperationException("Unimplemented method 'displayCart'");
     }
 
 }
