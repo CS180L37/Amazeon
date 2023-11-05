@@ -1,5 +1,3 @@
-package src;
-
 public class Store {
     private String name;
     private int id;
@@ -20,6 +18,7 @@ public class Store {
     public int getId() {
         return this.id;
     }
+
     public Product[] getProducts() {
         return this.products;
     }
@@ -28,19 +27,19 @@ public class Store {
         return this.customers;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setProducts(Product[] products){
+    public void setProducts(Product[] products) {
         this.products = products;
     }
 
-    public void setCustomers(Customer[] customers){
+    public void setCustomers(Customer[] customers) {
         this.customers = customers;
     }
 
