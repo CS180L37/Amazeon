@@ -1,11 +1,13 @@
+import java.util.ArrayList;
+
 public class SellerDashboard extends Dashboard<Customer> implements DashboardInterface<Customer> {
 
-    public SellerDashboard(Customer[] data) {
+    public SellerDashboard(ArrayList<Customer> data) {
         super(data);
     }
 
     @Override
-    public Customer[] sort() {
+    public ArrayList<Customer> sort() {
         throw new UnsupportedOperationException("Unimplemented method 'sort'");
     }
 

@@ -1,22 +1,26 @@
 import java.beans.Customizer;
 import java.util.ArrayList;
 
-
 public class Cart {
-    private static int customerID;
-    private static ArrayList<Product> cartProducts;
+    private int customerID;
+    private ArrayList<Product> cartProducts;
+
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
+
     public void setCartProducts(ArrayList<Product> cartProducts) {
         this.cartProducts = cartProducts;
     }
+
     public int getCustomerID() {
         return this.customerID;
     }
+
     public ArrayList<Product> getCartProducts() {
         return this.cartProducts;
     }
+
     public void addToCart(Product product) {
         try {
             cartProducts.add(product);
@@ -27,7 +31,7 @@ public class Cart {
 
     public void purchaseCart() {
         for (Product p : cartProducts) {
-            Customer.purchaseProducts.add(p);
+            Customer.getCustomerById(customerID).purchaseProduct(p);
             cartProducts.remove(p);
         }
     }

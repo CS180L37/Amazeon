@@ -1,5 +1,7 @@
+import java.util.ArrayList;
+
 public class SellerMarket extends Market<Seller> implements MarketInterface {
-    public SellerMarket(Store[] stores, Seller seller, Dashboard<Seller> dashboard) {
+    public SellerMarket(ArrayList<Store> stores, Seller seller, Dashboard<Seller> dashboard) {
         super(stores, seller, dashboard);
     }
 
@@ -8,8 +10,9 @@ public class SellerMarket extends Market<Seller> implements MarketInterface {
         throw new UnsupportedOperationException("Unimplemented method 'marketplace'");
     }
 
-    // Use the customers field to determine
-    public void productPage() {
+    // For creating, editing, or deleting a product
+    @Override
+    public void productPage(Product product) {
         throw new UnsupportedOperationException("Unimplemented method 'productPage'");
     }
 

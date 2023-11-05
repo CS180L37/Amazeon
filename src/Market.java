@@ -1,10 +1,13 @@
 // Parent class for SellerMarket and CustomerMarket
+
+import java.util.ArrayList;
+
 public class Market<T> {
-    private Store[] stores;
+    private ArrayList<Store> stores;
     private T user;
     private Dashboard<T> dashboard;
 
-    public Market(Store[] stores, T user, Dashboard<T> dashboard) {
+    public Market(ArrayList<Store> stores, T user, Dashboard<T> dashboard) {
         this.stores = stores;
         this.user = user;
         this.dashboard = dashboard;
@@ -14,20 +17,16 @@ public class Market<T> {
         throw new UnsupportedOperationException("Unimplemented method 'main'");
     }
 
-    public Store[] getStores() {
+    public ArrayList<Store> getStores() {
         return stores;
     }
 
-    public void setStores(Store[] stores) {
+    public void setStores(ArrayList<Store> stores) {
         this.stores = stores;
     }
 
     public T getUser() {
         return user;
-    }
-
-    public T getUserById(int id) {
-        throw new UnsupportedOperationException("Unimplemented method 'getUserById(int id)'");
     }
 
     public void setUser(T user) {
