@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Cart {
     private static int customerID;
     private static ArrayList<Product> cartProducts;
+    private static ArrayList<Product> purchaseProducts = new ArrayList<>();
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
@@ -25,10 +26,13 @@ public class Cart {
         }
     }
 
+    public static ArrayList<Product> getPurchaseProducts() {
+        return purchaseProducts;
+    }
+
     public void purchaseCart() {
         for (Product p : cartProducts) {
-            Customer.purchaseProducts.add(p);
-            cartProducts.remove(p);
+            getPurchaseProducts().add(p);
         }
     }
 }
