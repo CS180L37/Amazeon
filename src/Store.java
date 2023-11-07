@@ -5,6 +5,7 @@ public class Store {
     private int id;
     private Product[] products;
     private Customer[] customers;
+    private Product[] productsSold;
 
     public Store(String name, int id, Product[] products, Customer[] customers) {
         this.name = name;
@@ -42,6 +43,10 @@ public class Store {
 
     public void setCustomers(Customer[] customers){
         this.customers = customers;
+    }
+
+    public int numProductsSold(){
+        return this.productsSold.length;
     }
 
 }
