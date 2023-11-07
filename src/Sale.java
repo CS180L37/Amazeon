@@ -34,6 +34,6 @@ public class Sale {
     }
 
     public double getRevenue(){
-        return this.Customer.getPrice();
+        return this.customer.getPrice();
     }
 }
