@@ -9,12 +9,12 @@ public class Seller extends User implements UserInterface {
     }
 
     // Add a product to the sellers products list
-    public void createProduct() {
+    public void createProduct(Product product) {
         throw new UnsupportedOperationException("Unimplemented method 'createProduct'");
     }
 
     // Edit a product from the sellers products list
-    public void editProduct(Product product) {
+    public void editProduct(Product oldProduct, Product newProduct) {
         throw new UnsupportedOperationException("Unimplemented method 'editProduct'");
     }
 
@@ -25,13 +25,13 @@ public class Seller extends User implements UserInterface {
 
     // Export products to a csv file
     @Override
-    public void exportData() {
+    public void exportData(String filepath) {
         throw new UnsupportedOperationException("Unimplemented method 'exportData'");
     }
 
     // Import products from a csv file
     @Override
-    public void importData() {
+    public void importData(String filepath) {
         throw new UnsupportedOperationException("Unimplemented method 'importData'");
     }
 
