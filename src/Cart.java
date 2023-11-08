@@ -26,12 +26,13 @@ public class Cart {
     }
 
     // Adds the product to cartProducts
-    public void addToCart(Product product) {
-        try {
-            cartProducts.add(product);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public boolean addToCart(Product product) {
+        return cartProducts.add(product);
+    }
+
+    // Removes the product from cartProducts
+    public boolean removeFromCart(Product product) {
+        return cartProducts.remove(product);
     }
 
     // Purchases all the products in the cart for the specific customer
