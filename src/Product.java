@@ -8,6 +8,16 @@ public class Product {
     private String description;
     private double price;
 
+    public Product(int sellerId, int quantity, String name, ArrayList<Integer> storeIds, String description,
+            double price) {
+        this.sellerId = sellerId;
+        this.quantity = quantity;
+        this.name = name;
+        this.storeIds = storeIds;
+        this.description = description;
+        this.price = price;
+    }
+
     public int getSellerId() {
         return sellerId;
     }

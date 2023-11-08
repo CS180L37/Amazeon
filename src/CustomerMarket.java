@@ -11,19 +11,19 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     // Displays the list of products
     @Override
     public void displayMarketplace() {
-        throw new UnsupportedOperationException("Unimplemented method 'display'");
+        throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
     }
 
     // When clicking on an individual product
     @Override
     public void displayProductPage(Product product) {
-        throw new UnsupportedOperationException("Unimplemented method 'productPage'");
+        throw new UnsupportedOperationException("Unimplemented method 'displayProductPage'");
     }
 
     // Display/work with the dashboard for customers
     @Override
     public void displayDashboard() {
-        throw new UnsupportedOperationException("Unimplemented method 'dashboard'");
+        throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
     }
 
     @Override
@@ -46,9 +46,11 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
         throw new UnsupportedOperationException("Unimplemented method 'search'");
     }
 
+    // A utility method for displaying the users cart; just calls display() from
+    // the cart class
     @Override
     public void displayCart() {
-        throw new UnsupportedOperationException("Unimplemented method 'displayCart'");
+        this.getUser().getCart().display();
     }
 
 }

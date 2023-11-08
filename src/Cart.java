@@ -4,6 +4,11 @@ public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
 
+    public Cart(int customerID, ArrayList<Product> cartProducts) {
+        this.customerID = customerID;
+        this.cartProducts = cartProducts;
+    }
+
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
@@ -37,6 +42,7 @@ public class Cart {
         }
     }
 
+    // Display the customers cart
     public void display() {
         throw new UnsupportedOperationException("Unimplemented method 'display'");
     }
