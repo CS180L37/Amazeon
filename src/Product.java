@@ -1,4 +1,3 @@
-
 public class Product {
 
     private int sellerid;
@@ -29,14 +28,6 @@ public class Product {
 
     public String getDescription() {
         return description;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public Seller getSeller() {
-        return seller;
     }
 
     public Customer getCls() {
