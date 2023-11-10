@@ -11,6 +11,38 @@ public class Product {
 
     Customer cls = new Customer();
 
+    public int getSellerid() {
+        return sellerid;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int[] getStoreIDs() {
+        return storeIDs;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public Customer getCls() {
+        return cls;
+    }
+
     public Product(int sellerid, int quantity, String name, int[] storeIDs, String description, double price) {
         this.sellerid = sellerid;
         this.quantity = quantity;

@@ -9,7 +9,7 @@ public class Sale {
         this.amountPurchased = amountPurchased;
     }
 
-    public Customer getCustomer(Customer customer){
+    public Customer getCustomer(){
         return this.customer;
     }
 
@@ -34,6 +34,6 @@ public class Sale {
     }
 
     public double getRevenue(){
-        return this.customer.getPrice();
+        return getProduct().getPrice() * getAmountPurchased();
     }
 }
