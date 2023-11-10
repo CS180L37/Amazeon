@@ -52,8 +52,11 @@ public class Product {
         this.price = price;
     }
 
-    public Seller getSeller(Seller seller) {
+    public Seller getSeller() {
         return seller;
+    }
+    public Double getPrice() {
+        return price;
     }
 
     public void displayProductPage() {
