@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 
-public class CustomerMarket extends Market<Customer> implements MarketInterface<Store, Store> {
+public class CustomerMarket extends Market<Customer> implements MarketInterface<Customer, Store, Store> {
     private Dashboard<Store, Store> dashboard;
 
     public CustomerMarket(ArrayList<Store> stores, Customer user, Dashboard<Store, Store> dashboard) {
         super(stores, user);
         this.dashboard = dashboard;
+    }
+
+    public static void main(String[] args) {
+        welcomeProcess();
     }
 
     // Displays the list of products
@@ -53,4 +57,8 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
         this.getUser().getCart().display();
     }
 
+    @Override
+    public Customer authentication() {
+        throw new UnsupportedOperationException("Unimplemented method 'authentication'");
+    }
 }

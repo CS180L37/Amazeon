@@ -47,7 +47,7 @@ public class User {
                 }
                 currentLine = br.readLine();
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -81,7 +81,7 @@ public class User {
             }
             return -1;
 
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

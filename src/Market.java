@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Market<T> {
+    private static final Scanner SCANNER = new Scanner(System.in);
     private ArrayList<Store> stores;
     private T user;
 
@@ -13,12 +14,11 @@ public class Market<T> {
     }
 
     // Entry point for the program
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public boolean hasAccount() {
         System.out.println("Welcome to Amazeon! Do you have an account? (y/n)");
         String hasAccount;
         do {
-            hasAccount = scanner.nextLine();
+            hasAccount = SCANNER.nextLine();
             if (Utils.validInput(hasAccount) != Utils.ERROR) {
                 break;
             }
@@ -26,13 +26,11 @@ public class Market<T> {
         } while (true);
         switch (Utils.validInput(hasAccount)) {
             case Utils.YES:
-                // login();
-                break;
+                return true;
             case Utils.NO:
-                // createAccount(email, password);
-                break;
+                return false;
             default:
-                break;
+                return false;
         }
     }
 
@@ -74,28 +72,37 @@ public class Market<T> {
         throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
     }
 
-    public void loginProcess() {
-        System.out.println("Enter your email: ");
-        String email = scanner.nextLine();
-        System.out.println("Enter your password: ");
-        String password = scanner.nextLine();
-        System.out.pritnln("Would you like to create an account as a customer (y) or seller (n)?");
-        String userType;
-        do {
-            usrType = scanner.nextLine();
-            if (Utils.validInput(userType) != Utils.ERROR) {
-                break;
-            }
-        } while (true);
-        switch (Utils.validInput(userType)) {
-            case Utils.YES:
-                createAccount(email, password, "Customer");
-                break;
-            case Utils.NO:
-                createAccount(email, password, "Seller");
-                break;
-            default:
-                break;
-        }
-    }
+    // public T authentication() {
+
+    // throw new UnsupportedOperationException("Unimplemented method
+    // 'authentication'");
+    // }
+
+    // public T loginProcess() {
+    // System.out.println("Enter your email: ");
+    // String email = scanner.nextLine();
+    // System.out.println("Enter your password: ");
+    // String password = scanner.nextLine();
+    // System.out.println("Would you like to create an account as a customer (y) or
+    // seller (n)?");
+    // String userType;
+    // do {
+    // usrType = scanner.nextLine();
+    // if (Utils.validInput(userType) != Utils.ERROR) {
+    // break;
+    // }
+    // } while (true);
+    // switch (Utils.validInput(userType)) {
+    // case Utils.YES:
+    // int customerId = createAccount(email, password, "Customer");
+    // user = Customer.getCustomerById(customerId);
+    // break;
+    // case Utils.NO:
+    // int sellerId = createAccount(email, password, "Seller");
+    // user = Seller.getSellerById(sellerId);
+    // break;
+    // default:
+    // break;
+    // }
+    // }
 }

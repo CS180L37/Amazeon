@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,5 +26,9 @@ public class Utils {
             return true;
         }
         return false;
+    }
+
+    public static BufferedReader createReader(String filename) {
+
     }
 }
