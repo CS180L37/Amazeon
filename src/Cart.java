@@ -4,7 +4,7 @@ public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
 
-    public Cart(int customerID, ArrayList<Product> cartProducts) {
+    public Cart(String customerID, ArrayList<Product> cartProducts) {
         this.customerID = customerID;
         this.cartProducts = cartProducts;
     }
