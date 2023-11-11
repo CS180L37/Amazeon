@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Product {
@@ -8,14 +10,18 @@ public class Product {
     private String description;
     private double price;
 
+    private int productID;
+
+
     public Product(int sellerId, int quantity, String name, int storeId, String description,
-            double price) {
+            double price, int productID) {
         this.sellerId = sellerId;
         this.quantity = quantity;
         this.name = name;
         this.storeId = storeId;
         this.description = description;
         this.price = price;
+        this.productID = productID;
     }
 
 
@@ -67,8 +73,36 @@ public class Product {
         this.price = price;
     }
 
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    public Product getProductByID(int productID){
+
+    }
+
     public static ArrayList<Product> readProducts() {
-        throw new UnsupportedOperationException("Unimplemented method 'readProducts'");
+        ArrayList<Product> products = new ArrayList<Product>();
+        try {
+            BufferedReader br = Utils.createReader(".products.csv");
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                products.add(new Product(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2],
+                        Integer.parseInt(data[3]), data[4], Double.parseDouble(data[5])));
+            }
+            return products;
+        } catch (IOException e) {
+            return new ArrayList<Product>();
+        }
     }
 
     public static void writeProducts(ArrayList<Product> products) {
