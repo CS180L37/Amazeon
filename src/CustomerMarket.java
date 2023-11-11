@@ -9,7 +9,15 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     }
 
     public static void main(String[] args) {
-        welcomeProcess();
+        CustomerMarket customerMarket = new CustomerMarket(null, null, null);
+        if (hasAccount()) {
+            // Login
+            customerMarket.setUser(customerMarket.authentication());
+        } else {
+            // Create
+            customerMarket.setUser(customerMarket.authentication());
+        }
+
     }
 
     // Displays the list of products
