@@ -8,18 +8,6 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
         this.dashboard = dashboard;
     }
 
-    public static void main(String[] args) {
-        CustomerMarket customerMarket = new CustomerMarket(null, null, null);
-        if (hasAccount()) {
-            // Login
-            customerMarket.setUser(customerMarket.authentication());
-        } else {
-            // Create
-            customerMarket.setUser(customerMarket.authentication());
-        }
-
-    }
-
     // Displays the list of products
     @Override
     public void displayMarketplace() {

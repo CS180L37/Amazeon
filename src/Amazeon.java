@@ -4,7 +4,9 @@ public class Amazeon {
         if (hasAccount()) {
             // Login
             if (isCustomer()) {
-                Customer customer = authentication("customer");
+                // Create an initial market
+                CustomerMarket customerMarket = new CustomerMarket(null, null, null);
+                Customer customer = customerMarket.authentication();
             } else {
                 Seller seller = authentication("seller");
             }
