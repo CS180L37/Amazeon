@@ -10,18 +10,18 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Cust
 
     @Override
     public void displayMarketplace() {
-        throw new UnsupportedOperationException("Unimplemented method 'marketplace'");
+        throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
     }
 
     // For creating, editing, or deleting a product
     @Override
     public void displayProductPage(Product product) {
-        throw new UnsupportedOperationException("Unimplemented method 'productPage'");
+        throw new UnsupportedOperationException("Unimplemented method 'displayProductPage'");
     }
 
     @Override
     public void displayDashboard() {
-        throw new UnsupportedOperationException("Unimplemented method 'dashboard'");
+        throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
     }
 
     @Override
@@ -34,6 +34,8 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Cust
         this.dashboard = dashboard;
     }
 
+    // Display all of the customers carts, along with their store and product
+    // details
     @Override
     public void displayCart() {
         throw new UnsupportedOperationException("Unimplemented method 'displayCart'");

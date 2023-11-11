@@ -1,6 +1,7 @@
 // Parent class for SellerMarket and CustomerMarket
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Market<T> {
     private ArrayList<Store> stores;
@@ -13,7 +14,28 @@ public class Market<T> {
 
     // Entry point for the program
     public static void main(String[] args) {
-        throw new UnsupportedOperationException("Unimplemented method 'main'");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Welcome to Amazeon! Do you have an account? (y/n)");
+        String hasAccount;
+        do {
+            hasAccount = scanner.nextLine();
+            if (Utils.validInput(hasAccount) != Utils.ERROR) {
+                break;
+            }
+            System.out.println("Welcome to Amazeon! Do you have an account? (y/n)");
+        } while (true);
+        switch (Utils.validInput(hasAccount)) {
+            case Utils.YES:
+                // login();
+                System.out.println("Login");
+                break;
+            case Utils.NO:
+                // createAccount();
+                System.out.println("Create");
+                break;
+            default:
+                break;
+        }
     }
 
     public ArrayList<Store> getStores() {
@@ -44,5 +66,13 @@ public class Market<T> {
     // Persist the data by writing it to storage
     public void writeData(String filename) {
         throw new UnsupportedOperationException("Unimplemented method 'writeData'");
+    }
+
+    public boolean login() {
+        throw new UnsupportedOperationException("Unimplemented method 'login'");
+    }
+
+    public boolean createAccount() {
+        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
     }
 }

@@ -4,6 +4,11 @@ public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
 
+    public Cart(int customerID, ArrayList<Product> cartProducts) {
+        this.customerID = customerID;
+        this.cartProducts = cartProducts;
+    }
+
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
@@ -21,12 +26,13 @@ public class Cart {
     }
 
     // Adds the product to cartProducts
-    public void addToCart(Product product) {
-        try {
-            cartProducts.add(product);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public boolean addToCart(Product product) {
+        return cartProducts.add(product);
+    }
+
+    // Removes the product from cartProducts
+    public boolean removeFromCart(Product product) {
+        return cartProducts.remove(product);
     }
 
     // Purchases all the products in the cart for the specific customer
@@ -37,6 +43,7 @@ public class Cart {
         }
     }
 
+    // Display the customers cart
     public void display() {
         throw new UnsupportedOperationException("Unimplemented method 'display'");
     }
