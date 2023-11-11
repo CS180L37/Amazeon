@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
@@ -83,15 +82,15 @@ public class Seller extends User implements UserInterface<Seller> {
 
         // list of products with the number of sales.
         int numberSales = 0;
-        for (int i = 0; i < productsSold.size(); i++) {
-            Product product = productsSold.get(i);
+        for (int i = 0; i < getProducts().size(); i++) {
+            Product product = getProducts().get(i);
             for (Sale sale : sales) {
                 if (sale.getProduct().equals(product)) {
                     numberSales++;
                 }
             }
 
-            System.out.println(i + ". " + productsSold.get(i) + " - " + numberSales + " Sales");
+            System.out.println(i + ". " + getProducts().get(i) + " - " + numberSales + " Sales");
             numberSales = 0;
         }
 
@@ -118,27 +117,28 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public void deleteProduct(Product product) {
-        getProductsSold().remove(product);
+        getProducts().remove(product);
     }
 
     public void updateProduct(Scanner scan) {
         System.out.println("Enter name of product to be modified:");
         String name = scan.nextLine();
         // TODO
-        System.out.println("Enter stores?");
-        // something waiting for edstem
-        ArrayList<Integer> newStores = null;
+        System.out.println("Enter ID of store to be sold in:");
+        int StoreID = scan.nextInt();
+        scan.nextLine();
         System.out.println("Enter new description:");
-        String newDesc = scan.next();
+        String newDesc = scan.nextLine();
         System.out.println("Enter new quantity:");
         int newQuan = Integer.parseInt(scan.nextLine());
         System.out.println("Enter new price:");
         int newPrice = Integer.parseInt(scan.nextLine());
-        for (Product product : productsSold) {
+        for (Product product : getProducts()) {
             if (product.getName().equals(name)) {
                 product.setDescription(newDesc);
                 product.setQuantity(newQuan);
-                product.setStoreIds(newStores);
+
+                product.setStoreId(newStores);
             }
         }
     }
@@ -181,27 +181,37 @@ public class Seller extends User implements UserInterface<Seller> {
             }
         }
     }
+    public String getStoreNameFromID(int storeID) {
+        for (Store store : Market.getStores()) {
+            if (store.getId() == storeID) {
+                return store.getName();
+            }
+        }
+        return String.valueOf(Utils.NO);
+    }
 
+    public int getStoreIDFromName(String storeName) {
+        for (Store store : Market.getStores()) {
+            if (store.getName().equalsIgnoreCase(storeName)) {
+                return store.getId();
+            }
+        }
+        return Utils.NO;
+    }
     public void exportProducts() {
         File outFile = new File("exported products.csv");
         try {
             FileWriter fw = new FileWriter(outFile);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            for (Product product : getProductsSold()) {
-                String storesString = "";
-                ArrayList<Integer> storeIDs = product.getStoreId();
-                for (Store store : SellerMarket.getSellerStores()) {
-                    for (int i = 1; i < storeIDs.size(); i++) {
-                        if (storeIDs.get(i) == store.getId()) {
-                            storesString += store.getName() + ";";
-                        }
-                    }
-                    if (storeIDs.get(0) == store.getId()) {
-                        storesString += store.getName();
-                    }
+            for (Product product : getProducts()) {
+                int storeID = product.getStoreId();
+                String storeName = getStoreNameFromID(storeID);
+                if (storeName.equals(String.valueOf(Utils.NO))) {
+                    System.out.println("store not found");
+                    continue; //this shouldnt happen generally
                 }
-                pw.println(product.getName() + "," + storesString + ","
+                pw.println(product.getName() + "," + storeName + ","
                         + product.getDescription() + "," + product.getQuantity() + "," + product.getPrice());
             }
 
@@ -211,19 +221,18 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public void updateProducts() {
-        File sellerProductFile;
         FileWriter fw;
         BufferedWriter bw;
         PrintWriter pw;
-        FileReader fr;
-        BufferedReader br;
         try {
-            String[] i = getID().split("@");
-            fw = new FileWriter(i[0] + i[1] + "ProductFile", false);
+            String[] i = getId().split("@");
+            fw = new FileWriter(i[0] + i[1] + "ProductsFile", false);
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
             for (Product product : getProducts()) {
-
+                String storeName = getStoreNameFromID(product.getStoreId());
+                pw.println(product.getName() + "," + storeName + "," + product.getStoreId()
+                        + product.getDescription() + "," + product.getQuantity() + "," + product.getPrice());
             }
         } catch (IOException e) {
             e.printStackTrace();
