@@ -8,14 +8,18 @@ public class Product {
     private String description;
     private double price;
 
+    private int productID;
+
+
     public Product(int sellerId, int quantity, String name, int storeId, String description,
-            double price) {
+            double price, int productID) {
         this.sellerId = sellerId;
         this.quantity = quantity;
         this.name = name;
         this.storeId = storeId;
         this.description = description;
         this.price = price;
+        this.productID = productID;
     }
 
     public int getSellerId() {
@@ -64,6 +68,18 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    public Product getProductByID(int productID){
+
     }
 
     public static ArrayList<Product> readProducts() {

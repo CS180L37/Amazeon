@@ -150,7 +150,43 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
     }
 
-    public static void customerLoop() {
+    public static Product getProductById(int id){
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductById' ");
+    }
+
+    public static void customerLoop(CustomerMarket customerMarket, Customer customer) {
+        customerMarket.displayMarketplace();
+        boolean error = true;
+        do{
+            System.out.println("What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4) Sort MarketPlace\n5) View Cart");
+            int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
+            if(customerAction == 1){
+                System.out.println("Which product would you like to purchase?");
+                int productID = Integer.parseInt(Utils.SCANNER.nextLine());
+                customer.purchaseProduct(getProductById(productID));
+            } else if(customerAction == 2){
+                System.out.println("Enter the name of product: ");
+                String name = Utils.SCANNER.nextLine();
+                customerMarket.search(name, null, null);
+            } else if (customerAction == 3){
+                customerMarket.displayDashboard();
+            } else if (customerAction == 4){
+                System.out.println("Would you like to sort by price (y) or quantity (n)");
+                int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
+                if(sortCriteria == 1){
+                    customerMarket.sort(true, false);
+                } else {
+                    customerMarket.sort(false, true);
+                }
+
+            } else if (customerAction == 5){
+                customerMarket.displayCart();
+            } else {
+                System.out.println("Please choose a valid option.");
+                error = false;
+            }
+        } while(error);
+
         throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
     }
 

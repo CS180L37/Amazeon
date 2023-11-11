@@ -17,6 +17,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     // Displays the list of products
     @Override
     public void displayMarketplace() {
+        for(int i = 0; i < )
         throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
     }
 
@@ -48,7 +49,8 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     }
 
     // Search the marketplace by name, storeId, or description
-    public ArrayList<Product> search(String name, int storeId, String description) {
+    public ArrayList<Product> search(String name, String storeId, String description) {
+        int storeID = Integer.parseInt(storeId);
         throw new UnsupportedOperationException("Unimplemented method 'search'");
     }
 
