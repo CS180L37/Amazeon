@@ -10,7 +10,7 @@ public class Customer extends User implements UserInterface<Customer> {
         this.cart = new Cart(this.getId(), this.getProducts());
     }
 
-    public Customer(int id, ArrayList<Product> products, String email, String password, Cart cart) {
+    public Customer(int id, String email, String password, ArrayList<Product> products, Cart cart) {
         super(id, products, email, password);
         this.cart = cart;
     }
@@ -67,12 +67,14 @@ public class Customer extends User implements UserInterface<Customer> {
                     break;
                 }
                 String[] data = line.split(",");
-                customers.add(new Customer(Integer.parseInt(data[0]), data[1], data[2], Utils.splitIdsByPipe(data[3]),
+                customers.add(new Customer(Integer.parseInt(data[0]), data[1], data[2],
+                        Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3])),
                         Amazeon.getCartById(Integer.parseInt(data[0]))));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return new ArrayList<Customer>();
     }
 
     public static void writeCustomers(ArrayList<Customer> customers) {
