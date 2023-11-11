@@ -45,7 +45,7 @@ public class Sale {
 
     // Calculate the total cost of a sale
     public double calculateCost() {
-        throw new UnsupportedOperationException("Unsupported Operation 'calculateCost");
+        return numPurchased * product.getPrice();
     }
 
 }

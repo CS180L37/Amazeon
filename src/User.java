@@ -2,19 +2,19 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class User {
-    private int id;
+    private String id;
     private ArrayList<Product> products;
 
-    public User(int id, ArrayList<Product> products) {
+    public User(String id, ArrayList<Product> products) {
         this.id = id;
         this.products = products;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -26,15 +26,19 @@ public class User {
         this.products = products;
     }
 
-    public static int createAccount(String email, String password) {
+    public static int createAccount(String email, String password, String type) {
         File credentialsFile;
         FileWriter fw;
         BufferedWriter bw;
-        PrintWriter pw = null;
+        PrintWriter pw;
         FileReader fr;
         BufferedReader br;
         try {
-            credentialsFile = new File("credentials.txt");
+            if (type.equalsIgnoreCase("seller")) {
+                credentialsFile = new File("seller credentials.txt");
+            } else {
+                credentialsFile = new File("customer credentials.txt");
+            }
             fw = new FileWriter(credentialsFile);
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
@@ -43,20 +47,19 @@ public class User {
             String currentLine = br.readLine();
             while (currentLine != null) {
                 if (currentLine.split(";")[0].equals(email)) {
-                    return -1;
+                    return Utils.NO;
                 }
                 currentLine = br.readLine();
             }
-        } catch (IOException e) {
+            pw.println(email + ";" + password);
+            return Utils.YES;
+        } catch (IOException e){
             e.printStackTrace();
+            return Utils.NO;
         }
-
-        assert pw != null;
-        pw.println(email + ";" + password);
-        return 1;
     }
 
-    public static int login(String email, String password) {
+    public static int login(String email, String password, String type) {
         File credentialsFile;
         FileWriter fw;
         BufferedWriter bw;
@@ -64,7 +67,11 @@ public class User {
         FileReader fr;
         BufferedReader br;
         try {
-            credentialsFile = new File("credentials.txt");
+            if (type.equalsIgnoreCase("seller")) {
+            credentialsFile = new File("seller credentials.txt");
+            } else {
+                credentialsFile = new File("customer credentials.txt");
+            }
             fw = new FileWriter(credentialsFile);
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
@@ -81,7 +88,7 @@ public class User {
             }
             return -1;
 
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
     }
