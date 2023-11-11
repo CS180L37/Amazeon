@@ -276,4 +276,8 @@ public class Seller extends User implements UserInterface<Seller> {
     public static ArrayList<Seller> readSellers(ArrayList<Product> products, ArrayList<Sale> sales) {
         throw new UnsupportedOperationException("Unimplemented method 'readSellers'");
     }
+
+    public static void writeSellers(ArrayList<Seller> sellers) {
+        throw new UnsupportedOperationException("Unimplemented method 'readSellers'");
+    }
 }

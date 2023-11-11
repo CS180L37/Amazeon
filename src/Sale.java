@@ -69,4 +69,8 @@ public class Sale {
     public static ArrayList<Sale> readSales(ArrayList<Customer> customers) {
         throw new UnsupportedOperationException("Unimplemented method 'readSales'");
     }
+
+    public static void writeSales(ArrayList<Sale> sales) {
+        throw new UnsupportedOperationException("Unimplemented method 'readSales'");
+    }
 }

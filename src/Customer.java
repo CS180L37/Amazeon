@@ -57,4 +57,8 @@ public class Customer extends User implements UserInterface<Customer> {
     public static ArrayList<Customer> readCustomers(ArrayList<Product> products, ArrayList<Cart> carts) {
         throw new UnsupportedOperationException("Unimplemented method 'readCustomers'");
     }
+
+    public static void writeCustomers(ArrayList<Customer> customers) {
+        throw new UnsupportedOperationException("Unimplemented method 'readCustomers'");
+    }
 }

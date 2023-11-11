@@ -52,4 +52,8 @@ public class Cart {
     public static ArrayList<Cart> readCarts(ArrayList<Product> products) {
         throw new UnsupportedOperationException("Unimplemented method 'readCarts'");
     }
+
+    public static void writeCarts(ArrayList<Cart> carts) {
+        throw new UnsupportedOperationException("Unimplemented method 'readCarts'");
+    }
 }

@@ -50,4 +50,7 @@ public class Store {
         throw new UnsupportedOperationException("Unsupported operation: 'readStores'");
     }
 
+    public static void writeStores(ArrayList<Store> stores) {
+        throw new UnsupportedOperationException("Unsupported operation: 'readStores'");
+    }
 }
