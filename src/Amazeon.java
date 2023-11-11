@@ -34,8 +34,9 @@ public class Amazeon {
 
     // Entry point for the program
     public static boolean hasAccount() {
-        int hasAccount = Utils.inputPrompt("Welcome to Amazeon! Do you have an account? (y/n)");
-        switch (hasAccount) {
+        String userInput = Utils.inputPrompt("Welcome to Amazeon! Do you have an account? (y/n)",
+                input -> Utils.validateYesOrNo(input));
+        switch (Utils.yesOrNoToInt(userInput)) {
             case Utils.YES:
                 return true;
             case Utils.NO:
@@ -46,8 +47,9 @@ public class Amazeon {
     }
 
     public static boolean isCustomer() {
-        int userType = Utils.inputPrompt("Are you a customer (y) or a seller (n)?");
-        switch (userType) {
+        String userType = Utils.inputPrompt("Are you a customer (y) or a seller (n)?",
+                input -> Utils.validateYesOrNo(input));
+        switch (Utils.yesOrNoToInt(userType)) {
             case Utils.YES:
                 return true;
             case Utils.NO:

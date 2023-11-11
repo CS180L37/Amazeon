@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import org.json.*; // Work with json: https://github.com/stleary/JSON-java
 
 public class CustomerMarket extends Market<Customer> implements MarketInterface<Customer, Store, Store> {
     private Dashboard<Store, Store> dashboard;
@@ -55,24 +56,10 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
     @Override
     public Customer authentication(AuthenticationType authType) {
-        System.out.println("Enter your email: ");
-        String email;
-        do {
-            email = Utils.SCANNER.nextLine();
-            if (Utils.validateEmail(email)) {
-                break;
-            }
-            System.out.println("Enter a valid email: ");
-        } while (true);
-        System.out.println("Enter your password: ");
-        String password;
-        do {
-            password = Utils.SCANNER.nextLine();
-            if (password.length() > 8) {
-                break;
-            }
-            System.out.println("Enter a password greater than 8 characters: ");
-        } while (true);
+        String email = Utils.inputPrompt("Enter your email: ", input -> Utils.validateEmail(input),
+                "Enter a valid email: ");
+        String password = Utils.inputPrompt("Enter your password: ", input -> (input.length() > 7),
+                "Enter a password with at least 8 characters: ");
         int customerId;
         switch (authType) {
             case LOGIN:
