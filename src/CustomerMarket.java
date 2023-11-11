@@ -54,13 +54,45 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     }
 
     @Override
-    public Customer authentication() {
-        // public T loginProcess() {
-         System.out.println("Enter your email: ");
-         String email = Utils.SCANNER.nextLine();
-         System.out.println("Enter your password: ");
-         String password = Utils.SCANNER.nextLine();
-         Customer customer = Customer.getCustomerById(User.createAccount(email, password));
-         }
+    public Customer authentication(AuthenticationType authType) {
+        System.out.println("Enter your email: ");
+        String email;
+        do {
+            email = Utils.SCANNER.nextLine();
+            if (Utils.validateEmail(email)) {
+                break;
+            }
+            System.out.println("Enter a valid email: ");
+        } while (true);
+        System.out.println("Enter your password: ");
+        String password;
+        do {
+            password = Utils.SCANNER.nextLine();
+            if (password.length() > 8) {
+                break;
+            }
+            System.out.println("Enter a password greater than 8 characters: ");
+        } while (true);
+        int customerId;
+        switch (authType) {
+            case LOGIN:
+                customerId = login(email, password);
+                return Customer.getCustomerById(customerId);
+            case CREATE:
+                customerId = createAccount(email, password);
+                return Customer.getCustomerById(customerId);
+            default:
+                return Customer.getCustomerById(0); // Never
+        }
+    }
+
+    @Override
+    public int login(String email, String password) {
+        throw new UnsupportedOperationException("Unimplemented method 'login'");
+    }
+
+    @Override
+    public int createAccount(String email, String password) {
+        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
     }
 }

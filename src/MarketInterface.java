@@ -11,5 +11,11 @@ public interface MarketInterface<T, U, V> {
 
     public void displayCart(); // Display the customer's cart or the seller page for viewing customers carts
 
-    public T authentication();
+    public T authentication(AuthenticationType authType); // Prompts user, calls login or create account, returns a user
+
+    public int login(String email, String password); // Returns a User of type T; reads data from .user.json
+
+    public int createAccount(String email, String password); // Returns a User of type T; creates a default user,
+                                                             // writes
+    // to .user.json
 }
