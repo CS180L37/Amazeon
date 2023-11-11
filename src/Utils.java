@@ -1,3 +1,6 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Utils {
     public static final int YES = 1;
     public static final int NO = 0;
@@ -11,5 +14,15 @@ public class Utils {
             return NO;
         }
         return ERROR;
+    }
+
+    // Check if the email is valid
+    public static boolean validateEmail(String email) {
+        Pattern pattern = Pattern.compile("[A-Za-z0-9_.]*@[A-Za-z0-9_.].[A-Za-z0-9]", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        if (matcher.find()) {
+            return true;
+        }
+        return false;
     }
 }
