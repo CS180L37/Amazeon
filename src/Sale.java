@@ -9,14 +9,14 @@ public class Sale {
     private double cost;
     private int numPurchased;
 
-    public Sale(int saleId, Customer customer, Product product, int numPurchased) {
-        this.saleId = saleId;
+    public Sale(int saleID, Customer customer, Product product, int numPurchased) {
+        this.saleId = saleID;
         this.customer = customer;
         this.product = product;
         this.numPurchased = numPurchased;
         this.cost = calculateCost();
         System.out.printf("%s purchased %s at a total cost of %2f.\n", customer.getId(), product.getName(), cost);
-        File salesFile = new File("sales.txt");
+        File salesFile = new File(Utils.DATA_DIR + Utils.SALE_FILE);
         FileWriter fw;
         BufferedWriter bw;
         PrintWriter pw;
@@ -24,7 +24,7 @@ public class Sale {
             fw = new FileWriter(salesFile);
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
-            pw.println(customer.getId() + "," + product.getName() + "," + numPurchased + "," + cost);
+            pw.println(saleID + "," + customer.getId() + "," + product.getName() + "," + numPurchased + "," + cost);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,11 +76,25 @@ public class Sale {
     }
 
     // Contains a list of customers as the parameter
-    public static ArrayList<Sale> readSales(ArrayList<Customer> customers) {
-        throw new UnsupportedOperationException("Unimplemented method 'readSales'");
+    public static ArrayList<Sale> readSales() {
+        File salesFile = new File(Utils.DATA_DIR + Utils.SALE_FILE);
+        FileReader fr;
+        BufferedReader br;
+
+        try {
+            fr = new FileReader(salesFile);
+            br = new BufferedReader(fr);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void exportPurchaseHistory(Customer customer) {
+
+    }
+    public static void writeSales(ArrayList<Sale> sales) {
+        //unnecessary method since sales are written when the constructor is called
     }
 
-    public static void writeSales(ArrayList<Sale> sales) {
-        throw new UnsupportedOperationException("Unimplemented method 'readSales'");
-    }
+
 }

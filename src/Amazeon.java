@@ -1,38 +1,25 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /// Our entry point and data manager class
 public class Amazeon {
     // The data that persists
-    ArrayList<Product> products;
+    static ArrayList<Product> products;
     ArrayList<Cart> carts;
-    ArrayList<Customer> customers;
+    static ArrayList<Customer> customers;
     ArrayList<Sale> sales;
     ArrayList<Store> stores;
-    ArrayList<Seller> sellers;
-    private static int counterSeller = 0;
-    private static int counterBuyer = 0;
-
-    public static int getCounterSeller() {
-        return counterSeller;
-    }
-
-    public static void setCounterSeller(int counterSeller) {
-        Amazeon.counterSeller = counterSeller;
-    }
-
-    public static int getCounterBuyer() {
-        return counterBuyer;
-    }
-
-    public static void setCounterBuyer(int counterBuyer) {
-        Amazeon.counterBuyer = counterBuyer;
-    }
+    static ArrayList<Seller> sellers;
+    public static int counterUser = 0;
 
     public Amazeon() {
         this.products = Product.readProducts(); // .products.json
         this.carts = Cart.readCarts(); // .carts.json
         this.customers = Customer.readCustomers(products, carts); // .customers.json
-        this.sales = Sale.readSales(customers); // .sales
+        this.sales = readSales(); // .sales
         this.stores = Store.readStores(products, customers);
         this.sellers = Seller.readSellers(products, sales);
     }
@@ -40,7 +27,6 @@ public class Amazeon {
     public static void main(String[] args) {
         // Initialize data
         Amazeon amazeon = new Amazeon();
-
         // CustomerMarket customerMarket;
         // SellerMarket sellerMarket;
         // Customer customer;
@@ -100,7 +86,6 @@ public class Amazeon {
         // writeData();
         // }
         // }
-
     }
 
     // Utility methods
@@ -128,6 +113,45 @@ public class Amazeon {
             default:
                 return false; // Never calls
         }
+    }
+    public ArrayList<Sale> readSales() {
+        ArrayList<Sale> sales = new ArrayList<>();
+        try {
+            File salesFile = new File(Utils.DATA_DIR + Utils.SALE_FILE);
+            FileReader fr = new FileReader(salesFile);
+            BufferedReader br = new BufferedReader(fr);
+            String currentLine = br.readLine();
+            while (currentLine != null) {
+                String[] partsOfSale = currentLine.split(",");
+                int cusID = Integer.parseInt(partsOfSale[1]);
+                Customer customerUsed = null;
+                for (Customer customer1 : Amazeon.customers) {
+                    if (customer1.getId() == cusID) {
+                        customerUsed = customer1;
+                    }
+                }
+                Product productUsed = null;
+                for (Product product : Amazeon.products) {
+                    if (product.getName().equalsIgnoreCase(partsOfSale[2])) {
+                        productUsed = product;
+                    }
+                }
+                if (productUsed == null) {
+                    System.out.println(partsOfSale[2] + "has been deleted.");
+                    continue;
+                }
+                sales.add(new Sale(Integer.parseInt(partsOfSale[0]), customerUsed, productUsed, Integer.parseInt(partsOfSale[3])));
+                currentLine = br.readLine();
+            }
+            return sales;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return sales;
+        }
+    }
+
+    public void exports() {
+
     }
 
     public static void writeData() {
