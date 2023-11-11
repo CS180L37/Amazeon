@@ -55,13 +55,15 @@ public class User {
                 }
                 currentLine = br.readLine();
             }
-            if (type.equalsIgnoreCase("seller")) {
-                pw.println(Amazeon.getCounterSeller() + "," + email + "," + password);
-                Amazeon.setCounterSeller(Amazeon.getCounterSeller() + 1);
-            } else {
-                pw.println(Amazeon.getCounterBuyer() + "," + email + "," + password);
-                Amazeon.setCounterBuyer(Amazeon.getCounterBuyer() + 1);
-            }
+            pw.println(Amazeon.counterUser + "," + email + "," + password);
+            Amazeon.counterUser++;
+//            if (type.equalsIgnoreCase("seller")) {
+//                pw.println("S" + Amazeon.getCounterSeller() + "," + email + "," + password);
+//                Amazeon.setCounterSeller(Amazeon.getCounterSeller() + 1);
+//            } else {
+//                pw.println("C" + Amazeon.getCounterBuyer() + "," + email + "," + password);
+//                Amazeon.setCounterBuyer(Amazeon.getCounterBuyer() + 1);
+//            }
             return Utils.YES;
         } catch (IOException e) {
             e.printStackTrace();

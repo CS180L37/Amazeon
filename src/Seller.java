@@ -104,6 +104,7 @@ public class Seller extends User implements UserInterface<Seller> {
             sortedCustomerIntegerMap.put(key.getKey(), key.getValue());
         }
 
+
         // another way
         Customer[] indicesCIM = new Customer[customerIntegerMap.size()];
         for (int i = 0; i < customerIntegerMap.size() - 1; i++) {
