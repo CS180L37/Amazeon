@@ -1,10 +1,16 @@
 import java.util.ArrayList;
+import org.json.*; // Work with json: https://github.com/stleary/JSON-java
 
 public class CustomerMarket extends Market<Customer> implements MarketInterface<Customer, Store, Store> {
     private Dashboard<Store, Store> dashboard;
 
-    public CustomerMarket(ArrayList<Store> stores, Customer user, Dashboard<Store, Store> dashboard) {
-        super(stores, user);
+    public CustomerMarket(Customer customer, ArrayList<Store> stores) {
+        super(customer, stores); // Retrieve existing stores and customer
+        this.dashboard = new Dashboard<Store, Store>(stores, stores);
+    }
+
+    public CustomerMarket(Customer customer, ArrayList<Store> stores, Dashboard<Store, Store> dashboard) {
+        super(customer, stores);
         this.dashboard = dashboard;
     }
 
@@ -51,16 +57,5 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     @Override
     public void displayCart() {
         this.getUser().getCart().display();
-    }
-
-    @Override
-    public Customer authentication() {
-        // public T loginProcess() {
-         System.out.println("Enter your email: ");
-         String email = Utils.SCANNER.nextLine();
-         System.out.println("Enter your password: ");
-         String password = Utils.SCANNER.nextLine();
-         Customer customer = Customer.getCustomerById(User.createAccount(email, password));
-         }
     }
 }

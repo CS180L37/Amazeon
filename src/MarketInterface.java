@@ -10,6 +10,4 @@ public interface MarketInterface<T, U, V> {
     public void displayProductPage(Product product); // Display the dashboard
 
     public void displayCart(); // Display the customer's cart or the seller page for viewing customers carts
-
-    public T authentication();
 }

@@ -4,16 +4,16 @@ public class Product {
     private int sellerId;
     private int quantity;
     private String name;
-    private ArrayList<Integer> storeIds;
+    private int storeId;
     private String description;
     private double price;
 
-    public Product(int sellerId, int quantity, String name, ArrayList<Integer> storeIds, String description,
+    public Product(int sellerId, int quantity, String name, int storeId, String description,
             double price) {
         this.sellerId = sellerId;
         this.quantity = quantity;
         this.name = name;
-        this.storeIds = storeIds;
+        this.storeId = storeId;
         this.description = description;
         this.price = price;
     }
@@ -43,12 +43,12 @@ public class Product {
         this.name = name;
     }
 
-    public ArrayList<Integer> getStoreIds() {
-        return storeIds;
+    public int getStoreId() {
+        return storeId;
     }
 
-    public void setStoreIds(ArrayList<Integer> storeIds) {
-        this.storeIds = storeIds;
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
     }
 
     public String getDescription() {
@@ -65,5 +65,13 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public static ArrayList<Product> readProducts() {
+        throw new UnsupportedOperationException("Unimplemented method 'readProducts'");
+    }
+
+    public static void writeProducts(ArrayList<Product> products) {
+        throw new UnsupportedOperationException("Unimplemented method 'readProducts'");
     }
 }

@@ -21,10 +21,6 @@ public class Store {
         return this.id;
     }
 
-    public Store getStoreById(int id) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
-    }
-
     public ArrayList<Product> getProducts() {
         return this.products;
     }
@@ -49,4 +45,12 @@ public class Store {
         this.customers = customers;
     }
 
+    // Contains lists of all products and customers as parameters
+    public static ArrayList<Store> readStores(ArrayList<Product> products, ArrayList<Customer> customers) {
+        throw new UnsupportedOperationException("Unsupported operation: 'readStores'");
+    }
+
+    public static void writeStores(ArrayList<Store> stores) {
+        throw new UnsupportedOperationException("Unsupported operation: 'readStores'");
+    }
 }

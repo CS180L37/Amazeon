@@ -6,7 +6,7 @@ public class Market<T> {
     private ArrayList<Store> stores;
     private T user;
 
-    public Market(ArrayList<Store> stores, T user) {
+    public Market(T user, ArrayList<Store> stores) {
         this.stores = stores;
         this.user = user;
     }

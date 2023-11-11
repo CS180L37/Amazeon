@@ -12,7 +12,17 @@ public class Utils {
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
 
-    public static int validInput(String input) {
+    public static boolean validateYesOrNo(String input) {
+        input = input.toLowerCase();
+        if (input.equals("y") || input.equals("yes")) {
+            return true;
+        } else if (input.equals("n") || input.equals("no")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static int yesOrNoToInt(String input) {
         input = input.toLowerCase();
         if (input.equals("y") || input.equals("yes")) {
             return YES;
@@ -37,15 +47,15 @@ public class Utils {
         return br;
     }
 
-    public static Integer inputPrompt(String prompt) {
+    public static String inputPrompt(String prompt, ValidateInterface validateInterface, String... reprompt) {
         System.out.println(prompt);
         String userInput;
         do {
             userInput = Utils.SCANNER.nextLine();
-            if (Utils.validInput(userInput) != Utils.ERROR) {
-                return Utils.validInput(userInput);
+            if (validateInterface.validate(userInput)) {
+                return userInput;
             }
-            System.out.println(prompt);
+            System.out.println((reprompt != null) ? reprompt : prompt);
         } while (true);
     }
 }

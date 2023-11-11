@@ -38,7 +38,7 @@ public class Cart {
     // Purchases all the products in the cart for the specific customer
     public void purchaseCart() {
         for (Product p : cartProducts) {
-            Customer.getCustomerById(customerID).purchaseProduct(p);
+            Amazeon.getCustomerById(customerID).purchaseProduct(p);
             cartProducts.remove(p);
         }
     }
@@ -46,5 +46,14 @@ public class Cart {
     // Display the customers cart
     public void display() {
         throw new UnsupportedOperationException("Unimplemented method 'display'");
+    }
+
+    // Contains a list of all products as a parameter
+    public static ArrayList<Cart> readCarts(ArrayList<Product> products) {
+        throw new UnsupportedOperationException("Unimplemented method 'readCarts'");
+    }
+
+    public static void writeCarts(ArrayList<Cart> carts) {
+        throw new UnsupportedOperationException("Unimplemented method 'readCarts'");
     }
 }
