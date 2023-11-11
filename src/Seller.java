@@ -123,6 +123,7 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public void deleteProduct(Product product) {
         getProducts().remove(product);
+        updateProductsFile();
     }
 
     public void updateProduct(Scanner scan) {
@@ -130,7 +131,7 @@ public class Seller extends User implements UserInterface<Seller> {
         String name = scan.nextLine();
         // TODO
         System.out.println("Enter ID of store to be sold in:");
-        int StoreID = scan.nextInt();
+        int storeID = scan.nextInt();
         scan.nextLine();
         System.out.println("Enter new description:");
         String newDesc = scan.nextLine();
@@ -142,10 +143,11 @@ public class Seller extends User implements UserInterface<Seller> {
             if (product.getName().equals(name)) {
                 product.setDescription(newDesc);
                 product.setQuantity(newQuan);
-
-                product.setStoreId(newStores);
+                product.setStoreId(storeID);
+                product.setPrice(newPrice);
             }
         }
+        updateProductsFile();
     }
 
     public void createProduct(String filename) throws IOException {
@@ -181,6 +183,7 @@ public class Seller extends User implements UserInterface<Seller> {
                             Integer.parseInt(data.get(k)[0][1]), data.get(k)[0][2], intArray, data.get(k)[0][4],
                             Double.parseDouble(data.get()[0][5]));
                 }
+                updateProductsFile();
             } catch (IOException r) {
                 r.printStackTrace();
             }
@@ -225,7 +228,7 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public void updateProducts() {
+    public void updateProductsFile() {
         FileWriter fw;
         BufferedWriter bw;
         PrintWriter pw;
