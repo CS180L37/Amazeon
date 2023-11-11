@@ -55,7 +55,7 @@ public class Cart {
     public static ArrayList<Cart> readCarts(ArrayList<Product> products) {
         ArrayList<Cart> carts = new ArrayList<Cart>();
         try {
-            BufferedReader br = Utils.createReader("/.data/.cart.csv");
+            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.CART_FILE);
             String line;
             while (true) {
                 line = br.readLine();
