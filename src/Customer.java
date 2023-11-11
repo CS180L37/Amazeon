@@ -10,7 +10,7 @@ public class Customer extends User implements UserInterface<Customer> {
         this.cart = new Cart(this.getId(), this.getProducts());
     }
 
-    public Customer(int id, ArrayList<Product> products, String email, String password, Cart cart) {
+    public Customer(int id, String email, String password, ArrayList<Product> products, Cart cart) {
         super(id, products, email, password);
         this.cart = cart;
     }
@@ -57,7 +57,7 @@ public class Customer extends User implements UserInterface<Customer> {
 
     // Contains lists of all products and carts as parameters
     public static ArrayList<Customer> readCustomers(ArrayList<Product> products, ArrayList<Cart> carts) {
-        ArrayList<Customer> customers = new ArrayList<>();
+        ArrayList<Customer> customers = new ArrayList<Customer>();
         try {
             BufferedReader bfr = Utils.createReader(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
             String line;
@@ -67,7 +67,7 @@ public class Customer extends User implements UserInterface<Customer> {
                     break;
                 }
                 String[] data = line.split(",");
-                customers.add(new Customer(Integer.parseInt(data[0]), data[1], data[2], data[3],new data[4]);
+                customers.add(new Customer(Integer.parseInt(data[0]), data[1], data[2], data[3],Amazeon.getCartById());
             }
         } catch (IOException e) {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     throw new RuntimeException(e);
