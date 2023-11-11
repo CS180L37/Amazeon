@@ -1,3 +1,6 @@
+import javax.management.Notification;
+import java.io.*;
+
 public class Sale {
     private Customer customer;
     private Product product;
@@ -9,6 +12,19 @@ public class Sale {
         this.product = product;
         this.numPurchased = numPurchased;
         this.cost = calculateCost();
+        System.out.printf("%s purchased %s at a total cost of %2f.\n", customer.getId(), product.getName(), cost);
+        File salesFile = new File("sales.txt");
+        FileWriter fw;
+        BufferedWriter bw;
+        PrintWriter pw;
+        try {
+            fw = new FileWriter(salesFile);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+            pw.println(customer.getId() + "," + product.getName() + "," + numPurchased + "," + cost);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public Customer getCustomer() {
