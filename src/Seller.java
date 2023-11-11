@@ -10,8 +10,6 @@ public class Seller extends User implements UserInterface{
     private ArrayList<Product> productsSold;
     private ArrayList<Sale> sales;
     private ArrayList<Integer> productRevenues;
-    Scanner scan = new Scanner(System.in);
-    Product product = new Product();
 
     public Seller(String id, ArrayList<Product> products, ArrayList<Sale> sales) {
         super(id, products);
@@ -24,7 +22,7 @@ public class Seller extends User implements UserInterface{
     }
 
     public Seller(String name, String ID, ArrayList<Product> productsSold, ArrayList<Sale> sales, ArrayList<Integer> productRevenues) {
-        super();
+        super(name, productsSold);
         this.name = name;
         this.ID = ID;
         this.productsSold = productsSold;
@@ -123,18 +121,26 @@ public class Seller extends User implements UserInterface{
         getProductsSold().remove(product);
     }
 
-    public void updateProduct(Product product, Scanner scan) {
-        System.out.println("Enter new name:");
-        String newName = scan.nextLine();
+    public void updateProduct(Scanner scan) {
+        System.out.println("Enter name of product to be modified:");
+        String name = scan.nextLine();
         //TODO
         System.out.println("Enter stores?");
         //something waiting for edstem
+        ArrayList<Integer> newStores = null;
         System.out.println("Enter new description:");
         String newDesc = scan.next();
         System.out.println("Enter new quantity:");
         int newQuan = Integer.parseInt(scan.nextLine());
         System.out.println("Enter new price:");
         int newPrice = Integer.parseInt(scan.nextLine());
+        for (Product product : productsSold) {
+            if (product.getName().equals(name)) {
+                product.setDescription(newDesc);
+                product.setQuantity(newQuan);
+                product.setStoreIds(newStores);
+            }
+        }
     }
 
     public void createProduct(String filename) throws IOException {
