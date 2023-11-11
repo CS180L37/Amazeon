@@ -10,13 +10,13 @@ public class Customer extends User implements UserInterface {
 
     // Exports customer purchase history
     @Override
-    public void exportData() {
+    public void exportData(String filepath) {
         throw new UnsupportedOperationException("Unsupported operation 'exportPurchaseHistory");
     }
 
     // unnecessary method
     @Override
-    public void importData() {
+    public void importData(String filepath) {
         return;
     }
 
