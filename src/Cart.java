@@ -1,10 +1,13 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
 
-    public Cart(String customerID, ArrayList<Product> cartProducts) {
+    public Cart(int customerID, ArrayList<Product> cartProducts) {
         this.customerID = customerID;
         this.cartProducts = cartProducts;
     }
@@ -50,10 +53,34 @@ public class Cart {
 
     // Contains a list of all products as a parameter
     public static ArrayList<Cart> readCarts(ArrayList<Product> products) {
-        throw new UnsupportedOperationException("Unimplemented method 'readCarts'");
+        ArrayList<Cart> carts = new ArrayList<Cart>();
+        try {
+            BufferedReader br = Utils.createReader("/.data/.cart.csv");
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                carts.add(new Cart(Integer.parseInt(data[0]), Amazeon.getProductByIds(Utils.splitIdsByPipe(data[1]))));
+            }
+            return carts;
+        } catch (IOException e) {
+            return new ArrayList<Cart>();
+        }
     }
 
     public static void writeCarts(ArrayList<Cart> carts) {
-        throw new UnsupportedOperationException("Unimplemented method 'readCarts'");
+        try {
+            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
+            for (Cart cart : carts) {
+                bw.write(String.format(
+                        Integer.toString(cart.getCustomerID()) + "," + Amazeon.getProductIds(cart.getCartProducts())));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
     }
 }

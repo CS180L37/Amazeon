@@ -2,6 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Seller extends User implements UserInterface<Seller> {
+    private String name;
     private ArrayList<Sale> sales;
     // Already has a list of products and an id
     // Revenue can be calculated from the list of products
@@ -120,67 +121,68 @@ public class Seller extends User implements UserInterface<Seller> {
         getProducts().remove(product);
     }
 
-    public void updateProduct(Scanner scan) {
-        System.out.println("Enter name of product to be modified:");
-        String name = scan.nextLine();
-        // TODO
-        System.out.println("Enter ID of store to be sold in:");
-        int StoreID = scan.nextInt();
-        scan.nextLine();
-        System.out.println("Enter new description:");
-        String newDesc = scan.nextLine();
-        System.out.println("Enter new quantity:");
-        int newQuan = Integer.parseInt(scan.nextLine());
-        System.out.println("Enter new price:");
-        int newPrice = Integer.parseInt(scan.nextLine());
-        for (Product product : getProducts()) {
-            if (product.getName().equals(name)) {
-                product.setDescription(newDesc);
-                product.setQuantity(newQuan);
+    // public void updateProduct(Scanner scan) {
+    // System.out.println("Enter name of product to be modified:");
+    // String name = scan.nextLine();
+    // // TODO
+    // System.out.println("Enter ID of store to be sold in:");
+    // int StoreID = scan.nextInt();
+    // scan.nextLine();
+    // System.out.println("Enter new description:");
+    // String newDesc = scan.nextLine();
+    // System.out.println("Enter new quantity:");
+    // int newQuan = Integer.parseInt(scan.nextLine());
+    // System.out.println("Enter new price:");
+    // int newPrice = Integer.parseInt(scan.nextLine());
+    // for (Product product : getProducts()) {
+    // if (product.getName().equals(name)) {
+    // product.setDescription(newDesc);
+    // product.setQuantity(newQuan);
 
-                product.setStoreId(newStores);
-            }
-        }
-    }
+    // product.setStoreId(newStores);
+    // }
+    // }
+    // }
 
-    public void createProduct(String filename) throws IOException {
-        int lineNumber = 0;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
-            while (br.readLine() != null) {
-                lineNumber++;
-            }
-            br.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-            ArrayList<Integer> intArray = new ArrayList<Integer>();
-            try {
-                BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
-                String line = br.readLine();
-                ArrayList<String[][]> data = new ArrayList<String[][]>();
-                while (line != null) {
-                    String[][] lines = new String[0][lineNumber];
-                    lines = new String[][] { line.split(",") };
-                    data.add(lines);
-                    br.readLine();
-                }
-                String[] strArray = new String[data.size()];
-                for (int i = 0; i < data.size(); i++) {
-                    strArray = data.get(i)[3];
-                }
-                for (int j = 0; j < strArray.length; j++) {
-                    intArray.set(j, Integer.parseInt(strArray[j]));
-                }
-                for (int k = 0; k < data.size(); k++) {
-                    Product product = new Product(Integer.parseInt(data.get(k)[0][0]),
-                            Integer.parseInt(data.get(k)[0][1]), data.get(k)[0][2], intArray, data.get(k)[0][4],
-                            Double.parseDouble(data.get()[0][5]));
-                }
-            } catch (IOException r) {
-                r.printStackTrace();
-            }
-        }
-    }
+    // public void createProduct(String filename) throws IOException {
+    // int lineNumber = 0;
+    // try {
+    // BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
+    // while (br.readLine() != null) {
+    // lineNumber++;
+    // }
+    // br.close();
+    // } catch (IOException e) {
+    // throw new RuntimeException(e);
+    // ArrayList<Integer> intArray = new ArrayList<Integer>();
+    // try {
+    // BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
+    // String line = br.readLine();
+    // ArrayList<String[][]> data = new ArrayList<String[][]>();
+    // while (line != null) {
+    // String[][] lines = new String[0][lineNumber];
+    // lines = new String[][] { line.split(",") };
+    // data.add(lines);
+    // br.readLine();
+    // }
+    // String[] strArray = new String[data.size()];
+    // for (int i = 0; i < data.size(); i++) {
+    // strArray = data.get(i)[3];
+    // }
+    // for (int j = 0; j < strArray.length; j++) {
+    // intArray.set(j, Integer.parseInt(strArray[j]));
+    // }
+    // for (int k = 0; k < data.size(); k++) {
+    // Product product = new Product(Integer.parseInt(data.get(k)[0][0]),
+    // Integer.parseInt(data.get(k)[0][1]), data.get(k)[0][2], intArray,
+    // data.get(k)[0][4],
+    // Double.parseDouble(data.get()[0][5]));
+    // }
+    // } catch (IOException r) {
+    // r.printStackTrace();
+    // }
+    // }
+    // }
     public String getStoreNameFromID(int storeID) {
         for (Store store : Market.getStores()) {
             if (store.getId() == storeID) {
@@ -198,6 +200,7 @@ public class Seller extends User implements UserInterface<Seller> {
         }
         return Utils.NO;
     }
+
     public void exportProducts() {
         File outFile = new File("exported products.csv");
         try {
@@ -209,7 +212,7 @@ public class Seller extends User implements UserInterface<Seller> {
                 String storeName = getStoreNameFromID(storeID);
                 if (storeName.equals(String.valueOf(Utils.NO))) {
                     System.out.println("store not found");
-                    continue; //this shouldnt happen generally
+                    continue; // this shouldnt happen generally
                 }
                 pw.println(product.getName() + "," + storeName + ","
                         + product.getDescription() + "," + product.getQuantity() + "," + product.getPrice());
@@ -220,24 +223,25 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public void updateProducts() {
-        FileWriter fw;
-        BufferedWriter bw;
-        PrintWriter pw;
-        try {
-            String[] i = getId().split("@");
-            fw = new FileWriter(i[0] + i[1] + "ProductsFile", false);
-            bw = new BufferedWriter(fw);
-            pw = new PrintWriter(bw);
-            for (Product product : getProducts()) {
-                String storeName = getStoreNameFromID(product.getStoreId());
-                pw.println(product.getName() + "," + storeName + "," + product.getStoreId()
-                        + product.getDescription() + "," + product.getQuantity() + "," + product.getPrice());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    // public void updateProducts() {
+    // FileWriter fw;
+    // BufferedWriter bw;
+    // PrintWriter pw;
+    // try {
+    // String[] i = getId().split("@");
+    // fw = new FileWriter(i[0] + i[1] + "ProductsFile", false);
+    // bw = new BufferedWriter(fw);
+    // pw = new PrintWriter(bw);
+    // for (Product product : getProducts()) {
+    // String storeName = getStoreNameFromID(product.getStoreId());
+    // pw.println(product.getName() + "," + storeName + "," + product.getStoreId()
+    // + product.getDescription() + "," + product.getQuantity() + "," +
+    // product.getPrice());
+    // }
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // }
 
     @Override
     public void exportData(String filepath) {
@@ -283,5 +287,13 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public static void writeSellers(ArrayList<Seller> sellers) {
         throw new UnsupportedOperationException("Unimplemented method 'readSellers'");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

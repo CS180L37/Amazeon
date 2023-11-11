@@ -3,12 +3,14 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Sale {
+    private int saleId;
     private Customer customer;
     private Product product;
     private double cost;
     private int numPurchased;
 
-    public Sale(Customer customer, Product product, int numPurchased) {
+    public Sale(int saleId, Customer customer, Product product, int numPurchased) {
+        this.saleId = saleId;
         this.customer = customer;
         this.product = product;
         this.numPurchased = numPurchased;
@@ -58,6 +60,14 @@ public class Sale {
 
     public void setNumPurchased(int numPurchased) {
         this.numPurchased = numPurchased;
+    }
+
+    public int getSaleId() {
+        return saleId;
+    }
+
+    public void setSaleId(int saleId) {
+        this.saleId = saleId;
     }
 
     // Calculate the total cost of a sale
