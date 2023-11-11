@@ -135,8 +135,8 @@ public class Seller extends User implements UserInterface {
                     Product product = new Product(Integer.parseInt(data.get(k)[0][0]),
                             Integer.parseInt(data.get(k)[0][1]), data.get(k)[0][2], intArray, data.get(k)[0][4], Double.parseDouble(data.get()[0][5]));
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException r) {
+                r.printStackTrace();
             }
         }
     }
