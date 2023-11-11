@@ -1,10 +1,15 @@
 import java.util.ArrayList;
 
-public class Customer extends User implements UserInterface {
+public class Customer extends User implements UserInterface<Customer> {
     private Cart cart;
 
-    public Customer(int id, ArrayList<Product> products, Cart cart) {
-        super(id, products);
+    public Customer(String email, String password) {
+        super(Amazeon.getNextCustomerId(), new ArrayList<Product>(), email, password);
+        this.cart = new Cart(this.getId(), this.getProducts());
+    }
+
+    public Customer(int id, ArrayList<Product> products, String email, String password, Cart cart) {
+        super(id, products, email, password);
         this.cart = cart;
     }
 
@@ -25,16 +30,31 @@ public class Customer extends User implements UserInterface {
         throw new UnsupportedOperationException("Unsupported operation 'purchaseProduct");
     }
 
-    // Retrieves customer by id
-    public static Customer getCustomerById(int customerId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
-    }
-
     public Cart getCart() {
         return cart;
     }
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    @Override
+    public Customer createAccount() {
+        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
+    }
+
+    @Override
+    public Customer editAccount() {
+        throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
+    }
+
+    @Override
+    public void deleteAccount() {
+        throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
+    }
+
+    // Contains lists of all products and carts as parameters
+    public static ArrayList<Customer> readCustomers(ArrayList<Product> products, ArrayList<Cart> carts) {
+        throw new UnsupportedOperationException("Unimplemented method 'readCustomers'");
     }
 }

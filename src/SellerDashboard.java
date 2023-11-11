@@ -2,6 +2,10 @@ import java.util.ArrayList;
 
 public class SellerDashboard extends Dashboard<Customer, Product> implements DashboardInterface<Customer, Product> {
 
+    public SellerDashboard() {
+        super();
+    }
+
     public SellerDashboard(ArrayList<Customer> data1, ArrayList<Product> data2) {
         super(data1, data2);
     }

@@ -4,8 +4,13 @@ import org.json.*; // Work with json: https://github.com/stleary/JSON-java
 public class CustomerMarket extends Market<Customer> implements MarketInterface<Customer, Store, Store> {
     private Dashboard<Store, Store> dashboard;
 
-    public CustomerMarket(ArrayList<Store> stores, Customer user, Dashboard<Store, Store> dashboard) {
-        super(stores, user);
+    public CustomerMarket(Customer customer, ArrayList<Store> stores) {
+        super(customer, stores); // Retrieve existing stores and customer
+        this.dashboard = new Dashboard<Store, Store>(stores, stores);
+    }
+
+    public CustomerMarket(Customer customer, ArrayList<Store> stores, Dashboard<Store, Store> dashboard) {
+        super(customer, stores);
         this.dashboard = dashboard;
     }
 
@@ -52,34 +57,5 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     @Override
     public void displayCart() {
         this.getUser().getCart().display();
-    }
-
-    @Override
-    public Customer authentication(AuthenticationType authType) {
-        String email = Utils.inputPrompt("Enter your email: ", input -> Utils.validateEmail(input),
-                "Enter a valid email: ");
-        String password = Utils.inputPrompt("Enter your password: ", input -> (input.length() > 7),
-                "Enter a password with at least 8 characters: ");
-        int customerId;
-        switch (authType) {
-            case LOGIN:
-                customerId = login(email, password);
-                return Customer.getCustomerById(customerId);
-            case CREATE:
-                customerId = createAccount(email, password);
-                return Customer.getCustomerById(customerId);
-            default:
-                return Customer.getCustomerById(0); // Never
-        }
-    }
-
-    @Override
-    public int login(String email, String password) {
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
-    }
-
-    @Override
-    public int createAccount(String email, String password) {
-        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
     }
 }

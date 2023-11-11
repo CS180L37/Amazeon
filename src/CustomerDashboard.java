@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class CustomerDashboard extends Dashboard<Store, Store> implements DashboardInterface<Store, Store> {
+    // Create a dashboard of existing Store data
     public CustomerDashboard(ArrayList<Store> data1, ArrayList<Store> data2) {
         super(data1, data2);
     }

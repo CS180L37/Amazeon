@@ -2,14 +2,15 @@ import java.util.ArrayList;
 
 public class SellerMarket extends Market<Seller> implements MarketInterface<Seller, Customer, Product> {
     private Dashboard<Customer, Product> dashboard;
-    private ArrayList<Store> sellerStores = new ArrayList<>();
 
-    public ArrayList<Store> getSellerStores() {
-        return sellerStores;
+    public SellerMarket(Seller seller, ArrayList<Store> stores, ArrayList<Customer> customers,
+            ArrayList<Product> products) {
+        super(seller, stores); // Retrieve existing stores and create a new customer
+        this.dashboard = new Dashboard<Customer, Product>(customers, products);
     }
 
-    public SellerMarket(ArrayList<Store> stores, Seller seller, Dashboard<Customer, Product> dashboard) {
-        super(stores, seller);
+    public SellerMarket(Seller seller, ArrayList<Store> stores, Dashboard<Customer, Product> dashboard) {
+        super(seller, stores);
         this.dashboard = dashboard;
     }
 
@@ -44,48 +45,5 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
     @Override
     public void displayCart() {
         throw new UnsupportedOperationException("Unimplemented method 'displayCart'");
-    }
-
-    @Override
-    public Seller authentication(AuthenticationType authType) {
-        System.out.println("Enter your email: ");
-        String email;
-        do {
-            email = Utils.SCANNER.nextLine();
-            if (Utils.validateEmail(email)) {
-                break;
-            }
-            System.out.println("Enter a valid email: ");
-        } while (true);
-        System.out.println("Enter your password: ");
-        String password;
-        do {
-            password = Utils.SCANNER.nextLine();
-            if (password.length() > 8) {
-                break;
-            }
-            System.out.println("Enter a password greater than 8 characters: ");
-        } while (true);
-        int sellerId;
-        switch (authType) {
-            case LOGIN:
-                sellerId = login(email, password);
-                return Seller.getSellerById(sellerId);
-            case CREATE:
-                sellerId = createAccount(email, password);
-                return Seller.getSellerById(sellerId);
-            default:
-                return Seller.getSellerById(0); // Never
-        }
-    }
-
-    @Override
-    public int login(String email, String password) {
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
-    }
-
-    @Override
-    public int createAccount(String email, String password) {
-        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
     }
 }
