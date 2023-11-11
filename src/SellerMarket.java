@@ -40,4 +40,14 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Cust
     public void displayCart() {
         throw new UnsupportedOperationException("Unimplemented method 'displayCart'");
     }
+
+    public static void main(String[] args) {
+        System.out.println("""
+                1.
+                2.
+                3.
+                4.
+                5.
+                """);
+    }
 }
