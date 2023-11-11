@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -78,6 +79,15 @@ public class Customer extends User implements UserInterface<Customer> {
     }
 
     public static void writeCustomers(ArrayList<Customer> customers) {
-        throw new UnsupportedOperationException("Unimplemented method 'readCustomers'");
-    }
+        try {
+            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
+            for (Customer customer : customers) {
+                bw.write(String.format(Integer.toString(Integer.parseInt(customer.getId() + "," + Amazeon.getEmail()
+                        + "," + Amazeon.getPassword() + "," + Amazeon.getProductById(customer.getId()) + "," +
+                        Amazeon.getCartById(customer.getId())))));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }    }
 }
