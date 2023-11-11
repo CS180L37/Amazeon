@@ -4,22 +4,56 @@ import java.io.*;
 
 
 
-public class Seller extends User implements UserInterface {
-    private static String name;
-    private static int ID;
-    private static ArrayList<Product> productsSold;
-    private static ArrayList<Sale> sales;
+public class Seller extends User implements UserInterface{
+    private String name;
+    private String ID;
+    private ArrayList<Product> productsSold;
+    private ArrayList<Sale> sales;
     private ArrayList<Integer> productRevenues;
     Scanner scan = new Scanner(System.in);
     Product product = new Product();
 
-    public Seller(int id, ArrayList<Product> products, ArrayList<Sale> sales) {
+    public Seller(String id, ArrayList<Product> products, ArrayList<Sale> sales) {
         super(id, products);
         this.sales = sales;
     }
+    public void displayProducts() {
+        for (int i = 0; i < getProductsSold().size(); i++) {
+            System.out.printf("%d. %s\n", i, getProductsSold().get(i));
+        }
+    }
 
+    public Seller(String name, String ID, ArrayList<Product> productsSold, ArrayList<Sale> sales, ArrayList<Integer> productRevenues) {
+        super();
+        this.name = name;
+        this.ID = ID;
+        this.productsSold = productsSold;
+        this.sales = sales;
+        this.productRevenues = productRevenues;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public ArrayList<Product> getProductsSold() {
+        return productsSold;
+    }
+
+    public ArrayList<Sale> getSales() {
+        return sales;
+    }
+
+    public ArrayList<Integer> getProductRevenues() {
+        return productRevenues;
+    }
+
+    public void displayDashboard(Scanner scan) {
     // Add a product to the sellers products list
-    public static void displayDashboard(Scanner scan) {
         System.out.println("How do you want to sort?\n1. Customer name\n2. Product name\n3.");
         int choice = 3; //default
         while (true) {
@@ -38,7 +72,7 @@ public class Seller extends User implements UserInterface {
 
         //list of customers with number of items that they have purchased
         Map<Customer, Integer> customerIntegerMap = new HashMap<>();
-        for (Sale sale : sales) {
+        for (Sale sale : getSales()) {
             if (customerIntegerMap.containsKey(sale.getCustomer())) {
                 customerIntegerMap.put(sale.getCustomer(), customerIntegerMap.get(sale.getCustomer()) + 1);
             } else {
@@ -85,8 +119,8 @@ public class Seller extends User implements UserInterface {
         }
     }
 
-    public static void deleteProduct(Product product) {
-        productsSold.remove(product);
+    public void deleteProduct(Product product) {
+        getProductsSold().remove(product);
     }
 
     public static void updateProduct(Product product, Scanner scan) {
@@ -103,8 +137,8 @@ public class Seller extends User implements UserInterface {
         int newPrice = Integer.parseInt(scan.nextLine());
     }
 
-    public static void createProduct(String filename) throws IOException {
-        int lineNumber = 0;
+    public void createProduct(String filename) throws IOException {
+            int lineNumber = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
             while (br.readLine() != null) {
@@ -142,13 +176,13 @@ public class Seller extends User implements UserInterface {
     }
 
 
-    public static void exportProducts () {
+    public void exportProducts () {
         File outFile = new File("exported products.csv");
         try {
             FileWriter fw = new FileWriter(outFile);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            for (Product product : productsSold) {
+            for (Product product : getProductsSold()) {
                 String storesString = "";
                 ArrayList<Integer> storeIDs = product.getStoreIds();
                 for (Store store : SellerMarket.getStores()) {
@@ -169,8 +203,33 @@ public class Seller extends User implements UserInterface {
             e.printStackTrace();
         }
     }
-    // Import products from a csv file
+
+    public void updateProducts() {
+        File sellerProductFile;
+        FileWriter fw;
+        BufferedWriter bw;
+        PrintWriter pw;
+        FileReader fr;
+        BufferedReader br;
+        try {
+            String[] i = getID().split("@");
+            fw = new FileWriter(i[0] + i[1] + "ProductFile", false);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+            for (Product product : getProducts()) {
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
+    public void exportData(String filepath) {
+
+    }
+
+    // Import products from a csv file
     public void importData (String filepath){
         throw new UnsupportedOperationException("Unimplemented method 'importData'");
     }
@@ -179,12 +238,7 @@ public class Seller extends User implements UserInterface {
         throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
     }
 
-    public ArrayList<Sale> getSales () {
-        return sales;
-    }
-
     public void setSales (ArrayList < Sale > sales) {
         this.sales = sales;
     }
 }
-
