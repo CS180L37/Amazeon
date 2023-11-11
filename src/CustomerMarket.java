@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import org.json.*; // Work with json: https://github.com/stleary/JSON-java
 
 public class CustomerMarket extends Market<Customer> implements MarketInterface<Customer, Store, Store> {
     private Dashboard<Store, Store> dashboard;

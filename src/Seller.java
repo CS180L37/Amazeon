@@ -3,7 +3,6 @@ import java.util.*;
 import java.io.*;
 
 public class Seller extends User implements UserInterface<Seller> {
-    private String name;
     private ArrayList<Sale> sales;
     // Already has a list of products and an id
     // Revenue can be calculated from the list of products
@@ -34,10 +33,6 @@ public class Seller extends User implements UserInterface<Seller> {
     // this.sales = sales;
     // this.productRevenues = productRevenues;
     // }
-
-    public String getName() {
-        return name;
-    }
 
     public ArrayList<Sale> getSales() {
         return sales;

@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Product {
@@ -67,7 +69,23 @@ public class Product {
     }
 
     public static ArrayList<Product> readProducts() {
-        throw new UnsupportedOperationException("Unimplemented method 'readProducts'");
+        ArrayList<Product> products = new ArrayList<Product>();
+        try {
+            BufferedReader br = Utils.createReader(".products.csv");
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                products.add(new Product(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2],
+                        Integer.parseInt(data[3]), data[4], Double.parseDouble(data[5])));
+            }
+            return products;
+        } catch (IOException e) {
+            return new ArrayList<Product>();
+        }
     }
 
     public static void writeProducts(ArrayList<Product> products) {

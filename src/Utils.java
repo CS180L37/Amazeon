@@ -42,6 +42,18 @@ public class Utils {
         return false;
     }
 
+    public static boolean validatePassword(String password) {
+        Pattern pattern = Pattern.compile("[^A-Za-z0-9]", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(password);
+        if (matcher.find()) {
+            return false;
+        }
+        if (password.length() < 7) {
+            return false;
+        }
+        return true;
+    }
+
     public static BufferedReader createReader(String filename) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
         return br;
