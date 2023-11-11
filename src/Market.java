@@ -63,12 +63,4 @@ public class Market<T> {
     public void writeData(String filename) {
         throw new UnsupportedOperationException("Unimplemented method 'writeData'");
     }
-
-    public boolean login() {
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
-    }
-
-    public boolean createAccount() {
-        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
-    }
 }
