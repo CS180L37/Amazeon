@@ -56,31 +56,11 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     @Override
     public Customer authentication() {
         // public T loginProcess() {
-        // System.out.println("Enter your email: ");
-        // String email = scanner.nextLine();
-        // System.out.println("Enter your password: ");
-        // String password = scanner.nextLine();
-        // System.out.println("Would you like to create an account as a customer (y) or
-        // seller (n)?");
-        // String userType;
-        // do {
-        // usrType = scanner.nextLine();
-        // if (Utils.validInput(userType) != Utils.ERROR) {
-        // break;
-        // }
-        // } while (true);
-        // switch (Utils.validInput(userType)) {
-        // case Utils.YES:
-        // int customerId = createAccount(email, password, "Customer");
-        // user = Customer.getCustomerById(customerId);
-        // break;
-        // case Utils.NO:
-        // int sellerId = createAccount(email, password, "Seller");
-        // user = Seller.getSellerById(sellerId);
-        // break;
-        // default:
-        // break;
-        // }
-        // }
+         System.out.println("Enter your email: ");
+         String email = Utils.SCANNER.nextLine();
+         System.out.println("Enter your password: ");
+         String password = Utils.SCANNER.nextLine();
+         Customer customer = Customer.getCustomerById(User.createAccount(email, password));
+         }
     }
 }
