@@ -1,39 +1,51 @@
 public class Sale {
     private Customer customer;
     private Product product;
-    private int amountPurchased;
+    private double cost;
+    private int numPurchased;
 
-    public Sale(Customer customer, Product product, int amountPurchased){
+    public Sale(Customer customer, Product product, int numPurchased) {
         this.customer = customer;
         this.product = product;
-        this.amountPurchased = amountPurchased;
+        this.numPurchased = numPurchased;
+        this.cost = calculateCost();
     }
 
-    public Customer getCustomer(){
-        return this.customer;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public Product getProduct(){
-        return this.product;
-    }
-
-    public int getAmountPurchased(){
-        return this.amountPurchased;
-    }
-
-    public void setCustomer(Customer customer){
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-    public void setProduct(Product product){
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
         this.product = product;
     }
 
-    public void setAmountPurchased(int amountPurchased){
-        this.amountPurchased = amountPurchased;
+    public double getCost() {
+        return cost;
     }
 
-    public double getRevenue(){
-        return getProduct().getPrice() * getAmountPurchased();
+    public void setCost(double cost) {
+        this.cost = cost;
     }
+
+    public int getNumPurchased() {
+        return numPurchased;
+    }
+
+    public void setNumPurchased(int numPurchased) {
+        this.numPurchased = numPurchased;
+    }
+
+    // Calculate the total cost of a sale
+    public double calculateCost() {
+        throw new UnsupportedOperationException("Unsupported Operation 'calculateCost");
+    }
+
 }

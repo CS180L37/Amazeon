@@ -1,12 +1,12 @@
+import java.util.ArrayList;
 
 public class Store {
     private String name;
     private int id;
-    private Product[] products;
-    private Customer[] customers;
-    private Product[] productsSold;
+    private ArrayList<Product> products;
+    private ArrayList<Customer> customers;
 
-    public Store(String name, int id, Product[] products, Customer[] customers) {
+    public Store(String name, int id, ArrayList<Product> products, ArrayList<Customer> customers) {
         this.name = name;
         this.products = products;
         this.id = id;
@@ -20,32 +20,33 @@ public class Store {
     public int getId() {
         return this.id;
     }
-    public Product[] getProducts() {
+
+    public static Store getStoreById(int id) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
+    }
+
+    public ArrayList<Product> getProducts() {
         return this.products;
     }
 
-    public Customer[] getCustomers() {
+    public ArrayList<Customer> getCustomers() {
         return this.customers;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setProducts(Product[] products){
+    public void setProducts(ArrayList<Product> products) {
         this.products = products;
     }
 
-    public void setCustomers(Customer[] customers){
+    public void setCustomers(ArrayList<Customer> customers) {
         this.customers = customers;
-    }
-
-    public int numProductsSold(){
-        return this.productsSold.length;
     }
 
 }
