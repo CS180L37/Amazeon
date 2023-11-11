@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Customer extends User implements UserInterface<Customer> {
@@ -55,7 +57,21 @@ public class Customer extends User implements UserInterface<Customer> {
 
     // Contains lists of all products and carts as parameters
     public static ArrayList<Customer> readCustomers(ArrayList<Product> products, ArrayList<Cart> carts) {
-        throw new UnsupportedOperationException("Unimplemented method 'readCustomers'");
+        ArrayList<Customer> customers = new ArrayList<>();
+        try {
+            BufferedReader bfr = Utils.createReader(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
+            String line;
+            while (true) {
+                line = bfr.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                customers.add(new Customer(Integer.parseInt(data[0]), data[1], data[2], data[3],new data[4]);
+            }
+        } catch (IOException e) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    throw new RuntimeException(e);
+        }
     }
 
     public static void writeCustomers(ArrayList<Customer> customers) {

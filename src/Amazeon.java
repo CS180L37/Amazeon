@@ -182,7 +182,7 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    public static int getNextSellerId() {
+    public static String getNextSellerId() {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
