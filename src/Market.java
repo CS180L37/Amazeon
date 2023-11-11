@@ -27,11 +27,9 @@ public class Market<T> {
         switch (Utils.validInput(hasAccount)) {
             case Utils.YES:
                 // login();
-                System.out.println("Login");
                 break;
             case Utils.NO:
-                // createAccount();
-                System.out.println("Create");
+                // createAccount(email, password);
                 break;
             default:
                 break;
@@ -74,5 +72,30 @@ public class Market<T> {
 
     public boolean createAccount() {
         throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
+    }
+
+    public void loginProcess() {
+        System.out.println("Enter your email: ");
+        String email = scanner.nextLine();
+        System.out.println("Enter your password: ");
+        String password = scanner.nextLine();
+        System.out.pritnln("Would you like to create an account as a customer (y) or seller (n)?");
+        String userType;
+        do {
+            usrType = scanner.nextLine();
+            if (Utils.validInput(userType) != Utils.ERROR) {
+                break;
+            }
+        } while (true);
+        switch (Utils.validInput(userType)) {
+            case Utils.YES:
+                createAccount(email, password, "Customer");
+                break;
+            case Utils.NO:
+                createAccount(email, password, "Seller");
+                break;
+            default:
+                break;
+        }
     }
 }
