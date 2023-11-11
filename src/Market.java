@@ -1,37 +1,14 @@
 // Parent class for SellerMarket and CustomerMarket
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Market<T> {
-    private static final Scanner SCANNER = new Scanner(System.in);
     private ArrayList<Store> stores;
     private T user;
 
     public Market(ArrayList<Store> stores, T user) {
         this.stores = stores;
         this.user = user;
-    }
-
-    // Entry point for the program
-    public boolean hasAccount() {
-        System.out.println("Welcome to Amazeon! Do you have an account? (y/n)");
-        String account;
-        do {
-            account = SCANNER.nextLine();
-            if (Utils.validInput(account) != Utils.ERROR) {
-                break;
-            }
-            System.out.println("Welcome to Amazeon! Do you have an account? (y/n)");
-        } while (true);
-        switch (Utils.validInput(account)) {
-            case Utils.YES:
-                return true;
-            case Utils.NO:
-                return false;
-            default:
-                return false;
-        }
     }
 
     public ArrayList<Store> getStores() {

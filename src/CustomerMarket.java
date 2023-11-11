@@ -8,10 +8,6 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
         this.dashboard = dashboard;
     }
 
-    public static void main(String[] args) {
-        welcomeProcess();
-    }
-
     // Displays the list of products
     @Override
     public void displayMarketplace() {
