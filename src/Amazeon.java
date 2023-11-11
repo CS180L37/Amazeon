@@ -39,6 +39,8 @@ public class Amazeon {
                 // Create the customer market (accesses all stores)
                 customerMarket = new CustomerMarket(customer, amazeon.stores);
                 // Open up options to customer
+                customerLoop();
+                writeData();
             } else {
                 // Get the email and password
                 String email = getEmail();
@@ -48,6 +50,8 @@ public class Amazeon {
                 // Create the seller market (only accesses stores associated with the seller)
                 sellerMarket = new SellerMarket(seller, seller.getStores(), amazeon.customers, amazeon.products);
                 // Open up options to seller
+                sellerLoop();
+                writeData();
             }
         } else {
             // Create
@@ -60,6 +64,8 @@ public class Amazeon {
                 // Create a customer market using the customer
                 customerMarket = new CustomerMarket(customer, amazeon.stores);
                 // Open up options to customer
+                customerLoop();
+                writeData();
             } else {
                 // Get the email and password
                 String email = getEmail();
@@ -69,6 +75,8 @@ public class Amazeon {
                 // Create a seller market using the seller
                 sellerMarket = new SellerMarket(seller, new ArrayList<Store>(), amazeon.customers, amazeon.products);
                 // Open up options to seller
+                sellerLoop();
+                writeData();
             }
         }
     }
@@ -140,5 +148,17 @@ public class Amazeon {
     // Store methods
     public static Store getStoreById(int id) {
         throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
+    }
+
+    public static void customerLoop() {
+        throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
+    }
+
+    public static void sellerLoop() {
+        throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
+    }
+
+    public static void writeData() {
+        throw new UnsupportedOperationException("Unsupported operation: 'writeData'");
     }
 }
