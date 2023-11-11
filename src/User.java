@@ -51,9 +51,9 @@ public class User {
                 }
                 currentLine = br.readLine();
             }
-            pw.println(email + ";" + password);
+            // pw.println(email + ";" + password);
             return Utils.YES;
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return Utils.NO;
         }
@@ -65,7 +65,7 @@ public class User {
         BufferedReader br;
         try {
             if (type.equalsIgnoreCase("seller")) {
-            credentialsFile = new File("seller credentials.txt");
+                credentialsFile = new File("seller credentials.txt");
             } else {
                 credentialsFile = new File("customer credentials.txt");
             }
@@ -82,7 +82,7 @@ public class User {
             }
             return Utils.YES;
 
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return Utils.NO;
         }
