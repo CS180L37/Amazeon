@@ -16,15 +16,15 @@ public class Market<T> {
     // Entry point for the program
     public boolean hasAccount() {
         System.out.println("Welcome to Amazeon! Do you have an account? (y/n)");
-        String hasAccount;
+        String account;
         do {
-            hasAccount = SCANNER.nextLine();
-            if (Utils.validInput(hasAccount) != Utils.ERROR) {
+            account = SCANNER.nextLine();
+            if (Utils.validInput(account) != Utils.ERROR) {
                 break;
             }
             System.out.println("Welcome to Amazeon! Do you have an account? (y/n)");
         } while (true);
-        switch (Utils.validInput(hasAccount)) {
+        switch (Utils.validInput(account)) {
             case Utils.YES:
                 return true;
             case Utils.NO:
@@ -62,13 +62,5 @@ public class Market<T> {
     // Persist the data by writing it to storage
     public void writeData(String filename) {
         throw new UnsupportedOperationException("Unimplemented method 'writeData'");
-    }
-
-    public boolean login() {
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
-    }
-
-    public boolean createAccount() {
-        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
     }
 }
