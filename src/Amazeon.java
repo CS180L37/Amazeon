@@ -1,21 +1,29 @@
 public class Amazeon {
     public static void main(String[] args) {
+        CustomerMarket customerMarket;
+        SellerMarket sellerMarket;
+        Customer customer;
+        Seller seller;
+
         // Welcome the user
         if (hasAccount()) {
             // Login
             if (isCustomer()) {
                 // Create an initial market
-                CustomerMarket customerMarket = new CustomerMarket(null, null, null);
-                Customer customer = customerMarket.authentication();
+                customerMarket = new CustomerMarket(null, null, null);
+                customer = customerMarket.authentication();
             } else {
-                Seller seller = authentication("seller");
+                sellerMarket = new SellerMarket(null, null, null);
+                seller = sellerMarket.authentication();
             }
         } else {
             // Create
             if (isCustomer()) {
-                Customer customer = authentication("customer");
+                customerMarket = new CustomerMarket(null, null, null);
+                customer = customerMarket.authentication();
             } else {
-                Seller seller = authentication("seller");
+                sellerMarket = new SellerMarket(null, null, null);
+                seller = sellerMarket.authentication();
             }
         }
         // Create Customer or Seller market

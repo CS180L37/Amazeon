@@ -36,5 +36,5 @@ public class Customer extends User implements UserInterface {
 
     public void setCart(Cart cart) {
         this.cart = cart;
-    }>>>>>>>58 bfc70bedd02e125b07541c3f3eeb996374742a
+    }
 }
