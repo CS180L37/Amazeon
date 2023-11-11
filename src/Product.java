@@ -1,29 +1,35 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Product {
-    private int sellerId;
-    private int quantity;
+    private int productId;
     private String name;
-    private int storeId;
+    private int quantity;
     private String description;
     private double price;
+    private int sellerId;
+    private int storeId;
 
-    private int productID;
-
-
-    public Product(int sellerId, int quantity, String name, int storeId, String description,
-            double price, int productID) {
-        this.sellerId = sellerId;
-        this.quantity = quantity;
+    public Product(int productId, String name, int quantity, String description,
+            double price, int sellerId, int storeId) {
+        this.productId = productId;
         this.name = name;
-        this.storeId = storeId;
+        this.quantity = quantity;
         this.description = description;
         this.price = price;
-        this.productID = productID;
+        this.sellerId = sellerId;
+        this.storeId = storeId;
     }
 
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
     public int getSellerId() {
         return sellerId;
@@ -73,22 +79,10 @@ public class Product {
         this.price = price;
     }
 
-    public int getProductID() {
-        return productID;
-    }
-
-    public void setProductID(int productID) {
-        this.productID = productID;
-    }
-
-    public Product getProductByID(int productID){
-
-    }
-
     public static ArrayList<Product> readProducts() {
         ArrayList<Product> products = new ArrayList<Product>();
         try {
-            BufferedReader br = Utils.createReader(".products.csv");
+            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.PRODUCT_FILE);
             String line;
             while (true) {
                 line = br.readLine();
@@ -96,16 +90,28 @@ public class Product {
                     break;
                 }
                 String[] data = line.split(",");
-                products.add(new Product(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2],
-                        Integer.parseInt(data[3]), data[4], Double.parseDouble(data[5])));
+                products.add(new Product(Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2]),
+                        data[3], Double.parseDouble(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
             }
             return products;
         } catch (IOException e) {
+            e.printStackTrace();
             return new ArrayList<Product>();
         }
     }
 
     public static void writeProducts(ArrayList<Product> products) {
-        throw new UnsupportedOperationException("Unimplemented method 'readProducts'");
+        try {
+            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.PRODUCT_FILE);
+            for (Product product : products) {
+                bw.write(String.format(Integer.toString(product.getProductId()) + "," + product.getName()
+                        + Integer.toString(product.getQuantity()) + "," + product.getDescription() + ","
+                        + Double.toString(product.getPrice()) + "," + Integer.toString(product.getSellerId()) + ","
+                        + Integer.toString(product.getStoreId())));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
     }
 }

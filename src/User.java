@@ -4,21 +4,21 @@ import java.util.ArrayList;
 public class User {
     private String email;
     private String password;
-    private String id;
+    private int id;
     private ArrayList<Product> products;
 
-    public User(String id, ArrayList<Product> products, String email, String password) {
+    public User(int id, ArrayList<Product> products, String email, String password) {
         this.id = id;
         this.products = products;
         this.email = email;
         this.password = password;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

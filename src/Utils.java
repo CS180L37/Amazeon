@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +14,13 @@ public class Utils {
     public static final int NO = 0;
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
+    public static final String DATA_DIR = "/.data";
+    public static final String PRODUCT_FILE = "/.product.csv";
+    public static final String CART_FILE = "/.cart.csv";
+    public static final String CUSTOMER_FILE = "/.customer.csv";
+    public static final String SALE_FILE = "/.sale.csv";
+    public static final String STORE_FILE = "/.store.csv";
+    public static final String SELLER_FILE = "/.seller.csv";
 
     public static boolean validateYesOrNo(String input) {
         input = input.toLowerCase();
@@ -57,6 +67,20 @@ public class Utils {
     public static BufferedReader createReader(String filename) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
         return br;
+    }
+
+    public static BufferedWriter createWriter(String filename) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
+        return bw;
+    }
+
+    public static ArrayList<Integer> splitIdsByPipe(String input) {
+        ArrayList<Integer> data = new ArrayList<Integer>();
+        String[] idList = input.split("|");
+        for (String id : idList) {
+            data.add(Integer.parseInt(id));
+        }
+        return data;
     }
 
     public static String inputPrompt(String prompt, ValidateInterface validateInterface, String... reprompt) {
