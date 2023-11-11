@@ -30,7 +30,7 @@ public class Amazeon {
 
     public Amazeon() {
         this.products = Product.readProducts(); // .products.json
-        this.carts = Cart.readCarts(products); // .carts.json
+        this.carts = Cart.readCarts(); // .carts.json
         this.customers = Customer.readCustomers(products, carts); // .customers.json
         this.sales = Sale.readSales(customers); // .sales
         this.stores = Store.readStores(products, customers);

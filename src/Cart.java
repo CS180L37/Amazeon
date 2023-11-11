@@ -52,7 +52,7 @@ public class Cart {
     }
 
     // Contains a list of all products as a parameter
-    public static ArrayList<Cart> readCarts(ArrayList<Product> products) {
+    public static ArrayList<Cart> readCarts() {
         ArrayList<Cart> carts = new ArrayList<Cart>();
         try {
             BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.CART_FILE);
@@ -63,7 +63,9 @@ public class Cart {
                     break;
                 }
                 String[] data = line.split(",");
-                carts.add(new Cart(Integer.parseInt(data[0]), Amazeon.getProductByIds(Utils.splitIdsByPipe(data[1]))));
+                carts.add(new Cart(Integer.parseInt(data[0]),
+                        (!data[1].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[1]))
+                                : new ArrayList<Product>()));
             }
             return carts;
         } catch (IOException e) {
@@ -75,8 +77,10 @@ public class Cart {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
             for (Cart cart : carts) {
-                bw.write(String.format(
-                        Integer.toString(cart.getCustomerID()) + "," + Amazeon.getProductIds(cart.getCartProducts())));
+
+                bw.write(
+                        Integer.toString(cart.getCustomerID()) + ","
+                                + Utils.convertToIdString((Amazeon.getProductIds(cart.getCartProducts())).toString()));
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -21,6 +21,7 @@ public class Utils {
     public static final String SALE_FILE = "/.sale.csv";
     public static final String STORE_FILE = "/.store.csv";
     public static final String SELLER_FILE = "/.seller.csv";
+    public static final String NA = "NA";
 
     public static boolean validateYesOrNo(String input) {
         input = input.toLowerCase();
@@ -78,9 +79,17 @@ public class Utils {
         ArrayList<Integer> data = new ArrayList<Integer>();
         String[] idList = input.split("|");
         for (String id : idList) {
-            data.add(Integer.parseInt(id));
+            if (id.equals("NA")) {
+                data.add(-1);
+            } else {
+                data.add(Integer.parseInt(id));
+            }
         }
         return data;
+    }
+
+    public static String convertToIdString(String input) {
+        return input.substring(1, input.length() - 1).replace(",", "|");
     }
 
     public static String inputPrompt(String prompt, ValidateInterface validateInterface, String... reprompt) {

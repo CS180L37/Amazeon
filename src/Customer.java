@@ -69,7 +69,8 @@ public class Customer extends User implements UserInterface<Customer> {
                 }
                 String[] data = line.split(",");
                 customers.add(new Customer(Integer.parseInt(data[0]), data[1], data[2],
-                        Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3])),
+                        (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
+                                : new ArrayList<Product>(),
                         Amazeon.getCartById(Integer.parseInt(data[0]))));
             }
         } catch (IOException e) {
@@ -82,12 +83,13 @@ public class Customer extends User implements UserInterface<Customer> {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
             for (Customer customer : customers) {
-                bw.write(String.format(Integer.toString(Integer.parseInt(customer.getId() + "," + Amazeon.getEmail()
+                bw.write(Integer.toString(Integer.parseInt(customer.getId() + "," + Amazeon.getEmail()
                         + "," + Amazeon.getPassword() + "," + Amazeon.getProductById(customer.getId()) + "," +
-                        Amazeon.getCartById(customer.getId())))));
+                        Amazeon.getCartById(customer.getId()))));
             }
         } catch (IOException e) {
             e.printStackTrace();
             return;
-        }    }
+        }
+    }
 }
