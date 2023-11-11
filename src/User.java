@@ -61,9 +61,6 @@ public class User {
 
     public static int login(String email, String password, String type) {
         File credentialsFile;
-        FileWriter fw;
-        BufferedWriter bw;
-        PrintWriter pw = null;
         FileReader fr;
         BufferedReader br;
         try {
@@ -72,24 +69,22 @@ public class User {
             } else {
                 credentialsFile = new File("customer credentials.txt");
             }
-            fw = new FileWriter(credentialsFile);
-            bw = new BufferedWriter(fw);
-            pw = new PrintWriter(bw);
             fr = new FileReader(credentialsFile);
             br = new BufferedReader(fr);
             String currentLine = br.readLine();
             while (currentLine != null) {
                 if (currentLine.split(";")[0].equals(email)) {
                     if (currentLine.split(";")[1].equals(password)) {
-                        return 1;
+                        return Utils.NO;
                     }
                 }
                 currentLine = br.readLine();
             }
-            return -1;
+            return Utils.YES;
 
         } catch (IOException e){
             e.printStackTrace();
+            return Utils.NO;
         }
     }
 }

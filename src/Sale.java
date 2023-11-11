@@ -61,7 +61,7 @@ public class Sale {
 
     // Calculate the total cost of a sale
     public double calculateCost() {
-        return numPurchased * product.getPrice();
+        return getNumPurchased() * getProduct().getPrice();
     }
 
 }
