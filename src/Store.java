@@ -21,7 +21,7 @@ public class Store {
         return this.id;
     }
 
-    public static Store getStoreById(int id) {
+    public Store getStoreById(int id) {
         throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
     }
 

@@ -2,6 +2,11 @@ import java.util.ArrayList;
 
 public class SellerMarket extends Market<Seller> implements MarketInterface<Seller, Customer, Product> {
     private Dashboard<Customer, Product> dashboard;
+    private ArrayList<Store> sellerStores = new ArrayList<>();
+
+    public ArrayList<Store> getSellerStores() {
+        return sellerStores;
+    }
 
     public SellerMarket(ArrayList<Store> stores, Seller seller, Dashboard<Customer, Product> dashboard) {
         super(stores, seller);

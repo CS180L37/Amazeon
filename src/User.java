@@ -26,7 +26,7 @@ public class User {
         this.products = products;
     }
 
-    public static int createAccount(String email, String password, String type) {
+    public int createAccount(String email, String password, String type) {
         File credentialsFile;
         FileWriter fw;
         BufferedWriter bw;
@@ -59,7 +59,7 @@ public class User {
         }
     }
 
-    public static int login(String email, String password, String type) {
+    public int login(String email, String password, String type) {
         File credentialsFile;
         FileReader fr;
         BufferedReader br;
