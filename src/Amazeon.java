@@ -9,6 +9,24 @@ public class Amazeon {
     ArrayList<Sale> sales;
     ArrayList<Store> stores;
     ArrayList<Seller> sellers;
+    private static int counterSeller = 0;
+    private static int counterBuyer = 0;
+
+    public static int getCounterSeller() {
+        return counterSeller;
+    }
+
+    public static void setCounterSeller(int counterSeller) {
+        Amazeon.counterSeller = counterSeller;
+    }
+
+    public static int getCounterBuyer() {
+        return counterBuyer;
+    }
+
+    public static void setCounterBuyer(int counterBuyer) {
+        Amazeon.counterBuyer = counterBuyer;
+    }
 
     public Amazeon() {
         this.products = Product.readProducts(); // .products.json

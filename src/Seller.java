@@ -243,7 +243,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public void exportProducts() {
-        File outFile = new File("exported products.csv");
+        File outFile = new File("exportedProducts.csv");
         try {
             FileWriter fw = new FileWriter(outFile);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -270,7 +270,7 @@ public class Seller extends User implements UserInterface<Seller> {
         PrintWriter pw;
         try {
             String[] i = getId().split("@");
-            fw = new FileWriter(i[0] + i[1] + "ProductsFile", false);
+            fw = new FileWriter(i[0] + i[1] + "ProductsFile.csv", false);
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
             for (Product product : getProducts()) {

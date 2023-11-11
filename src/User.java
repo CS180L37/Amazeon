@@ -39,9 +39,9 @@ public class User {
         BufferedReader br;
         try {
             if (type.equalsIgnoreCase("seller")) {
-                credentialsFile = new File("seller credentials.txt");
+                credentialsFile = new File("seller credentials.csv");
             } else {
-                credentialsFile = new File("customer credentials.txt");
+                credentialsFile = new File("customer credentials.csv");
             }
             fw = new FileWriter(credentialsFile);
             bw = new BufferedWriter(fw);
@@ -55,7 +55,13 @@ public class User {
                 }
                 currentLine = br.readLine();
             }
-            // pw.println(email + ";" + password);
+            if (type.equalsIgnoreCase("seller")) {
+                pw.println(Amazeon.getCounterSeller() + "," + email + "," + password);
+                Amazeon.setCounterSeller(Amazeon.getCounterSeller() + 1);
+            } else {
+                pw.println(Amazeon.getCounterBuyer() + "," + email + "," + password);
+                Amazeon.setCounterBuyer(Amazeon.getCounterBuyer() + 1);
+            }
             return Utils.YES;
         } catch (IOException e) {
             e.printStackTrace();
