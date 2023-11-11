@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Seller extends User implements UserInterface {
     private ArrayList<Sale> sales;
 
-    public Seller(int id, ArrayList<Product> products, ArrayList<Sale> sales) {
+    public Seller(String id, ArrayList<Product> products, ArrayList<Sale> sales) {
         super(id, products);
         this.sales = sales;
     }
