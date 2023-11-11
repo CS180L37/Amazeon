@@ -11,10 +11,14 @@ public class Amazeon {
     ArrayList<Seller> sellers;
 
     public Amazeon() {
-        this.products = Product.readProducts();
-        this.carts = Cart.readCarts(products);
-        this.customers = Customer.readCustomers(products, carts);
-        this.sales = Sale.readSales(customers);
+        // ArrayList<Product> ourProducts = new ArrayList<Product>();
+        // ourProducts.add(new Product(0, 10, "Switch", 0, "Switching it up", 300.00));
+        // Product.writeProducts(ourProducts);
+        this.products = Product.readProducts(); // .products.json
+        // System.out.println(this.products.toString());
+        this.carts = Cart.readCarts(products); // .carts.json
+        this.customers = Customer.readCustomers(products, carts); // .customers.json
+        this.sales = Sale.readSales(customers); // .sales
         this.stores = Store.readStores(products, customers);
         this.sellers = Seller.readSellers(products, sales);
     }
@@ -22,6 +26,7 @@ public class Amazeon {
     public static void main(String[] args) {
         // Initialize data
         Amazeon amazeon = new Amazeon();
+
         CustomerMarket customerMarket;
         SellerMarket sellerMarket;
         Customer customer;
@@ -48,7 +53,8 @@ public class Amazeon {
                 // Get the seller by email and password
                 seller = getSellerByEmailAndPassword(email, password);
                 // Create the seller market (only accesses stores associated with the seller)
-                sellerMarket = new SellerMarket(seller, seller.getStores(), amazeon.customers, amazeon.products);
+                sellerMarket = new SellerMarket(seller, seller.getStores(),
+                        amazeon.customers, amazeon.products);
                 // Open up options to seller
                 sellerLoop();
                 writeData();
@@ -73,12 +79,14 @@ public class Amazeon {
                 // Create a new seller based on email and password
                 seller = new Seller(email, password);
                 // Create a seller market using the seller
-                sellerMarket = new SellerMarket(seller, new ArrayList<Store>(), amazeon.customers, amazeon.products);
+                sellerMarket = new SellerMarket(seller, new ArrayList<Store>(),
+                        amazeon.customers, amazeon.products);
                 // Open up options to seller
                 sellerLoop();
                 writeData();
             }
         }
+
     }
 
     // Entry point for the program
@@ -115,7 +123,7 @@ public class Amazeon {
     }
 
     public static String getPassword() {
-        return Utils.inputPrompt("What is your password: ", input -> (input.length() < 7),
+        return Utils.inputPrompt("What is your password: ", input -> Utils.validatePassword(input),
                 "Please enter a valid password: ");
     }
 
