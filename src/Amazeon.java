@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /// Our entry point and data manager class
@@ -144,7 +148,7 @@ public class Amazeon {
 
     // Product methods
     public static Product getProductById(int id) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductById'");
+
     }
 
     public static ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
@@ -191,37 +195,97 @@ public class Amazeon {
 
     // Sale methods
     public static Sale getSaleById(int i) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getSaleById'");
+        Sale sale = null;
+        for (Sale currentSale : Amazeon.sales) {
+            if (currentSale.getSaleId() == i) {
+                sale = currentSale;
+            }
+        }
+        return sale;
     }
 
     public static ArrayList<Sale> getSalesById(ArrayList<Integer> saleIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        ArrayList<Sale> sales = new ArrayList<>();
+        for (int currentID : saleIds) {
+            sales.add(getSaleById(currentID));
+        }
+        return sales;
     }
 
     public static ArrayList<Integer> getSaleIds(ArrayList<Sale> sales) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        ArrayList<Integer> saleIDs = new ArrayList<>();
+        for (Sale sale : sales) {
+            saleIDs.add(sale.getSaleId());
+        }
+        return saleIDs;
     }
 
     // Stores methods
     public static Store getStoreById(int id) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
+        Store store = null;
+        for (Store currentStore : Amazeon.stores) {
+            if (currentStore.getId() == id) {
+                store = currentStore;
+            }
+        }
+        return store;
     }
 
     public static ArrayList<Store> getStoresById(ArrayList<Integer> storeIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        ArrayList<Store> stores = new ArrayList<>();
+        for (int id : storeIds) {
+            stores.add(getStoreById(id));
+        }
+        return stores;
     }
 
     public static ArrayList<Integer> getStoreIds(ArrayList<Store> stores) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        ArrayList<Integer> storeIDs = new ArrayList<>();
+        for (Store store : stores) {
+            storeIDs.add(store.getId());
+        }
     }
-
+    public static ArrayList<Integer> getIDsByString(String prodIDs) {
+        String[] IDs = prodIDs.split("\\|");
+        ArrayList<Integer> numIDs = new ArrayList<>();
+        for (String currentID : IDs) {
+            int ID = Integer.parseInt(currentID);
+            numIDs.add(ID);
+        }
+        return numIDs;
+    }
     // Seller methods
     public static Seller getSellerByEmailAndPassword(String email, String password) {
-        throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
+        FileReader fr;
+        BufferedReader br;
+        try {
+            fr = new FileReader(new File(Utils.DATA_DIR + Utils.SELLER_FILE));
+            br = new BufferedReader(fr);
+            String currentLine = br.readLine();
+            while (currentLine != null) {
+                String[] parts = currentLine.split(",");
+                if (parts[1].equals(email)) {
+                    if (parts[2].equals(password)) {
+                        return new Seller(Integer.parseInt(parts[0]), getProductByIds(getIDsByString(parts[1])), parts[2], parts[3], getSalesById(getIDsByString(parts[4])));
+                    }
+                }
+                currentLine = br.readLine();
+            }
+            return null;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static Seller getSellerById(int sellerId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
+        for (Seller seller : Amazeon.sellers) {
+            if (seller.getId() == sellerId) {
+                return seller;
+            }
+        }
+        return null;
     }
 
     public static int getNextSellerId() {
