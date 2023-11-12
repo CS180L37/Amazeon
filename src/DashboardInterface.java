@@ -5,5 +5,5 @@ public interface DashboardInterface<T, U> {
 
     ArrayList<U> sort2(User user); // Returns a sorted list of the desired values
 
-    void displayDashboard(); // Display the dashboard
+    void displayDashboard(User user); // Display the dashboard
 }

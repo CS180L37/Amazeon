@@ -10,16 +10,16 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
     // types
     // Sort stores by products sold
     @Override
-    public static ArrayList<Store> sort1(User user) {
+    public ArrayList<Store> sort1(User user) {
         ArrayList<Store> sortedStores = new ArrayList<Store>();
         for (int i = 0; i < Market.getStores().size(); i++) {
             sortedStores.add(Market.getStores().get(i));
         }
         //Product --> seller ids
-        //sellerId --> getSellerbyID --> gets Seller instance
+        //sellerId --> getSellersID --> gets Seller instance
         //Seller --> list of sales
         //list of sales --> each sale has a product --> storeID & product quantity (store product quantity in var)
-        //storeID --> getStorebyID --> gets an instance of SStore
+        //storeID --> getStoreID --> gets an instance of SStore
         //market --> list of stores --> if SStore equals store[i] --> store[i]'s number of products sold += product quantity
         //sort the stores by products sold
 
@@ -60,12 +60,12 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
 
 
     @Override
-    public static ArrayList<Store> sort2(User user) {
+    public ArrayList<Store> sort2(User user) {
         ArrayList<Integer> numPurchasedEachStore = new ArrayList<Integer>();
 
         //copies stores list from market in order to create a sortedStores list
         ArrayList<Store> sortedStores = new ArrayList<Store>();
-        for(int i = 0; i < Market.getStores().size(); i++){
+        for(int i = 0; i < Market.getStores().size(); i++) {
             sortedStores.add(Market.getStores().get(i));
         }
 
@@ -75,11 +75,11 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
             products.add(user.getProducts().get(i));
         }
 
-        for(int i = 0; i < Market.getStores().size(); i++){
+        for(int i = 0; i < Market.getStores().size(); i++) {
             int numProductsPurchased = 0;
-            for(int j = 0; j < products.size(); j++){
-                if(products.get(j).getStoreId() == Market.getStores().get(i).getId()){
-                    numProductsPurchased += products.get(j).getQuantity();
+            for (Product product : products) {
+                if (product.getStoreId() == Market.getStores().get(i).getId()) {
+                    numProductsPurchased += product.getQuantity();
                 }
             }
             numPurchasedEachStore.add(i, numProductsPurchased);
@@ -90,7 +90,7 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
         for(int i = 0; i < numPurchasedEachStore.size() - 1; i++) {
             int maxIndex = i;
             for(int j = 0; j < numPurchasedEachStore.size(); j++) {
-                if(numPurchasedEachStore.get(j) > numPurchasedEachStore.get(maxIndex)){
+                if(numPurchasedEachStore.get(j) > numPurchasedEachStore.get(maxIndex)) {
                     maxIndex = j;
                 }
             }
@@ -109,20 +109,20 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
 
     // Displays the two lists of stores
     @Override
-    public static void displayDashboard(User user) {
+    public void displayDashboard(User user) {
         System.out.println("Would you like to sort the dashboard by products purchased (y) or number of products sold (n)?");
         int sortOption = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
 
         //sorts by products purchased
         if(sortOption == 1) {
             sort1(user);
-            for(int i = 0; i < sort1(user).size(); i++){
+            for(int i = 0; i < sort1(user).size(); i++) {
                 System.out.println("Store Name: " + sort1(user).get(i).getName() + "\n");
             }
         //sort by products sold
         } else {
             sort2(user);
-            for(int i = 0; i < sort2(user).size(); i++){
+            for(int i = 0; i < sort2(user).size(); i++) {
                 System.out.println("Store Name: " + sort2(user).get(i).getName() + "\n");
             }
         }
