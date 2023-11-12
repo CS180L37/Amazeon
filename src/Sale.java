@@ -86,9 +86,7 @@ public class Sale {
                     break;
                 }
                 String[] data = line.split(",");
-                sales.add(new Sale(Integer.parseInt(data[0]), Amazeon.getCustomerById(Integer.parseInt(data[1])),
-                        Amazeon.getProductById(Integer.parseInt(data[2])),
-                        Integer.parseInt(data[4])));
+                sales.add(Utils.convertFromSaleString(data));
             }
             return sales;
         } catch (IOException e) {
@@ -101,9 +99,7 @@ public class Sale {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
             for (Sale sale : sales) {
-                bw.write(Integer.toString(sale.getSaleId()) + "," + Integer.toString(sale.getCustomer().getId()) + ","
-                        + Integer.toString(sale.getProduct().getProductId()) + ","
-                        + Integer.toString(sale.getNumPurchased()));
+                bw.write(Utils.convertToSaleString(sale));
             }
         } catch (IOException e) {
             e.printStackTrace();

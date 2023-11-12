@@ -90,8 +90,7 @@ public class Product {
                     break;
                 }
                 String[] data = line.split(",");
-                products.add(new Product(Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2]),
-                        data[3], Double.parseDouble(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
+                products.add(Utils.convertFromProductString(data));
             }
             return products;
         } catch (IOException e) {
@@ -104,10 +103,7 @@ public class Product {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.PRODUCT_FILE);
             for (Product product : products) {
-                bw.write(Integer.toString(product.getProductId()) + "," + product.getName()
-                        + Integer.toString(product.getQuantity()) + "," + product.getDescription() + ","
-                        + Double.toString(product.getPrice()) + "," + Integer.toString(product.getSellerId()) + ","
-                        + Integer.toString(product.getStoreId()));
+                bw.write(Utils.convertToProductString(product));
             }
         } catch (IOException e) {
             e.printStackTrace();

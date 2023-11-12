@@ -3,7 +3,7 @@
 import java.util.ArrayList;
 
 public class Market<T> {
-    private static ArrayList<Store> stores;
+    private ArrayList<Store> stores;
     private T user;
 
     public Market(T user, ArrayList<Store> stores) {
@@ -11,7 +11,7 @@ public class Market<T> {
         this.user = user;
     }
 
-    public static ArrayList<Store> getStores() {
+    public ArrayList<Store> getStores() {
         return stores;
     }
 

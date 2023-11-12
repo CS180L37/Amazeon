@@ -60,11 +60,7 @@ public class Store {
                     break;
                 }
                 String[] data = line.split(",");
-                stores.add(new Store(Integer.parseInt(data[0]), data[1],
-                        (!data[2].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[2]))
-                                : new ArrayList<Product>(),
-                        (!data[3].equals(Utils.NA)) ? Amazeon.getCustomersByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Customer>()));
+                stores.add(Utils.convertFromStoreString(data));
             }
             return stores;
         } catch (IOException e) {
@@ -76,9 +72,7 @@ public class Store {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
             for (Store store : stores) {
-                bw.write(Integer.toString(store.getId()) + "," + store.getName() + ","
-                        + Utils.convertToIdString((Amazeon.getProductIds(store.getProducts())).toString())
-                        + Utils.convertToIdString((Amazeon.getCustomerIds(store.getCustomers())).toString()));
+                bw.write(Utils.convertToStoreString(store));
             }
         } catch (IOException e) {
             e.printStackTrace();

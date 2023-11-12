@@ -20,8 +20,9 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public int getId() {
-        return id;
+        return super.getId();
     }
+
     public void displayProducts() {
         // for (int i = 0; i < getProductsSold().size(); i++) {
         // System.out.printf("%d. %s\n", i, getProductsSold().get(i));
@@ -129,6 +130,7 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public void deleteProduct(Product product) {
         getProducts().remove(product);
+        updateProductsFile();
     }
 
     @Override
@@ -170,6 +172,7 @@ public class Seller extends User implements UserInterface<Seller> {
                 r.printStackTrace();
             }
         }
+        updateProductsFile();
     }
 
     public String getStoreNameFromID(int storeID) {
@@ -211,19 +214,31 @@ public class Seller extends User implements UserInterface<Seller> {
             e.printStackTrace();
         }
     }
+
     public static void updateProduct(Product product, Scanner scan) {
         System.out.println("Enter new name:");
         String newName = scan.nextLine();
-        //TODO
+        // TODO
         System.out.println("Enter stores?");
-        //something waiting for edstem
+        // something waiting for edstem
         System.out.println("Enter new description:");
         String newDesc = scan.next();
         System.out.println("Enter new quantity:");
         int newQuan = Integer.parseInt(scan.nextLine());
         System.out.println("Enter new price:");
         int newPrice = Integer.parseInt(scan.nextLine());
+        for (Product product : Amazeon.products) {
+            if (product.getProductId() == prodID) {
+                product.setName(newName);
+                product.setStoreId(newStoreID);
+                product.setDescription(newDesc);
+                product.setQuantity(newQuan);
+                product.setProductId(newPrice);
+            }
+        }
+        updateProductsFile();
     }
+
     public void updateProductsFile() {
         FileWriter fw;
         BufferedWriter bw;
@@ -245,11 +260,12 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public static Seller getSellerById(int sellerId) {
-        for (Seller seller : Market.getStore) {
+        for (Seller seller : Amazeon.sellers) {
             if (seller.getId() == sellerId) {
                 return seller;
             }
         }
+        return null;
     }
 
     public static int getNextSellerId() {
@@ -283,13 +299,7 @@ public class Seller extends User implements UserInterface<Seller> {
                     break;
                 }
                 String[] data = line.split(",");
-                sellers.add(new Seller(
-                        Integer.parseInt(data[0]),
-                        (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Product>(),
-                        data[2], data[1],
-                        (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
-                                : new ArrayList<Sale>()));
+                sellers.add(Utils.convertFromSellerString(data));
             }
             return sellers;
         } catch (IOException e) {
@@ -301,9 +311,7 @@ public class Seller extends User implements UserInterface<Seller> {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
             for (Seller seller : sellers) {
-                bw.write(seller.getId() + "," + seller.getEmail() + "," + seller.getPassword() + ","
-                        + Utils.convertToIdString(Amazeon.getProductIds(seller.getProducts()).toString()) + ","
-                        + Utils.convertToIdString(Amazeon.getSaleIds(seller.getSales()).toString()));
+                bw.write(Utils.convertToSellerString(seller));
             }
         } catch (IOException e) {
             e.printStackTrace();
