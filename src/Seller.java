@@ -216,6 +216,27 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
+    public void createProduct(){
+        System.out.println("Enter the name of the product: ");
+        String name = Utils.SCANNER.nextLine();
+        System.out.println("Enter the description of the product: ");
+        String description = Utils.SCANNER.nextLine();
+        System.out.println("Enter the price of the product: ");
+        double price = Double.parseDouble(Utils.SCANNER.nextLine());
+        System.out.println("Enter the stock (quantity) of the product: ");
+        int quantity = Integer.parseInt(Utils.SCANNER.nextLine());
+        System.out.println("Enter product id: ");
+        int productId = Integer.parseInt(Utils.SCANNER.nextLine());
+        System.out.println("Enter your seller id: ");
+        int sellerId = Integer.parseInt(Utils.SCANNER.nextLine());
+        System.out.println("Enter your store's id: ");
+        int storeId = Integer.parseInt(Utils.SCANNER.nextLine());
+
+        Product product = new Product(productId, name, quantity, description, price, sellerId, storeId);
+        Amazeon.products.add(product);
+        getProducts().add(product);
+    }
+
     public void updateProduct(int prodID, Scanner scan) {
         System.out.println("Enter new name:");
         String newName = scan.nextLine();
