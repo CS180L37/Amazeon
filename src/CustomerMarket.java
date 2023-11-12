@@ -190,7 +190,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             for(int i = 0; i < allProducts.size(); i++){
                 System.out.println("Store Name: " + Amazeon.getStoreById(allProducts.get(i).getStoreId()).getName()
                         + "\nProduct Name: " + allProducts.get(i).getName()
-                        + "\nProduct Quantity: " + allProducts.get(i).getQuantity() + "/n/n");
+                        + "\nProduct Price: " + allProducts.get(i).getPrice() + "/n/n");
             }
         }
         throw new UnsupportedOperationException("Unimplemented method 'sort'");
@@ -198,7 +198,37 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
     // Search the marketplace by name, storeId, or description
     public ArrayList<Product> search(String name, String storeId, String description) {
-        System.out.println("What would you like to search by")
+        ArrayList<Product> relevantProducts = new ArrayList<Product>();
+        if(name != null && storeId == null && description == null){
+            for(int i = 0; i < getStores().size(); i++){
+                for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
+                    if(getStores().get(i).getProducts().get(j).getName().contains(name)){
+                        relevantProducts.add(getStores().get(i).getProducts().get(j));
+                    }
+                }
+            }
+        } else if (name == null && storeId != null && description == null){
+            for(int i = 0; i < getStores().size(); i++){
+                for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
+                    if(String.valueOf(getStores().get(i).getProducts().get(j).getStoreId()).contains(storeId)){
+                        relevantProducts.add(getStores().get(i).getProducts().get(j));
+                    }
+                }
+            }
+        } else {
+            for(int i = 0; i < getStores().size(); i++){
+                for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
+                    if(getStores().get(i).getProducts().get(j).getDescription().contains(description)){
+                        relevantProducts.add(getStores().get(i).getProducts().get(j));
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < relevantProducts.size(); i++){
+            System.out.println("Store Name: " + Amazeon.getStoreById(relevantProducts.get(i).getStoreId()).getName()
+                    + "Product Name: " + relevantProducts.get(i).getName()
+                    + "Product Price: " + relevantProducts.get(i).getPrice());
+        }
         throw new UnsupportedOperationException("Unimplemented method 'search'");
     }
 
