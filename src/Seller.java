@@ -19,14 +19,10 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = sales;
     }
 
-    public int getId() {
-        return super.getId();
-    }
-
     public void displayProducts() {
-        // for (int i = 0; i < getProductsSold().size(); i++) {
-        // System.out.printf("%d. %s\n", i, getProductsSold().get(i));
-        // }
+        for (int i = 0; i < this.getProducts().size(); i++) {
+            System.out.printf("%d. %s\n", i, this.getProducts().get(i));
+        }
     }
 
     public ArrayList<Sale> getSales() {
@@ -40,10 +36,6 @@ public class Seller extends User implements UserInterface<Seller> {
         }
         return stores;
     }
-
-    // public ArrayList<Integer> getProductRevenues() {
-    // return productRevenues;
-    // }
 
     public void displayDashboard(Scanner scan) {
         // Add a product to the sellers products list
@@ -135,6 +127,24 @@ public class Seller extends User implements UserInterface<Seller> {
 
     @Override
     public void importData(String filename) {
+        if (!filename.substring(filename.length() - 3, filename.length()).equals("csv")) {
+            System.out.println("File must be a valid csv file to import");
+            return;
+        }
+        try {
+            BufferedReader br = Utils.createReader(filename);
+            String line = "";
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                Seller.
+            }
+            br.readLine();
+        }
+
+
         int lineNumber = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -176,7 +186,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public String getStoreNameFromID(int storeID) {
-        for (Store store : Market.getStores()) {
+        for (Store store : this.getStores()) {
             if (store.getId() == storeID) {
                 return store.getName();
             }
@@ -185,7 +195,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public int getStoreIDFromName(String storeName) {
-        for (Store store : Market.getStores()) {
+        for (Store store : this.getStores()) {
             if (store.getName().equalsIgnoreCase(storeName)) {
                 return store.getId();
             }
@@ -219,7 +229,7 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public static void updateProduct(Product product, Scanner scan) {
+    public void updateProduct(Product product, Scanner scan) {
         System.out.println("Enter new name:");
         String newName = scan.nextLine();
         // TODO
@@ -265,20 +275,6 @@ public class Seller extends User implements UserInterface<Seller> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static Seller getSellerById(int sellerId) {
-        for (Seller seller : Amazeon.sellers) {
-            if (seller.getId() == sellerId) {
-                return seller;
-            }
-        }
-        return null;
-    }
-
-    public static int getNextSellerId() {
-        throw new UnsupportedOperationException("Unimplemented method 'getNextSellerId'");
-
     }
 
     public void setSales(ArrayList<Sale> sales) {
@@ -334,7 +330,7 @@ public class Seller extends User implements UserInterface<Seller> {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             for (Seller seller : Amazeon.sellers) {
-//                pw.println();
+                // pw.println();
             }
         } catch (IOException e) {
             e.printStackTrace();
