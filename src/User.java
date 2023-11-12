@@ -56,14 +56,6 @@ public class User {
                 }
                 currentLine = br.readLine();
             }
-             if (type.equalsIgnoreCase("seller")) {
-             pw.println(Amazeon.counterSellers + "," + email + "," + password);
-             Amazeon.counterSellers++;
-             } else {
-             pw.println(Amazeon.counterBuyers + "," + email + "," + password);
-             Amazeon.counterBuyers++;
-             }
-
             return Utils.YES;
         } catch (IOException e) {
             e.printStackTrace();

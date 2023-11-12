@@ -3,27 +3,27 @@ import java.util.ArrayList;
 /// Our entry point and data manager class
 public class Amazeon {
     // The data that persists
+    public String pathToDataDir;
+
     static ArrayList<Product> products;
     static ArrayList<Cart> carts;
     static ArrayList<Customer> customers;
     static ArrayList<Sale> sales;
     static ArrayList<Store> stores;
     static ArrayList<Seller> sellers;
-    public static int counterSellers = 0;
-    public static int counterBuyers = 0;
 
-    public Amazeon() {
-        products = Product.readProducts();
-        carts = Cart.readCarts();
-        customers = Customer.readCustomers();
-        sales = Sale.readSales();
-        stores = Store.readStores();
-        sellers = Seller.readSellers();
+    public Amazeon(String pathToDataDir) {
+        products = Product.readProducts(pathToDataDir + Utils.PRODUCT_FILE);
+        carts = Cart.readCarts(pathToDataDir + Utils.CART_FILE);
+        customers = Customer.readCustomers(pathToDataDir + Utils.CUSTOMER_FILE);
+        sales = Sale.readSales(pathToDataDir + Utils.SALE_FILE);
+        stores = Store.readStores(pathToDataDir + Utils.STORE_FILE);
+        sellers = Seller.readSellers(pathToDataDir + Utils.SELLER_FILE);
     }
 
     public static void main(String[] args) {
         // Initialize data
-        Amazeon amazeon = new Amazeon();
+        Amazeon amazeon = new Amazeon(Utils.DATA_DIR);
         // Test code
         System.out.println(products.toString());
         System.out.println(carts.toString());
@@ -131,12 +131,12 @@ public class Amazeon {
     }
 
     public void writeData() {
-        Product.writeProducts(Amazeon.products);
-        Cart.writeCarts(Amazeon.carts);
-        Customer.writeCustomers(Amazeon.customers);
-        Sale.writeSales(Amazeon.sales);
-        Store.writeStores(Amazeon.stores);
-        Seller.writeSellers(Amazeon.sellers);
+        Product.writeProducts(Amazeon.products, this.getPathToDataDir());
+        Cart.writeCarts(Amazeon.carts, this.getPathToDataDir());
+        Customer.writeCustomers(Amazeon.customers, this.getPathToDataDir());
+        Sale.writeSales(Amazeon.sales, this.getPathToDataDir());
+        Store.writeStores(Amazeon.stores, this.getPathToDataDir());
+        Seller.writeSellers(Amazeon.sellers, this.getPathToDataDir());
     }
 
     // Product methods
@@ -435,5 +435,13 @@ public class Amazeon {
                 error = false;
             }
         } while (!error);
+    }
+
+    public String getPathToDataDir() {
+        return pathToDataDir;
+    }
+
+    public void setPathToDataDir(String pathToDataDir) {
+        this.pathToDataDir = pathToDataDir;
     }
 }

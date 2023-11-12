@@ -30,6 +30,7 @@ public class Customer extends User implements UserInterface<Customer> {
             return;
         }
     }
+
     public int getId() {
         return cart.getCustomerID();
     }
@@ -82,10 +83,10 @@ public class Customer extends User implements UserInterface<Customer> {
     }
 
     // Contains lists of all products and carts as parameters
-    public static ArrayList<Customer> readCustomers() {
+    public static ArrayList<Customer> readCustomers(String filepath) {
         ArrayList<Customer> customers = new ArrayList<Customer>();
         try {
-            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
+            BufferedReader br = Utils.createReader(filepath);
             String line;
             while (true) {
                 line = br.readLine();
@@ -101,9 +102,9 @@ public class Customer extends User implements UserInterface<Customer> {
         return new ArrayList<Customer>();
     }
 
-    public static void writeCustomers(ArrayList<Customer> customers) {
+    public static void writeCustomers(ArrayList<Customer> customers, String filepath) {
         try {
-            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
+            BufferedWriter bw = Utils.createWriter(filepath);
             for (Customer customer : customers) {
                 bw.write(Utils.convertToCustomerString(customer));
             }
