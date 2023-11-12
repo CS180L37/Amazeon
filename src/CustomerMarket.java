@@ -97,8 +97,8 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
             for(int i = 0; i < numProductsSold.size() - 1; i++) {
                 int maxIndex = i;
-                for(int j = 0; j < numProductsSold.size(); j++){
-                    if(numProductsSold.get(i) > numProductsSold.get(maxIndex)){
+                for(int j = 0; j < numProductsSold.size(); j++) {
+                    if(numProductsSold.get(i) > numProductsSold.get(maxIndex)) {
                         maxIndex = j;
                     }
                 }
@@ -114,7 +114,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             }
 
             //printing the array
-            for(int i = 0; i < sortedProducts.size(); i++){
+            for(int i = 0; i < sortedProducts.size(); i++) {
                 System.out.println(sortedProducts.get(i) + "\n");
             }
 
