@@ -13,7 +13,7 @@ public class Product {
     private int storeId;
 
     public Product(int productId, String name, int quantity, String description,
-                   double price, int sellerId, int storeId) {
+            double price, int sellerId, int storeId) {
         this.productId = productId;
         this.name = name;
         this.quantity = quantity;
@@ -115,4 +115,3 @@ public class Product {
         }
     }
 }
-

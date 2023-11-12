@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 
 public class Customer extends User implements UserInterface<Customer> {
     private Cart cart;
+    // Contains id, email, password, and a list of purchased products
+
 
     public Customer(String email, String password) {
         super(Amazeon.getNextCustomerId(), new ArrayList<Product>(), email, password);
@@ -30,6 +32,8 @@ public class Customer extends User implements UserInterface<Customer> {
 
     // Purchases a product
     public void purchaseProduct(Product product) {
+
+        //takes you to product page --> method has to call displayProduct()
         throw new UnsupportedOperationException("Unsupported operation 'purchaseProduct");
     }
 
@@ -42,13 +46,17 @@ public class Customer extends User implements UserInterface<Customer> {
     }
 
     @Override
-    public Customer createAccount() {
-        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
-    }
-
-    @Override
-    public Customer editAccount() {
-        throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
+    public void editAccount(String email, String password) {
+        if (Utils.validateEmail(email)) {
+            this.setEmail(email);
+        } else {
+            System.out.println("Make sure to enter a valid email if you want to change your email!");
+        }
+        if (Utils.validatePassword(password)) {
+            this.setPassword(password);
+        } else {
+            System.out.println("Make sure to enter a valid email if you want to change your email!");
+        }
     }
 
     @Override
@@ -57,19 +65,20 @@ public class Customer extends User implements UserInterface<Customer> {
     }
 
     // Contains lists of all products and carts as parameters
-    public static ArrayList<Customer> readCustomers(ArrayList<Product> products, ArrayList<Cart> carts) {
+    public static ArrayList<Customer> readCustomers() {
         ArrayList<Customer> customers = new ArrayList<Customer>();
         try {
-            BufferedReader bfr = Utils.createReader(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
+            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
             String line;
             while (true) {
-                line = bfr.readLine();
+                line = br.readLine();
                 if (line == null) {
                     break;
                 }
                 String[] data = line.split(",");
                 customers.add(new Customer(Integer.parseInt(data[0]), data[1], data[2],
-                        Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3])),
+                        (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
+                                : new ArrayList<Product>(),
                         Amazeon.getCartById(Integer.parseInt(data[0]))));
             }
         } catch (IOException e) {
@@ -82,12 +91,13 @@ public class Customer extends User implements UserInterface<Customer> {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
             for (Customer customer : customers) {
-                bw.write(String.format(Integer.toString(Integer.parseInt(customer.getId() + "," + Amazeon.getEmail()
-                        + "," + Amazeon.getPassword() + "," + Amazeon.getProductById(customer.getId()) + "," +
-                        Amazeon.getCartById(customer.getId())))));
+                bw.write(Integer.toString(Integer.parseInt(customer.getId() + "," + customer.getEmail()
+                        + "," + customer.getPassword() + ","
+                        + Utils.convertToIdString(Amazeon.getProductIds(customer.getProducts()).toString()))));
             }
         } catch (IOException e) {
             e.printStackTrace();
             return;
-        }    }
+        }
+    }
 }
