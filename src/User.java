@@ -56,20 +56,14 @@ public class User {
                 }
                 currentLine = br.readLine();
             }
-            if (type.equalsIgnoreCase("seller")) {
-                pw.println(Amazeon.counterSellers + "," + email + "," + password);
-                Amazeon.counterSellers++;
-            } else {
-                pw.println(Amazeon.counterBuyers + "," + email + "," + password);
-                Amazeon.counterBuyers++;
-            }
-            // if (type.equalsIgnoreCase("seller")) {
-            // pw.println("S" + Amazeon.getCounterSeller() + "," + email + "," + password);
-            // Amazeon.setCounterSeller(Amazeon.getCounterSeller() + 1);
-            // } else {
-            // pw.println("C" + Amazeon.getCounterBuyer() + "," + email + "," + password);
-            // Amazeon.setCounterBuyer(Amazeon.getCounterBuyer() + 1);
-            // }
+             if (type.equalsIgnoreCase("seller")) {
+             pw.println(Amazeon.counterSellers + "," + email + "," + password);
+             Amazeon.counterSellers++;
+             } else {
+             pw.println(Amazeon.counterBuyers + "," + email + "," + password);
+             Amazeon.counterBuyers++;
+             }
+
             return Utils.YES;
         } catch (IOException e) {
             e.printStackTrace();

@@ -16,11 +16,11 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     // Displays the list of products
     @Override
     public void displayMarketplace() {
-        for (int i = 0; i < getStores().size(); i++) {
-            for (int j = 0; j < getStores().get(i).getProducts().size(); j++) {
-                System.out.println("Store Name: " + getStores().get(i).getName()
-                        + "\nProduct Name: " + getStores().get(i).getProducts().get(j).getName()
-                        + "\nProduct Price: " + getStores().get(i).getProducts().get(j).getPrice() + "\n");
+        for (int i = 0; i < Amazeon.stores.size(); i++) {
+            for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
+                System.out.println("Store Name: " + Amazeon.stores.get(i).getName()
+                        + "\nProduct Name: " + Amazeon.stores.get(i).getProducts().get(j).getName()
+                        + "\nProduct Price: " + Amazeon.stores.get(i).getProducts().get(j).getPrice() + "\n");
             }
         }
         throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
@@ -54,9 +54,9 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
         ArrayList<Product> allProducts = new ArrayList<Product>();
 
         if (price && !quantityAvailable) {
-            for (int i = 0; i < getStores().size(); i++) {
-                for (int j = 0; j < getStores().get(i).getProducts().size(); j++) {
-                    allProducts.add(getStores().get(i).getProducts().get(j));
+            for (int i = 0; i < Amazeon.stores.size(); i++) {
+                for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
+                    allProducts.add(Amazeon.stores.get(i).getProducts().get(j));
                 }
             }
 
@@ -83,9 +83,9 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             }
 
         } else {
-            for (int i = 0; i < getStores().size(); i++) {
-                for (int j = 0; j < getStores().get(i).getProducts().size(); j++) {
-                    allProducts.add(getStores().get(i).getProducts().get(j));
+            for (int i = 0; i < Amazeon.stores.size(); i++) {
+                for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
+                    allProducts.add(Amazeon.stores.get(i).getProducts().get(j));
                 }
             }
 
@@ -118,26 +118,26 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
         ArrayList<Product> relevantProducts = new ArrayList<Product>();
         if (name != null && storeId == null && description == null) {
-            for (int i = 0; i < getStores().size(); i++) {
-                for (int j = 0; j < getStores().get(i).getProducts().size(); j++) {
-                    if (getStores().get(i).getProducts().get(j).getName().contains(name)) {
-                        relevantProducts.add(getStores().get(i).getProducts().get(j));
+            for (int i = 0; i < Amazeon.stores.size(); i++) {
+                for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
+                    if (Amazeon.stores.get(i).getProducts().get(j).getName().contains(name)) {
+                        relevantProducts.add(Amazeon.stores.get(i).getProducts().get(j));
                     }
                 }
             }
         } else if (name == null && storeId != null && description == null) {
-            for (int i = 0; i < getStores().size(); i++) {
-                for (int j = 0; j < getStores().get(i).getProducts().size(); j++) {
-                    if (String.valueOf(getStores().get(i).getProducts().get(j).getStoreId()).contains(storeId)) {
-                        relevantProducts.add(getStores().get(i).getProducts().get(j));
+            for (int i = 0; i < Amazeon.stores.size(); i++) {
+                for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
+                    if (String.valueOf(Amazeon.stores.get(i).getProducts().get(j).getStoreId()).contains(storeId)) {
+                        relevantProducts.add(Amazeon.stores.get(i).getProducts().get(j));
                     }
                 }
             }
         } else {
-            for (int i = 0; i < getStores().size(); i++) {
-                for (int j = 0; j < getStores().get(i).getProducts().size(); j++) {
-                    if (getStores().get(i).getProducts().get(j).getDescription().contains(description)) {
-                        relevantProducts.add(getStores().get(i).getProducts().get(j));
+            for (int i = 0; i < Amazeon.stores.size(); i++) {
+                for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
+                    if (Amazeon.stores.get(i).getProducts().get(j).getDescription().contains(description)) {
+                        relevantProducts.add(Amazeon.stores.get(i).getProducts().get(j));
                     }
                 }
             }

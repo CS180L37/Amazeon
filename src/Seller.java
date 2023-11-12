@@ -185,24 +185,6 @@ public class Seller extends User implements UserInterface<Seller> {
         updateProductsFile();
     }
 
-    public String getStoreNameFromID(int storeID) {
-        for (Store store : this.getStores()) {
-            if (store.getId() == storeID) {
-                return store.getName();
-            }
-        }
-        return String.valueOf(Utils.NO);
-    }
-
-    public int getStoreIDFromName(String storeName) {
-        for (Store store : this.getStores()) {
-            if (store.getName().equalsIgnoreCase(storeName)) {
-                return store.getId();
-            }
-        }
-        return Utils.NO;
-    }
-
     @Override
     public void exportData(String filepath) {
         File outFile = new File(filepath);
@@ -212,7 +194,7 @@ public class Seller extends User implements UserInterface<Seller> {
             PrintWriter pw = new PrintWriter(bw);
             for (Product product : getProducts()) {
                 int storeID = product.getStoreId();
-                String storeName = getStoreNameFromID(storeID);
+                String storeName = Amazeon.getStoreNameFromID(storeID);
                 if (storeName.equals(String.valueOf(Utils.NO))) {
                     System.out.println("store not found");
                     continue; // this shouldnt happen generally
@@ -229,20 +211,41 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public void updateProduct(int prodID, Scanner scan) {
+    public void createProduct() {
+        System.out.println("Enter the name of the product: ");
+        String name = Utils.SCANNER.nextLine();
+        System.out.println("Enter the description of the product: ");
+        String description = Utils.SCANNER.nextLine();
+        System.out.println("Enter the price of the product: ");
+        double price = Double.parseDouble(Utils.SCANNER.nextLine());
+        System.out.println("Enter the stock (quantity) of the product: ");
+        int quantity = Integer.parseInt(Utils.SCANNER.nextLine());
+        System.out.println("Enter product id: ");
+        int productId = Integer.parseInt(Utils.SCANNER.nextLine());
+        System.out.println("Enter your seller id: ");
+        int sellerId = Integer.parseInt(Utils.SCANNER.nextLine());
+        System.out.println("Enter your store's id: ");
+        int storeId = Integer.parseInt(Utils.SCANNER.nextLine());
+
+        Product product = new Product(productId, name, quantity, description, price, sellerId, storeId);
+        Amazeon.products.add(product);
+        getProducts().add(product);
+    }
+
+    public void updateProduct(int prodID) {
         System.out.println("Enter new name:");
-        String newName = scan.nextLine();
+        String newName = Utils.SCANNER.nextLine();
         // TODO
         System.out.println("Enter stores?");
-        int newStoreID = scan.nextInt();
-        scan.nextLine();
+        int newStoreID = Utils.SCANNER.nextInt();
+        Utils.SCANNER.nextLine();
         // something waiting for edstem
         System.out.println("Enter new description:");
-        String newDesc = scan.next();
+        String newDesc = Utils.SCANNER.next();
         System.out.println("Enter new quantity:");
-        int newQuan = Integer.parseInt(scan.nextLine());
+        int newQuan = Integer.parseInt(Utils.SCANNER.nextLine());
         System.out.println("Enter new price:");
-        int newPrice = Integer.parseInt(scan.nextLine());
+        int newPrice = Integer.parseInt(Utils.SCANNER.nextLine());
         for (Product product : Amazeon.products) {
             if (product.getProductId() == prodID) {
                 product.setName(newName);
@@ -265,7 +268,7 @@ public class Seller extends User implements UserInterface<Seller> {
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
             for (Product product : getProducts()) {
-                String storeName = getStoreNameFromID(product.getStoreId());
+                String storeName = Amazeon.getStoreNameFromID(product.getStoreId());
                 pw.println(product.getName() + "," + storeName + "," + product.getStoreId()
                         + product.getDescription() + "," + product.getQuantity() + "," +
                         product.getPrice());
@@ -279,15 +282,6 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public static Seller getSellerById(int sellerId) {
-        for (Seller seller : Amazeon.sellers) {
-            if (seller.getId() == sellerId) {
-                return seller;
-            }
-        }
-        return null;
-    }
-
     public static int getNextSellerId() {
         throw new UnsupportedOperationException("Unimplemented method 'getNextSellerId'");
 
@@ -299,11 +293,13 @@ public class Seller extends User implements UserInterface<Seller> {
 
     @Override
     public void editAccount(String email, String password) {
+        updateSellersFile();
         throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
     }
 
     @Override
     public void deleteAccount() {
+        updateSellersFile();
         throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
     }
 
@@ -342,12 +338,21 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public void updateSellersFile() {
         try {
-            FileWriter fw = new FileWriter(new File(Utils.DATA_DIR + Utils.SELLER_FILE));
+            // public Seller(int id, ArrayList<Product> products, String email, String
+            // password, ArrayList<Sale> sales) {
+            FileWriter fw = new FileWriter(Utils.DATA_DIR + Utils.SELLER_FILE);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             for (Seller seller : Amazeon.sellers) {
-                // pw.println();
+                pw.println(seller.getId() +
+                        Utils.splitIdsByPipe(Amazeon.getProductIds(seller.getProducts()).toString()).toString() +
+                        seller.getEmail() + seller.getPassword() +
+                        Utils.splitIdsByPipe(Amazeon.getSaleIds(seller.getSales()).toString()));
             }
+            pw.flush();
+            pw.close();
+            bw.close();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
