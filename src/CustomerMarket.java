@@ -16,7 +16,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     // Displays the list of products
     @Override
     public void displayMarketplace() {
-        for(int i  = 0; i < getStores().size(); i++){
+        for(int i  = 0; i < getStores().size(); i++) {
             for(int j = 0; j < getStores().get(i).getProducts().size(); j++) {
                 System.out.println("Store Name: " + getStores().get(i).getName()
                         + "\nProduct Name: " + getStores().get(i).getProducts().get(j).getName()
@@ -56,7 +56,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                     }
                 }
 
-                if(maxIndex != i){
+                if(maxIndex != i) {
                     Product product = this.getUser().getProducts().get(maxIndex);
                     this.getUser().getProducts().set(maxIndex, this.getUser().getProducts().get(i));
                     this.getUser().getProducts().set(maxIndex, product);
