@@ -27,6 +27,7 @@ public class Sale {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Amazeon.sales.add(this);
     }
 
     public Customer getCustomer() {
