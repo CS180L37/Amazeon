@@ -155,7 +155,7 @@ public class Amazeon {
     }
 
     public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
-        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<Product> products = new ArrayList<Product>();
         for (int productID : productIds) {
             products.add(getProductById(productID));
         }
@@ -180,7 +180,7 @@ public class Amazeon {
     }
 
     public static ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
-        ArrayList<Cart> carts = new ArrayList<>();
+        ArrayList<Cart> carts = new ArrayList<Cart>();
         for (int cartID : cartIds) {
             carts.add(getCartById(cartID));
         }
@@ -202,19 +202,29 @@ public class Amazeon {
     }
 
     public static Customer getCustomerById(int customerId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
+        for (Customer customer : Amazeon.customers) {
+            if (customer.getId == customerId) {
+                return customer;
+            }
+        }
     }
 
     public static int getNextCustomerId() {
-        throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
+
     }
 
     public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        for (int customerId : customerIds) {
+            customers.add(getCustomerById(customerId));
+        }
     }
 
     public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
+        ArrayList<Integer> customerIDs = new ArrayList<Integer>();
+        for (Customer customer : customers) {
+            customerIDs.add(customer.getId());
+        }
     }
 
     // Sale methods
