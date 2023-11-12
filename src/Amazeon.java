@@ -341,6 +341,56 @@ public class Amazeon {
     }
 
     public void sellerLoop() {
+        sellerMarket.displayMarketplace();
+        boolean error = true;
+        do {
+            System.out.println(
+                    "What would you like to do?\n1) Create\n2) Edit\n3) Delete\n4) View Sales\n5) Display Dashboard" +
+                            "6) View Carts\n");
+            int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
+            if (customerAction == 1) {
+                System.out.println("Which product would you like to purchase?");
+                int productID = Integer.parseInt(Utils.SCANNER.nextLine());
+                seller.purchaseProduct(getProductById(productID));
+            } else if (customerAction == 2) {
+                boolean valid = true;
+                do {
+                    System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
+                    int searchCriteria = Integer.parseInt(Utils.SCANNER.nextLine());
+                    if (searchCriteria == 1) {
+                        System.out.println("Enter the name of the product: ");
+                        String name = Utils.SCANNER.nextLine();
+                        sellerMarket.search(name, null, null);
+                    } else if (searchCriteria == 2) {
+                        System.out.println("Enter the storeId of the product: ");
+                        String storeId = Utils.SCANNER.nextLine();
+                        sellerMarket.search(null, storeId, null);
+                    } else if (searchCriteria == 3) {
+                        System.out.println("Enter the description of the product: ");
+                        String description = Utils.SCANNER.nextLine();
+                        sellerMarket.search(null, null, description);
+                    } else {
+                        valid = false;
+                    }
+                } while (!valid);
+            } else if (customerAction == 3) {
+                sellerMarket.displayDashboard();
+            } else if (customerAction == 4) {
+                System.out.println("Would you like to sort by price (y) or quantity (n)");
+                int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
+                if (sortCriteria == 1) {
+                    sellerMarket.sort(true, false);
+                } else {
+                    sellerMarket.sort(false, true);
+                }
+
+            } else if (customerAction == 5) {
+                sellerMarket.displayCart();
+            } else {
+                System.out.println("Please do choose a valid option.");
+                error = false;
+            }
+        } while (!error);
         throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
     }
 }
