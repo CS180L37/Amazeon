@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-public class CustomerMarketTest extends MarketTest {
+public class CustomerMarketTest extends TestUtils {
     @Test
     public void testDisplayMarketplace() {
         throw new UnsupportedOperationException("Unimplemented method 'testDisplayMarketplace'");
@@ -31,9 +31,12 @@ public class CustomerMarketTest extends MarketTest {
     // Search the marketplace by name, storeId, or description
     @Test
     public void testSearch() {
-        assertEquals(this.nintendoFanBoyMarket.search("Wii", 0, null), new ArrayList<Product>(Arrays.asList(this.wii)));
-        assertEquals(this.gamerMarket.search("Wii", 1, null), new ArrayList<Product>()); // Best Buy doesn't sell wii
-        assertEquals(this.nintendoFanBoyMarket.search(null, 0, "nintendo"),
-                new ArrayList<Product>(Arrays.asList(this.wii)));
+        // assertEquals(this.nintendoFanBoyMarket.search("Wii", 0, null), new
+        // ArrayList<Product>(Arrays.asList(this.wii)));
+        // assertEquals(this.gamerMarket.search("Wii", 1, null), new
+        // ArrayList<Product>()); // Best Buy doesn't sell wii
+        // assertEquals(this.nintendoFanBoyMarket.search(null, 0, "nintendo"),
+        // new ArrayList<Product>(Arrays.asList(this.wii)));
+        throw new UnsupportedOperationException("Unimplemented method 'testSearch'");
     }
 }

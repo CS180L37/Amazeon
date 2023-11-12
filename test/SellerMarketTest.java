@@ -1,6 +1,6 @@
 import org.junit.Test;
 
-public class SellerMarketTest extends MarketTest {
+public class SellerMarketTest extends TestUtils {
     @Test
     public void testDisplayMarketplace() {
         throw new UnsupportedOperationException("Unimplemented method 'testDisplayMarketplace'");
