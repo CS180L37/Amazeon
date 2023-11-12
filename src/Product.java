@@ -11,6 +11,7 @@ public class Product {
     private double price;
     private int sellerId;
     private int storeId;
+    //public Seller(int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales) {
 
     public Product(int productId, String name, int quantity, String description,
             double price, int sellerId, int storeId) {

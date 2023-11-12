@@ -11,7 +11,7 @@ public class Market<T> {
         this.user = user;
     }
 
-    public ArrayList<Store> getStores() {
+    public static ArrayList<Store> getStores() {
         return stores;
     }
 
