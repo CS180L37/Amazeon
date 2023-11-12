@@ -57,9 +57,7 @@ public class Utils {
     }
 
     public static BufferedReader createReader(String filename) throws IOException {
-        System.out.println(filename);
         BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
-        System.out.println("AFTER READER");
         return br;
     }
 

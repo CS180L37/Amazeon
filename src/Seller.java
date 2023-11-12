@@ -185,10 +185,6 @@ public class Seller extends User implements UserInterface<Seller> {
         updateProductsFile();
     }
 
-
-
-
-
     @Override
     public void exportData(String filepath) {
         File outFile = new File(filepath);
@@ -295,14 +291,28 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = sales;
     }
 
-    @Override
-    public void editAccount(String email, String password) {
-        throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
+    public int editAccount(Seller seller) {
+        for (Seller seller1 : Amazeon.sellers) {
+            if (seller1.getEmail().equalsIgnoreCase(seller.getEmail()) && seller1.getPassword().equalsIgnoreCase(seller.getPassword())) {
+                Amazeon.sellers.remove(seller1);
+                Amazeon.sellers.add(seller);
+                updateSellersFile();
+                return Utils.YES;
+            }
+        }
+        updateSellersFile();
+        return Utils.NO;
     }
 
-    @Override
-    public void deleteAccount() {
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
+    public int deleteAccount(String email, String password) {
+        for (Seller seller : Amazeon.sellers) {
+            if (seller.getEmail().equalsIgnoreCase(email) && seller.getPassword().equalsIgnoreCase(getPassword())) {
+                Amazeon.sellers.remove(seller);
+                updateSellersFile();
+                return Utils.YES;
+            }
+        }
+        return Utils.NO;
     }
 
     // Contains lists of all products and sales as parameters
@@ -340,12 +350,20 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public static void updateSellersFile() {
         try {
-            FileWriter fw = new FileWriter(new File(Utils.DATA_DIR + Utils.SELLER_FILE));
+    //public Seller(int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales) {
+            FileWriter fw = new FileWriter(Utils.DATA_DIR + Utils.SELLER_FILE);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             for (Seller seller : Amazeon.sellers) {
-//                pw.println();
+                pw.println(seller.getId() +
+                        Utils.splitIdsByPipe(Amazeon.getProductIds(seller.getProducts()).toString()).toString() +
+                        seller.getEmail() + seller.getPassword() +
+                        Utils.splitIdsByPipe(Amazeon.getSaleIds(seller.getSales()).toString()));
             }
+            pw.flush();
+            pw.close();
+            bw.close();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
