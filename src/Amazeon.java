@@ -97,8 +97,6 @@ public class Amazeon {
         }
     }
 
-    private void sellerLoop(SellerMarket sellerMarket, Seller seller) {
-    }
 
     // Utility methods
     public static boolean hasAccount() {
@@ -149,10 +147,11 @@ public class Amazeon {
     // Product methods
     public static Product getProductById(int id) {
         for (Product product : Amazeon.products) {
-            if (product.getProductId() = id) {
+            if (product.getProductId() == id) {
                 return product;
             }
         }
+        return null;
     }
 
     public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
@@ -164,9 +163,11 @@ public class Amazeon {
     }
 
     public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
+        ArrayList<Integer> productIDs = new ArrayList<>();
         for (Product product : products) {
-            return product.getProductId();
+            productIDs.add(product.getProductId());
         }
+        return productIDs;
     }
 
     // Cart methods
@@ -237,7 +238,7 @@ public class Amazeon {
         return sale;
     }
 
-    public static ArrayList<Sale> getSalesById(ArrayList<Integer> saleIds) {
+    public static ArrayList<Sale> getSalesByIds(ArrayList<Integer> saleIds) {
         ArrayList<Sale> sales = new ArrayList<>();
         for (int currentID : saleIds) {
             sales.add(getSaleById(currentID));
@@ -264,7 +265,7 @@ public class Amazeon {
         return store;
     }
 
-    public static ArrayList<Store> getStoresById(ArrayList<Integer> storeIds) {
+    public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) {
         ArrayList<Store> stores = new ArrayList<>();
         for (int id : storeIds) {
             stores.add(getStoreById(id));
@@ -277,6 +278,7 @@ public class Amazeon {
         for (Store store : stores) {
             storeIDs.add(store.getId());
         }
+        return storeIDs;
     }
     public static ArrayList<Integer> getIDsByString(String prodIDs) {
         String[] IDs = prodIDs.split("\\|");
@@ -287,29 +289,15 @@ public class Amazeon {
         }
         return numIDs;
     }
+
     // Seller methods
     public static Seller getSellerByEmailAndPassword(String email, String password) {
-        FileReader fr;
-        BufferedReader br;
-        try {
-            fr = new FileReader(new File(Utils.DATA_DIR + Utils.SELLER_FILE));
-            br = new BufferedReader(fr);
-            String currentLine = br.readLine();
-            while (currentLine != null) {
-                String[] parts = currentLine.split(",");
-                if (parts[1].equals(email)) {
-                    if (parts[2].equals(password)) {
-                        return new Seller(Integer.parseInt(parts[0]), getProductByIds(getIDsByString(parts[1])), parts[2], parts[3], getSalesById(getIDsByString(parts[4])));
-                    }
-                }
-                currentLine = br.readLine();
+        for (Seller seller : sellers) {
+            if (seller.getEmail().equalsIgnoreCase(email) && seller.getPassword().equalsIgnoreCase(password)) {
+                return seller;
             }
-            return null;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public static Seller getSellerById(int sellerId) {
@@ -319,6 +307,23 @@ public class Amazeon {
             }
         }
         return null;
+    }
+    public int getStoreIDFromName(String storeName) {
+        for (Store store : stores) {
+            if (store.getName().equalsIgnoreCase(storeName)) {
+                return store.getId();
+            }
+        }
+        return Utils.NO;
+    }
+
+    public static String getStoreNameFromID(int storeID) {
+        for (Store store : Market.getStores()) {
+            if (store.getId() == storeID) {
+                return store.getName();
+            }
+        }
+        return String.valueOf(Utils.NO);
     }
 
     public static int getNextSellerId() {
@@ -383,10 +388,60 @@ public class Amazeon {
                 error = false;
             }
         } while (!error);
-        throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
+        //throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
     }
 
-    public void sellerLoop() {
-        throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
+    public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
+        sellerMarket.displayMarketplace();
+        boolean error = true;
+        do {
+            System.out.println(
+                    "What would you like to do?\n1) Create\n2) Edit\n3) Delete\n4) View Sales\n5) Display Dashboard" +
+                            "6) View Carts\n");
+            int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
+            if (customerAction == 1) {
+                System.out.println("Which product would you like to purchase?");
+                int productID = Integer.parseInt(Utils.SCANNER.nextLine());
+                seller.purchaseProduct(getProductById(productID));
+            } else if (customerAction == 2) {
+                boolean valid = true;
+                do {
+                    System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
+                    int searchCriteria = Integer.parseInt(Utils.SCANNER.nextLine());
+                    if (searchCriteria == 1) {
+                        System.out.println("Enter the name of the product: ");
+                        String name = Utils.SCANNER.nextLine();
+                        sellerMarket.search(name, null, null);
+                    } else if (searchCriteria == 2) {
+                        System.out.println("Enter the storeId of the product: ");
+                        String storeId = Utils.SCANNER.nextLine();
+                        sellerMarket.search(null, storeId, null);
+                    } else if (searchCriteria == 3) {
+                        System.out.println("Enter the description of the product: ");
+                        String description = Utils.SCANNER.nextLine();
+                        sellerMarket.search(null, null, description);
+                    } else {
+                        valid = false;
+                    }
+                } while (!valid);
+            } else if (customerAction == 3) {
+                sellerMarket.displayDashboard();
+            } else if (customerAction == 4) {
+                System.out.println("Would you like to sort by price (y) or quantity (n)");
+                int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
+                if (sortCriteria == 1) {
+                    sellerMarket.sort(true, false);
+                } else {
+                    sellerMarket.sort(false, true);
+                }
+
+            } else if (customerAction == 5) {
+                sellerMarket.displayCart();
+            } else {
+                System.out.println("Please do choose a valid option.");
+                error = false;
+            }
+        } while (!error);
+        //throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
     }
 }
