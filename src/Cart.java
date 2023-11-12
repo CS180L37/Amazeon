@@ -55,7 +55,6 @@ public class Cart {
             System.out.println("Product ID: " + product.getProductId());
             System.out.println("Product Name: " + product.getName());
         }
-        throw new UnsupportedOperationException("Unimplemented method 'display'");
     }
 
     // Contains a list of all products as a parameter
