@@ -172,10 +172,6 @@ public class Seller extends User implements UserInterface<Seller> {
         updateProductsFile();
     }
 
-
-
-
-
     @Override
     public void exportData(String filepath) {
         File outFile = new File(filepath);
@@ -263,11 +259,13 @@ public class Seller extends User implements UserInterface<Seller> {
 
     @Override
     public void editAccount(String email, String password) {
+        updateSellersFile();
         throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
     }
 
     @Override
     public void deleteAccount() {
+        updateSellersFile();
         throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
     }
 
@@ -306,12 +304,20 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public static void updateSellersFile() {
         try {
-            FileWriter fw = new FileWriter(new File(Utils.DATA_DIR + Utils.SELLER_FILE));
+    //public Seller(int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales) {
+            FileWriter fw = new FileWriter(Utils.DATA_DIR + Utils.SELLER_FILE);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             for (Seller seller : Amazeon.sellers) {
-//                pw.println();
+                pw.println(seller.getId() +
+                        Utils.splitIdsByPipe(Amazeon.getProductIds(seller.getProducts()).toString()).toString() +
+                        seller.getEmail() + seller.getPassword() +
+                        Utils.splitIdsByPipe(Amazeon.getSaleIds(seller.getSales()).toString()));
             }
+            pw.flush();
+            pw.close();
+            bw.close();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
