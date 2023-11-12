@@ -104,7 +104,7 @@ public class Utils {
 
     public static Cart convertFromCartString(String[] data) {
         return new Cart(Integer.parseInt(data[0]),
-                (!data[1].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[1]))
+                (!data[1].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[1]))
                         : new ArrayList<Product>());
     }
 
@@ -116,7 +116,7 @@ public class Utils {
 
     public static Customer convertFromCustomerString(String[] data) {
         return new Customer(Integer.parseInt(data[0]), data[1], data[2],
-                (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
+                (!data[3].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[3]))
                         : new ArrayList<Product>(),
                 Amazeon.getCartById(Integer.parseInt(data[0])));
     }
@@ -141,7 +141,7 @@ public class Utils {
 
     public static Store convertFromStoreString(String[] data) {
         return new Store(Integer.parseInt(data[0]), data[1],
-                (!data[2].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[2]))
+                (!data[2].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[2]))
                         : new ArrayList<Product>(),
                 (!data[3].equals(Utils.NA)) ? Amazeon.getCustomersByIds(Utils.splitIdsByPipe(data[3]))
                         : new ArrayList<Customer>());

@@ -31,7 +31,7 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
             int quantity = 0;
             for (int j = 0; j < this.getData1().get(i).getProducts().size(); j++) {
                 int sellerId = this.getData1().get(i).getProducts().get(j).getSellerId();
-                Seller seller = Seller.getSellerById(sellerId);
+                Seller seller = Amazeon.getSellerById(sellerId);
                 for (int k = 0; k < seller.getSales().size(); k++) {
                     quantity += seller.getSales().get(i).getProduct().getQuantity();
                 }
