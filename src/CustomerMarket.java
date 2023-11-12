@@ -20,7 +20,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
                 System.out.println("Store Name: " + getStores().get(i).getName()
                         + "\nProduct Name: " + getStores().get(i).getProducts().get(j).getName()
-                        + "\nProduct Price: " + getStores().get(i).getProducts().get(j).getPrice() + "\n\n");
+                        + "\nProduct Price: " + getStores().get(i).getProducts().get(j).getPrice() + "\n");
             }
         }
         throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
