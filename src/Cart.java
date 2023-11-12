@@ -3,8 +3,6 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
-
-
 public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
@@ -50,6 +48,13 @@ public class Cart {
 
     // Display the customers cart
     public void display() {
+        System.out.println("Customer ID: " + customerID);
+        System.out.println("Cart Contents: ");
+
+        for (Product product : cartProducts) {
+            System.out.println("Product ID: " + product.getProductId());
+            System.out.println("Product Name: " + product.getName());
+        }
         throw new UnsupportedOperationException("Unimplemented method 'display'");
     }
 
