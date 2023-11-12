@@ -1,7 +1,7 @@
+import java.util.ArrayList;
+import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class Product {
     private int productId;
@@ -13,7 +13,7 @@ public class Product {
     private int storeId;
 
     public Product(int productId, String name, int quantity, String description,
-            double price, int sellerId, int storeId) {
+                   double price, int sellerId, int storeId) {
         this.productId = productId;
         this.name = name;
         this.quantity = quantity;
@@ -114,4 +114,5 @@ public class Product {
             return;
         }
     }
+}
 
