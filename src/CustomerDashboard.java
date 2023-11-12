@@ -36,7 +36,7 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
 
     // Sort stores by products purchased by a customer
     @Override
-    public ArrayList<Store> sort2() {
+    public ArrayList<Store> sort2(User user) {
         throw new UnsupportedOperationException("Unimplemented method 'sort2'");
     }
 

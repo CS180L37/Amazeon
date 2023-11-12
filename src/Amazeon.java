@@ -45,24 +45,24 @@ public class Amazeon {
                 String email = emailPrompt();
                 String password = passwordPrompt();
                 // Get the customer by email and password
-                customer = getCustomerByEmailAndPassword(email, password);
+                customer = amazeon.getCustomerByEmailAndPassword(email, password);
                 // Create the customer market (accesses all stores)
                 customerMarket = new CustomerMarket(customer, amazeon.stores);
                 // Open up options to customer
-                customerLoop();
-                writeData();
+                amazeon.customerLoop(customerMarket, customer);
+                amazeon.writeData();
             } else {
                 // Get the email and password
                 String email = emailPrompt();
                 String password = passwordPrompt();
                 // Get the seller by email and password
-                seller = getSellerByEmailAndPassword(email, password);
+                seller = amazeon.getSellerByEmailAndPassword(email, password);
                 // Create the seller market (only accesses stores associated with the seller)
                 sellerMarket = new SellerMarket(seller, seller.getStores(),
                         amazeon.customers, amazeon.products);
                 // Open up options to seller
-                sellerLoop();
-                writeData();
+                amazeon.sellerLoop(sellerMarket, seller);
+                amazeon.writeData();
             }
         } else {
             // Create
@@ -75,8 +75,8 @@ public class Amazeon {
                 // Create a customer market using the customer
                 customerMarket = new CustomerMarket(customer, amazeon.stores);
                 // Open up options to customer
-                customerLoop();
-                writeData();
+                amazeon.customerLoop(customerMarket, customer);
+                amazeon.writeData();
             } else {
                 // Get the email and password
                 String email = emailPrompt();
@@ -87,8 +87,8 @@ public class Amazeon {
                 sellerMarket = new SellerMarket(seller, new ArrayList<Store>(),
                         amazeon.customers, amazeon.products);
                 // Open up options to seller
-                sellerLoop();
-                writeData();
+                amazeon.sellerLoop(sellerMarket, seller);
+                amazeon.writeData();
             }
         }
     }

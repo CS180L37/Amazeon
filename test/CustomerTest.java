@@ -15,7 +15,7 @@ public class CustomerTest extends TestUtils {
 
     @Test
     public void testEditAccount() {
-        Customer customer = Amazeon.getCustomerById(0);
+        Customer customer = amazeon.getCustomerById(0);
         customer.editAccount("newEmail@gmail.com", "newPassword");
         assertEquals(customer.getEmail(), "newEmail@gmail.com");
         assertEquals(customer.getPassword(), "newPassword");
@@ -23,17 +23,17 @@ public class CustomerTest extends TestUtils {
 
     @Test
     public void testDeleteAccount() {
-        Customer customer = Amazeon.getCustomerById(0);
+        Customer customer = amazeon.getCustomerById(0);
         customer.deleteAccount();
         assertEquals(customer, null);
     }
 
     @Test
     public void testPurchaseProduct() {
-        Customer customer = Amazeon.getCustomerById(0);
-        customer.purchaseProduct(Amazeon.getProductById(0));
+        Customer customer = amazeon.getCustomerById(0);
+        customer.purchaseProduct(amazeon.getProductById(0));
         assertEquals(customer.getProducts().size(),
-                new ArrayList<Product>(Arrays.asList(Amazeon.getProductById(0), Amazeon.getProductById(0),
-                        Amazeon.getProductById(0))));
+                new ArrayList<Product>(Arrays.asList(amazeon.getProductById(0), amazeon.getProductById(0),
+                        amazeon.getProductById(0))));
     }
 }

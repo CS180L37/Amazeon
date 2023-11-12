@@ -66,9 +66,10 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             //printing the array
 
             for(int i = 0; i < sortedProducts.size(); i++) {
-                System.out.println(sortedProducts.get(i) + "\n");
+                System.out.println(Amazeon.getStoreById(sortedProducts.get(i).getStoreId()).getName() + "\n");
             }
 
+            //sort by products sold
         } else {
             ArrayList<Product> sortedProducts = new ArrayList<Product>();
             for(int i = 0; i < this.getUser().getProducts().size(); i++) {
@@ -116,7 +117,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
             //printing the array
             for(int i = 0; i < sortedProducts.size(); i++) {
-                System.out.println(sortedProducts.get(i) + "\n");
+                System.out.println(Amazeon.getStoreById(sortedProducts.get(i).getStoreId()).getName() + "\n");
             }
 
         }

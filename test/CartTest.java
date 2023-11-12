@@ -9,26 +9,26 @@ public class CartTest extends TestUtils {
     // Try adding a product to cart
     @Test
     public void testAddToCart() {
-        Cart cart = Amazeon.getCartById(1);
-        cart.addToCart(Amazeon.getProductById(0));
-        assertEquals(cart.getCartProducts(), Amazeon.getProductById(0));
+        Cart cart = amazeon.getCartById(1);
+        cart.addToCart(amazeon.getProductById(0));
+        assertEquals(cart.getCartProducts(), amazeon.getProductById(0));
     }
 
     // Try removing a product from a cart
     @Test
     public void testRemoveFromCart() {
-        Cart cart = Amazeon.getCartById(0);
-        cart.removeFromCart(Amazeon.getProductById(0));
+        Cart cart = amazeon.getCartById(0);
+        cart.removeFromCart(amazeon.getProductById(0));
         assertEquals(cart.getCartProducts().size(), 0);
     }
 
     // Try purchasing a cart
     @Test
     public void testPurchaseCart() {
-        Cart cart = Amazeon.getCartById(0);
+        Cart cart = amazeon.getCartById(0);
         cart.purchaseCart();
         assertEquals(cart.getCartProducts().size(), 0);
-        assertEquals(Amazeon.getCustomerById(cart.getCustomerID()).getProducts(), Amazeon.getProductById(0));
+        assertEquals(amazeon.getCustomerById(cart.getCustomerID()).getProducts(), amazeon.getProductById(0));
     }
 
     // Try displaying
