@@ -277,6 +277,20 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
+    public static Seller getSellerById(int sellerId) {
+        for (Seller seller : Amazeon.sellers) {
+            if (seller.getId() == sellerId) {
+                return seller;
+            }
+        }
+        return null;
+    }
+
+    public static int getNextSellerId() {
+        throw new UnsupportedOperationException("Unimplemented method 'getNextSellerId'");
+
+    }
+
     public void setSales(ArrayList<Sale> sales) {
         this.sales = sales;
     }
