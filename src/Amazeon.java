@@ -157,7 +157,7 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
     }
 
-    public static ArrayList<Product> getCartsById(ArrayList<Integer> splitIdsByPipe) {
+    public static ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
