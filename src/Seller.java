@@ -266,7 +266,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     @Override
-    public Seller editAccount() {
+    public void editAccount(String email, String password) {
         throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
     }
 
