@@ -46,6 +46,7 @@ public class Seller extends User implements UserInterface<Seller> {
         while (true) {
             try {
                 choice = scan.nextInt();
+                scan.nextLine();
                 if (choice != 1 && choice != 2 && choice != 3) {
                     throw new InputMismatchException();
                 }
@@ -110,7 +111,7 @@ public class Seller extends User implements UserInterface<Seller> {
         getProducts().remove(product);
     }
 
-    public void createProduct(String filename) throws IOException {
+    public void importProduct(String filename) throws IOException {
         int lineNumber = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
@@ -184,7 +185,6 @@ public class Seller extends User implements UserInterface<Seller> {
                 pw.println(product.getName() + "," + storeName + ","
                         + product.getDescription() + "," + product.getQuantity() + "," + product.getPrice());
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
