@@ -128,12 +128,10 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
         throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
     }
 
-    @Override
     public CustomerDashboard getDashboard() {
         return dashboard;
     }
 
-    @Override
     public void setDashboard(CustomerDashboard dashboard) {
         this.dashboard = dashboard;
     }
