@@ -38,7 +38,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     // Display/work with the dashboard for customers
     @Override
     public void displayDashboard() {
-        CustomerDashboard.displayDashboard(this.getUser());
+        dashboard.displayDashboard(this.getUser());
     }
 
     public CustomerDashboard getDashboard() {

@@ -10,7 +10,7 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
     // types
     // Sort stores by products sold
     @Override
-    public static ArrayList<Store> sort1(User user) {
+    public ArrayList<Store> sort1(User user) {
         ArrayList<Store> sortedStores = new ArrayList<Store>();
         for (int i = 0; i < Market.getStores().size(); i++) {
             sortedStores.add(Market.getStores().get(i));
@@ -60,7 +60,7 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
 
 
     @Override
-    public static ArrayList<Store> sort2(User user) {
+    public ArrayList<Store> sort2(User user) {
         ArrayList<Integer> numPurchasedEachStore = new ArrayList<Integer>();
 
         //copies stores list from market in order to create a sortedStores list
@@ -109,7 +109,7 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
 
     // Displays the two lists of stores
     @Override
-    public static void displayDashboard(User user) {
+    public void displayDashboard(User user) {
         System.out.println("Would you like to sort the dashboard by products purchased (y) or number of products sold (n)?");
         int sortOption = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
 
