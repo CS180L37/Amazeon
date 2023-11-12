@@ -20,7 +20,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public int getId() {
-        return id;
+        return super.getId();
     }
     public void displayProducts() {
         // for (int i = 0; i < getProductsSold().size(); i++) {
@@ -129,6 +129,7 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public void deleteProduct(Product product) {
         getProducts().remove(product);
+        updateProductsFile();
     }
 
     @Override
@@ -170,6 +171,7 @@ public class Seller extends User implements UserInterface<Seller> {
                 r.printStackTrace();
             }
         }
+        updateProductsFile();
     }
 
     public String getStoreNameFromID(int storeID) {
@@ -211,18 +213,32 @@ public class Seller extends User implements UserInterface<Seller> {
             e.printStackTrace();
         }
     }
-    public static void updateProduct(Product product, Scanner scan) {
-        System.out.println("Enter new name:");
+    public void updateProduct(Scanner scan) {
+        System.out.println("Enter product ID:");
+        int prodID = scan.nextInt();
+        scan.nextLine();
+        System.out.println("Enter new product name: ");
         String newName = scan.nextLine();
         //TODO
-        System.out.println("Enter stores?");
-        //something waiting for edstem
+        System.out.println("Enter store ID:");
+        int newStoreID = scan.nextInt();
+        scan.nextLine();
         System.out.println("Enter new description:");
         String newDesc = scan.next();
         System.out.println("Enter new quantity:");
         int newQuan = Integer.parseInt(scan.nextLine());
         System.out.println("Enter new price:");
         int newPrice = Integer.parseInt(scan.nextLine());
+        for (Product product : Amazeon.products) {
+            if (product.getProductId() == prodID) {
+                product.setName(newName);
+                product.setStoreId(newStoreID);
+                product.setDescription(newDesc);
+                product.setQuantity(newQuan);
+                product.setProductId(newPrice);
+            }
+        }
+        updateProductsFile();
     }
     public void updateProductsFile() {
         FileWriter fw;
@@ -245,7 +261,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public static Seller getSellerById(int sellerId) {
-        for (Seller seller : Market.getStore) {
+        for (Seller seller : Amazeon.sellers) {
             if (seller.getId() == sellerId) {
                 return seller;
             }
