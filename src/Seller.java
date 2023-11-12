@@ -19,10 +19,11 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = sales;
     }
 
+
     public void displayProducts() {
-        for (int i = 0; i < this.getProducts().size(); i++) {
-            System.out.printf("%d. %s\n", i, this.getProducts().get(i));
-        }
+        // for (int i = 0; i < getProductsSold().size(); i++) {
+        // System.out.printf("%d. %s\n", i, getProductsSold().get(i));
+        // }
     }
 
     public ArrayList<Sale> getSales() {
@@ -36,6 +37,10 @@ public class Seller extends User implements UserInterface<Seller> {
         }
         return stores;
     }
+
+    // public ArrayList<Integer> getProductRevenues() {
+    // return productRevenues;
+    // }
 
     public void displayDashboard(Scanner scan) {
         // Add a product to the sellers products list
@@ -127,24 +132,6 @@ public class Seller extends User implements UserInterface<Seller> {
 
     @Override
     public void importData(String filename) {
-        if (!filename.substring(filename.length() - 3, filename.length()).equals("csv")) {
-            System.out.println("File must be a valid csv file to import");
-            return;
-        }
-        try {
-            BufferedReader br = Utils.createReader(filename);
-            String line = "";
-            while (true) {
-                line = br.readLine();
-                if (line == null) {
-                    break;
-                }
-                this.updateProduct()
-            }
-            br.readLine();
-        }
-
-
         int lineNumber = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -211,7 +198,7 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public void createProduct() {
+    public void createProduct(){
         System.out.println("Enter the name of the product: ");
         String name = Utils.SCANNER.nextLine();
         System.out.println("Enter the description of the product: ");
@@ -291,10 +278,16 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = sales;
     }
 
-    @Override
-    public void editAccount(String email, String password) {
+    public int editAccount(Seller seller) {
+        for (Seller seller1 : Amazeon.sellers) {
+            if (seller1.getEmail().equalsIgnoreCase(seller.getEmail()) && seller1.getPassword().equalsIgnoreCase(seller.getPassword())) {
+                Amazeon.sellers.remove(seller1);
+                Amazeon.sellers.add(seller);
+                updateSellersFile();
+                return Utils.YES;
+            }
+        }
         updateSellersFile();
-        throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
     }
 
     public int deleteAccount(String email, String password) {
@@ -341,10 +334,9 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public void updateSellersFile() {
+    public static void updateSellersFile() {
         try {
-            // public Seller(int id, ArrayList<Product> products, String email, String
-            // password, ArrayList<Sale> sales) {
+    //public Seller(int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales) {
             FileWriter fw = new FileWriter(Utils.DATA_DIR + Utils.SELLER_FILE);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
