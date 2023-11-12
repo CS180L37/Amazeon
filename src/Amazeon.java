@@ -93,7 +93,7 @@ public class Amazeon {
         }
     }
 
-    // Entry point for the program
+    // Utility methods
     public static boolean hasAccount() {
         String userInput = Utils.inputPrompt("Welcome to Amazeon! Do you have an account? (y/n)",
                 input -> Utils.validateYesOrNo(input));
@@ -120,10 +120,6 @@ public class Amazeon {
         }
     }
 
-    public static void writeData() {
-        throw new UnsupportedOperationException("Unsupported operation: 'writeData'");
-    }
-
     public static String emailPrompt() {
         return Utils.inputPrompt("What is your email: ", input -> Utils.validateEmail(input),
                 "Please enter a valid email: ");
@@ -132,6 +128,30 @@ public class Amazeon {
     public static String passwordPrompt() {
         return Utils.inputPrompt("What is your password: ", input -> Utils.validatePassword(input),
                 "Please enter a valid password: ");
+    }
+
+    public static void writeData() {
+        Product.writeProducts(null);
+        Cart.writeCarts(null);
+        Customer.writeCustomers(null);
+        Sale.writeSales(null);
+        Store.writeStores(null);
+        Seller.writeSellers(null);
+    }
+
+    // Product methods
+
+    // Cart methods
+
+    // Customer methods
+
+    // Sale methods
+
+    // Stores methods
+
+    // Seller methods
+    public static Cart getCartById(int parseInt) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
     }
 
     // Customer methods
@@ -165,8 +185,17 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
     }
 
+    // Product methods
     public static Product getProductById(int id) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductById' ");
+    }
+
+    public static ArrayList<Product> getProductByIds(ArrayList<Integer> splitIdsByPipe) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    }
+
+    public static ArrayList<Integer> getProductIds(ArrayList<Product> cartProducts) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductIds'");
     }
 
     public static void customerLoop(CustomerMarket customerMarket, Customer customer) {
@@ -226,27 +255,15 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
     }
 
-    public static void writeData() {
-        throw new UnsupportedOperationException("Unsupported operation: 'writeData'");
-    }
-
-    public static ArrayList<Product> getProductByIds(ArrayList<Integer> splitIdsByPipe) {
-        return null;
-    }
-
-    public static Object getProductIds(ArrayList<Product> cartProducts) {
-        return null;
-    }
-
-    public static Cart getCartById(int parseInt) {
-        return null;
-    }
-
     public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> splitIdsByPipe) {
-        return null;
+        throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
     }
 
-    public static Object getCustomerIds(ArrayList<Customer> customers2) {
-        return null;
+    public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
+    }
+
+    public static Sale getSaleById(int i) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getSaleById'");
     }
 }
