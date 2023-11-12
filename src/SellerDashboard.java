@@ -12,17 +12,17 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
 
     // Sort customers by number of items purchased
     @Override
-    public ArrayList<Customer> sort1(User user) {
+    public ArrayList<Customer> sort1() {
         throw new UnsupportedOperationException("Unimplemented method 'sort1'");
     }
 
     @Override
-    public ArrayList<Product> sort2(User user) {
+    public ArrayList<Product> sort2() {
         throw new UnsupportedOperationException("Unimplemented method 'sort2'");
     }
 
     @Override
-    public void displayDashboard(User user) {
+    public void displayDashboard() {
         throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
     }
 }

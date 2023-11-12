@@ -5,20 +5,21 @@ public class Amazeon {
     // The data that persists
     public String pathToDataDir;
 
-    static ArrayList<Product> products;
-    static ArrayList<Cart> carts;
-    static ArrayList<Customer> customers;
-    static ArrayList<Sale> sales;
-    static ArrayList<Store> stores;
-    static ArrayList<Seller> sellers;
+    public static ArrayList<Product> products;
+    public static ArrayList<Cart> carts;
+    public static ArrayList<Customer> customers;
+    public static ArrayList<Sale> sales;
+    public static ArrayList<Store> stores;
+    public static ArrayList<Seller> sellers;
 
     public Amazeon(String pathToDataDir) {
-        products = Product.readProducts(pathToDataDir + Utils.PRODUCT_FILE);
-        carts = Cart.readCarts(pathToDataDir + Utils.CART_FILE);
-        customers = Customer.readCustomers(pathToDataDir + Utils.CUSTOMER_FILE);
-        sales = Sale.readSales(pathToDataDir + Utils.SALE_FILE);
-        stores = Store.readStores(pathToDataDir + Utils.STORE_FILE);
-        sellers = Seller.readSellers(pathToDataDir + Utils.SELLER_FILE);
+        Amazeon.products = Product.readProducts(pathToDataDir + Utils.PRODUCT_FILE);
+        System.out.println(Amazeon.products);
+        Amazeon.carts = Cart.readCarts(pathToDataDir + Utils.CART_FILE);
+        Amazeon.customers = Customer.readCustomers(pathToDataDir + Utils.CUSTOMER_FILE);
+        Amazeon.sales = Sale.readSales(pathToDataDir + Utils.SALE_FILE);
+        Amazeon.stores = Store.readStores(pathToDataDir + Utils.STORE_FILE);
+        Amazeon.sellers = Seller.readSellers(pathToDataDir + Utils.SELLER_FILE);
     }
 
     public static void main(String[] args) {
@@ -141,6 +142,7 @@ public class Amazeon {
 
     // Product methods
     public static Product getProductById(int id) {
+        System.out.println(Amazeon.products);
         for (Product product : Amazeon.products) {
             if (product.getProductId() == id) {
                 return product;
@@ -150,16 +152,16 @@ public class Amazeon {
     }
 
     public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
-        ArrayList<Product> products = new ArrayList<Product>();
+        ArrayList<Product> productList = new ArrayList<Product>();
         for (int productID : productIds) {
-            products.add(getProductById(productID));
+            productList.add(getProductById(productID));
         }
-        return products;
+        return productList;
     }
 
-    public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
+    public static ArrayList<Integer> getProductIds(ArrayList<Product> productList) {
         ArrayList<Integer> productIds = new ArrayList<Integer>();
-        for (Product product : products) {
+        for (Product product : productList) {
             productIds.add(product.getProductId());
         }
         return productIds;
@@ -176,16 +178,16 @@ public class Amazeon {
     }
 
     public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) {
-        ArrayList<Cart> carts = new ArrayList<Cart>();
+        ArrayList<Cart> cartList = new ArrayList<Cart>();
         for (int cartID : cartIds) {
-            carts.add(getCartById(cartID));
+            cartList.add(getCartById(cartID));
         }
-        return carts;
+        return cartList;
     }
 
-    public static ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
+    public static ArrayList<Integer> getCartIds(ArrayList<Cart> cartList) {
         ArrayList<Integer> cartIDs = new ArrayList<Integer>();
-        for (Cart cart : carts) {
+        for (Cart cart : cartList) {
             cartIDs.add(cart.getCustomerID());
         }
         return cartIDs;
@@ -215,16 +217,16 @@ public class Amazeon {
     }
 
     public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
-        ArrayList<Customer> customers = new ArrayList<Customer>();
+        ArrayList<Customer> customerList = new ArrayList<Customer>();
         for (int customerId : customerIds) {
-            customers.add(Amazeon.getCustomerById(customerId));
+            customerList.add(Amazeon.getCustomerById(customerId));
         }
-        return customers;
+        return customerList;
     }
 
-    public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
+    public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customerList) {
         ArrayList<Integer> customerIds = new ArrayList<Integer>();
-        for (Customer customer : customers) {
+        for (Customer customer : customerList) {
             customerIds.add(customer.getId());
         }
         return customerIds;
@@ -249,9 +251,9 @@ public class Amazeon {
         return sales;
     }
 
-    public static ArrayList<Integer> getSaleIds(ArrayList<Sale> sales) {
+    public static ArrayList<Integer> getSaleIds(ArrayList<Sale> saleList) {
         ArrayList<Integer> saleIDs = new ArrayList<>();
-        for (Sale sale : sales) {
+        for (Sale sale : saleList) {
             saleIDs.add(sale.getSaleId());
         }
         return saleIDs;
@@ -294,9 +296,9 @@ public class Amazeon {
         return stores;
     }
 
-    public static ArrayList<Integer> getStoreIds(ArrayList<Store> stores) {
+    public static ArrayList<Integer> getStoreIds(ArrayList<Store> storeList) {
         ArrayList<Integer> storeIDs = new ArrayList<>();
-        for (Store store : stores) {
+        for (Store store : storeList) {
             storeIDs.add(store.getId());
         }
         return storeIDs;
@@ -343,9 +345,9 @@ public class Amazeon {
         return sellers;
     }
 
-    public static ArrayList<Integer> getSellerIds(ArrayList<Seller> sellers) {
+    public static ArrayList<Integer> getSellerIds(ArrayList<Seller> sellerList) {
         ArrayList<Integer> sellerIds = new ArrayList<Integer>();
-        for (Seller seller : sellers) {
+        for (Seller seller : sellerList) {
             sellerIds.add(seller.getId());
         }
         return sellerIds;
