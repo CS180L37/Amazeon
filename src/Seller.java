@@ -266,6 +266,7 @@ public class Seller extends User implements UserInterface<Seller> {
                 return seller;
             }
         }
+        return null;
     }
 
     public static int getNextSellerId() {
