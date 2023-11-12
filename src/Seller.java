@@ -208,12 +208,13 @@ public class Seller extends User implements UserInterface<Seller> {
             e.printStackTrace();
         }
     }
+
     public static void updateProduct(Product product, Scanner scan) {
         System.out.println("Enter new name:");
         String newName = scan.nextLine();
-        //TODO
+        // TODO
         System.out.println("Enter stores?");
-        //something waiting for edstem
+        // something waiting for edstem
         System.out.println("Enter new description:");
         String newDesc = scan.next();
         System.out.println("Enter new quantity:");
@@ -221,6 +222,7 @@ public class Seller extends User implements UserInterface<Seller> {
         System.out.println("Enter new price:");
         int newPrice = Integer.parseInt(scan.nextLine());
     }
+
     public void updateProductsFile() {
         FileWriter fw;
         BufferedWriter bw;
@@ -239,14 +241,6 @@ public class Seller extends User implements UserInterface<Seller> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static Seller getSellerById(int sellerId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
-    }
-
-    public static int getNextSellerId() {
-        throw new UnsupportedOperationException("Unimplemented method 'getNextSellerId'");
     }
 
     public void setSales(ArrayList<Sale> sales) {

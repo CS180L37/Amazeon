@@ -93,7 +93,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                 int quantity = 0;
                 for (int j = 0; j < getStores().get(i).getProducts().size(); j++) {
                     int sellerId = getStores().get(i).getProducts().get(j).getSellerId();
-                    Seller seller = Seller.getSellerById(sellerId);
+                    Seller seller = Amazeon.getSellerById(sellerId);
                     for (int k = 0; k < seller.getSales().size(); k++) {
                         quantity += seller.getSales().get(i).getProduct().getQuantity();
                     }
