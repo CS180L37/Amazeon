@@ -214,7 +214,7 @@ public class Amazeon {
             } else if (customerAction == 5) {
                 customerMarket.displayCart();
             } else {
-                System.out.println("Please choose a valid option.");
+                System.out.println("Please do choose a valid option.");
                 error = false;
             }
         } while(!error);
