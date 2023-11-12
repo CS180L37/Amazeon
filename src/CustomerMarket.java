@@ -51,7 +51,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             for(int i = 0; i < this.getUser().getProducts().size() - 1; i++) {
                 int maxIndex = i;
                 for(int j = 0; i < this.getUser().getProducts().size(); j++) {
-                    if(this.getUser().getProducts().get(i).getQuantity() > this.getUser().getProducts().get(maxIndex).getQuantity()){
+                    if(this.getUser().getProducts().get(i).getQuantity() > this.getUser().getProducts().get(maxIndex).getQuantity()) {
                         maxIndex = j;
                     }
                 }
@@ -168,7 +168,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             }
 
         } else {
-            for(int i = 0; i < getStores().size(); i++){
+            for(int i = 0; i < getStores().size(); i++) {
                 for(int j = 0; j < getStores().get(i).getProducts().size(); j++) {
                     allProducts.add(getStores().get(i).getProducts().get(j));
                 }
@@ -202,32 +202,32 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     public ArrayList<Product> search(String name, String storeId, String description) {
 
         ArrayList<Product> relevantProducts = new ArrayList<Product>();
-        if(name != null && storeId == null && description == null){
-            for(int i = 0; i < getStores().size(); i++){
-                for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
-                    if(getStores().get(i).getProducts().get(j).getName().contains(name)){
+        if(name != null && storeId == null && description == null) {
+            for(int i = 0; i < getStores().size(); i++) {
+                for(int j = 0; j < getStores().get(i).getProducts().size(); j++) {
+                    if(getStores().get(i).getProducts().get(j).getName().contains(name)) {
                         relevantProducts.add(getStores().get(i).getProducts().get(j));
                     }
                 }
             }
-        } else if (name == null && storeId != null && description == null){
-            for(int i = 0; i < getStores().size(); i++){
-                for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
-                    if(String.valueOf(getStores().get(i).getProducts().get(j).getStoreId()).contains(storeId)){
+        } else if (name == null && storeId != null && description == null) {
+            for(int i = 0; i < getStores().size(); i++) {
+                for(int j = 0; j < getStores().get(i).getProducts().size(); j++) {
+                    if(String.valueOf(getStores().get(i).getProducts().get(j).getStoreId()).contains(storeId)) {
                         relevantProducts.add(getStores().get(i).getProducts().get(j));
                     }
                 }
             }
         } else {
-            for(int i = 0; i < getStores().size(); i++){
-                for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
-                    if(getStores().get(i).getProducts().get(j).getDescription().contains(description)){
+            for(int i = 0; i < getStores().size(); i++) {
+                for(int j = 0; j < getStores().get(i).getProducts().size(); j++) {
+                    if(getStores().get(i).getProducts().get(j).getDescription().contains(description)) {
                         relevantProducts.add(getStores().get(i).getProducts().get(j));
                     }
                 }
             }
         }
-        for(int i = 0; i < relevantProducts.size(); i++){
+        for(int i = 0; i < relevantProducts.size(); i++) {
             System.out.println("Store Name: " + Amazeon.getStoreById(relevantProducts.get(i).getStoreId()).getName()
                     + "Product Name: " + relevantProducts.get(i).getName()
                     + "Product Price: " + relevantProducts.get(i).getPrice());
