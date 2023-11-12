@@ -130,13 +130,13 @@ public class Amazeon {
                 "Please enter a valid password: ");
     }
 
-    public static void writeData() {
-        Product.writeProducts(null);
-        Cart.writeCarts(null);
-        Customer.writeCustomers(null);
-        Sale.writeSales(null);
-        Store.writeStores(null);
-        Seller.writeSellers(null);
+    public void writeData() {
+        Product.writeProducts(this.products);
+        Cart.writeCarts(this.carts);
+        Customer.writeCustomers(this.customers);
+        Sale.writeSales(this.sales);
+        Store.writeStores(this.stores);
+        Seller.writeSellers(this.sellers);
     }
 
     // Product methods
