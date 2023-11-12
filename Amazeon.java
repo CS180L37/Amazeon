@@ -130,110 +130,110 @@ public class Amazeon {
                 "Please enter a valid password: ");
     }
 
-    public void writeData() {
-        Product.writeProducts(this.products);
-        Cart.writeCarts(this.carts);
-        Customer.writeCustomers(this.customers);
-        Sale.writeSales(this.sales);
-        Store.writeStores(this.stores);
-        Seller.writeSellers(this.sellers);
+    public static void writeData() {
+        Product.writeProducts(null);
+        Cart.writeCarts(null);
+        Customer.writeCustomers(null);
+        Sale.writeSales(null);
+        Store.writeStores(null);
+        Seller.writeSellers(null);
     }
 
     // Product methods
-    public Product getProductById(int id) {
-
+    public static Product getProductById(int id) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductById' ");
     }
 
-    public ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
+    public static ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
-    public ArrayList<Integer> getProductIds(ArrayList<Product> products) {
+    public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductIds'");
     }
 
     // Cart methods
-    public Cart getCartById(int parseInt) {
+    public static Cart getCartById(int parseInt) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
     }
 
-    public ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
+    public static ArrayList<Product> getCartsById(ArrayList<Integer> splitIdsByPipe) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
-    public ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
+    public static ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
     // Customer methods
-    public Customer getCustomerByEmailAndPassword(String email, String password) {
+    public static Customer getCustomerByEmailAndPassword(String email, String password) {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    public Customer getCustomerById(int customerId) {
+    public static Customer getCustomerById(int customerId) {
         throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
     }
 
-    public int getNextCustomerId() {
+    public static int getNextCustomerId() {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    public ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
+    public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
     }
 
-    public ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
+    public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
     }
 
     // Sale methods
-    public Sale getSaleById(int i) {
+    public static Sale getSaleById(int i) {
         throw new UnsupportedOperationException("Unsupported operation: 'getSaleById'");
     }
 
-    public ArrayList<Sale> getSalesById(ArrayList<Integer> saleIds) {
+    public static ArrayList<Sale> getSalesById(ArrayList<Integer> saleIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
-    public ArrayList<Integer> getSaleIds(ArrayList<Sale> sales) {
+    public static ArrayList<Integer> getSaleIds(ArrayList<Sale> sales) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
     // Stores methods
-    public Store getStoreById(int id) {
+    public static Store getStoreById(int id) {
         throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
     }
 
-    public ArrayList<Store> getStoresById(ArrayList<Integer> storeIds) {
+    public static ArrayList<Store> getStoresById(ArrayList<Integer> storeIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
-    public ArrayList<Integer> getStoreIds(ArrayList<Store> stores) {
+    public static ArrayList<Integer> getStoreIds(ArrayList<Store> stores) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
     // Seller methods
-    public Seller getSellerByEmailAndPassword(String email, String password) {
+    public static Seller getSellerByEmailAndPassword(String email, String password) {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    public Seller getSellerById(int sellerId) {
+    public static Seller getSellerById(int sellerId) {
         throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
     }
 
-    public int getNextSellerId() {
+    public static int getNextSellerId() {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    public ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) {
+    public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
     }
 
-    public ArrayList<Seller> getSellerIds(ArrayList<Seller> sellers) {
+    public static ArrayList<Seller> getSellerIds(ArrayList<Seller> sellers) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
     }
 
-    public void customerLoop(CustomerMarket customerMarket, Customer customer) {
+    public static void customerLoop(CustomerMarket customerMarket, Customer customer) {
         customerMarket.displayMarketplace();
         boolean error = true;
         do {
@@ -286,7 +286,7 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
     }
 
-    public void sellerLoop() {
+    public static void sellerLoop() {
         throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
     }
 }
