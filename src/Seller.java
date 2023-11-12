@@ -1,5 +1,3 @@
-import jdk.jfr.Percentage;
-
 import java.io.*;
 import java.util.*;
 
@@ -27,6 +25,19 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public ArrayList<Sale> getSales() {
         return sales;
+    }
+
+    public void viewSales() {
+        String info = "";
+        for (int i = 0; i < sales.size(); i++) {
+            String custEmail = sales.get(i).getCustomer().getEmail();
+            String custId = String.valueOf(sales.get(i).getCustomer().getId());
+            double revenue = sales.get(i).calculateCost();
+            Store store = Amazeon.getStoreById(sales.get(i).getProduct().getStoreId());
+            info += "Customer Email: " + custEmail + "\nCustomer Id: "
+                    + custId + "\nRevenue: "
+                    + revenue + "Store: " + store + "\n\n";
+        }
     }
 
     public ArrayList<Store> getStores() {
