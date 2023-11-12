@@ -148,28 +148,47 @@ public class Amazeon {
 
     // Product methods
     public static Product getProductById(int id) {
-
+        for (Product product : Amazeon.products) {
+            if (product.getProductId() = id) {
+                return product;
+            }
+        }
     }
 
-    public static ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
+        ArrayList<Product> products = new ArrayList<>();
+        for (int productID : productIds) {
+            products.add(getProductById(productID));
+        }
+        return products;
     }
 
     public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductIds'");
+        for (Product product : products) {
+            return product.getProductId();
+        }
     }
 
     // Cart methods
     public static Cart getCartById(int parseInt) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
+        for (Cart cart : Amazeon.carts) {
+            if (cart.getCustomerID() = parseInt) {
+                return cart;
+            }
+        }
     }
 
     public static ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        ArrayList<Cart> carts = new ArrayList<>();
+        for (int cartID : cartIds) {
+            carts.add(getCartById(cartID));
+        }
     }
 
     public static ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        for (Cart cart : carts) {
+            return cart.getCustomerID();
+        }
     }
 
     // Customer methods
