@@ -200,7 +200,7 @@ public class Amazeon {
     }
 
     // Stores methods
-    public Store getStoreById(int id) {
+    public static Store getStoreById(int id) {
         throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
     }
 
