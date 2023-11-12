@@ -5,7 +5,7 @@ public class User {
     private String email;
     private String password;
     private int id;
-    private ArrayList<Product> products;
+    private ArrayList<Product> products; //userCustomer --> array of products purchased, userSeller --> array of products being sold
 
     public User(int id, ArrayList<Product> products, String email, String password) {
         this.id = id;
