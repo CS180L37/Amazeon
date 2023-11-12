@@ -158,7 +158,9 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
             //prints all products in marketplace
             for(int i = 0; i < allProducts.size(); i++){
-                System.out.println("Store Name: " + getStoredById(allProducts.get(i).getStoreId()) + "\nProduct Name: " + allProducts.get(i).getName() + "\nProduct Price: " + allProducts.get(i).getPrice() + "/n/n");
+                System.out.println("Store Name: " + Amazeon.getStoreById(allProducts.get(i).getStoreId())
+                        + "\nProduct Name: " + allProducts.get(i).getName()
+                        + "\nProduct Price: " + allProducts.get(i).getPrice() + "/n/n");
             }
         }
         throw new UnsupportedOperationException("Unimplemented method 'sort'");
