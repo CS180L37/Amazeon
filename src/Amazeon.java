@@ -144,7 +144,7 @@ public class Amazeon {
 
     // Product methods
     public static Product getProductById(int id) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductById'");
+
     }
 
     public static ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
