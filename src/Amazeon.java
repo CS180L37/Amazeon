@@ -134,12 +134,12 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'writeData'");
     }
 
-    public static String getEmail() {
+    public static String emailPrompt() {
         return Utils.inputPrompt("What is your email: ", input -> Utils.validateEmail(input),
                 "Please enter a valid email: ");
     }
 
-    public static String getPassword() {
+    public static String passwordPrompt() {
         return Utils.inputPrompt("What is your password: ", input -> Utils.validatePassword(input),
                 "Please enter a valid password: ");
     }
