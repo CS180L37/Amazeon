@@ -119,7 +119,7 @@ public class Amazeon {
                 return false; // Never calls
         }
     }
-    
+
     public static void writeData() {
         throw new UnsupportedOperationException("Unsupported operation: 'writeData'");
     }
@@ -172,40 +172,41 @@ public class Amazeon {
     public static void customerLoop(CustomerMarket customerMarket, Customer customer) {
         customerMarket.displayMarketplace();
         boolean error = true;
-        do{
-            System.out.println("What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4) Sort MarketPlace\n5) View Cart");
+        do {
+            System.out.println(
+                    "What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4) Sort MarketPlace\n5) View Cart");
             int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
-            if(customerAction == 1) {
+            if (customerAction == 1) {
                 System.out.println("Which product would you like to purchase?");
                 int productID = Integer.parseInt(Utils.SCANNER.nextLine());
                 customer.purchaseProduct(getProductById(productID));
-            } else if(customerAction == 2) {
+            } else if (customerAction == 2) {
                 boolean valid = true;
                 do {
                     System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
-                    int searchCriteria  = Integer.parseInt(Utils.SCANNER.nextLine());
-                    if(searchCriteria == 1) {
+                    int searchCriteria = Integer.parseInt(Utils.SCANNER.nextLine());
+                    if (searchCriteria == 1) {
                         System.out.println("Enter the name of the product: ");
                         String name = Utils.SCANNER.nextLine();
                         customerMarket.search(name, null, null);
-                    } else if (searchCriteria == 2){
+                    } else if (searchCriteria == 2) {
                         System.out.println("Enter the storeId of the product: ");
                         String storeId = Utils.SCANNER.nextLine();
                         customerMarket.search(null, storeId, null);
-                    } else if (searchCriteria == 3){
+                    } else if (searchCriteria == 3) {
                         System.out.println("Enter the description of the product: ");
                         String description = Utils.SCANNER.nextLine();
                         customerMarket.search(null, null, description);
                     } else {
                         valid = false;
                     }
-                } while(!valid);
+                } while (!valid);
             } else if (customerAction == 3) {
                 customerMarket.displayDashboard();
             } else if (customerAction == 4) {
                 System.out.println("Would you like to sort by price (y) or quantity (n)");
                 int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
-                if(sortCriteria == 1){
+                if (sortCriteria == 1) {
                     customerMarket.sort(true, false);
                 } else {
                     customerMarket.sort(false, true);
@@ -217,7 +218,7 @@ public class Amazeon {
                 System.out.println("Please do choose a valid option.");
                 error = false;
             }
-        } while(!error);
+        } while (!error);
         throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
     }
 
@@ -227,5 +228,25 @@ public class Amazeon {
 
     public static void writeData() {
         throw new UnsupportedOperationException("Unsupported operation: 'writeData'");
+    }
+
+    public static ArrayList<Product> getProductByIds(ArrayList<Integer> splitIdsByPipe) {
+        return null;
+    }
+
+    public static Object getProductIds(ArrayList<Product> cartProducts) {
+        return null;
+    }
+
+    public static Cart getCartById(int parseInt) {
+        return null;
+    }
+
+    public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> splitIdsByPipe) {
+        return null;
+    }
+
+    public static Object getCustomerIds(ArrayList<Customer> customers2) {
+        return null;
     }
 }
