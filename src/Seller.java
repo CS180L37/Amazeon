@@ -19,6 +19,10 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = sales;
     }
 
+    public int getId() {
+        return id();
+    }
+
     public void displayProducts() {
         // for (int i = 0; i < getProductsSold().size(); i++) {
         // System.out.printf("%d. %s\n", i, getProductsSold().get(i));
@@ -241,6 +245,19 @@ public class Seller extends User implements UserInterface<Seller> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Seller getSellerById(int sellerId) {
+        for (Seller seller : Market.getStore) {
+            if (seller.getId() == sellerId) {
+                return seller;
+            }
+        }
+    }
+
+    public static int getNextSellerId() {
+        throw new UnsupportedOperationException("Unimplemented method 'getNextSellerId'");
+
     }
 
     public void setSales(ArrayList<Sale> sales) {
