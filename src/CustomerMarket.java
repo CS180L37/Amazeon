@@ -61,8 +61,18 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                     this.getUser().getProducts().set(maxIndex, product);
                 }
             }
+
+            //printing the array
+
+            for(int i = 0; i < sortedProducts.length; i++){
+                System.out.println(sortedProducts[i] + "\n");
+            }
+
         } else {
             ArrayList<Product> sortedProducts = new ArrayList<Product>();
+            for(int i = 0; i < this.getUser().getProducts().size(); i++){
+                sortedProducts.add(this.getUser().getProducts().get(i));
+            }
             //Product --> seller ids
             //sellerId --> getSellerbyID --> gets Seller instance
             //Seller --> list of sales
@@ -72,6 +82,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             //sort the stores by products sold
 
             ArrayList<Integer> numProductsSold = new ArrayList<Integer>();
+
             for(int i = 0; i < getStores().size(); i++){
                 int quantity = 0;
                 for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
@@ -95,7 +106,16 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                     int productsSold = numProductsSold.get(maxIndex);
                     numProductsSold.set(maxIndex, numProductsSold.get(i));
                     numProductsSold.set(maxIndex, productsSold);
+
+                    Product product = this.getUser().getProducts().get(maxIndex);
+                    this.getUser().getProducts().set(maxIndex, this.getUser().getProducts().get(i));
+                    this.getUser().getProducts().set(maxIndex, product);
                 }
+            }
+
+            //printing the array
+            for(int i = 0; i < sortedProducts.length; i++){
+                System.out.println(sortedProducts[i] + "\n");
             }
 
         }
@@ -114,6 +134,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
     // Sort the marketplace
     public void sort(boolean price, boolean quantityAvailable) {
+        
         throw new UnsupportedOperationException("Unimplemented method 'sort'");
     }
 
