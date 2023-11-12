@@ -254,6 +254,7 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public static int getNextSellerId() {
         throw new UnsupportedOperationException("Unimplemented method 'getNextSellerId'");
+
     }
 
     public void setSales(ArrayList<Sale> sales) {
