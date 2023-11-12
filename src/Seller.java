@@ -288,6 +288,7 @@ public class Seller extends User implements UserInterface<Seller> {
             }
         }
         updateSellersFile();
+        return Utils.NO;
     }
 
     public int deleteAccount(String email, String password) {
