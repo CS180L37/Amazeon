@@ -173,7 +173,7 @@ public class Amazeon {
     // Cart methods
     public static Cart getCartById(int parseInt) {
         for (Cart cart : Amazeon.carts) {
-            if (cart.getCustomerID() = parseInt) {
+            if (cart.getCustomerID() == parseInt) {
                 return cart;
             }
         }
