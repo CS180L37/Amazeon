@@ -44,15 +44,26 @@ public class Customer extends User implements UserInterface<Customer> {
     // Purchases a product
     public void purchaseProduct(Product product) {
         // Add to customers products
-        for(int i = 0; i < cart.getCartProducts().size(); i++){ //goes through every product in cart products
-            for(int j = 0; j < Amazeon.getSellerById(cart.getCartProducts().get(i).getSellerId()).getSales().size(); j++) { //gets each product's seller id and uses seller id to get seller --> which then gets the seller's list of sales
-                if (Amazeon.getSellerById(cart.getCartProducts().get(i).getSellerId()).getSales().get(j).getProduct().getProductId() == cart.getCartProducts().get(i).getProductId()) { //uses each sale to get product's id and compares this value to cartProducts product at index i
-                    Sale sale = new Sale(Amazeon.getSellerById(cart.getCartProducts().get(i).getSellerId()).getSales().get(j).getSaleId(), Amazeon.getCustomerById(this.getId()), cart.getCartProducts().get(i), cart.getCartProducts().get(i).getQuantity()); // purchases product
+        for (int i = 0; i < cart.getCartProducts().size(); i++) { // goes through every product in cart products
+            for (int j = 0; j < Amazeon.getSellerById(cart.getCartProducts().get(i).getSellerId()).getSales()
+                    .size(); j++) { // gets each product's seller id and uses seller id to get seller --> which then
+                                    // gets the seller's list of sales
+                if (Amazeon.getSellerById(cart.getCartProducts().get(i).getSellerId()).getSales().get(j).getProduct()
+                        .getProductId() == cart.getCartProducts().get(i).getProductId()) { // uses each sale to get
+                                                                                           // product's id and compares
+                                                                                           // this value to cartProducts
+                                                                                           // product at index i
+                    Sale sale = new Sale(
+                            Amazeon.getSellerById(cart.getCartProducts().get(i).getSellerId()).getSales().get(j)
+                                    .getSaleId(),
+                            Amazeon.getCustomerById(this.getId()), cart.getCartProducts().get(i),
+                            cart.getCartProducts().get(i).getQuantity()); // purchases product
                     break;
                 }
             }
         }
-        //throw new UnsupportedOperationException("Unsupported operation 'purchaseProduct");
+        // throw new UnsupportedOperationException("Unsupported operation
+        // 'purchaseProduct");
     }
 
     public Cart getCart() {
@@ -79,7 +90,7 @@ public class Customer extends User implements UserInterface<Customer> {
 
     @Override
     public void deleteAccount() {
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
+        Amazeon.customers.remove(this);
     }
 
     // Contains lists of all products and carts as parameters
