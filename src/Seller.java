@@ -46,6 +46,7 @@ public class Seller extends User implements UserInterface<Seller> {
         while (true) {
             try {
                 choice = scan.nextInt();
+                scan.nextLine();
                 if (choice != 1 && choice != 2 && choice != 3) {
                     throw new InputMismatchException();
                 }
@@ -110,44 +111,44 @@ public class Seller extends User implements UserInterface<Seller> {
         getProducts().remove(product);
     }
 
-    public void createProduct(String filename) throws IOException {
-        // int lineNumber = 0;
-        // try {
-        // BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
-        // while (br.readLine() != null) {
-        // lineNumber++;
-        // }
-        // br.close();
-        // } catch (IOException e) {
-        // throw new RuntimeException(e);
-        // ArrayList<Integer> intArray = new ArrayList<Integer>();
-        // try {
-        // BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
-        // String line = br.readLine();
-        // ArrayList<String[][]> data = new ArrayList<String[][]>();
-        // while (line != null) {
-        // String[][] lines = new String[0][lineNumber];
-        // lines = new String[][] { line.split(",") };
-        // data.add(lines);
-        // br.readLine();
-        // }
-        // String[] strArray = new String[data.size()];
-        // for (int i = 0; i < data.size(); i++) {
-        // strArray = data.get(i)[3];
-        // }
-        // for (int j = 0; j < strArray.length; j++) {
-        // intArray.set(j, Integer.parseInt(strArray[j]));
-        // }
-        // for (int k = 0; k < data.size(); k++) {
-        // Product product = new Product(Integer.parseInt(data.get(k)[0][0]),
-        // Integer.parseInt(data.get(k)[0][1]), data.get(k)[0][2], intArray,
-        // data.get(k)[0][4],
-        // Double.parseDouble(data.get()[0][5]));
-        // }
-        // } catch (IOException r) {
-        // r.printStackTrace();
-        // }
-        // }
+    public void importProduct(String filename) throws IOException {
+        int lineNumber = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
+            while (br.readLine() != null) {
+                lineNumber++;
+            }
+            br.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            ArrayList<Integer> intArray = new ArrayList<Integer>();
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
+                String line = br.readLine();
+                ArrayList<String[][]> data = new ArrayList<String[][]>();
+                while (line != null) {
+                    String[][] lines = new String[0][lineNumber];
+                    lines = new String[][] { line.split(",") };
+                    data.add(lines);
+                    br.readLine();
+                }
+                String[] strArray = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    strArray = data.get(i)[3];
+                }
+                for (int j = 0; j < strArray.length; j++) {
+                    intArray.set(j, Integer.parseInt(strArray[j]));
+                }
+                for (int k = 0; k < data.size(); k++) {
+                    Product product = new Product(Integer.parseInt(data.get(k)[0][0]),
+                            Integer.parseInt(data.get(k)[0][1]), data.get(k)[0][2], intArray,
+                            data.get(k)[0][4],
+                            Double.parseDouble(data.get()[0][5]));
+                }
+            } catch (IOException r) {
+                r.printStackTrace();
+            }
+        }
     }
 
     public String getStoreNameFromID(int storeID) {
@@ -184,7 +185,6 @@ public class Seller extends User implements UserInterface<Seller> {
                 pw.println(product.getName() + "," + storeName + ","
                         + product.getDescription() + "," + product.getQuantity() + "," + product.getPrice());
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -213,11 +213,6 @@ public class Seller extends User implements UserInterface<Seller> {
     @Override
     public void exportData(String filepath) {
 
-    }
-
-    // Import products from a csv file
-    public void importData(String filepath) {
-        throw new UnsupportedOperationException("Unimplemented method 'importData'");
     }
 
     public static Seller getSellerById(int sellerId) {
@@ -257,7 +252,8 @@ public class Seller extends User implements UserInterface<Seller> {
                 sellers.add(new Seller(
                         Integer.parseInt(data[0]),
                         (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Product>(), data[2], data[1],
+                                : new ArrayList<Product>(),
+                        data[2], data[1],
                         (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
                                 : new ArrayList<Sale>()));
             }
