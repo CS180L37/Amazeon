@@ -22,7 +22,7 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
 
     @Override
     public void displayDashboard() {
-
+        this.getUser().displayDashboard();
         throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
     }
 

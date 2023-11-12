@@ -74,6 +74,18 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
     // sort products by sale
     @Override
     public ArrayList<Product> sort2() {
+        int numberSales = 0;
+        for (int i = 0; i < getData2().size(); i++) {
+            Product product = getData2().get(i);
+            for (Sale sale : Amazeon.getSellerById(getData2().get(i).getSellerId()).getSales()) {
+                if (sale.getProduct().equals(product)) {
+                    numberSales++;
+                }
+            }
+
+            System.out.println(i + ". " + getData2().get(i) + " - " + numberSales + " Sales");
+            numberSales = 0;
+        }
         throw new UnsupportedOperationException("Unimplemented method 'sort2'");
     }
 
