@@ -3,34 +3,34 @@ import java.util.ArrayList;
 /// Our entry point and data manager class
 public class Amazeon {
     // The data that persists
-    ArrayList<Product> products;
-    ArrayList<Cart> carts;
-    ArrayList<Customer> customers;
-    ArrayList<Sale> sales;
-    ArrayList<Store> stores;
-    ArrayList<Seller> sellers;
+    static ArrayList<Product> products;
+    static ArrayList<Cart> carts;
+    static ArrayList<Customer> customers;
+    static ArrayList<Sale> sales;
+    static ArrayList<Store> stores;
+    static ArrayList<Seller> sellers;
     public static int counterSellers = 0;
     public static int counterBuyers = 0;
 
     public Amazeon() {
-        this.products = Product.readProducts();
-        this.carts = Cart.readCarts();
-        this.customers = Customer.readCustomers();
-        this.sales = Sale.readSales();
-        this.stores = Store.readStores();
-        this.sellers = Seller.readSellers();
+        products = Product.readProducts();
+        carts = Cart.readCarts();
+        customers = Customer.readCustomers();
+        sales = Sale.readSales();
+        stores = Store.readStores();
+        sellers = Seller.readSellers();
     }
 
     public static void main(String[] args) {
         // Initialize data
         Amazeon amazeon = new Amazeon();
         // Test code
-        System.out.println(amazeon.products.toString());
-        System.out.println(amazeon.carts.toString());
-        System.out.println(amazeon.customers.toString());
-        System.out.println(amazeon.sales.toString());
-        System.out.println(amazeon.stores.toString());
-        System.out.println(amazeon.sellers.toString());
+        System.out.println(products.toString());
+        System.out.println(carts.toString());
+        System.out.println(customers.toString());
+        System.out.println(sales.toString());
+        System.out.println(stores.toString());
+        System.out.println(sellers.toString());
 
         CustomerMarket customerMarket;
         SellerMarket sellerMarket;
@@ -45,7 +45,7 @@ public class Amazeon {
                 String email = emailPrompt();
                 String password = passwordPrompt();
                 // Get the customer by email and password
-                customer = amazeon.getCustomerByEmailAndPassword(email, password);
+                customer = Amazeon.getCustomerByEmailAndPassword(email, password);
                 // Create the customer market (accesses all stores)
                 customerMarket = new CustomerMarket(customer, amazeon.stores);
                 // Open up options to customer
@@ -56,7 +56,7 @@ public class Amazeon {
                 String email = emailPrompt();
                 String password = passwordPrompt();
                 // Get the seller by email and password
-                seller = amazeon.getSellerByEmailAndPassword(email, password);
+                seller = Amazeon.getSellerByEmailAndPassword(email, password);
                 // Create the seller market (only accesses stores associated with the seller)
                 sellerMarket = new SellerMarket(seller, seller.getStores(),
                         amazeon.customers, amazeon.products);
@@ -73,7 +73,7 @@ public class Amazeon {
                 // Create a new customer based on email and password
                 customer = new Customer(email, password);
                 // Create a customer market using the customer
-                customerMarket = new CustomerMarket(customer, amazeon.stores);
+                customerMarket = new CustomerMarket(customer, Amazeon.stores);
                 // Open up options to customer
                 amazeon.customerLoop(customerMarket, customer);
                 amazeon.writeData();
@@ -85,7 +85,7 @@ public class Amazeon {
                 seller = new Seller(email, password);
                 // Create a seller market using the seller
                 sellerMarket = new SellerMarket(seller, new ArrayList<Store>(),
-                        amazeon.customers, amazeon.products);
+                        Amazeon.customers, Amazeon.products);
                 // Open up options to seller
                 amazeon.sellerLoop(sellerMarket, seller);
                 amazeon.writeData();
@@ -131,17 +131,17 @@ public class Amazeon {
     }
 
     public void writeData() {
-        Product.writeProducts(this.products);
-        Cart.writeCarts(this.carts);
-        Customer.writeCustomers(this.customers);
-        Sale.writeSales(this.sales);
-        Store.writeStores(this.stores);
-        Seller.writeSellers(this.sellers);
+        Product.writeProducts(Amazeon.products);
+        Cart.writeCarts(Amazeon.carts);
+        Customer.writeCustomers(Amazeon.customers);
+        Sale.writeSales(Amazeon.sales);
+        Store.writeStores(Amazeon.stores);
+        Seller.writeSellers(Amazeon.sellers);
     }
 
     // Product methods
-    public Product getProductById(int id) {
-
+    public static Product getProductById(int id) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductById'");
     }
 
     public static ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
@@ -157,16 +157,16 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
     }
 
-    public ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
+    public static ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
-    public ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
+    public static ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
     // Customer methods
-    public Customer getCustomerByEmailAndPassword(String email, String password) {
+    public static Customer getCustomerByEmailAndPassword(String email, String password) {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
@@ -178,58 +178,58 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    public ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
+    public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
     }
 
-    public ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
+    public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
     }
 
     // Sale methods
-    public Sale getSaleById(int i) {
+    public static Sale getSaleById(int i) {
         throw new UnsupportedOperationException("Unsupported operation: 'getSaleById'");
     }
 
-    public ArrayList<Sale> getSalesById(ArrayList<Integer> saleIds) {
+    public static ArrayList<Sale> getSalesById(ArrayList<Integer> saleIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
-    public ArrayList<Integer> getSaleIds(ArrayList<Sale> sales) {
+    public static ArrayList<Integer> getSaleIds(ArrayList<Sale> sales) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
     // Stores methods
-    public Store getStoreById(int id) {
+    public static Store getStoreById(int id) {
         throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
     }
 
-    public ArrayList<Store> getStoresById(ArrayList<Integer> storeIds) {
+    public static ArrayList<Store> getStoresById(ArrayList<Integer> storeIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
-    public ArrayList<Integer> getStoreIds(ArrayList<Store> stores) {
+    public static ArrayList<Integer> getStoreIds(ArrayList<Store> stores) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
     // Seller methods
-    public Seller getSellerByEmailAndPassword(String email, String password) {
+    public static Seller getSellerByEmailAndPassword(String email, String password) {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    public Seller getSellerById(int sellerId) {
+    public static Seller getSellerById(int sellerId) {
         throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
     }
 
-    public int getNextSellerId() {
+    public static int getNextSellerId() {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    public ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) {
+    public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
     }
 
-    public ArrayList<Seller> getSellerIds(ArrayList<Seller> sellers) {
+    public static ArrayList<Seller> getSellerIds(ArrayList<Seller> sellers) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
     }
 

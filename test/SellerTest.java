@@ -25,7 +25,7 @@ public class SellerTest extends TestUtils {
         Seller seller = amazeon.getSellerById(0);
         Product ninSwitch = new Product(1, "switch", 1,
                 "Nintendo switches it up!", 300.00, 0, 0);
-        seller.editProduct(amazeon.getProductById(0), ninSwitch);
+        seller.updateProducts(amazeon.getProductById(0), ninSwitch);
         assertEquals(seller.getProducts().get(0), ninSwitch);
     }
 
