@@ -65,14 +65,13 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
 //                }
 //            }
 //        }
+
         throw new UnsupportedOperationException("Unimplemented method 'sort1'");
     }
 
     //sort products by sale
-    @Override
     public ArrayList<Product> sort2(User user) {
 
-        throw new UnsupportedOperationException("Unimplemented method 'sort2'");
     }
 
     @Override
@@ -101,6 +100,4 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
             sort2();
             sort1();
         }
-        throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
-    }
 }

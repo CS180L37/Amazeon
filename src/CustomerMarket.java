@@ -5,7 +5,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
     public CustomerMarket(Customer customer, ArrayList<Store> stores) {
         super(customer, stores); // Retrieve existing stores and customer
-        this.dashboard = new CustomerDashboard(stores, stores);
+        this.dashboard = new CustomerDashboard(stores, stores, customer);
     }
 
     public CustomerMarket(Customer customer, ArrayList<Store> stores, CustomerDashboard dashboard) {
@@ -38,7 +38,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     // Display/work with the dashboard for customers
     @Override
     public void displayDashboard() {
-        dashboard.displayDashboard(this.getUser());
+        dashboard.displayDashboard();
     }
 
     public CustomerDashboard getDashboard() {
