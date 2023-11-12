@@ -16,6 +16,7 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
 
     @Override
     public void displayMarketplace() {
+
         throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
     }
 
