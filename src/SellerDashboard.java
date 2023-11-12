@@ -17,14 +17,14 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
     @Override
     public ArrayList<Customer> sort1() {
         ArrayList<Customer> sortedCust = new ArrayList<Customer>();
-        for(int i = 0; i < getData1().size(); i++){
+        for (int i = 0; i < getData1().size(); i++) {
             sortedCust.add(getData1().get(i));
         }
 
-        for(int i = 0; i < sortedCust.size() - 1; i++){
+        for (int i = 0; i < sortedCust.size() - 1; i++) {
             int maxIndex = i;
-            for(int j = 0; j < sortedCust.size(); j++){
-                if(sortedCust.get(j).getProducts().size() > sortedCust.get(maxIndex).getProducts().size()){
+            for (int j = 0; j < sortedCust.size(); j++) {
+                if (sortedCust.get(j).getProducts().size() > sortedCust.get(maxIndex).getProducts().size()) {
                     maxIndex = j;
                 }
             }
@@ -34,14 +34,15 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
             sortedCust.set(maxIndex, customer);
 
         }
-//        Map<Customer, Integer> customerIntegerMap = new HashMap<>();
-//        for (Sale sale : user.getSales()) {
-//            if (customerIntegerMap.containsKey(sale.getCustomer())) {
-//                customerIntegerMap.put(sale.getCustomer(), customerIntegerMap.get(sale.getCustomer()) + 1);
-//            } else {
-//                customerIntegerMap.put(sale.getCustomer(), 1);
-//            }
-//        }
+        // Map<Customer, Integer> customerIntegerMap = new HashMap<>();
+        // for (Sale sale : user.getSales()) {
+        // if (customerIntegerMap.containsKey(sale.getCustomer())) {
+        // customerIntegerMap.put(sale.getCustomer(),
+        // customerIntegerMap.get(sale.getCustomer()) + 1);
+        // } else {
+        // customerIntegerMap.put(sale.getCustomer(), 1);
+        // }
+        // }
         // for (Map.Entry<Customer, Integer> entry : customerIntegerMap.entrySet())
         // System.out.println("Key = " + entry.getKey() +
         // ", Value = " + entry.getValue());
@@ -55,27 +56,29 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
         // }
 
         // another way
-//        Customer[] indicesCIM = new Customer[customerIntegerMap.size()];
-//        for (int i = 0; i < customerIntegerMap.size() - 1; i++) {
-//            for (int j = 0; j < customerIntegerMap.size() - 1 - i; j++) {
-//                if (customerIntegerMap.get(indicesCIM[j]) > customerIntegerMap.get(indicesCIM[j + 1])) {
-//                    Customer temp = indicesCIM[j];
-//                    indicesCIM[j] = indicesCIM[j + 1];
-//                    indicesCIM[j + 1] = temp;
-//                }
-//            }
-//        }
+        // Customer[] indicesCIM = new Customer[customerIntegerMap.size()];
+        // for (int i = 0; i < customerIntegerMap.size() - 1; i++) {
+        // for (int j = 0; j < customerIntegerMap.size() - 1 - i; j++) {
+        // if (customerIntegerMap.get(indicesCIM[j]) >
+        // customerIntegerMap.get(indicesCIM[j + 1])) {
+        // Customer temp = indicesCIM[j];
+        // indicesCIM[j] = indicesCIM[j + 1];
+        // indicesCIM[j + 1] = temp;
+        // }
+        // }
+        // }
 
         throw new UnsupportedOperationException("Unimplemented method 'sort1'");
     }
 
-    //sort products by sale
-    public ArrayList<Product> sort2(User user) {
-
+    // sort products by sale
+    @Override
+    public ArrayList<Product> sort2() {
+        throw new UnsupportedOperationException("Unimplemented method 'sort2'");
     }
 
     @Override
-    public void displayDashboard(User user) {
+    public void displayDashboard() {
         System.out.println(
                 "How do you want to sort?\n1. Number of products purchased by a customer\n2. Products by number of sales\n");
         int choice; // default
@@ -100,4 +103,5 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
             sort2();
             sort1();
         }
+    }
 }

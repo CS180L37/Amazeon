@@ -136,7 +136,7 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
         int sortOption = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
 
         // sorts by products purchased
-        if (sortOption == 1) {
+        if (sortOption == Utils.YES) {
             sort1();
             for (int i = 0; i < sort1().size(); i++) {
                 System.out.println("Store Name: " + sort1().get(i).getName() + "\n");

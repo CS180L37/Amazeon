@@ -23,7 +23,6 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                         + "\nProduct Price: " + Amazeon.stores.get(i).getProducts().get(j).getPrice() + "\n");
             }
         }
-        throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
     }
 
     // When clicking on an individual product
@@ -32,7 +31,6 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
         System.out.println(Amazeon.getStoreById(product.getStoreId()) + "\n" + product.getName() + "\n"
                 + product.getDescription() + "\n" + product.getQuantity() + "\n" + product.getPrice());
         // add display of purchase history
-        throw new UnsupportedOperationException("Unimplemented method 'displayProductPage'");
     }
 
     // Display/work with the dashboard for customers
@@ -147,7 +145,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                     + "Product Name: " + relevantProducts.get(i).getName()
                     + "Product Price: " + relevantProducts.get(i).getPrice());
         }
-        throw new UnsupportedOperationException("Unimplemented method 'search'");
+        return relevantProducts;
     }
 
     // A utility method for displaying the users cart; just calls display() from
