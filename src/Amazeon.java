@@ -97,8 +97,6 @@ public class Amazeon {
         }
     }
 
-    private void sellerLoop(SellerMarket sellerMarket, Seller seller) {
-    }
 
     // Utility methods
     public static boolean hasAccount() {
@@ -149,10 +147,11 @@ public class Amazeon {
     // Product methods
     public static Product getProductById(int id) {
         for (Product product : Amazeon.products) {
-            if (product.getProductId() = id) {
+            if (product.getProductId() == id) {
                 return product;
             }
         }
+        return null;
     }
 
     public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
@@ -164,9 +163,11 @@ public class Amazeon {
     }
 
     public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
+        ArrayList<Integer> productIDs = new ArrayList<>();
         for (Product product : products) {
-            return product.getProductId();
+            productIDs.add(product.getProductId());
         }
+        return productIDs;
     }
 
     // Cart methods
@@ -297,6 +298,23 @@ public class Amazeon {
         }
         return null;
     }
+    public int getStoreIDFromName(String storeName) {
+        for (Store store : stores) {
+            if (store.getName().equalsIgnoreCase(storeName)) {
+                return store.getId();
+            }
+        }
+        return Utils.NO;
+    }
+
+    public static String getStoreNameFromID(int storeID) {
+        for (Store store : Market.getStores()) {
+            if (store.getId() == storeID) {
+                return store.getName();
+            }
+        }
+        return String.valueOf(Utils.NO);
+    }
 
     public static int getNextSellerId() {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
@@ -363,7 +381,7 @@ public class Amazeon {
         //throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
     }
 
-    public void sellerLoop() {
+    public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
         sellerMarket.displayMarketplace();
         boolean error = true;
         do {
