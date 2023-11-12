@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 
 public class SellerMarket extends Market<Seller> implements MarketInterface<Seller, Customer, Product> {
-    private Dashboard<Customer, Product> dashboard;
+    private SellerDashboard dashboard;
 
     public SellerMarket(Seller seller, ArrayList<Store> stores, ArrayList<Customer> customers,
             ArrayList<Product> products) {
         super(seller, stores); // Retrieve existing stores and create a new customer
-        this.dashboard = new Dashboard<Customer, Product>(customers, products);
+        this.dashboard = new SellerDashboard(customers, products);
     }
 
-    public SellerMarket(Seller seller, ArrayList<Store> stores, Dashboard<Customer, Product> dashboard) {
+    public SellerMarket(Seller seller, ArrayList<Store> stores, SellerDashboard dashboard) {
         super(seller, stores);
         this.dashboard = dashboard;
     }
@@ -30,13 +30,11 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
         throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
     }
 
-    @Override
-    public Dashboard<Customer, Product> getDashboard() {
+    public SellerDashboard getDashboard() {
         return dashboard;
     }
 
-    @Override
-    public void setDashboard(Dashboard<Customer, Product> dashboard) {
+    public void setDashboard(SellerDashboard dashboard) {
         this.dashboard = dashboard;
     }
 

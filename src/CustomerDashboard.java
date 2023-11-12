@@ -10,9 +10,9 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
     // types
     // Sort stores by products sold
     @Override
-    public ArrayList<Store> sort1(User user) {
+    public static ArrayList<Store> sort1(User user) {
         ArrayList<Store> sortedStores = new ArrayList<Store>();
-        for(int i = 0; i < Market.getStores().size(); i++){
+        for (int i = 0; i < Market.getStores().size(); i++) {
             sortedStores.add(Market.getStores().get(i));
         }
         //Product --> seller ids
@@ -25,22 +25,22 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
 
         ArrayList<Integer> numProductsSold = new ArrayList<Integer>(); //list of numProducts sold by each store
 
-        for(int i = 0; i < Market.getStores().size(); i++) {
+        for (int i = 0; i < Market.getStores().size(); i++) {
             int quantity = 0;
-            for(int j = 0; j < Market.getStores().get(i).getProducts().size(); j++) {
+            for (int j = 0; j < Market.getStores().get(i).getProducts().size(); j++) {
                 int sellerId = Market.getStores().get(i).getProducts().get(j).getSellerId();
                 Seller seller = Seller.getSellerById(sellerId);
-                for(int k = 0; k < seller.getSales().size(); k++) {
+                for (int k = 0; k < seller.getSales().size(); k++) {
                     quantity += seller.getSales().get(i).getProduct().getQuantity();
                 }
             }
             numProductsSold.set(i, quantity);
         }
 
-        for(int i = 0; i < numProductsSold.size() - 1; i++) {
+        for (int i = 0; i < numProductsSold.size() - 1; i++) {
             int maxIndex = i;
-            for(int j = 0; j < numProductsSold.size(); j++) {
-                if(numProductsSold.get(j) > numProductsSold.get(maxIndex)) {
+            for (int j = 0; j < numProductsSold.size(); j++) {
+                if (numProductsSold.get(j) > numProductsSold.get(maxIndex)) {
                     maxIndex = j;
                 }
             }
@@ -55,14 +55,12 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
         }
         return sortedStores;
         //throw new UnsupportedOperationException("Unimplemented method 'sort1'");
-
-        }
-
+    }
     // Sort stores by products purchased by a customer
 
 
     @Override
-    public ArrayList<Store> sort2(User user) {
+    public static ArrayList<Store> sort2(User user) {
         ArrayList<Integer> numPurchasedEachStore = new ArrayList<Integer>();
 
         //copies stores list from market in order to create a sortedStores list

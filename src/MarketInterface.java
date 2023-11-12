@@ -1,10 +1,6 @@
 public interface MarketInterface<T, U, V> {
     public void displayMarketplace(); // Entry point for `SellerMarket` or `CustomerMarket`
 
-    Dashboard<U, V> getDashboard(); // Create a Dashboard
-
-    void setDashboard(Dashboard<U, V> dashboard); // Set a Dashboard
-
     public void displayDashboard(); // Display the dashboard
 
     public void displayProductPage(Product product); // Display the dashboard

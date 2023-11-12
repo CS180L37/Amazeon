@@ -5,7 +5,8 @@ public class User {
     private String email;
     private String password;
     private int id;
-    private ArrayList<Product> products; //userCustomer --> array of products purchased, userSeller --> array of products being sold
+    private ArrayList<Product> products; // userCustomer --> array of products purchased, userSeller --> array of
+                                         // products being sold
 
     public User(int id, ArrayList<Product> products, String email, String password) {
         this.id = id;
@@ -62,13 +63,13 @@ public class User {
                 pw.println(Amazeon.counterBuyers + "," + email + "," + password);
                 Amazeon.counterBuyers++;
             }
-//            if (type.equalsIgnoreCase("seller")) {
-//                pw.println("S" + Amazeon.getCounterSeller() + "," + email + "," + password);
-//                Amazeon.setCounterSeller(Amazeon.getCounterSeller() + 1);
-//            } else {
-//                pw.println("C" + Amazeon.getCounterBuyer() + "," + email + "," + password);
-//                Amazeon.setCounterBuyer(Amazeon.getCounterBuyer() + 1);
-//            }
+            // if (type.equalsIgnoreCase("seller")) {
+            // pw.println("S" + Amazeon.getCounterSeller() + "," + email + "," + password);
+            // Amazeon.setCounterSeller(Amazeon.getCounterSeller() + 1);
+            // } else {
+            // pw.println("C" + Amazeon.getCounterBuyer() + "," + email + "," + password);
+            // Amazeon.setCounterBuyer(Amazeon.getCounterBuyer() + 1);
+            // }
             return Utils.YES;
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,16 +83,16 @@ public class User {
         BufferedReader br;
         try {
             if (type.equalsIgnoreCase("seller")) {
-                credentialsFile = new File("seller credentials.txt");
+                credentialsFile = new File(Utils.DATA_DIR + Utils.SELLER_FILE);
             } else {
-                credentialsFile = new File("customer credentials.txt");
+                credentialsFile = new File(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
             }
             fr = new FileReader(credentialsFile);
             br = new BufferedReader(fr);
             String currentLine = br.readLine();
             while (currentLine != null) {
-                if (currentLine.split(";")[0].equals(email)) {
-                    if (currentLine.split(";")[1].equals(password)) {
+                if (currentLine.split(",")[1].equals(email)) {
+                    if (currentLine.split(",")[2].equals(password)) {
                         return Utils.NO;
                     }
                 }

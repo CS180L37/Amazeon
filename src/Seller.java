@@ -19,6 +19,9 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = sales;
     }
 
+    public int getId() {
+        return id;
+    }
     public void displayProducts() {
         // for (int i = 0; i < getProductsSold().size(); i++) {
         // System.out.printf("%d. %s\n", i, getProductsSold().get(i));
@@ -208,8 +211,20 @@ public class Seller extends User implements UserInterface<Seller> {
             e.printStackTrace();
         }
     }
-
-    public void updateProducts() {
+    public static void updateProduct(Product product, Scanner scan) {
+        System.out.println("Enter new name:");
+        String newName = scan.nextLine();
+        //TODO
+        System.out.println("Enter stores?");
+        //something waiting for edstem
+        System.out.println("Enter new description:");
+        String newDesc = scan.next();
+        System.out.println("Enter new quantity:");
+        int newQuan = Integer.parseInt(scan.nextLine());
+        System.out.println("Enter new price:");
+        int newPrice = Integer.parseInt(scan.nextLine());
+    }
+    public void updateProductsFile() {
         FileWriter fw;
         BufferedWriter bw;
         PrintWriter pw;
@@ -230,11 +245,16 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public static Seller getSellerById(int sellerId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
+        for (Seller seller : Market.getStore) {
+            if (seller.getId() == sellerId) {
+                return seller;
+            }
+        }
     }
 
     public static int getNextSellerId() {
         throw new UnsupportedOperationException("Unimplemented method 'getNextSellerId'");
+
     }
 
     public void setSales(ArrayList<Sale> sales) {
@@ -265,11 +285,8 @@ public class Seller extends User implements UserInterface<Seller> {
                 String[] data = line.split(",");
                 sellers.add(new Seller(
                         Integer.parseInt(data[0]),
-                        (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Product>(),
-                        data[2], data[1],
-                        (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
-                                : new ArrayList<Sale>()));
+                        (!data[1].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[1]))
+                                : new ArrayList<Product>(), data[2], data[3], Amazeon.getSalesById(Amazeon.getIDsByString(data[4]))));
             }
             return sellers;
         } catch (IOException e) {
