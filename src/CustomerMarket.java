@@ -17,7 +17,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     @Override
     public void displayMarketplace() {
         for(int i  = 0; i < getStores().size(); i++){
-            for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
+            for(int j = 0; j < getStores().get(i).getProducts().size(); j++) {
                 System.out.println("Store Name: " + getStores().get(i).getName()
                         + "\nProduct Name: " + getStores().get(i).getProducts().get(j).getName()
                         + "\nProduct Price: " + getStores().get(i).getProducts().get(j).getPrice() + "\n");
@@ -55,6 +55,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                         maxIndex = j;
                     }
                 }
+
                 if(maxIndex != i){
                     Product product = this.getUser().getProducts().get(maxIndex);
                     this.getUser().getProducts().set(maxIndex, this.getUser().getProducts().get(i));
@@ -88,7 +89,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                 for(int j = 0; j < getStores().get(i).getProducts().size(); j++) {
                     int sellerId = getStores().get(i).getProducts().get(j).getSellerId();
                     Seller seller = Seller.getSellerById(sellerId);
-                    for(int k = 0; k < seller.getSales().size(); k++){
+                    for(int k = 0; k < seller.getSales().size(); k++) {
                         quantity += seller.getSales().get(i).getProduct().getQuantity();
                     }
                 }
@@ -102,7 +103,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                         maxIndex = j;
                     }
                 }
-                if(maxIndex != i){
+                if(maxIndex != i) {
                     int productsSold = numProductsSold.get(maxIndex);
                     numProductsSold.set(maxIndex, numProductsSold.get(i));
                     numProductsSold.set(maxIndex, productsSold);
@@ -136,9 +137,9 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     public void sort(boolean price, boolean quantityAvailable) {
         ArrayList<Product> allProducts = new ArrayList<Product>();
 
-        if(price && !quantityAvailable){
+        if(price && !quantityAvailable) {
             for(int i = 0; i < getStores().size(); i++) {
-                for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
+                for(int j = 0; j < getStores().get(i).getProducts().size(); j++) {
                     allProducts.add(getStores().get(i).getProducts().get(j));
                 }
             }
@@ -159,7 +160,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             }
 
             //prints all products in marketplace
-            for(int i = 0; i < allProducts.size(); i++){
+            for(int i = 0; i < allProducts.size(); i++) {
                 System.out.println("Store Name: " + Amazeon.getStoreById(allProducts.get(i).getStoreId())
                         + "\nProduct Name: " + allProducts.get(i).getName()
                         + "\nProduct Price: " + allProducts.get(i).getPrice() + "/n/n");
@@ -179,7 +180,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                         maxIndex = j;
                     }
                 }
-                if(maxIndex != i){
+                if(maxIndex != i) {
                     Product product = allProducts.get(maxIndex);
                     allProducts.set(maxIndex, allProducts.get(i));
                     allProducts.set(maxIndex, product);
@@ -187,7 +188,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             }
 
             //prints all products in marketplace
-            for(int i = 0; i < allProducts.size(); i++){
+            for(int i = 0; i < allProducts.size(); i++) {
                 System.out.println("Store Name: " + Amazeon.getStoreById(allProducts.get(i).getStoreId()).getName()
                         + "\nProduct Name: " + allProducts.get(i).getName()
                         + "\nProduct Quantity: " + allProducts.get(i).getQuantity() + "/n/n");
