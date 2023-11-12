@@ -70,9 +70,7 @@ public class Cart {
                     break;
                 }
                 String[] data = line.split(",");
-                carts.add(new Cart(Integer.parseInt(data[0]),
-                        (!data[1].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[1]))
-                                : new ArrayList<Product>()));
+                carts.add(Utils.convertFromCartString(data));
             }
             return carts;
         } catch (IOException e) {
@@ -86,8 +84,7 @@ public class Cart {
             for (Cart cart : carts) {
 
                 bw.write(
-                        Integer.toString(cart.getCustomerID()) + ","
-                                + Utils.convertToIdString((Amazeon.getProductIds(cart.getCartProducts())).toString()));
+                        Utils.convertToCartString(cart));
             }
         } catch (IOException e) {
             e.printStackTrace();

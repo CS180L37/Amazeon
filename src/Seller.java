@@ -269,13 +269,7 @@ public class Seller extends User implements UserInterface<Seller> {
                     break;
                 }
                 String[] data = line.split(",");
-                sellers.add(new Seller(
-                        Integer.parseInt(data[0]),
-                        (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Product>(),
-                        data[2], data[1],
-                        (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
-                                : new ArrayList<Sale>()));
+                sellers.add(Utils.convertFromSellerString(data));
             }
             return sellers;
         } catch (IOException e) {
@@ -287,9 +281,7 @@ public class Seller extends User implements UserInterface<Seller> {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
             for (Seller seller : sellers) {
-                bw.write(seller.getId() + "," + seller.getEmail() + "," + seller.getPassword() + ","
-                        + Utils.convertToIdString(Amazeon.getProductIds(seller.getProducts()).toString()) + ","
-                        + Utils.convertToIdString(Amazeon.getSaleIds(seller.getSales()).toString()));
+                bw.write(Utils.convertToSellerString(seller));
             }
         } catch (IOException e) {
             e.printStackTrace();

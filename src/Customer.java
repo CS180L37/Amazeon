@@ -20,7 +20,15 @@ public class Customer extends User implements UserInterface<Customer> {
     // Exports customer purchase history
     @Override
     public void exportData(String filepath) {
-        throw new UnsupportedOperationException("Unsupported operation 'exportPurchaseHistory");
+        // Export customer data to Utils.CUSTOMER_FILE
+        try {
+            BufferedWriter bw = Utils.createWriter(filepath);
+            // bw.write(this.getProducts());
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
     }
 
     // unnecessary method
@@ -31,8 +39,7 @@ public class Customer extends User implements UserInterface<Customer> {
 
     // Purchases a product
     public void purchaseProduct(Product product) {
-
-        // takes you to product page --> method has to call displayProduct()
+        // Add to customers products
         throw new UnsupportedOperationException("Unsupported operation 'purchaseProduct");
     }
 
@@ -75,10 +82,7 @@ public class Customer extends User implements UserInterface<Customer> {
                     break;
                 }
                 String[] data = line.split(",");
-                customers.add(new Customer(Integer.parseInt(data[0]), data[1], data[2],
-                        (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Product>(),
-                        Amazeon.getCartById(Integer.parseInt(data[0]))));
+                customers.add(Utils.convertFromCustomerString(data));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -90,9 +94,7 @@ public class Customer extends User implements UserInterface<Customer> {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
             for (Customer customer : customers) {
-                bw.write(Integer.toString(Integer.parseInt(customer.getId() + "," + customer.getEmail()
-                        + "," + customer.getPassword() + ","
-                        + Utils.convertToIdString(Amazeon.getProductIds(customer.getProducts()).toString()))));
+                bw.write(Utils.convertToCustomerString(customer));
             }
         } catch (IOException e) {
             e.printStackTrace();

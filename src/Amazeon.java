@@ -147,7 +147,7 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductById'");
     }
 
-    public static ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
+    public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
@@ -160,7 +160,7 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
     }
 
-    public static ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
+    public static ArrayList<Product> getCartsByIds(ArrayList<Integer> cartIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
@@ -194,7 +194,7 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'getSaleById'");
     }
 
-    public static ArrayList<Sale> getSalesById(ArrayList<Integer> saleIds) {
+    public static ArrayList<Sale> getSalesByIds(ArrayList<Integer> saleIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
@@ -207,7 +207,7 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
     }
 
-    public static ArrayList<Store> getStoresById(ArrayList<Integer> storeIds) {
+    public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
