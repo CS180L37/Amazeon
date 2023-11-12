@@ -26,18 +26,4 @@ public class Market<T> {
     public void setUser(T user) {
         this.user = user;
     }
-
-    public void setUserById(int userId) {
-        throw new UnsupportedOperationException("Unimplemented method 'setUserById(int id)'");
-    }
-
-    // Read the data to restore a previous session
-    public void readData(String filename) {
-        throw new UnsupportedOperationException("Unimplemented method 'readData'");
-    }
-
-    // Persist the data by writing it to storage
-    public void writeData(String filename) {
-        throw new UnsupportedOperationException("Unimplemented method 'writeData'");
-    }
 }

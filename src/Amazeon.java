@@ -148,33 +148,57 @@ public class Amazeon {
 
     // Product methods
     public static Product getProductById(int id) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductById'");
+        for (Product product : Amazeon.products) {
+            if (product.getProductId() = id) {
+                return product;
+            }
+        }
     }
 
     public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        ArrayList<Product> products = new ArrayList<>();
+        for (int productID : productIds) {
+            products.add(getProductById(productID));
+        }
+        return products;
     }
 
     public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductIds'");
+        for (Product product : products) {
+            return product.getProductId();
+        }
     }
 
     // Cart methods
     public static Cart getCartById(int parseInt) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
+        for (Cart cart : Amazeon.carts) {
+            if (cart.getCustomerID() = parseInt) {
+                return cart;
+            }
+        }
     }
 
-    public static ArrayList<Product> getCartsByIds(ArrayList<Integer> cartIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    public static ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
+        ArrayList<Cart> carts = new ArrayList<>();
+        for (int cartID : cartIds) {
+            carts.add(getCartById(cartID));
+        }
     }
 
     public static ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        ArrayList<Integer> cartIDs = new ArrayList<Integer>();
+        for (Cart cart : carts) {
+            cartIDs.add(cart.getCustomerID());
+        }
     }
 
     // Customer methods
     public static Customer getCustomerByEmailAndPassword(String email, String password) {
-        throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
+        for (Customer customer : Amazeon.customers) {
+            if (customer.get(1) == email || customer.get(2) == password) {
+                return customer;
+            }
+        }
     }
 
     public static Customer getCustomerById(int customerId) {
@@ -231,7 +255,7 @@ public class Amazeon {
         return store;
     }
 
-    public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) {
+    public static ArrayList<Store> getStoresById(ArrayList<Integer> storeIds) {
         ArrayList<Store> stores = new ArrayList<>();
         for (int id : storeIds) {
             stores.add(getStoreById(id));
@@ -269,14 +293,18 @@ public class Amazeon {
                 String[] parts = currentLine.split(",");
                 if (parts[1].equals(email)) {
                     if (parts[2].equals(password)) {
-                        return new Seller(Integer.parseInt(parts[0]), getProductsByIds(getIDsByString(parts[1])),
-                                parts[2], parts[3], getSalesByIds(getIDsByString(parts[4])));
+                        return new Seller(Integer.parseInt(parts[0]), getProductByIds(getIDsByString(parts[1])),
+                                parts[2], parts[3], getSalesById(getIDsByString(parts[4])));
                     }
                 }
                 currentLine = br.readLine();
             }
+            return null;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public static Seller getSellerById(int sellerId) {
@@ -350,10 +378,60 @@ public class Amazeon {
                 error = false;
             }
         } while (!error);
-        throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
+        // throw new UnsupportedOperationException("Unsupported operation:
+        // 'customerLoop'");
     }
 
-    public void sellerLoop() {
-        throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
+    public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
+        sellerMarket.displayMarketplace();
+        boolean error = true;
+        do {
+            System.out.println(
+                    "What would you like to do?\n1) Create\n2) Edit\n3) Delete\n4) View Sales\n5) Display Dashboard" +
+                            "6) View Carts\n");
+            int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
+            if (customerAction == 1) {
+                System.out.println("Which product would you like to purchase?");
+                int productID = Integer.parseInt(Utils.SCANNER.nextLine());
+                seller.purchaseProduct(getProductById(productID));
+            } else if (customerAction == 2) {
+                boolean valid = true;
+                do {
+                    System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
+                    int searchCriteria = Integer.parseInt(Utils.SCANNER.nextLine());
+                    if (searchCriteria == 1) {
+                        System.out.println("Enter the name of the product: ");
+                        String name = Utils.SCANNER.nextLine();
+                        sellerMarket.search(name, null, null);
+                    } else if (searchCriteria == 2) {
+                        System.out.println("Enter the storeId of the product: ");
+                        String storeId = Utils.SCANNER.nextLine();
+                        sellerMarket.search(null, storeId, null);
+                    } else if (searchCriteria == 3) {
+                        System.out.println("Enter the description of the product: ");
+                        String description = Utils.SCANNER.nextLine();
+                        sellerMarket.search(null, null, description);
+                    } else {
+                        valid = false;
+                    }
+                } while (!valid);
+            } else if (customerAction == 3) {
+                sellerMarket.displayDashboard();
+            } else if (customerAction == 4) {
+                System.out.println("Would you like to sort by price (y) or quantity (n)");
+                int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
+                if (sortCriteria == 1) {
+                    sellerMarket.sort(true, false);
+                } else {
+                    sellerMarket.sort(false, true);
+                }
+
+            } else if (customerAction == 5) {
+                sellerMarket.displayCart();
+            } else {
+                System.out.println("Please do choose a valid option.");
+                error = false;
+            }
+        } while (!error);
     }
 }

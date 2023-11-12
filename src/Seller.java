@@ -139,7 +139,7 @@ public class Seller extends User implements UserInterface<Seller> {
                 if (line == null) {
                     break;
                 }
-                Seller.
+                this.updateProduct()
             }
             br.readLine();
         }
@@ -229,11 +229,13 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public void updateProduct(Product product, Scanner scan) {
+    public void updateProduct(int prodID, Scanner scan) {
         System.out.println("Enter new name:");
         String newName = scan.nextLine();
         // TODO
         System.out.println("Enter stores?");
+        int newStoreID = scan.nextInt();
+        scan.nextLine();
         // something waiting for edstem
         System.out.println("Enter new description:");
         String newDesc = scan.next();
@@ -338,7 +340,7 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public static void updateSellersFile() {
+    public void updateSellersFile() {
         try {
             FileWriter fw = new FileWriter(new File(Utils.DATA_DIR + Utils.SELLER_FILE));
             BufferedWriter bw = new BufferedWriter(fw);
