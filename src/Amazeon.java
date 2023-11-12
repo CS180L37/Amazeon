@@ -258,27 +258,12 @@ public class Amazeon {
     }
     // Seller methods
     public static Seller getSellerByEmailAndPassword(String email, String password) {
-        FileReader fr;
-        BufferedReader br;
-        try {
-            fr = new FileReader(new File(Utils.DATA_DIR + Utils.SELLER_FILE));
-            br = new BufferedReader(fr);
-            String currentLine = br.readLine();
-            while (currentLine != null) {
-                String[] parts = currentLine.split(",");
-                if (parts[1].equals(email)) {
-                    if (parts[2].equals(password)) {
-                        return new Seller(Integer.parseInt(parts[0]), getProductByIds(getIDsByString(parts[1])), parts[2], parts[3], getSalesById(getIDsByString(parts[4])));
-                    }
-                }
-                currentLine = br.readLine();
+        for (Seller seller : sellers) {
+            if (seller.getEmail().equals(email) && seller.getPassword().equals(password)) {
+                return seller;
             }
-            return null;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public static Seller getSellerById(int sellerId) {
