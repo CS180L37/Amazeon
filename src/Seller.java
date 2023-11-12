@@ -19,9 +19,7 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = sales;
     }
 
-    public int getId() {
-        return super.getId();
-    }
+
     public void displayProducts() {
         // for (int i = 0; i < getProductsSold().size(); i++) {
         // System.out.printf("%d. %s\n", i, getProductsSold().get(i));
@@ -209,20 +207,23 @@ public class Seller extends User implements UserInterface<Seller> {
                 pw.println(product.getName() + "," + storeName + ","
                         + product.getDescription() + "," + product.getQuantity() + "," + product.getPrice());
             }
+            pw.flush();
+            pw.close();
+            bw.close();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void updateProduct(Scanner scan) {
-        System.out.println("Enter product ID:");
-        int prodID = scan.nextInt();
-        scan.nextLine();
-        System.out.println("Enter new product name: ");
+
+    public void updateProduct(int prodID, Scanner scan) {
+        System.out.println("Enter new name:");
         String newName = scan.nextLine();
-        //TODO
-        System.out.println("Enter store ID:");
+        // TODO
+        System.out.println("Enter stores?");
         int newStoreID = scan.nextInt();
         scan.nextLine();
+        // something waiting for edstem
         System.out.println("Enter new description:");
         String newDesc = scan.next();
         System.out.println("Enter new quantity:");
@@ -240,6 +241,7 @@ public class Seller extends User implements UserInterface<Seller> {
         }
         updateProductsFile();
     }
+
     public void updateProductsFile() {
         FileWriter fw;
         BufferedWriter bw;
@@ -255,6 +257,10 @@ public class Seller extends User implements UserInterface<Seller> {
                         + product.getDescription() + "," + product.getQuantity() + "," +
                         product.getPrice());
             }
+            pw.flush();
+            pw.close();
+            bw.close();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -300,11 +306,9 @@ public class Seller extends User implements UserInterface<Seller> {
                     break;
                 }
                 String[] data = line.split(",");
-                sellers.add(new Seller(
-                        Integer.parseInt(data[0]),
-                        (!data[1].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[1]))
-                                : new ArrayList<Product>(), data[2], data[3], Amazeon.getSalesById(Amazeon.getIDsByString(data[4]))));
+                sellers.add(Utils.convertFromSellerString(data));
             }
+            br.close();
             return sellers;
         } catch (IOException e) {
             return new ArrayList<Seller>();
@@ -315,9 +319,21 @@ public class Seller extends User implements UserInterface<Seller> {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
             for (Seller seller : sellers) {
-                bw.write(seller.getId() + "," + seller.getEmail() + "," + seller.getPassword() + ","
-                        + Utils.convertToIdString(Amazeon.getProductIds(seller.getProducts()).toString()) + ","
-                        + Utils.convertToIdString(Amazeon.getSaleIds(seller.getSales()).toString()));
+                bw.write(Utils.convertToSellerString(seller));
+            }
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateSellersFile() {
+        try {
+            FileWriter fw = new FileWriter(new File(Utils.DATA_DIR + Utils.SELLER_FILE));
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            for (Seller seller : Amazeon.sellers) {
+//                pw.println();
             }
         } catch (IOException e) {
             e.printStackTrace();

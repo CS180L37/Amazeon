@@ -148,34 +148,56 @@ public class Amazeon {
 
     // Product methods
     public static Product getProductById(int id) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductById'");
+        for (Product product : Amazeon.products) {
+            if (product.getProductId() = id) {
+                return product;
+            }
+        }
     }
 
-
-    public static ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
+        ArrayList<Product> products = new ArrayList<>();
+        for (int productID : productIds) {
+            products.add(getProductById(productID));
+        }
+        return products;
     }
 
     public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductIds'");
+        for (Product product : products) {
+            return product.getProductId();
+        }
     }
 
     // Cart methods
     public static Cart getCartById(int parseInt) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
+        for (Cart cart : Amazeon.carts) {
+            if (cart.getCustomerID() = parseInt) {
+                return cart;
+            }
+        }
     }
 
     public static ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        ArrayList<Cart> carts = new ArrayList<>();
+        for (int cartID : cartIds) {
+            carts.add(getCartById(cartID));
+        }
     }
-
     public static ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+        ArrayList<Integer> cartIDs = new ArrayList<Integer>();
+        for (Cart cart : carts) {
+            cartIDs.add(cart.getCustomerID());
+        }
     }
 
     // Customer methods
     public static Customer getCustomerByEmailAndPassword(String email, String password) {
-        throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
+        for (Customer customer : Amazeon.customers) {
+            if (customer.get(1) == email || customer.get(2) == password) {
+                return customer;
+            }
+        }
     }
 
     public static Customer getCustomerById(int customerId) {
@@ -245,7 +267,6 @@ public class Amazeon {
         for (Store store : stores) {
             storeIDs.add(store.getId());
         }
-        return storeIDs;
     }
     public static ArrayList<Integer> getIDsByString(String prodIDs) {
         String[] IDs = prodIDs.split("\\|");
@@ -258,12 +279,27 @@ public class Amazeon {
     }
     // Seller methods
     public static Seller getSellerByEmailAndPassword(String email, String password) {
-        for (Seller seller : sellers) {
-            if (seller.getEmail().equals(email) && seller.getPassword().equals(password)) {
-                return seller;
+        FileReader fr;
+        BufferedReader br;
+        try {
+            fr = new FileReader(new File(Utils.DATA_DIR + Utils.SELLER_FILE));
+            br = new BufferedReader(fr);
+            String currentLine = br.readLine();
+            while (currentLine != null) {
+                String[] parts = currentLine.split(",");
+                if (parts[1].equals(email)) {
+                    if (parts[2].equals(password)) {
+                        return new Seller(Integer.parseInt(parts[0]), getProductByIds(getIDsByString(parts[1])), parts[2], parts[3], getSalesById(getIDsByString(parts[4])));
+                    }
+                }
+                currentLine = br.readLine();
             }
+            return null;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public static Seller getSellerById(int sellerId) {
