@@ -20,7 +20,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public int getId() {
-        return id;
+        return id();
     }
     public void displayProducts() {
         // for (int i = 0; i < getProductsSold().size(); i++) {
