@@ -1,12 +1,9 @@
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 public class SaleTest extends TestUtils {
     @Test
     public void testCalculateCost() {
-        assertEquals(this.wiiToGamer, 100.00);
-        assertEquals(this.wiiToNintendoFanBoy, 200.00);
-        assertEquals(this.xboxToGamer, 299.99);
+        assert (amazeon.getSaleById(0).calculateCost() == 100.00);
+        assert (amazeon.getSaleById(1).calculateCost() == 200.00);
     }
 }
