@@ -208,8 +208,20 @@ public class Seller extends User implements UserInterface<Seller> {
             e.printStackTrace();
         }
     }
-
-    public void updateProducts() {
+    public static void updateProduct(Product product, Scanner scan) {
+        System.out.println("Enter new name:");
+        String newName = scan.nextLine();
+        //TODO
+        System.out.println("Enter stores?");
+        //something waiting for edstem
+        System.out.println("Enter new description:");
+        String newDesc = scan.next();
+        System.out.println("Enter new quantity:");
+        int newQuan = Integer.parseInt(scan.nextLine());
+        System.out.println("Enter new price:");
+        int newPrice = Integer.parseInt(scan.nextLine());
+    }
+    public void updateProductsFile() {
         FileWriter fw;
         BufferedWriter bw;
         PrintWriter pw;
