@@ -16,7 +16,9 @@ public class Utils {
     public static final String CUSTOMER_FILE = "/.customer.csv";
     public static final String SALE_FILE = "/.sale.csv";
     public static final String STORE_FILE = "/.store.csv";
-    public static final String SELLER_FILE = "/.seller.csv"; // in the format int id, ArrayList<Product> products,
+    public static final String CUSTOMER_PURCHASE_HISTORY = "/.customer_purchase_history.csv";
+    public static final String SELLER_PRODUCTS = "/.seller_products.csv";
+    public static final String SELLER_FILE = "/.seller.csv"; // in the format int id, ArrayList<Product> products, //
                                                              // String email, String password, ArrayList<Sale> sales
     public static final String NA = "NA";
 
@@ -81,6 +83,84 @@ public class Utils {
 
     public static String convertToIdString(String input) {
         return input.substring(1, input.length() - 1).replace(",", "|");
+    }
+
+    public static String convertToProductString(Product product) {
+        return Integer.toString(product.getProductId()) + "," + product.getName()
+                + Integer.toString(product.getQuantity()) + "," + product.getDescription() + ","
+                + Double.toString(product.getPrice()) + "," + Integer.toString(product.getSellerId()) + ","
+                + Integer.toString(product.getStoreId());
+    }
+
+    public static Product convertFromProductString(String[] data) {
+        return new Product(Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2]),
+                data[3], Double.parseDouble(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]));
+    }
+
+    public static String convertToCartString(Cart cart) {
+        return Integer.toString(cart.getCustomerID()) + ","
+                + Utils.convertToIdString((Amazeon.getProductIds(cart.getCartProducts())).toString());
+    }
+
+    public static Cart convertFromCartString(String[] data) {
+        return new Cart(Integer.parseInt(data[0]),
+                (!data[1].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[1]))
+                        : new ArrayList<Product>());
+    }
+
+    public static String convertToCustomerString(Customer customer) {
+        return Integer.toString(Integer.parseInt(customer.getId() + "," + customer.getEmail()
+                + "," + customer.getPassword() + ","
+                + Utils.convertToIdString(Amazeon.getProductIds(customer.getProducts()).toString())));
+    }
+
+    public static Customer convertFromCustomerString(String[] data) {
+        return new Customer(Integer.parseInt(data[0]), data[1], data[2],
+                (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
+                        : new ArrayList<Product>(),
+                Amazeon.getCartById(Integer.parseInt(data[0])));
+    }
+
+    public static String convertToSaleString(Sale sale) {
+        return Integer.toString(sale.getSaleId()) + "," + Integer.toString(sale.getCustomer().getId()) + ","
+                + Integer.toString(sale.getProduct().getProductId()) + ","
+                + Integer.toString(sale.getNumPurchased());
+    }
+
+    public static Sale convertFromSaleString(String[] data) {
+        return new Sale(Integer.parseInt(data[0]), Amazeon.getCustomerById(Integer.parseInt(data[1])),
+                Amazeon.getProductById(Integer.parseInt(data[2])),
+                Integer.parseInt(data[4]));
+    }
+
+    public static String convertToStoreString(Store store) {
+        return Integer.toString(store.getId()) + "," + store.getName() + ","
+                + Utils.convertToIdString((Amazeon.getProductIds(store.getProducts())).toString())
+                + Utils.convertToIdString((Amazeon.getCustomerIds(store.getCustomers())).toString());
+    }
+
+    public static Store convertFromStoreString(String[] data) {
+        return new Store(Integer.parseInt(data[0]), data[1],
+                (!data[2].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[2]))
+                        : new ArrayList<Product>(),
+                (!data[3].equals(Utils.NA)) ? Amazeon.getCustomersByIds(Utils.splitIdsByPipe(data[3]))
+                        : new ArrayList<Customer>());
+    }
+
+    public static String convertToSellerString(Seller seller) {
+        return Integer.toString(seller.getId()) + "," + seller.getEmail() + "," + seller.getPassword() + ","
+                + Utils.convertToIdString(Amazeon.getProductIds(seller.getProducts()).toString()) + ","
+                + Utils.convertToIdString(Amazeon.getSaleIds(seller.getSales()).toString());
+    }
+
+    public static Seller convertFromSellerString(String[] data) {
+        return new Seller(
+                Integer.parseInt(data[0]),
+                (!data[3].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[3]))
+                        : new ArrayList<Product>(),
+                data[2], data[1],
+                (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
+                        : new ArrayList<Sale>());
     }
 
     public static String inputPrompt(String prompt, ValidateInterface validateInterface, String... reprompt) {
