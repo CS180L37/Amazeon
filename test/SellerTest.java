@@ -14,31 +14,33 @@ import org.junit.Test;
 public class SellerTest extends TestUtils {
     @Test
     public void testCreateProduct() {
-        Seller seller = amazeon.getSellerById(0);
+        Seller seller = Amazeon.getSellerById(0);
+        Product ninSwitch = new Product(1, "switch", 1,
+                "Nintendo switches it up!", 300.00, 0, 0);
         seller.importData(Utils.DATA_DIR + Utils.TEST_FILE);
         assertEquals(seller.getProducts(),
-                new ArrayList<Product>(Arrays.asList(amazeon.getProductById(0), ninSwitch)));
+                new ArrayList<Product>(Arrays.asList(Amazeon.getProductById(0), ninSwitch)));
     }
 
     @Test
     public void testEditProduct() {
-        Seller seller = amazeon.getSellerById(0);
+        Seller seller = Amazeon.getSellerById(0);
         Product ninSwitch = new Product(1, "switch", 1,
                 "Nintendo switches it up!", 300.00, 0, 0);
-        seller.updateProducts(amazeon.getProductById(0), ninSwitch);
+        seller.updateProducts(Amazeon.getProductById(0), ninSwitch);
         assertEquals(seller.getProducts().get(0), ninSwitch);
     }
 
     @Test
     public void testDeleteProduct() {
-        Seller seller = amazeon.getSellerById(0);
-        seller.deleteProduct(amazeon.getProductById(0));
+        Seller seller = Amazeon.getSellerById(0);
+        seller.deleteProduct(Amazeon.getProductById(0));
         assertEquals(seller.getProducts().size(), 0);
     }
 
     @Test
     public void testEditAccount() {
-        Seller seller = amazeon.getSellerById(0);
+        Seller seller = Amazeon.getSellerById(0);
         seller.editAccount("newEmail@gmail.com", "newPassword");
         assertEquals(seller.getEmail(), "newEmail@gmail.com");
         assertEquals(seller.getPassword(), "newPassword");
@@ -46,7 +48,7 @@ public class SellerTest extends TestUtils {
 
     @Test
     public void testDeleteAccount() {
-        Seller seller = amazeon.getSellerById(0);
+        Seller seller = Amazeon.getSellerById(0);
         seller.deleteAccount();
         assertEquals(seller, null);
     }

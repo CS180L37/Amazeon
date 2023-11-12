@@ -7,7 +7,6 @@ public class Customer extends User implements UserInterface<Customer> {
     private Cart cart;
     // Contains id, email, password, and a list of purchased products
 
-
     public Customer(String email, String password) {
         super(Amazeon.getNextCustomerId(), new ArrayList<Product>(), email, password);
         this.cart = new Cart(this.getId(), this.getProducts());
@@ -33,7 +32,7 @@ public class Customer extends User implements UserInterface<Customer> {
     // Purchases a product
     public void purchaseProduct(Product product) {
 
-        //takes you to product page --> method has to call displayProduct()
+        // takes you to product page --> method has to call displayProduct()
         throw new UnsupportedOperationException("Unsupported operation 'purchaseProduct");
     }
 

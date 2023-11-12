@@ -47,7 +47,7 @@ public class Amazeon {
                 // Get the customer by email and password
                 customer = Amazeon.getCustomerByEmailAndPassword(email, password);
                 // Create the customer market (accesses all stores)
-                customerMarket = new CustomerMarket(customer, amazeon.stores);
+                customerMarket = new CustomerMarket(customer, Amazeon.stores);
                 // Open up options to customer
                 amazeon.customerLoop(customerMarket, customer);
                 amazeon.writeData();
@@ -59,7 +59,7 @@ public class Amazeon {
                 seller = Amazeon.getSellerByEmailAndPassword(email, password);
                 // Create the seller market (only accesses stores associated with the seller)
                 sellerMarket = new SellerMarket(seller, seller.getStores(),
-                        amazeon.customers, amazeon.products);
+                        amazeon.customers, Amazeon.products);
                 // Open up options to seller
                 amazeon.sellerLoop(sellerMarket, seller);
                 amazeon.writeData();
