@@ -1,3 +1,5 @@
+import jdk.jfr.Percentage;
+
 import java.io.*;
 import java.util.*;
 
@@ -41,11 +43,12 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public void displayDashboard(Scanner scan) {
         // Add a product to the sellers products list
-        System.out.println("How do you want to sort?\n1. Customer name\n2. Product name\n3.");
-        int choice = 3; // default
+        System.out.println("How do you want to sort?\n1. Number of products purchased by a customer\n2. Products by number of sales\n");
+        int choice; // default
         while (true) {
             try {
                 choice = scan.nextInt();
+                scan.nextLine();
                 if (choice != 1 && choice != 2 && choice != 3) {
                     throw new InputMismatchException();
                 }
@@ -56,8 +59,23 @@ public class Seller extends User implements UserInterface<Seller> {
         }
 
         // add sorting code
+        if (choice == 1) {
+            sortCustomersByPurchases();
+            sortProductsBySales();
+        } else if (choice == 2) {
+            sortProductsBySales();
+            sortCustomersByPurchases();
+        }
 
         // list of customers with number of items that they have purchased
+
+
+        // list of products with the number of sales.
+
+        // code for sorting by items per customer:
+    }
+
+    private void sortCustomersByPurchases() {
         Map<Customer, Integer> customerIntegerMap = new HashMap<>();
         for (Sale sale : getSales()) {
             if (customerIntegerMap.containsKey(sale.getCustomer())) {
@@ -66,34 +84,18 @@ public class Seller extends User implements UserInterface<Seller> {
                 customerIntegerMap.put(sale.getCustomer(), 1);
             }
         }
-        for (Map.Entry<Customer, Integer> entry : customerIntegerMap.entrySet())
-            System.out.println("Key = " + entry.getKey() +
-                    ", Value = " + entry.getValue());
+//        for (Map.Entry<Customer, Integer> entry : customerIntegerMap.entrySet())
+//            System.out.println("Key = " + entry.getKey() +
+//                    ", Value = " + entry.getValue());
+//        ArrayList<Map.Entry<Customer, Integer>> keyList = new ArrayList<>(customerIntegerMap.entrySet());
+//        keyList.sort(Comparator.comparing(Map.Entry::getValue));
+//        Map<Customer, Integer> sortedCustomerIntegerMap = new LinkedHashMap<>();
+//
+//        for (Map.Entry<Customer, Integer> key : keyList) {
+//            sortedCustomerIntegerMap.put(key.getKey(), key.getValue());
+//        }
 
-        // list of products with the number of sales.
-        int numberSales = 0;
-        for (int i = 0; i < getProducts().size(); i++) {
-            Product product = getProducts().get(i);
-            for (Sale sale : sales) {
-                if (sale.getProduct().equals(product)) {
-                    numberSales++;
-                }
-            }
-
-            System.out.println(i + ". " + getProducts().get(i) + " - " + numberSales + " Sales");
-            numberSales = 0;
-        }
-
-        // code for sorting by items per customer:
-        ArrayList<Map.Entry<Customer, Integer>> keyList = new ArrayList<>(customerIntegerMap.entrySet());
-        keyList.sort(Comparator.comparing(Map.Entry::getValue));
-        Map<Customer, Integer> sortedCustomerIntegerMap = new LinkedHashMap<>();
-
-        for (Map.Entry<Customer, Integer> key : keyList) {
-            sortedCustomerIntegerMap.put(key.getKey(), key.getValue());
-        }
-
-        // another way
+//         another way
         Customer[] indicesCIM = new Customer[customerIntegerMap.size()];
         for (int i = 0; i < customerIntegerMap.size() - 1; i++) {
             for (int j = 0; j < customerIntegerMap.size() - 1 - i; j++) {
@@ -106,48 +108,64 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
+    private void sortProductsBySales() {
+        int numberSales = 0;
+        for (int i = 0; i < getProducts().size(); i++) {
+            Product product = getProducts().get(i);
+            for (Sale sale : sales) {
+                if (sale.getProduct().equals(product)) {
+                    numberSales++;
+                }
+            }
+
+            System.out.println(i + ". " + getProducts().get(i) + " - " + numberSales + " Sales");
+            numberSales = 0;
+        }
+    }
+
     public void deleteProduct(Product product) {
         getProducts().remove(product);
     }
 
-    public void createProduct(String filename) throws IOException {
-        // int lineNumber = 0;
-        // try {
-        // BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
-        // while (br.readLine() != null) {
-        // lineNumber++;
-        // }
-        // br.close();
-        // } catch (IOException e) {
-        // throw new RuntimeException(e);
-        // ArrayList<Integer> intArray = new ArrayList<Integer>();
-        // try {
-        // BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
-        // String line = br.readLine();
-        // ArrayList<String[][]> data = new ArrayList<String[][]>();
-        // while (line != null) {
-        // String[][] lines = new String[0][lineNumber];
-        // lines = new String[][] { line.split(",") };
-        // data.add(lines);
-        // br.readLine();
-        // }
-        // String[] strArray = new String[data.size()];
-        // for (int i = 0; i < data.size(); i++) {
-        // strArray = data.get(i)[3];
-        // }
-        // for (int j = 0; j < strArray.length; j++) {
-        // intArray.set(j, Integer.parseInt(strArray[j]));
-        // }
-        // for (int k = 0; k < data.size(); k++) {
-        // Product product = new Product(Integer.parseInt(data.get(k)[0][0]),
-        // Integer.parseInt(data.get(k)[0][1]), data.get(k)[0][2], intArray,
-        // data.get(k)[0][4],
-        // Double.parseDouble(data.get()[0][5]));
-        // }
-        // } catch (IOException r) {
-        // r.printStackTrace();
-        // }
-        // }
+    @Override
+    public void importData(String filename) {
+        int lineNumber = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filename));
+            while (br.readLine() != null) {
+                lineNumber++;
+            }
+            br.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            ArrayList<Integer> intArray = new ArrayList<Integer>();
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
+                String line = br.readLine();
+                ArrayList<String[][]> data = new ArrayList<String[][]>();
+                while (line != null) {
+                    String[][] lines = new String[0][lineNumber];
+                    lines = new String[][] { line.split(",") };
+                    data.add(lines);
+                    br.readLine();
+                }
+                String[] strArray = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    strArray = data.get(i)[3];
+                }
+                for (int j = 0; j < strArray.length; j++) {
+                    intArray.set(j, Integer.parseInt(strArray[j]));
+                }
+                for (int k = 0; k < data.size(); k++) {
+                    Product product = new Product(Integer.parseInt(data.get(k)[0][0]),
+                            Integer.parseInt(data.get(k)[0][1]), data.get(k)[0][2], intArray,
+                            data.get(k)[0][4],
+                            Double.parseDouble(data.get()[0][5]));
+                }
+            } catch (IOException r) {
+                r.printStackTrace();
+            }
+        }
     }
 
     public String getStoreNameFromID(int storeID) {
@@ -168,8 +186,9 @@ public class Seller extends User implements UserInterface<Seller> {
         return Utils.NO;
     }
 
-    public void exportProducts() {
-        File outFile = new File("exported products.csv");
+    @Override
+    public void exportData(String filepath) {
+        File outFile = new File(filepath);
         try {
             FileWriter fw = new FileWriter(outFile);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -184,7 +203,6 @@ public class Seller extends User implements UserInterface<Seller> {
                 pw.println(product.getName() + "," + storeName + ","
                         + product.getDescription() + "," + product.getQuantity() + "," + product.getPrice());
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -210,15 +228,6 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    @Override
-    public void exportData(String filepath) {
-
-    }
-
-    // Import products from a csv file
-    public void importData(String filepath) {
-        throw new UnsupportedOperationException("Unimplemented method 'importData'");
-    }
 
     public static Seller getSellerById(int sellerId) {
         throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
@@ -257,7 +266,8 @@ public class Seller extends User implements UserInterface<Seller> {
                 sellers.add(new Seller(
                         Integer.parseInt(data[0]),
                         (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Product>(), data[2], data[1],
+                                : new ArrayList<Product>(),
+                        data[2], data[1],
                         (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
                                 : new ArrayList<Sale>()));
             }
@@ -281,7 +291,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
