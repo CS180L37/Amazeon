@@ -137,7 +137,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
         ArrayList<Product> allProducts = new ArrayList<Product>();
         if(price && !quantityAvailable){
             for(int i = 0; i < getStores().size(); i++){
-                for(int j = 0; j < getStores().get(i).getProducts().size()){
+                for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
                     allProducts.add(getStores().get(i).getProducts().get(j));
                 }
             }
@@ -161,6 +161,33 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                 System.out.println("Store Name: " + Amazeon.getStoreById(allProducts.get(i).getStoreId())
                         + "\nProduct Name: " + allProducts.get(i).getName()
                         + "\nProduct Price: " + allProducts.get(i).getPrice() + "/n/n");
+            }
+        } else {
+            for(int i = 0; i < getStores().size(); i++){
+                for(int j = 0; j < getStores().get(i).getProducts().size(); j++){
+                    allProducts.add(getStores().get(i).getProducts().get(j));
+                }
+            }
+
+            for(int i = 0; i < allProducts.size() - 1; i++) {
+                int maxIndex = i;
+                for(int j = 0; i < allProducts.size(); j++){
+                    if(allProducts.get(i).getQuantity() > allProducts.get(maxIndex).getQuantity()){
+                        maxIndex = j;
+                    }
+                }
+                if(maxIndex != i){
+                    Product product = allProducts.get(maxIndex);
+                    allProducts.set(maxIndex, allProducts.get(i));
+                    allProducts.set(maxIndex, product);
+                }
+            }
+
+            //prints all products in marketplace
+            for(int i = 0; i < allProducts.size(); i++){
+                System.out.println("Store Name: " + Amazeon.getStoreById(allProducts.get(i).getStoreId()).getName()
+                        + "\nProduct Name: " + allProducts.get(i).getName()
+                        + "\nProduct Quantity: " + allProducts.get(i).getQuantity() + "/n/n");
             }
         }
         throw new UnsupportedOperationException("Unimplemented method 'sort'");
