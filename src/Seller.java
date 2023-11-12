@@ -272,10 +272,7 @@ public class Seller extends User implements UserInterface<Seller> {
                 sellers.add(new Seller(
                         Integer.parseInt(data[0]),
                         (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Product>(),
-                        data[2], data[1],
-                        (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
-                                : new ArrayList<Sale>()));
+                                : new ArrayList<Product>()
             }
             return sellers;
         } catch (IOException e) {
