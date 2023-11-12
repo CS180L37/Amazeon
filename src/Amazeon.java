@@ -140,18 +140,29 @@ public class Amazeon {
     }
 
     // Product methods
+    public static Product getProductById(int id) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductById' ");
+    }
+
+    public static ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    }
+
+    public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductIds'");
+    }
 
     // Cart methods
-
-    // Customer methods
-
-    // Sale methods
-
-    // Stores methods
-
-    // Seller methods
     public static Cart getCartById(int parseInt) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
+    }
+
+    public static ArrayList<Product> getCartsById(ArrayList<Integer> splitIdsByPipe) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    }
+
+    public static ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
     // Customer methods
@@ -167,6 +178,40 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
+    public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
+    }
+
+    public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
+    }
+
+    // Sale methods
+    public static Sale getSaleById(int i) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getSaleById'");
+    }
+
+    public static ArrayList<Sale> getSalesById(ArrayList<Integer> saleIds) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    }
+
+    public static ArrayList<Integer> getSaleIds(ArrayList<Sale> sales) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    }
+
+    // Stores methods
+    public static Store getStoreById(int id) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
+    }
+
+    public static ArrayList<Store> getStoresById(ArrayList<Integer> storeIds) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    }
+
+    public static ArrayList<Integer> getStoreIds(ArrayList<Store> stores) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
+    }
+
     // Seller methods
     public static Seller getSellerByEmailAndPassword(String email, String password) {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
@@ -180,22 +225,12 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    // Store methods
-    public static Store getStoreById(int id) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getStoreById'");
+    public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
     }
 
-    // Product methods
-    public static Product getProductById(int id) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductById' ");
-    }
-
-    public static ArrayList<Product> getProductByIds(ArrayList<Integer> splitIdsByPipe) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
-    }
-
-    public static ArrayList<Integer> getProductIds(ArrayList<Product> cartProducts) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getProductIds'");
+    public static ArrayList<Seller> getSellerIds(ArrayList<Seller> sellers) {
+        throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
     }
 
     public static void customerLoop(CustomerMarket customerMarket, Customer customer) {
@@ -253,17 +288,5 @@ public class Amazeon {
 
     public static void sellerLoop() {
         throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
-    }
-
-    public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> splitIdsByPipe) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
-    }
-
-    public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
-    }
-
-    public static Sale getSaleById(int i) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getSaleById'");
     }
 }
