@@ -271,6 +271,23 @@ public class Amazeon {
         }
         return store;
     }
+    public int getStoreIDFromName(String storeName) {
+        for (Store store : stores) {
+            if (store.getName().equalsIgnoreCase(storeName)) {
+                return store.getId();
+            }
+        }
+        return Utils.NO;
+    }
+
+    public static String getStoreNameFromID(int storeID) {
+        for (Store store : Amazeon.stores) {
+            if (store.getId() == storeID) {
+                return store.getName();
+            }
+        }
+        return String.valueOf(Utils.NO);
+    }
 
     public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) {
         ArrayList<Store> stores = new ArrayList<Store>();
