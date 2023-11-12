@@ -284,10 +284,15 @@ public class Seller extends User implements UserInterface<Seller> {
         throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
     }
 
-    @Override
-    public void deleteAccount() {
-        updateSellersFile();
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
+    public int deleteAccount(String email, String password) {
+        for (Seller seller : Amazeon.sellers) {
+            if (seller.getEmail().equalsIgnoreCase(email) && seller.getPassword().equalsIgnoreCase(getPassword())) {
+                Amazeon.sellers.remove(seller);
+                updateSellersFile();
+                return Utils.YES;
+            }
+        }
+        return Utils.NO;
     }
 
     // Contains lists of all products and sales as parameters
