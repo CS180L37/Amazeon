@@ -83,16 +83,16 @@ public class User {
         BufferedReader br;
         try {
             if (type.equalsIgnoreCase("seller")) {
-                credentialsFile = new File("seller credentials.txt");
+                credentialsFile = new File(Utils.DATA_DIR + Utils.SELLER_FILE);
             } else {
-                credentialsFile = new File("customer credentials.txt");
+                credentialsFile = new File(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
             }
             fr = new FileReader(credentialsFile);
             br = new BufferedReader(fr);
             String currentLine = br.readLine();
             while (currentLine != null) {
-                if (currentLine.split(";")[0].equals(email)) {
-                    if (currentLine.split(";")[1].equals(password)) {
+                if (currentLine.split(",")[1].equals(email)) {
+                    if (currentLine.split(",")[2].equals(password)) {
                         return Utils.NO;
                     }
                 }

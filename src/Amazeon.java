@@ -93,6 +93,9 @@ public class Amazeon {
         }
     }
 
+    private void sellerLoop(SellerMarket sellerMarket, Seller seller) {
+    }
+
     // Utility methods
     public static boolean hasAccount() {
         String userInput = Utils.inputPrompt("Welcome to Amazeon! Do you have an account? (y/n)",
