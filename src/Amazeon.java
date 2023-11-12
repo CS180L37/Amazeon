@@ -180,9 +180,26 @@ public class Amazeon {
                 int productID = Integer.parseInt(Utils.SCANNER.nextLine());
                 customer.purchaseProduct(getProductById(productID));
             } else if(customerAction == 2){
-                System.out.println("Enter the name of product: ");
-                String name = Utils.SCANNER.nextLine();
-                customerMarket.search(name, null, null);
+                boolean valid = true;
+                do {
+                    System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
+                    int searchCriteria  = Integer.parseInt(Utils.SCANNER.nextLine());
+                    if(searchCriteria == 1){
+                        System.out.println("Enter the name of the product: ");
+                        String name = Utils.SCANNER.nextLine();
+                        customerMarket.search(name, null, null);
+                    } else if (searchCriteria == 2){
+                        System.out.println("Enter the storeId of the product: ");
+                        String storeId = Utils.SCANNER.nextLine();
+                        customerMarket.search(null, storeId, null);
+                    } else if (searchCriteria == 3){
+                        System.out.println("Enter the description of the product: ");
+                        String description = Utils.SCANNER.nextLine();
+                        customerMarket.search(null, null, description);
+                    } else {
+                        valid = false;
+                    }
+                } while(!valid);
             } else if (customerAction == 3){
                 customerMarket.displayDashboard();
             } else if (customerAction == 4){
@@ -200,7 +217,7 @@ public class Amazeon {
                 System.out.println("Please choose a valid option.");
                 error = false;
             }
-        } while(error);
+        } while(!error);
 
         throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
     }

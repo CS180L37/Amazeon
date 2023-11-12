@@ -198,6 +198,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
     // Search the marketplace by name, storeId, or description
     public ArrayList<Product> search(String name, String storeId, String description) {
+        System.out.println("What would you like to search by")
         throw new UnsupportedOperationException("Unimplemented method 'search'");
     }
 
