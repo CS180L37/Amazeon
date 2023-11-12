@@ -1,13 +1,7 @@
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.junit.Test;
 
 // Dashboard parent class has no methods to test
 public class SellerDashboardTest extends TestUtils {
-    // TODO: Need to figure out how this sorting works
     @Test
     public void testSortCustomersByNumItemsPurchased() {
         // assertEquals(this.nintendoDashboard.sort1(), new

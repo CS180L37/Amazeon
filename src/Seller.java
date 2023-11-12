@@ -43,7 +43,8 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public void displayDashboard(Scanner scan) {
         // Add a product to the sellers products list
-        System.out.println("How do you want to sort?\n1. Number of products purchased by a customer\n2. Products by number of sales\n");
+        System.out.println(
+                "How do you want to sort?\n1. Number of products purchased by a customer\n2. Products by number of sales\n");
         int choice; // default
         while (true) {
             try {
@@ -69,7 +70,6 @@ public class Seller extends User implements UserInterface<Seller> {
 
         // list of customers with number of items that they have purchased
 
-
         // list of products with the number of sales.
 
         // code for sorting by items per customer:
@@ -84,18 +84,19 @@ public class Seller extends User implements UserInterface<Seller> {
                 customerIntegerMap.put(sale.getCustomer(), 1);
             }
         }
-//        for (Map.Entry<Customer, Integer> entry : customerIntegerMap.entrySet())
-//            System.out.println("Key = " + entry.getKey() +
-//                    ", Value = " + entry.getValue());
-//        ArrayList<Map.Entry<Customer, Integer>> keyList = new ArrayList<>(customerIntegerMap.entrySet());
-//        keyList.sort(Comparator.comparing(Map.Entry::getValue));
-//        Map<Customer, Integer> sortedCustomerIntegerMap = new LinkedHashMap<>();
-//
-//        for (Map.Entry<Customer, Integer> key : keyList) {
-//            sortedCustomerIntegerMap.put(key.getKey(), key.getValue());
-//        }
+        // for (Map.Entry<Customer, Integer> entry : customerIntegerMap.entrySet())
+        // System.out.println("Key = " + entry.getKey() +
+        // ", Value = " + entry.getValue());
+        // ArrayList<Map.Entry<Customer, Integer>> keyList = new
+        // ArrayList<>(customerIntegerMap.entrySet());
+        // keyList.sort(Comparator.comparing(Map.Entry::getValue));
+        // Map<Customer, Integer> sortedCustomerIntegerMap = new LinkedHashMap<>();
+        //
+        // for (Map.Entry<Customer, Integer> key : keyList) {
+        // sortedCustomerIntegerMap.put(key.getKey(), key.getValue());
+        // }
 
-//         another way
+        // another way
         Customer[] indicesCIM = new Customer[customerIntegerMap.size()];
         for (int i = 0; i < customerIntegerMap.size() - 1; i++) {
             for (int j = 0; j < customerIntegerMap.size() - 1 - i; j++) {
@@ -227,7 +228,6 @@ public class Seller extends User implements UserInterface<Seller> {
             e.printStackTrace();
         }
     }
-
 
     public static Seller getSellerById(int sellerId) {
         throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");

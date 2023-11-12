@@ -11,9 +11,28 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
     // Sort stores by products sold
     @Override
     public ArrayList<Store> sort1(User user) {
+        ArrayList<Product> sortedProducts = new ArrayList<Product>();
+        for (int i = 0; i < user.getProducts().size(); i++) {
+                sortedProducts.add(user.getProducts().get(i));
+            }
 
-        throw new UnsupportedOperationException("Unimplemented method 'sort'");
-    }
+            for (int i = 0; i < user.getProducts().size(); i++) {
+                int maxIndex = i;
+                for (int j = 0; i < user.getProducts().size(); j++) {
+                    if (user.getProducts().get(i).getQuantity() >user.getProducts().get(maxIndex).getQuantity()) {
+                        maxIndex = j;
+                    }
+                }
+
+                if (maxIndex != i) {
+                    Product product = user.getProducts().get(maxIndex);
+                    user.getProducts().set(maxIndex, user.getProducts().get(i));
+                    user.getProducts().set(maxIndex, product);
+                }
+            }
+            throw new UnsupportedOperationException("Unimplemented method 'sort'");
+
+        }
 
     // Sort stores by products purchased by a customer
     @Override

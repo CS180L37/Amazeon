@@ -7,9 +7,6 @@ import org.junit.Test;
 
 // User parent class has no methods to test
 public class CustomerTest extends TestUtils {
-    // Check that the proper csv file is exported
-    // TODO: need to discuss implementation for this as well
-
     @Test
     public void testExportData() {
         // this.nintendoFanBoy.exportData("");
@@ -17,18 +14,26 @@ public class CustomerTest extends TestUtils {
     }
 
     @Test
-    public void testPurchaseProduct() {
-        this.gamer.purchaseProduct(this.playstation);
-        assertEquals(this.gamer.getProducts(),
-                new ArrayList<Product>(Arrays.asList(this.wii, this.xbox, this.playstation)));
-        this.nintendoFanBoy.purchaseProduct(this.wii);
-        assertEquals(this.nintendoFanBoy.getProducts(),
-                new ArrayList<Product>(Arrays.asList(this.wii, this.wii, this.wii)));
+    public void testEditAccount() {
+        Customer customer = amazeon.getCustomerById(0);
+        customer.editAccount("newEmail@gmail.com", "newPassword");
+        assertEquals(customer.getEmail(), "newEmail@gmail.com");
+        assertEquals(customer.getPassword(), "newPassword");
     }
 
     @Test
-    public void testGetCustomerById() {
-        assertEquals(Customer.getCustomerById(0), this.nintendoFanBoy);
-        assertEquals(Customer.getCustomerById(1), this.gamer);
+    public void testDeleteAccount() {
+        Customer customer = amazeon.getCustomerById(0);
+        customer.deleteAccount();
+        assertEquals(customer, null);
+    }
+
+    @Test
+    public void testPurchaseProduct() {
+        Customer customer = amazeon.getCustomerById(0);
+        customer.purchaseProduct(amazeon.getProductById(0));
+        assertEquals(customer.getProducts().size(),
+                new ArrayList<Product>(Arrays.asList(amazeon.getProductById(0), amazeon.getProductById(0),
+                        amazeon.getProductById(0))));
     }
 }

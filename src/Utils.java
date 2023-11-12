@@ -10,19 +10,22 @@ public class Utils {
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
     public static final String DATA_DIR = ".data";
+    public static final String TEST_FILE = "/.test.csv";
     public static final String PRODUCT_FILE = "/.product.csv";
     public static final String CART_FILE = "/.cart.csv";
     public static final String CUSTOMER_FILE = "/.customer.csv";
     public static final String SALE_FILE = "/.sale.csv";
     public static final String STORE_FILE = "/.store.csv";
-    public static final String SELLER_FILE = "/.seller.csv"; //in the format int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales
+    public static final String SELLER_FILE = "/.seller.csv"; // in the format int id, ArrayList<Product> products,
+                                                             // String email, String password, ArrayList<Sale> sales
     public static final String NA = "NA";
 
     public static boolean validateYesOrNo(String input) {
         input = input.toLowerCase();
         if (input.equals("y") || input.equals("yes")) {
             return true;
-        } else return input.equals("n") || input.equals("no");
+        } else
+            return input.equals("n") || input.equals("no");
     }
 
     public static int yesOrNoToInt(String input) {
