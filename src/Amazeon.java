@@ -144,16 +144,16 @@ public class Amazeon {
 
     }
 
-    public ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
+    public static ArrayList<Product> getProductByIds(ArrayList<Integer> productIds) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductByIds'");
     }
 
-    public ArrayList<Integer> getProductIds(ArrayList<Product> products) {
+    public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
         throw new UnsupportedOperationException("Unsupported operation: 'getProductIds'");
     }
 
     // Cart methods
-    public Cart getCartById(int parseInt) {
+    public static Cart getCartById(int parseInt) {
         throw new UnsupportedOperationException("Unsupported operation: 'getCartById'");
     }
 
@@ -170,11 +170,11 @@ public class Amazeon {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
-    public Customer getCustomerById(int customerId) {
+    public static Customer getCustomerById(int customerId) {
         throw new UnsupportedOperationException("Unimplemented method 'getSellerById'");
     }
 
-    public int getNextCustomerId() {
+    public static int getNextCustomerId() {
         throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
     }
 
