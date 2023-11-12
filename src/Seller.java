@@ -133,56 +133,27 @@ public class Seller extends User implements UserInterface<Seller> {
         }
         try {
             BufferedReader br = Utils.createReader(filename);
+            ArrayList<Product> productsToAdd = new ArrayList<Product>();
             String line = "";
             while (true) {
                 line = br.readLine();
                 if (line == null) {
                     break;
                 }
-                this.updateProduct()
+                try {
+                    productsToAdd.add(Utils.convertFromProductString(line.split(",")));
+                } catch (Exception e) {
+                    System.out.println("Could not create those products from that csv; are you sure it's valid?");
+                    return;
+                }
             }
-            br.readLine();
+            for (Product product : productsToAdd) {
+                this.getProducts().add(product);
+            }
+        } catch (Exception e) {
+            System.out.println("Could not get the product file at that filepath!");
+            return;
         }
-
-
-        int lineNumber = 0;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filename));
-            while (br.readLine() != null) {
-                lineNumber++;
-            }
-            br.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-            ArrayList<Integer> intArray = new ArrayList<Integer>();
-            try {
-                BufferedReader br = new BufferedReader(new FileReader("filename.csv"));
-                String line = br.readLine();
-                ArrayList<String[][]> data = new ArrayList<String[][]>();
-                while (line != null) {
-                    String[][] lines = new String[0][lineNumber];
-                    lines = new String[][] { line.split(",") };
-                    data.add(lines);
-                    br.readLine();
-                }
-                String[] strArray = new String[data.size()];
-                for (int i = 0; i < data.size(); i++) {
-                    strArray = data.get(i)[3];
-                }
-                for (int j = 0; j < strArray.length; j++) {
-                    intArray.set(j, Integer.parseInt(strArray[j]));
-                }
-                for (int k = 0; k < data.size(); k++) {
-                    Product product = new Product(Integer.parseInt(data.get(k)[0][0]),
-                            Integer.parseInt(data.get(k)[0][1]), data.get(k)[0][2], intArray,
-                            data.get(k)[0][4],
-                            Double.parseDouble(data.get()[0][5]));
-                }
-            } catch (IOException r) {
-                r.printStackTrace();
-            }
-        }
-        updateProductsFile();
     }
 
     @Override
