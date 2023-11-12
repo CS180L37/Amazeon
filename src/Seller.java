@@ -20,9 +20,9 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public void displayProducts() {
-        for (int i = 0; i < this.getProducts().size(); i++) {
-            System.out.printf("%d. %s\n", i, this.getProducts().get(i));
-        }
+        // for (int i = 0; i < getProductsSold().size(); i++) {
+        // System.out.printf("%d. %s\n", i, getProductsSold().get(i));
+        // }
     }
 
     public ArrayList<Sale> getSales() {
@@ -36,6 +36,10 @@ public class Seller extends User implements UserInterface<Seller> {
         }
         return stores;
     }
+
+    // public ArrayList<Integer> getProductRevenues() {
+    // return productRevenues;
+    // }
 
     public void displayDashboard(Scanner scan) {
         // Add a product to the sellers products list
@@ -122,7 +126,7 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public void deleteProduct(Product product) {
         getProducts().remove(product);
-        updateProductsFile();
+        // updateProductsFile();
     }
 
     @Override
@@ -158,25 +162,12 @@ public class Seller extends User implements UserInterface<Seller> {
 
     @Override
     public void exportData(String filepath) {
-        File outFile = new File(filepath);
         try {
-            FileWriter fw = new FileWriter(outFile);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-            for (Product product : getProducts()) {
-                int storeID = product.getStoreId();
-                String storeName = Amazeon.getStoreNameFromID(storeID);
-                if (storeName.equals(String.valueOf(Utils.NO))) {
-                    System.out.println("store not found");
-                    continue; // this shouldnt happen generally
-                }
-                pw.println(product.getName() + "," + storeName + ","
-                        + product.getDescription() + "," + product.getQuantity() + "," + product.getPrice());
+            BufferedWriter bw = Utils.createWriter(filepath);
+            for (Product product : this.getProducts()) {
+                bw.write(Utils.convertToProductString(product));
+                bw.newLine();
             }
-            pw.flush();
-            pw.close();
-            bw.close();
-            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -226,52 +217,35 @@ public class Seller extends User implements UserInterface<Seller> {
                 product.setProductId(newPrice);
             }
         }
-        updateProductsFile();
+        // updateProductsFile();
     }
 
-    public void updateProductsFile() {
-        FileWriter fw;
-        BufferedWriter bw;
-        PrintWriter pw;
-        try {
-            String[] i = getEmail().split("@");
-            fw = new FileWriter(i[0] + i[1] + "ProductsFile", false);
-            bw = new BufferedWriter(fw);
-            pw = new PrintWriter(bw);
-            for (Product product : getProducts()) {
-                String storeName = Amazeon.getStoreNameFromID(product.getStoreId());
-                pw.println(product.getName() + "," + storeName + "," + product.getStoreId()
-                        + product.getDescription() + "," + product.getQuantity() + "," +
-                        product.getPrice());
-            }
-            pw.flush();
-            pw.close();
-            bw.close();
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static int getNextSellerId() {
-        throw new UnsupportedOperationException("Unimplemented method 'getNextSellerId'");
-
-    }
+    // public void updateProductsFile() {
+    // FileWriter fw;
+    // BufferedWriter bw;
+    // PrintWriter pw;
+    // try {
+    // String[] i = getEmail().split("@");
+    // fw = new FileWriter(i[0] + i[1] + "ProductsFile", false);
+    // bw = new BufferedWriter(fw);
+    // pw = new PrintWriter(bw);
+    // for (Product product : getProducts()) {
+    // String storeName = Amazeon.getStoreNameFromID(product.getStoreId());
+    // pw.println(product.getName() + "," + storeName + "," + product.getStoreId()
+    // + product.getDescription() + "," + product.getQuantity() + "," +
+    // product.getPrice());
+    // }
+    // pw.flush();
+    // pw.close();
+    // bw.close();
+    // fw.close();
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // }
 
     public void setSales(ArrayList<Sale> sales) {
         this.sales = sales;
-    }
-
-    @Override
-    public void editAccount(String email, String password) {
-        updateSellersFile();
-        throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
-    }
-
-    @Override
-    public void deleteAccount() {
-        updateSellersFile();
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
     }
 
     // Contains lists of all products and sales as parameters
@@ -307,27 +281,28 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public void updateSellersFile() {
-        try {
-            // public Seller(int id, ArrayList<Product> products, String email, String
-            // password, ArrayList<Sale> sales) {
-            FileWriter fw = new FileWriter(Utils.DATA_DIR + Utils.SELLER_FILE);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-            for (Seller seller : Amazeon.sellers) {
-                pw.println(seller.getId() +
-                        Utils.splitIdsByPipe(Amazeon.getProductIds(seller.getProducts()).toString()).toString() +
-                        seller.getEmail() + seller.getPassword() +
-                        Utils.splitIdsByPipe(Amazeon.getSaleIds(seller.getSales()).toString()));
-            }
-            pw.flush();
-            pw.close();
-            bw.close();
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    // public static void updateSellersFile() {
+    // try {
+    // // public Seller(int id, ArrayList<Product> products, String email, String
+    // // password, ArrayList<Sale> sales) {
+    // FileWriter fw = new FileWriter(Utils.DATA_DIR + Utils.SELLER_FILE);
+    // BufferedWriter bw = new BufferedWriter(fw);
+    // PrintWriter pw = new PrintWriter(bw);
+    // for (Seller seller : Amazeon.sellers) {
+    // pw.println(seller.getId() +
+    // Utils.splitIdsByPipe(Amazeon.getProductIds(seller.getProducts()).toString()).toString()
+    // +
+    // seller.getEmail() + seller.getPassword() +
+    // Utils.splitIdsByPipe(Amazeon.getSaleIds(seller.getSales()).toString()));
+    // }
+    // pw.flush();
+    // pw.close();
+    // bw.close();
+    // fw.close();
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // }
 
     public String getName() {
         return this.name;
@@ -335,5 +310,29 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public void editAccount(String email, String password) {
+        for (Seller seller1 : Amazeon.sellers) {
+            if (seller1.getEmail().equalsIgnoreCase(this.getEmail())
+                    && seller1.getPassword().equalsIgnoreCase(this.getPassword())) {
+                Amazeon.sellers.remove(seller1);
+                Amazeon.sellers.add(this);
+                // updateSellersFile();
+            }
+        }
+        // updateSellersFile();
+    }
+
+    @Override
+    public void deleteAccount() {
+        for (Seller seller : Amazeon.sellers) {
+            if (seller.getEmail().equalsIgnoreCase(this.getEmail())
+                    && seller.getPassword().equalsIgnoreCase(this.getPassword())) {
+                Amazeon.sellers.remove(seller);
+                // updateSellersFile();
+            }
+        }
     }
 }
