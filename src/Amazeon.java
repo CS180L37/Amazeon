@@ -275,12 +275,8 @@ public class Amazeon {
                 }
                 currentLine = br.readLine();
             }
-            return null;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public static Seller getSellerById(int sellerId) {

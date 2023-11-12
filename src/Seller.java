@@ -20,7 +20,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public int getId() {
-        return id();
+        return super.getId();
     }
 
     public void displayProducts() {
@@ -130,6 +130,7 @@ public class Seller extends User implements UserInterface<Seller> {
 
     public void deleteProduct(Product product) {
         getProducts().remove(product);
+        updateProductsFile();
     }
 
     @Override
@@ -171,6 +172,7 @@ public class Seller extends User implements UserInterface<Seller> {
                 r.printStackTrace();
             }
         }
+        updateProductsFile();
     }
 
     public String getStoreNameFromID(int storeID) {
@@ -225,6 +227,16 @@ public class Seller extends User implements UserInterface<Seller> {
         int newQuan = Integer.parseInt(scan.nextLine());
         System.out.println("Enter new price:");
         int newPrice = Integer.parseInt(scan.nextLine());
+        for (Product product : Amazeon.products) {
+            if (product.getProductId() == prodID) {
+                product.setName(newName);
+                product.setStoreId(newStoreID);
+                product.setDescription(newDesc);
+                product.setQuantity(newQuan);
+                product.setProductId(newPrice);
+            }
+        }
+        updateProductsFile();
     }
 
     public void updateProductsFile() {
@@ -248,11 +260,12 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public static Seller getSellerById(int sellerId) {
-        for (Seller seller : Market.getStore) {
+        for (Seller seller : Amazeon.sellers) {
             if (seller.getId() == sellerId) {
                 return seller;
             }
         }
+        return null;
     }
 
     public static int getNextSellerId() {

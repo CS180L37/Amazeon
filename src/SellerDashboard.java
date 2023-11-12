@@ -6,8 +6,8 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
         super();
     }
 
-    public SellerDashboard(ArrayList<Customer> data1, ArrayList<Product> data2) {
-        super(data1, data2);
+    public SellerDashboard(ArrayList<Customer> customers, ArrayList<Product> products) {
+        super(customers, products);
     }
 
     // Sort customers by number of items purchased
@@ -21,9 +21,8 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
         throw new UnsupportedOperationException("Unimplemented method 'sort2'");
     }
 
-    // Display list of customers and products
     @Override
-    public void displayDashboard() {
-        throw new UnsupportedOperationException("Unimplemented method 'display'");
+    public void displayDashboard(User user) {
+        throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
     }
 }
