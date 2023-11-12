@@ -9,23 +9,28 @@ public class Amazeon {
     ArrayList<Sale> sales;
     ArrayList<Store> stores;
     ArrayList<Seller> sellers;
+    public static int counterSellers = 0;
+    public static int counterBuyers = 0;
 
     public Amazeon() {
-        // ArrayList<Product> ourProducts = new ArrayList<Product>();
-        // ourProducts.add(new Product(0, 10, "Switch", 0, "Switching it up", 300.00));
-        // Product.writeProducts(ourProducts);
-        this.products = Product.readProducts(); // .products.json
-        // System.out.println(this.products.toString());
-        this.carts = Cart.readCarts(products); // .carts.json
-        this.customers = Customer.readCustomers(products, carts); // .customers.json
-        this.sales = Sale.readSales(customers); // .sales
-        this.stores = Store.readStores(products, customers);
-        this.sellers = Seller.readSellers(products, sales);
+        this.products = Product.readProducts();
+        this.carts = Cart.readCarts();
+        this.customers = Customer.readCustomers();
+        this.sales = Sale.readSales();
+        this.stores = Store.readStores();
+        this.sellers = Seller.readSellers();
     }
 
     public static void main(String[] args) {
         // Initialize data
         Amazeon amazeon = new Amazeon();
+        // Test code
+        System.out.println(amazeon.products.toString());
+        System.out.println(amazeon.carts.toString());
+        System.out.println(amazeon.customers.toString());
+        System.out.println(amazeon.sales.toString());
+        System.out.println(amazeon.stores.toString());
+        System.out.println(amazeon.sellers.toString());
 
         CustomerMarket customerMarket;
         SellerMarket sellerMarket;
@@ -37,8 +42,8 @@ public class Amazeon {
             // Login
             if (isCustomer()) {
                 // Get the email and password
-                String email = getEmail();
-                String password = getPassword();
+                String email = emailPrompt();
+                String password = passwordPrompt();
                 // Get the customer by email and password
                 customer = getCustomerByEmailAndPassword(email, password);
                 // Create the customer market (accesses all stores)
@@ -48,8 +53,8 @@ public class Amazeon {
                 writeData();
             } else {
                 // Get the email and password
-                String email = getEmail();
-                String password = getPassword();
+                String email = emailPrompt();
+                String password = passwordPrompt();
                 // Get the seller by email and password
                 seller = getSellerByEmailAndPassword(email, password);
                 // Create the seller market (only accesses stores associated with the seller)
@@ -63,8 +68,8 @@ public class Amazeon {
             // Create
             if (isCustomer()) {
                 // Get the email and password
-                String email = getEmail();
-                String password = getPassword();
+                String email = emailPrompt();
+                String password = passwordPrompt();
                 // Create a new customer based on email and password
                 customer = new Customer(email, password);
                 // Create a customer market using the customer
@@ -74,8 +79,8 @@ public class Amazeon {
                 writeData();
             } else {
                 // Get the email and password
-                String email = getEmail();
-                String password = getPassword();
+                String email = emailPrompt();
+                String password = passwordPrompt();
                 // Create a new seller based on email and password
                 seller = new Seller(email, password);
                 // Create a seller market using the seller
@@ -86,7 +91,6 @@ public class Amazeon {
                 writeData();
             }
         }
-
     }
 
     // Entry point for the program
@@ -115,14 +119,17 @@ public class Amazeon {
                 return false; // Never calls
         }
     }
+    
+    public static void writeData() {
+        throw new UnsupportedOperationException("Unsupported operation: 'writeData'");
+    }
 
-    // Prompt methods
-    public static String getEmail() {
+    public static String emailPrompt() {
         return Utils.inputPrompt("What is your email: ", input -> Utils.validateEmail(input),
                 "Please enter a valid email: ");
     }
 
-    public static String getPassword() {
+    public static String passwordPrompt() {
         return Utils.inputPrompt("What is your password: ", input -> Utils.validatePassword(input),
                 "Please enter a valid password: ");
     }

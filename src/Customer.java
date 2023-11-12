@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Customer extends User implements UserInterface<Customer> {
@@ -10,7 +13,7 @@ public class Customer extends User implements UserInterface<Customer> {
         this.cart = new Cart(this.getId(), this.getProducts());
     }
 
-    public Customer(int id, ArrayList<Product> products, String email, String password, Cart cart) {
+    public Customer(int id, String email, String password, ArrayList<Product> products, Cart cart) {
         super(id, products, email, password);
         this.cart = cart;
     }
@@ -43,13 +46,17 @@ public class Customer extends User implements UserInterface<Customer> {
     }
 
     @Override
-    public Customer createAccount() {
-        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
-    }
-
-    @Override
-    public Customer editAccount() {
-        throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
+    public void editAccount(String email, String password) {
+        if (Utils.validateEmail(email)) {
+            this.setEmail(email);
+        } else {
+            System.out.println("Make sure to enter a valid email if you want to change your email!");
+        }
+        if (Utils.validatePassword(password)) {
+            this.setPassword(password);
+        } else {
+            System.out.println("Make sure to enter a valid email if you want to change your email!");
+        }
     }
 
     @Override
@@ -58,11 +65,39 @@ public class Customer extends User implements UserInterface<Customer> {
     }
 
     // Contains lists of all products and carts as parameters
-    public static ArrayList<Customer> readCustomers(ArrayList<Product> products, ArrayList<Cart> carts) {
-        throw new UnsupportedOperationException("Unimplemented method 'readCustomers'");
+    public static ArrayList<Customer> readCustomers() {
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        try {
+            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                customers.add(new Customer(Integer.parseInt(data[0]), data[1], data[2],
+                        (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
+                                : new ArrayList<Product>(),
+                        Amazeon.getCartById(Integer.parseInt(data[0]))));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return new ArrayList<Customer>();
     }
 
     public static void writeCustomers(ArrayList<Customer> customers) {
-        throw new UnsupportedOperationException("Unimplemented method 'readCustomers'");
+        try {
+            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
+            for (Customer customer : customers) {
+                bw.write(Integer.toString(Integer.parseInt(customer.getId() + "," + customer.getEmail()
+                        + "," + customer.getPassword() + ","
+                        + Utils.convertToIdString(Amazeon.getProductIds(customer.getProducts()).toString()))));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
     }
 }

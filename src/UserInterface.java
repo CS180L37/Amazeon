@@ -3,9 +3,7 @@ public interface UserInterface<T> {
 
     public void importData(String filepath); // For importing data
 
-    public T createAccount();
-
-    public T editAccount();
+    public void editAccount(String email, String password);
 
     public void deleteAccount();
 }

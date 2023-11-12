@@ -1,4 +1,15 @@
 /// Test the entire app, all in one
-public class IntegrationTest extends TestUtils {
-    // TODO: this can be written last
+
+import org.junit.Test;
+
+public class IntegrationTest {
+    @Test
+    public void testSeller() {
+
+    }
+
+    @Test
+    public void testCustomer() {
+
+    }
 }
