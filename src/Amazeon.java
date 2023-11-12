@@ -400,45 +400,23 @@ public class Amazeon {
                             "6) View Carts\n");
             int sellerAction = Integer.parseInt(Utils.SCANNER.nextLine());
             if (sellerAction == 1) {
-                System.out.println("How would you like to create your product?");
-                int productID = Integer.parseInt(Utils.SCANNER.nextLine());
-                seller.purchaseProduct(getProductById(productID));
+                seller.createProduct();
             } else if (sellerAction == 2) {
-                boolean valid = true;
-                do {
-                    System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
-                    int searchCriteria = Integer.parseInt(Utils.SCANNER.nextLine());
-                    if (searchCriteria == 1) {
-                        System.out.println("Enter the name of the product: ");
-                        String name = Utils.SCANNER.nextLine();
-                        sellerMarket.search(name, null, null);
-                    } else if (searchCriteria == 2) {
-                        System.out.println("Enter the storeId of the product: ");
-                        String storeId = Utils.SCANNER.nextLine();
-                        sellerMarket.search(null, storeId, null);
-                    } else if (searchCriteria == 3) {
-                        System.out.println("Enter the description of the product: ");
-                        String description = Utils.SCANNER.nextLine();
-                        sellerMarket.search(null, null, description);
-                    } else {
-                        valid = false;
-                    }
-                } while (!valid);
+                System.out.println("Enter productId of product you would like to edit: ");
+                int productId = Integer.parseInt(Utils.SCANNER.nextLine());
+                seller.updateProduct(productId);
             } else if (sellerAction == 3) {
-                sellerMarket.displayDashboard();
+                System.out.println("Enter productId of product you would like to delete: ");
+                int productId = Integer.parseInt(Utils.SCANNER.nextLine());
+                seller.deleteProduct(getProductById(productId));
             } else if (sellerAction == 4) {
-                System.out.println("Would you like to sort by price (y) or quantity (n)");
-                int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
-                if (sortCriteria == 1) {
-                    sellerMarket.sort(true, false);
-                } else {
-                    sellerMarket.sort(false, true);
-                }
-
+                seller.viewSales();
             } else if (sellerAction == 5) {
+                sellerMarket.displayDashboard();
+            } else if (sellerAction == 6){
                 sellerMarket.displayCart();
             } else {
-                System.out.println("Please do choose a valid option.");
+                System.out.println("Please choose a valid option.");
                 error = false;
             }
         } while (!error);
