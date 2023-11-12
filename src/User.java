@@ -5,7 +5,7 @@ public class User {
     private String email;
     private String password;
     private int id;
-    private ArrayList<Product> products;
+    private ArrayList<Product> products; //userCustomer --> array of products purchased, userSeller --> array of products being sold
 
     public User(int id, ArrayList<Product> products, String email, String password) {
         this.id = id;
@@ -39,9 +39,9 @@ public class User {
         BufferedReader br;
         try {
             if (type.equalsIgnoreCase("seller")) {
-                credentialsFile = new File("seller credentials.csv");
+                credentialsFile = new File(Utils.DATA_DIR + Utils.SELLER_FILE);
             } else {
-                credentialsFile = new File("customer credentials.csv");
+                credentialsFile = new File(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
             }
             fw = new FileWriter(credentialsFile);
             bw = new BufferedWriter(fw);
@@ -56,12 +56,19 @@ public class User {
                 currentLine = br.readLine();
             }
             if (type.equalsIgnoreCase("seller")) {
-                pw.println(Amazeon.getCounterSeller() + "," + email + "," + password);
-                Amazeon.setCounterSeller(Amazeon.getCounterSeller() + 1);
+                pw.println(Amazeon.counterSellers + "," + email + "," + password);
+                Amazeon.counterSellers++;
             } else {
-                pw.println(Amazeon.getCounterBuyer() + "," + email + "," + password);
-                Amazeon.setCounterBuyer(Amazeon.getCounterBuyer() + 1);
+                pw.println(Amazeon.counterBuyers + "," + email + "," + password);
+                Amazeon.counterBuyers++;
             }
+//            if (type.equalsIgnoreCase("seller")) {
+//                pw.println("S" + Amazeon.getCounterSeller() + "," + email + "," + password);
+//                Amazeon.setCounterSeller(Amazeon.getCounterSeller() + 1);
+//            } else {
+//                pw.println("C" + Amazeon.getCounterBuyer() + "," + email + "," + password);
+//                Amazeon.setCounterBuyer(Amazeon.getCounterBuyer() + 1);
+//            }
             return Utils.YES;
         } catch (IOException e) {
             e.printStackTrace();

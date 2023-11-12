@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Store {
@@ -46,11 +49,40 @@ public class Store {
     }
 
     // Contains lists of all products and customers as parameters
-    public static ArrayList<Store> readStores(ArrayList<Product> products, ArrayList<Customer> customers) {
-        throw new UnsupportedOperationException("Unsupported operation: 'readStores'");
+    public static ArrayList<Store> readStores() {
+        ArrayList<Store> stores = new ArrayList<Store>();
+        try {
+            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.STORE_FILE);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                stores.add(new Store(Integer.parseInt(data[0]), data[1],
+                        (!data[2].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[2]))
+                                : new ArrayList<Product>(),
+                        (!data[3].equals(Utils.NA)) ? Amazeon.getCustomersByIds(Utils.splitIdsByPipe(data[3]))
+                                : new ArrayList<Customer>()));
+            }
+            return stores;
+        } catch (IOException e) {
+            return new ArrayList<Store>();
+        }
     }
 
     public static void writeStores(ArrayList<Store> stores) {
-        throw new UnsupportedOperationException("Unsupported operation: 'readStores'");
+        try {
+            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
+            for (Store store : stores) {
+                bw.write(Integer.toString(store.getId()) + "," + store.getName() + ","
+                        + Utils.convertToIdString((Amazeon.getProductIds(store.getProducts())).toString())
+                        + Utils.convertToIdString((Amazeon.getCustomerIds(store.getCustomers())).toString()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
     }
 }

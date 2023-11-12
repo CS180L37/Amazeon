@@ -82,8 +82,8 @@ public class Customer extends User implements UserInterface<Customer> {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
             for (Customer customer : customers) {
-                bw.write(String.format(Integer.toString(Integer.parseInt(customer.getId() + "," + customer.getEmail()
-                        + "," + customer.getPassword() + "," + Amazeon.getProductById(customer.getId()) + "," +
+                bw.write(String.format(Integer.toString(Integer.parseInt(customer.getId() + "," + Amazeon.getEmail()
+                        + "," + Amazeon.getPassword() + "," + Amazeon.getProductById(customer.getId()) + "," +
                         Amazeon.getCartById(customer.getId())))));
             }
         } catch (IOException e) {

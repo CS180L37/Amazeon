@@ -1,8 +1,7 @@
+
 /// The mock data used for all the tests
 /// NOTE: I'm not testing any getters and setters unless they have additional functionality, 
 /// e.g. getById, setById (this includes the getters w/ generic typing) 
-/// TODO: left off here, https://www.logicbig.com/tutorials/unit-testing/junit/inheritance.html 
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -62,9 +61,9 @@ public class TestUtils {
         storeIds.add(0);
         storeIds.add(1);
         // Products
-        this.wii = new Product(0, 2, "Wii", storeIds, "A Nintendo Game Console", 100.00);
-        this.xbox = new Product(0, 1, "Xbox360", storeIds, "A Microsoft Game Console", 299.99);
-        this.playstation = new Product(0, 1, "PS3", storeIds, "A Sony Game Console", 400.00);
+        this.wii = new Product(0, "Wii", 2, "A Nintendo Game Console", 100.00, 0, storeId);
+        this.xbox = new Product(1, "Xbox360", 1, "A Microsoft Game Console", 299.99, 1, storeId);
+        this.playstation = new Product(2, "PS3", 1, "A Sony Game Console", 400.00, 2, storeId);
         ArrayList<Product> products = new ArrayList<Product>();
         products.add(this.wii);
         products.add(this.xbox);
