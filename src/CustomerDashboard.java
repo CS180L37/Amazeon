@@ -43,6 +43,7 @@ public class CustomerDashboard extends Dashboard<Store, Store> implements Dashbo
     // Displays the two lists of stores
     @Override
     public void displayDashboard() {
+
         throw new UnsupportedOperationException("Unimplemented method 'display'");
     }
 }
