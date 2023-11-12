@@ -64,8 +64,8 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
             //printing the array
 
-            for(int i = 0; i < sortedProducts.length; i++){
-                System.out.println(sortedProducts[i] + "\n");
+            for(int i = 0; i < sortedProducts.size(); i++){
+                System.out.println(sortedProducts.get(i) + "\n");
             }
 
         } else {
@@ -114,8 +114,8 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             }
 
             //printing the array
-            for(int i = 0; i < sortedProducts.length; i++){
-                System.out.println(sortedProducts[i] + "\n");
+            for(int i = 0; i < sortedProducts.size(); i++){
+                System.out.println(sortedProducts.get(i) + "\n");
             }
 
         }
@@ -134,7 +134,33 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
     // Sort the marketplace
     public void sort(boolean price, boolean quantityAvailable) {
-        
+        ArrayList<Product> allProducts = new ArrayList<Product>();
+        if(price && !quantityAvailable){
+            for(int i = 0; i < getStores().size(); i++){
+                for(int j = 0; j < getStores().get(i).getProducts().size()){
+                    allProducts.add(getStores().get(i).getProducts().get(j));
+                }
+            }
+
+            for(int i = 0; i < allProducts.size() - 1; i++) {
+                int maxIndex = i;
+                for(int j = 0; i < allProducts.size(); j++){
+                    if(allProducts.get(i).getPrice() > allProducts.get(maxIndex).getPrice()){
+                        maxIndex = j;
+                    }
+                }
+                if(maxIndex != i){
+                    Product product = allProducts.get(maxIndex);
+                    allProducts.set(maxIndex, allProducts.get(i));
+                    allProducts.set(maxIndex, product);
+                }
+            }
+
+            //prints all products in marketplace
+            for(int i = 0; i < allProducts.size(); i++){
+                System.out.println("Store Name: " + getStoredById(allProducts.get(i).getStoreId()) + "\nProduct Name: " + allProducts.get(i).getName() + "\nProduct Price: " + allProducts.get(i).getPrice() + "/n/n");
+            }
+        }
         throw new UnsupportedOperationException("Unimplemented method 'sort'");
     }
 
