@@ -104,10 +104,10 @@ public class Product {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.PRODUCT_FILE);
             for (Product product : products) {
-                bw.write(String.format(Integer.toString(product.getProductId()) + "," + product.getName()
+                bw.write(Integer.toString(product.getProductId()) + "," + product.getName()
                         + Integer.toString(product.getQuantity()) + "," + product.getDescription() + ","
                         + Double.toString(product.getPrice()) + "," + Integer.toString(product.getSellerId()) + ","
-                        + Integer.toString(product.getStoreId())));
+                        + Integer.toString(product.getStoreId()));
             }
         } catch (IOException e) {
             e.printStackTrace();

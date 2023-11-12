@@ -14,13 +14,14 @@ public class Utils {
     public static final int NO = 0;
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
-    public static final String DATA_DIR = "/.data";
+    public static final String DATA_DIR = ".data";
     public static final String PRODUCT_FILE = "/.product.csv";
     public static final String CART_FILE = "/.cart.csv";
     public static final String CUSTOMER_FILE = "/.customer.csv";
     public static final String SALE_FILE = "/.sale.csv";
     public static final String STORE_FILE = "/.store.csv";
     public static final String SELLER_FILE = "/.seller.csv";
+    public static final String NA = "NA";
 
     public static boolean validateYesOrNo(String input) {
         input = input.toLowerCase();
@@ -65,7 +66,9 @@ public class Utils {
     }
 
     public static BufferedReader createReader(String filename) throws IOException {
+        System.out.println(filename);
         BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
+        System.out.println("AFTER READER");
         return br;
     }
 
@@ -78,9 +81,17 @@ public class Utils {
         ArrayList<Integer> data = new ArrayList<Integer>();
         String[] idList = input.split("|");
         for (String id : idList) {
-            data.add(Integer.parseInt(id));
+            if (id.equals("NA")) {
+                data.add(-1);
+            } else {
+                data.add(Integer.parseInt(id));
+            }
         }
         return data;
+    }
+
+    public static String convertToIdString(String input) {
+        return input.substring(1, input.length() - 1).replace(",", "|");
     }
 
     public static String inputPrompt(String prompt, ValidateInterface validateInterface, String... reprompt) {
