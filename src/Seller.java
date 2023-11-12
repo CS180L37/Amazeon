@@ -1,5 +1,5 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Seller extends User implements UserInterface<Seller> {
     private String name;
@@ -12,7 +12,7 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = new ArrayList<Sale>();
     }
 
-    public Seller(int id, String email, String password, ArrayList<Product> products, ArrayList<Sale> sales) {
+    public Seller(int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales) {
         super(id, products, email, password);
         this.sales = sales;
     }
@@ -34,6 +34,10 @@ public class Seller extends User implements UserInterface<Seller> {
         }
         return stores;
     }
+
+    // public ArrayList<Integer> getProductRevenues() {
+    // return productRevenues;
+    // }
 
     public void displayDashboard(Scanner scan) {
         // Add a product to the sellers products list
@@ -187,23 +191,23 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public void updateProducts() {
-        // FileWriter fw;
-        // BufferedWriter bw;
-        // PrintWriter pw;
-        // try {
-        // String[] i = getId().split("@");
-        // fw = new FileWriter(i[0] + i[1] + "ProductsFile", false);
-        // bw = new BufferedWriter(fw);
-        // pw = new PrintWriter(bw);
-        // for (Product product : getProducts()) {
-        // String storeName = getStoreNameFromID(product.getStoreId());
-        // pw.println(product.getName() + "," + storeName + "," + product.getStoreId()
-        // + product.getDescription() + "," + product.getQuantity() + "," +
-        // product.getPrice());
-        // }
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
+        FileWriter fw;
+        BufferedWriter bw;
+        PrintWriter pw;
+        try {
+            String[] i = getEmail().split("@");
+            fw = new FileWriter(i[0] + i[1] + "ProductsFile", false);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+            for (Product product : getProducts()) {
+                String storeName = getStoreNameFromID(product.getStoreId());
+                pw.println(product.getName() + "," + storeName + "," + product.getStoreId()
+                        + product.getDescription() + "," + product.getQuantity() + "," +
+                        product.getPrice());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -251,9 +255,9 @@ public class Seller extends User implements UserInterface<Seller> {
                 }
                 String[] data = line.split(",");
                 sellers.add(new Seller(
-                        Integer.parseInt(data[0]), data[1], data[2],
+                        Integer.parseInt(data[0]),
                         (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Product>(),
+                                : new ArrayList<Product>(), data[2], data[1],
                         (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
                                 : new ArrayList<Sale>()));
             }
@@ -267,13 +271,12 @@ public class Seller extends User implements UserInterface<Seller> {
         try {
             BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
             for (Seller seller : sellers) {
-                bw.write(Integer.toString(seller.getId()) + "," + seller.getEmail() + "," + seller.getPassword() + ","
+                bw.write(seller.getId() + "," + seller.getEmail() + "," + seller.getPassword() + ","
                         + Utils.convertToIdString(Amazeon.getProductIds(seller.getProducts()).toString()) + ","
                         + Utils.convertToIdString(Amazeon.getSaleIds(seller.getSales()).toString()));
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return;
         }
     }
 

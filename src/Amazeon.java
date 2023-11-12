@@ -9,6 +9,8 @@ public class Amazeon {
     ArrayList<Sale> sales;
     ArrayList<Store> stores;
     ArrayList<Seller> sellers;
+    public static int counterSellers = 0;
+    public static int counterBuyers = 0;
 
     public Amazeon() {
         this.products = Product.readProducts();
