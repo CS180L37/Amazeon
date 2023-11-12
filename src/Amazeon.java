@@ -63,7 +63,7 @@ public class Amazeon {
                 seller = Amazeon.getSellerByEmailAndPassword(email, password);
                 // Create the seller market (only accesses stores associated with the seller)
                 sellerMarket = new SellerMarket(seller, seller.getStores(),
-                        amazeon.customers, Amazeon.products);
+                        Amazeon.customers, Amazeon.products);
                 // Open up options to seller
                 amazeon.sellerLoop(sellerMarket, seller);
                 amazeon.writeData();
@@ -96,7 +96,6 @@ public class Amazeon {
             }
         }
     }
-
 
     // Utility methods
     public static boolean hasAccount() {
@@ -163,68 +162,76 @@ public class Amazeon {
     }
 
     public static ArrayList<Integer> getProductIds(ArrayList<Product> products) {
-        ArrayList<Integer> productIDs = new ArrayList<>();
+        ArrayList<Integer> productIds = new ArrayList<Integer>();
         for (Product product : products) {
-            productIDs.add(product.getProductId());
+            productIds.add(product.getProductId());
         }
-        return productIDs;
+        return productIds;
     }
 
     // Cart methods
-    public static Cart getCartById(int parseInt) {
+    public static Cart getCartById(int cartId) {
         for (Cart cart : Amazeon.carts) {
-            if (cart.getCustomerID() == parseInt) {
+            if (cart.getCustomerID() == cartId) {
                 return cart;
             }
         }
+        return null;
     }
 
-    public static ArrayList<Product> getCartsById(ArrayList<Integer> cartIds) {
+    public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) {
         ArrayList<Cart> carts = new ArrayList<Cart>();
         for (int cartID : cartIds) {
             carts.add(getCartById(cartID));
         }
+        return carts;
     }
+
     public static ArrayList<Integer> getCartIds(ArrayList<Cart> carts) {
         ArrayList<Integer> cartIDs = new ArrayList<Integer>();
         for (Cart cart : carts) {
             cartIDs.add(cart.getCustomerID());
         }
+        return cartIDs;
     }
 
     // Customer methods
     public static Customer getCustomerByEmailAndPassword(String email, String password) {
         for (Customer customer : Amazeon.customers) {
-            if (customer.get(1) == email || customer.get(2) == password) {
+            if (customer.getEmail().equals(email) || customer.getPassword().equals(password)) {
                 return customer;
             }
         }
+        return null;
     }
 
     public static Customer getCustomerById(int customerId) {
         for (Customer customer : Amazeon.customers) {
-            if (customer.getId == customerId) {
+            if (customer.getId() == customerId) {
                 return customer;
             }
         }
+        return null;
     }
 
     public static int getNextCustomerId() {
-
+        return customers.get(customers.size() - 1).getId() + 1;
     }
 
     public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
         ArrayList<Customer> customers = new ArrayList<Customer>();
         for (int customerId : customerIds) {
-            customers.add(getCustomerById(customerId));
+            customers.add(Amazeon.getCustomerById(customerId));
         }
+        return customers;
     }
 
     public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customers) {
-        ArrayList<Integer> customerIDs = new ArrayList<Integer>();
+        ArrayList<Integer> customerIds = new ArrayList<Integer>();
         for (Customer customer : customers) {
-            customerIDs.add(customer.getId());
+            customerIds.add(customer.getId());
         }
+        return customerIds;
     }
 
     // Sale methods
@@ -266,7 +273,7 @@ public class Amazeon {
     }
 
     public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) {
-        ArrayList<Store> stores = new ArrayList<>();
+        ArrayList<Store> stores = new ArrayList<Store>();
         for (int id : storeIds) {
             stores.add(getStoreById(id));
         }
@@ -280,6 +287,7 @@ public class Amazeon {
         }
         return storeIDs;
     }
+
     public static ArrayList<Integer> getIDsByString(String prodIDs) {
         String[] IDs = prodIDs.split("\\|");
         ArrayList<Integer> numIDs = new ArrayList<>();
@@ -308,34 +316,25 @@ public class Amazeon {
         }
         return null;
     }
-    public int getStoreIDFromName(String storeName) {
-        for (Store store : stores) {
-            if (store.getName().equalsIgnoreCase(storeName)) {
-                return store.getId();
-            }
-        }
-        return Utils.NO;
-    }
-
-    public static String getStoreNameFromID(int storeID) {
-        for (Store store : Market.getStores()) {
-            if (store.getId() == storeID) {
-                return store.getName();
-            }
-        }
-        return String.valueOf(Utils.NO);
-    }
 
     public static int getNextSellerId() {
-        throw new UnsupportedOperationException("Unimplemented method 'getNextCustomerId'");
+        return sellers.get(sellers.size() - 1).getId() + 1;
     }
 
     public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getCustomersByIds'");
+        ArrayList<Seller> sellers = new ArrayList<Seller>();
+        for (int sellerId : sellerIds) {
+            sellers.add(getSellerById(sellerId));
+        }
+        return sellers;
     }
 
-    public static ArrayList<Seller> getSellerIds(ArrayList<Seller> sellers) {
-        throw new UnsupportedOperationException("Unsupported operation: 'getCustomerIds'");
+    public static ArrayList<Integer> getSellerIds(ArrayList<Seller> sellers) {
+        ArrayList<Integer> sellerIds = new ArrayList<Integer>();
+        for (Seller seller : sellers) {
+            sellerIds.add(seller.getId());
+        }
+        return sellerIds;
     }
 
     public void customerLoop(CustomerMarket customerMarket, Customer customer) {
@@ -388,7 +387,8 @@ public class Amazeon {
                 error = false;
             }
         } while (!error);
-        //throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
+        // throw new UnsupportedOperationException("Unsupported operation:
+        // 'customerLoop'");
     }
 
     public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
@@ -398,12 +398,12 @@ public class Amazeon {
             System.out.println(
                     "What would you like to do?\n1) Create\n2) Edit\n3) Delete\n4) View Sales\n5) Display Dashboard" +
                             "6) View Carts\n");
-            int sellerAction = Integer.parseInt(Utils.SCANNER.nextLine());
-            if (sellerAction == 1) {
-                System.out.println("How would you like to create your product?");
+            int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
+            if (customerAction == 1) {
+                System.out.println("Which product would you like to purchase?");
                 int productID = Integer.parseInt(Utils.SCANNER.nextLine());
                 seller.purchaseProduct(getProductById(productID));
-            } else if (sellerAction == 2) {
+            } else if (customerAction == 2) {
                 boolean valid = true;
                 do {
                     System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
@@ -424,9 +424,9 @@ public class Amazeon {
                         valid = false;
                     }
                 } while (!valid);
-            } else if (sellerAction == 3) {
+            } else if (customerAction == 3) {
                 sellerMarket.displayDashboard();
-            } else if (sellerAction == 4) {
+            } else if (customerAction == 4) {
                 System.out.println("Would you like to sort by price (y) or quantity (n)");
                 int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
                 if (sortCriteria == 1) {
@@ -435,13 +435,12 @@ public class Amazeon {
                     sellerMarket.sort(false, true);
                 }
 
-            } else if (sellerAction == 5) {
+            } else if (customerAction == 5) {
                 sellerMarket.displayCart();
             } else {
                 System.out.println("Please do choose a valid option.");
                 error = false;
             }
         } while (!error);
-        //throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
     }
 }
