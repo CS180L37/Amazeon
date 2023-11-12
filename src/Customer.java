@@ -30,6 +30,9 @@ public class Customer extends User implements UserInterface<Customer> {
             return;
         }
     }
+    public int getId() {
+        return cart.getCustomerID();
+    }
 
     // unnecessary method
     @Override
