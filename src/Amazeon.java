@@ -352,10 +352,11 @@ public class Amazeon {
                 error = false;
             }
         } while (!error);
-        throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
+        //throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
     }
 
-    public void sellerLoop() {
+    public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
+
         throw new UnsupportedOperationException("Unsupported operation: 'sellerLoop'");
     }
 }
