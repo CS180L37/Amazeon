@@ -16,18 +16,20 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
 
     @Override
     public void displayMarketplace() {
-
+        this.getUser().displayProducts();
         throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
     }
 
     // For creating, editing, or deleting a product
     @Override
-    public void displayProductPage(Product product) {
-        throw new UnsupportedOperationException("Unimplemented method 'displayProductPage'");
-    }
+//    public void displayProductPage(Product product) {
+//        throw new UnsupportedOperationException("Unimplemented method 'displayProductPage'");
+//    }
 
     @Override
     public void displayDashboard() {
+
+
         throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
     }
 

@@ -18,9 +18,11 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public void displayProducts() {
-        // for (int i = 0; i < getProductsSold().size(); i++) {
-        // System.out.printf("%d. %s\n", i, getProductsSold().get(i));
-        // }
+        for(int i = 0; i < getProducts().size(); i++){
+            System.out.println("Product Name: " + getProducts().get(i).getName()
+                    + "\nProduct Stock: " + getProducts().get(i).getQuantity()
+                    + "\nStore Name: " + Amazeon.getStoreById(getProducts().get(i).getStoreId()).getName() + "\n\n");
+        }
     }
 
     public ArrayList<Sale> getSales() {
@@ -48,15 +50,15 @@ public class Seller extends User implements UserInterface<Seller> {
         return stores;
     }
 
-    public void displayDashboard(Scanner scan) {
+    public void displayDashboard() {
         // Add a product to the sellers products list
         System.out.println(
                 "How do you want to sort?\n1. Number of products purchased by a customer\n2. Products by number of sales\n");
         int choice; // default
         while (true) {
             try {
-                choice = scan.nextInt();
-                scan.nextLine();
+                choice = Utils.SCANNER.nextInt();
+                Utils.SCANNER.nextLine();
                 if (choice != 1 && choice != 2 && choice != 3) {
                     throw new InputMismatchException();
                 }

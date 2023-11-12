@@ -406,7 +406,7 @@ public class Amazeon {
     }
 
     public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
-        sellerMarket.displayMarketplace();
+        sellerMarket.displayMarketplace();//done
         boolean error = true;
         do {
             System.out.println(
@@ -415,17 +415,17 @@ public class Amazeon {
 
             int sellerAction = Integer.parseInt(Utils.SCANNER.nextLine());
             if (sellerAction == 1) {
-                seller.createProduct();
+                seller.createProduct();//done
             } else if (sellerAction == 2) {
                 System.out.println("Enter productId of product you would like to edit: ");
                 int productId = Integer.parseInt(Utils.SCANNER.nextLine());
-                seller.updateProduct(productId);
+                seller.updateProduct(productId);//done
             } else if (sellerAction == 3) {
                 System.out.println("Enter productId of product you would like to delete: ");
                 int productId = Integer.parseInt(Utils.SCANNER.nextLine());
-                seller.deleteProduct(getProductById(productId));
+                seller.deleteProduct(getProductById(productId));//done
             } else if (sellerAction == 4) {
-                seller.viewSales();
+                seller.viewSales();//done
             } else if (sellerAction == 5) {
                 sellerMarket.displayDashboard();
             } else if (sellerAction == 6) {
