@@ -216,20 +216,20 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public void updateProduct(int prodID, Scanner scan) {
+    public void updateProduct(int prodID) {
         System.out.println("Enter new name:");
-        String newName = scan.nextLine();
+        String newName = Utils.SCANNER.nextLine();
         // TODO
         System.out.println("Enter stores?");
-        int newStoreID = scan.nextInt();
-        scan.nextLine();
+        int newStoreID = Utils.SCANNER.nextInt();
+        Utils.SCANNER.nextLine();
         // something waiting for edstem
         System.out.println("Enter new description:");
-        String newDesc = scan.next();
+        String newDesc = Utils.SCANNER.next();
         System.out.println("Enter new quantity:");
-        int newQuan = Integer.parseInt(scan.nextLine());
+        int newQuan = Integer.parseInt(Utils.SCANNER.nextLine());
         System.out.println("Enter new price:");
-        int newPrice = Integer.parseInt(scan.nextLine());
+        int newPrice = Integer.parseInt(Utils.SCANNER.nextLine());
         for (Product product : Amazeon.products) {
             if (product.getProductId() == prodID) {
                 product.setName(newName);
