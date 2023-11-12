@@ -9,7 +9,7 @@ public class Cart {
 
     public Cart(int customerID, ArrayList<Product> cartProducts) {
         this.customerID = customerID;
-        this.cartProducts = cartProducts;
+        this.cartProducts = (cartProducts != null) ? cartProducts : new ArrayList<Product>();
     }
 
     public void setCustomerID(int customerID) {

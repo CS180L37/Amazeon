@@ -16,7 +16,6 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     // Displays the list of products
     @Override
     public void displayMarketplace() {
-        for(int i = 0; i < )
         throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
     }
 

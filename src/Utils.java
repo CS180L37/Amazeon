@@ -14,7 +14,7 @@ public class Utils {
     public static final int NO = 0;
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
-    public static final String DATA_DIR = "/.data";
+    public static final String DATA_DIR = ".data";
     public static final String PRODUCT_FILE = "/.product.csv";
     public static final String CART_FILE = "/.cart.csv";
     public static final String CUSTOMER_FILE = "/.customer.csv";
@@ -66,7 +66,9 @@ public class Utils {
     }
 
     public static BufferedReader createReader(String filename) throws IOException {
+        System.out.println(filename);
         BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
+        System.out.println("AFTER READER");
         return br;
     }
 

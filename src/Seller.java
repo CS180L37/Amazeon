@@ -12,7 +12,7 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = new ArrayList<Sale>();
     }
 
-    public Seller(int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales) {
+    public Seller(int id, String email, String password, ArrayList<Product> products, ArrayList<Sale> sales) {
         super(id, products, email, password);
         this.sales = sales;
     }
@@ -103,7 +103,6 @@ public class Seller extends User implements UserInterface<Seller> {
         for (Map.Entry<Customer, Integer> key : keyList) {
             sortedCustomerIntegerMap.put(key.getKey(), key.getValue());
         }
-
 
         // another way
         Customer[] indicesCIM = new Customer[customerIntegerMap.size()];
@@ -267,11 +266,6 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     @Override
-    public Seller createAccount() {
-        throw new UnsupportedOperationException("Unimplemented method 'createAccount'");
-    }
-
-    @Override
     public Seller editAccount() {
         throw new UnsupportedOperationException("Unimplemented method 'editAccount'");
     }
@@ -282,12 +276,42 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     // Contains lists of all products and sales as parameters
-    public static ArrayList<Seller> readSellers(ArrayList<Product> products, ArrayList<Sale> sales) {
-        throw new UnsupportedOperationException("Unimplemented method 'readSellers'");
+    public static ArrayList<Seller> readSellers() {
+        ArrayList<Seller> sellers = new ArrayList<Seller>();
+        try {
+            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.CART_FILE);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                sellers.add(new Seller(
+                        Integer.parseInt(data[0]), data[1], data[2],
+                        (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
+                                : new ArrayList<Product>(),
+                        (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
+                                : new ArrayList<Sale>()));
+            }
+            return sellers;
+        } catch (IOException e) {
+            return new ArrayList<Seller>();
+        }
     }
 
     public static void writeSellers(ArrayList<Seller> sellers) {
-        throw new UnsupportedOperationException("Unimplemented method 'readSellers'");
+        try {
+            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
+            for (Seller seller : sellers) {
+                bw.write(Integer.toString(seller.getId()) + "," + seller.getEmail() + "," + seller.getPassword() + ","
+                        + Utils.convertToIdString(Amazeon.getProductIds(seller.getProducts()).toString()) + ","
+                        + Utils.convertToIdString(Amazeon.getSaleIds(seller.getSales()).toString()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
     }
 
     public String getName() {

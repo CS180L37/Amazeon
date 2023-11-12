@@ -1,4 +1,3 @@
-import javax.management.Notification;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -77,24 +76,43 @@ public class Sale {
 
     // Contains a list of customers as the parameter
     public static ArrayList<Sale> readSales() {
-        File salesFile = new File(Utils.DATA_DIR + Utils.SALE_FILE);
-        FileReader fr;
-        BufferedReader br;
-
+        ArrayList<Sale> sales = new ArrayList<Sale>();
         try {
-            fr = new FileReader(salesFile);
-            br = new BufferedReader(fr);
-
+            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.SALE_FILE);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                sales.add(new Sale(Integer.parseInt(data[0]), Amazeon.getCustomerById(Integer.parseInt(data[1])),
+                        Amazeon.getProductById(Integer.parseInt(data[2])),
+                        Integer.parseInt(data[4])));
+            }
+            return sales;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return new ArrayList<Sale>();
     }
+
+    public static void writeSales(ArrayList<Sale> sales) {
+        try {
+            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
+            for (Sale sale : sales) {
+                bw.write(Integer.toString(sale.getSaleId()) + "," + Integer.toString(sale.getCustomer().getId()) + ","
+                        + Integer.toString(sale.getProduct().getProductId()) + ","
+                        + Integer.toString(sale.getNumPurchased()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
     public static void exportPurchaseHistory(Customer customer) {
 
     }
-    public static void writeSales(ArrayList<Sale> sales) {
-        //unnecessary method since sales are written when the constructor is called
-    }
-
 
 }
