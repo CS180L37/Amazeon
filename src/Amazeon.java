@@ -398,12 +398,12 @@ public class Amazeon {
             System.out.println(
                     "What would you like to do?\n1) Create\n2) Edit\n3) Delete\n4) View Sales\n5) Display Dashboard" +
                             "6) View Carts\n");
-            int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
-            if (customerAction == 1) {
-                System.out.println("Which product would you like to purchase?");
+            int sellerAction = Integer.parseInt(Utils.SCANNER.nextLine());
+            if (sellerAction == 1) {
+                System.out.println("How would you like to create your product?");
                 int productID = Integer.parseInt(Utils.SCANNER.nextLine());
                 seller.purchaseProduct(getProductById(productID));
-            } else if (customerAction == 2) {
+            } else if (sellerAction == 2) {
                 boolean valid = true;
                 do {
                     System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
@@ -424,9 +424,9 @@ public class Amazeon {
                         valid = false;
                     }
                 } while (!valid);
-            } else if (customerAction == 3) {
+            } else if (sellerAction == 3) {
                 sellerMarket.displayDashboard();
-            } else if (customerAction == 4) {
+            } else if (sellerAction == 4) {
                 System.out.println("Would you like to sort by price (y) or quantity (n)");
                 int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
                 if (sortCriteria == 1) {
@@ -435,7 +435,7 @@ public class Amazeon {
                     sellerMarket.sort(false, true);
                 }
 
-            } else if (customerAction == 5) {
+            } else if (sellerAction == 5) {
                 sellerMarket.displayCart();
             } else {
                 System.out.println("Please do choose a valid option.");
