@@ -285,8 +285,8 @@ public class Seller extends User implements UserInterface<Seller> {
                 String[] data = line.split(",");
                 sellers.add(new Seller(
                         Integer.parseInt(data[0]),
-                        (!data[3].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[3]))
-                                : new ArrayList<Product>()
+                        (!data[1].equals(Utils.NA)) ? Amazeon.getProductByIds(Utils.splitIdsByPipe(data[1]))
+                                : new ArrayList<Product>(), data[2], data[3], Amazeon.getSalesById(Amazeon.getIDsByString(data[4]))));
             }
             return sellers;
         } catch (IOException e) {
