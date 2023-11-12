@@ -5,7 +5,17 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
     public CustomerMarket(Customer customer, ArrayList<Store> stores) {
         super(customer, stores); // Retrieve existing stores and customer
-        this.dashboard = new Dashboard<Store, Store>(stores, stores);
+        this.dashboard = new Dashboard<Store, Store>(stores, stores) {
+            @Override
+            public ArrayList<Store> sort1(User user) {
+                return null;
+            }
+
+            @Override
+            public ArrayList<Store> sort2(User user) {
+                return null;
+            }
+        };
     }
 
     public CustomerMarket(Customer customer, ArrayList<Store> stores, Dashboard<Store, Store> dashboard) {
