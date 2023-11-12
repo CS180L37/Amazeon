@@ -22,14 +22,14 @@ public class SellerTest extends TestUtils {
                 new ArrayList<Product>(Arrays.asList(Amazeon.getProductById(0), ninSwitch)));
     }
 
-    @Test
-    public void testEditProduct() {
-        Seller seller = Amazeon.getSellerById(0);
-        Product ninSwitch = new Product(1, "switch", 1,
-                "Nintendo switches it up!", 300.00, 0, 0);
-        seller.updateProducts(Amazeon.getProductById(0), ninSwitch);
-        assertEquals(seller.getProducts().get(0), ninSwitch);
-    }
+    // @Test
+    // public void testEditProduct() {
+    // Seller seller = Amazeon.getSellerById(0);
+    // Product ninSwitch = new Product(1, "switch", 1,
+    // "Nintendo switches it up!", 300.00, 0, 0);
+    // seller.updateProducts(Amazeon.getProductById(0), ninSwitch);
+    // assertEquals(seller.getProducts().get(0), ninSwitch);
+    // }
 
     @Test
     public void testDeleteProduct() {

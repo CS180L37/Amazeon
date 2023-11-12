@@ -11,7 +11,8 @@ public class Product {
     private double price;
     private int sellerId;
     private int storeId;
-    //public Seller(int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales) {
+    // public Seller(int id, ArrayList<Product> products, String email, String
+    // password, ArrayList<Sale> sales) {
 
     public Product(int productId, String name, int quantity, String description,
             double price, int sellerId, int storeId) {
@@ -80,10 +81,10 @@ public class Product {
         this.price = price;
     }
 
-    public static ArrayList<Product> readProducts() {
+    public static ArrayList<Product> readProducts(String filepath) {
         ArrayList<Product> products = new ArrayList<Product>();
         try {
-            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.PRODUCT_FILE);
+            BufferedReader br = Utils.createReader(filepath);
             String line;
             while (true) {
                 line = br.readLine();
@@ -100,9 +101,9 @@ public class Product {
         }
     }
 
-    public static void writeProducts(ArrayList<Product> products) {
+    public static void writeProducts(ArrayList<Product> products, String filepath) {
         try {
-            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.PRODUCT_FILE);
+            BufferedWriter bw = Utils.createWriter(filepath);
             for (Product product : products) {
                 bw.write(Utils.convertToProductString(product));
             }

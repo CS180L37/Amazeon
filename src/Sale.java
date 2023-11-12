@@ -76,10 +76,10 @@ public class Sale {
     }
 
     // Contains a list of customers as the parameter
-    public static ArrayList<Sale> readSales() {
+    public static ArrayList<Sale> readSales(String filepath) {
         ArrayList<Sale> sales = new ArrayList<Sale>();
         try {
-            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.SALE_FILE);
+            BufferedReader br = Utils.createReader(filepath);
             String line;
             while (true) {
                 line = br.readLine();
@@ -96,9 +96,9 @@ public class Sale {
         return new ArrayList<Sale>();
     }
 
-    public static void writeSales(ArrayList<Sale> sales) {
+    public static void writeSales(ArrayList<Sale> sales, String filepath) {
         try {
-            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
+            BufferedWriter bw = Utils.createWriter(filepath);
             for (Sale sale : sales) {
                 bw.write(Utils.convertToSaleString(sale));
             }
@@ -107,9 +107,4 @@ public class Sale {
             return;
         }
     }
-
-    public static void exportPurchaseHistory(Customer customer) {
-
-    }
-
 }

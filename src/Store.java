@@ -49,10 +49,10 @@ public class Store {
     }
 
     // Contains lists of all products and customers as parameters
-    public static ArrayList<Store> readStores() {
+    public static ArrayList<Store> readStores(String filepath) {
         ArrayList<Store> stores = new ArrayList<Store>();
         try {
-            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.STORE_FILE);
+            BufferedReader br = Utils.createReader(filepath);
             String line;
             while (true) {
                 line = br.readLine();
@@ -68,9 +68,9 @@ public class Store {
         }
     }
 
-    public static void writeStores(ArrayList<Store> stores) {
+    public static void writeStores(ArrayList<Store> stores, String filepath) {
         try {
-            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
+            BufferedWriter bw = Utils.createWriter(filepath);
             for (Store store : stores) {
                 bw.write(Utils.convertToStoreString(store));
             }

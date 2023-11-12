@@ -58,10 +58,10 @@ public class Cart {
     }
 
     // Contains a list of all products as a parameter
-    public static ArrayList<Cart> readCarts() {
+    public static ArrayList<Cart> readCarts(String filepath) {
         ArrayList<Cart> carts = new ArrayList<Cart>();
         try {
-            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.CART_FILE);
+            BufferedReader br = Utils.createReader(filepath);
             String line;
             while (true) {
                 line = br.readLine();
@@ -77,9 +77,9 @@ public class Cart {
         }
     }
 
-    public static void writeCarts(ArrayList<Cart> carts) {
+    public static void writeCarts(ArrayList<Cart> carts, String filepath) {
         try {
-            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
+            BufferedWriter bw = Utils.createWriter(filepath);
             for (Cart cart : carts) {
 
                 bw.write(

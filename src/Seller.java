@@ -48,10 +48,6 @@ public class Seller extends User implements UserInterface<Seller> {
         return stores;
     }
 
-    // public ArrayList<Integer> getProductRevenues() {
-    // return productRevenues;
-    // }
-
     public void displayDashboard(Scanner scan) {
         // Add a product to the sellers products list
         System.out.println(
@@ -260,10 +256,10 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     // Contains lists of all products and sales as parameters
-    public static ArrayList<Seller> readSellers() {
+    public static ArrayList<Seller> readSellers(String filepath) {
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         try {
-            BufferedReader br = Utils.createReader(Utils.DATA_DIR + Utils.CART_FILE);
+            BufferedReader br = Utils.createReader(filepath);
             String line;
             while (true) {
                 line = br.readLine();
@@ -280,9 +276,9 @@ public class Seller extends User implements UserInterface<Seller> {
         }
     }
 
-    public static void writeSellers(ArrayList<Seller> sellers) {
+    public static void writeSellers(ArrayList<Seller> sellers, String filepath) {
         try {
-            BufferedWriter bw = Utils.createWriter(Utils.DATA_DIR + Utils.CART_FILE);
+            BufferedWriter bw = Utils.createWriter(filepath);
             for (Seller seller : sellers) {
                 bw.write(Utils.convertToSellerString(seller));
             }
