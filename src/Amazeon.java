@@ -269,8 +269,8 @@ public class Amazeon {
                 String[] parts = currentLine.split(",");
                 if (parts[1].equals(email)) {
                     if (parts[2].equals(password)) {
-                        return new Seller(Integer.parseInt(parts[0]), getProductByIds(getIDsByString(parts[1])),
-                                parts[2], parts[3], getSalesById(getIDsByString(parts[4])));
+                        return new Seller(Integer.parseInt(parts[0]), getProductsByIds(getIDsByString(parts[1])),
+                                parts[2], parts[3], getSalesByIds(getIDsByString(parts[4])));
                     }
                 }
                 currentLine = br.readLine();
