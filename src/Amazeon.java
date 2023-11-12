@@ -244,6 +244,7 @@ public class Amazeon {
         for (Store store : stores) {
             storeIDs.add(store.getId());
         }
+        return storeIDs;
     }
     public static ArrayList<Integer> getIDsByString(String prodIDs) {
         String[] IDs = prodIDs.split("\\|");
