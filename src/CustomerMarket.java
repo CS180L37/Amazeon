@@ -176,7 +176,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
             for(int i = 0; i < allProducts.size() - 1; i++) {
                 int maxIndex = i;
                 for(int j = 0; i < allProducts.size(); j++) {
-                    if(allProducts.get(i).getQuantity() > allProducts.get(maxIndex).getQuantity()){
+                    if(allProducts.get(i).getQuantity() > allProducts.get(maxIndex).getQuantity()) {
                         maxIndex = j;
                     }
                 }
