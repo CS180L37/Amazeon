@@ -118,48 +118,6 @@ public class Amazeon {
         }
     }
 
-    // public ArrayList<Sale> readSales() {
-    // ArrayList<Sale> sales = new ArrayList<>();
-    // try {
-    // File salesFile = new File(Utils.DATA_DIR + Utils.SALE_FILE);
-    // FileReader fr = new FileReader(salesFile);
-    // BufferedReader br = new BufferedReader(fr);
-    // String currentLine = br.readLine();
-    // while (currentLine != null) {
-    // String[] partsOfSale = currentLine.split(",");
-    // int cusID = Integer.parseInt(partsOfSale[1]);
-    // Customer customerUsed = null;
-    // for (Customer customer1 : Amazeon.customers) {
-    // if (customer1.getId() == cusID) {
-    // customerUsed = customer1;
-    // }
-    // }
-    // Product productUsed = null;
-    // for (Product product : Amazeon.products) {
-    // if (product.getName().equalsIgnoreCase(partsOfSale[2])) {
-    // productUsed = product;
-    // }
-    // }
-    // if (productUsed == null) {
-    // System.out.println(partsOfSale[2] + "has been deleted.");
-    // continue;
-    // }
-    // sales.add(new Sale(Integer.parseInt(partsOfSale[0]), customerUsed,
-    // productUsed,
-    // Integer.parseInt(partsOfSale[3])));
-    // currentLine = br.readLine();
-    // }
-    // return sales;
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return sales;
-    // }
-    // }
-
-    public void exports() {
-
-    }
-
     public static void writeData() {
         throw new UnsupportedOperationException("Unsupported operation: 'writeData'");
     }
