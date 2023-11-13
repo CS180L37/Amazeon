@@ -123,27 +123,27 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                 }
             }
         } else if (name == null && storeId != null && description == null) {
-            for (int i = 0; i < Amazeon.stores.size(); i++) {
-                for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
-                    if (String.valueOf(Amazeon.stores.get(i).getProducts().get(j).getStoreId()).contains(storeId)) {
-                        relevantProducts.add(Amazeon.stores.get(i).getProducts().get(j));
+            for(int i = 0; i < Amazeon.stores.size(); i++) {
+                for(int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
+                    if(String.valueOf(Amazeon.stores.get(i).getProducts().get(j).getStoreId()).contains(storeId)) {
+                        relevant Products.add(Amazeon.stores.get(i).getProducts().get(j));
                     }
                 }
             }
         } else {
-            for (int i = 0; i < Amazeon.stores.size(); i++) {
-                for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
-                    if (Amazeon.stores.get(i).getProducts().get(j).getDescription().contains(description)) {
-                        relevantProducts.add(Amazeon.stores.get(i).getProducts().get(j));
+            for(int i = 0; i < Amazeon.stores.size(); i++) {
+                for(int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
+                    if(Amazeon.stores.get(i).getProducts().get(j).getDescription().contains(description)) {
+                        relevant Products.add(Amazeon.stores.get(i).getProducts().get(j));
                     }
                 }
             }
         }
 
-        for (int i = 0; i < relevantProducts.size(); i++) {
-            System.out.println("Store Name: " + Amazeon.getStoreById(relevantProducts.get(i).getStoreId()).getName()
-                    + "Product Name: " + relevantProducts.get(i).getName()
-                    + "Product Price: " + relevantProducts.get(i).getPrice());
+        for (int i = 0; i < relevant Products.size(); i++) {
+            System.out.println("Store Name:" + Amazeon.getStoreById(relevantProducts.get(i).getStoreId()).getName()
+                    + "Product Name:" + relevantProducts.get(i).getName()
+                    + "Product Price:" + relevantProducts.get(i).getPrice());
         }
         return relevantProducts;
     }
