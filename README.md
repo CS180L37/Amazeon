@@ -15,8 +15,8 @@ java Amazeon.java
 ## Documentation
 
 - [Amazeon.Java](DOCS.md#Amazeon)
-- [MarketInterface.Java](DOCS.md#Amazeon)
-- Market.Java
+- [MarketInterface.Java](DOCS.md#MarketInterface)
+- [Market.Java](DOCS.md#Market)
 - CustomerMarket.java
 - SellerMarket.java
 - DashboardInterface.java
