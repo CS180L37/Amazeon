@@ -52,9 +52,9 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
         ArrayList<Product> allProducts = new ArrayList<Product>();
 
         if (price && !quantityAvailable) {
-            for (int i = 0; i < Amazeon.stores.size(); i++) {
-                for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
-                    allProducts.add(Amazeon.stores.get(i).getProducts().get(j));
+            for (int i = 0; i < this.getStores().size(); i++) {
+                for (int j = 0; j < this.getStores().get(i).getProducts().size(); j++) {
+                    allProducts.add(this.getStores().get(i).getProducts().get(j));
                 }
             }
 

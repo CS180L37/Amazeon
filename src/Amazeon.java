@@ -408,8 +408,7 @@ public class Amazeon {
                 System.out.println("Please do choose a valid option.");
             }
         } while (true);
-        // throw new UnsupportedOperationException("Unsupported operation:
-        // 'customerLoop'");
+         throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
     }
 
     public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
