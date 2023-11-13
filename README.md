@@ -33,3 +33,4 @@ java Amazeon.java
 - [Cart.java](DOCS.md#Cart)
 - [Utils.java](DOCS.md#Utils)
 - [ValidInterface.java](DOCS.md#ValidInterface)
+- [Testing](DOCS.md#Testing)

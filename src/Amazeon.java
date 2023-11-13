@@ -48,7 +48,7 @@ public class Amazeon {
                 customerMarket = new CustomerMarket(customer, Amazeon.stores);
                 // Open up options to customer
                 amazeon.customerLoop(customerMarket, customer);
-                // amazeon.writeData();
+                amazeon.writeData();
             } else {
                 // Get the email and password
                 String email = emailPrompt();
@@ -60,7 +60,7 @@ public class Amazeon {
                         Amazeon.customers, Amazeon.products);
                 // Open up options to seller
                 amazeon.sellerLoop(sellerMarket, seller);
-                // amazeon.writeData();
+                amazeon.writeData();
             }
         } else {
             // Create
@@ -74,7 +74,7 @@ public class Amazeon {
                 customerMarket = new CustomerMarket(customer, Amazeon.stores);
                 // Open up options to customer
                 amazeon.customerLoop(customerMarket, customer);
-                // amazeon.writeData();
+                amazeon.writeData();
             } else {
                 // Get the email and password
                 String email = emailPrompt();
@@ -86,7 +86,7 @@ public class Amazeon {
                         Amazeon.customers, Amazeon.products);
                 // Open up options to seller
                 amazeon.sellerLoop(sellerMarket, seller);
-                // amazeon.writeData();
+                amazeon.writeData();
             }
         }
     }
@@ -130,11 +130,12 @@ public class Amazeon {
 
     public void writeData() {
         writeProducts(Amazeon.products, this.getPathToDataDir() + Utils.PRODUCT_FILE);
-        writeCarts(Amazeon.carts, this.getPathToDataDir() + Utils.CART_FILE);
-        writeCustomers(Amazeon.customers, this.getPathToDataDir() + Utils.CUSTOMER_FILE);
-        writeSales(Amazeon.sales, this.getPathToDataDir() + Utils.SALE_FILE);
-        writeStores(Amazeon.stores, this.getPathToDataDir() + Utils.STORE_FILE);
-        writeSellers(Amazeon.sellers, this.getPathToDataDir() + Utils.SELLER_FILE);
+        // writeCarts(Amazeon.carts, this.getPathToDataDir() + Utils.CART_FILE);
+        // writeCustomers(Amazeon.customers, this.getPathToDataDir() +
+        // Utils.CUSTOMER_FILE);
+        // writeSales(Amazeon.sales, this.getPathToDataDir() + Utils.SALE_FILE);
+        // writeStores(Amazeon.stores, this.getPathToDataDir() + Utils.STORE_FILE);
+        // writeSellers(Amazeon.sellers, this.getPathToDataDir() + Utils.SELLER_FILE);
     }
 
     // Product methods
@@ -472,11 +473,14 @@ public class Amazeon {
     }
 
     public static void writeProducts(ArrayList<Product> products, String filepath) {
+        System.out.println(products);
         try {
             BufferedWriter bw = Utils.createWriter(filepath);
             for (Product product : products) {
                 bw.write(Utils.convertToProductString(product));
+                bw.newLine();
             }
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -496,6 +500,7 @@ public class Amazeon {
                 String[] data = line.split(",");
                 Amazeon.carts.add(Utils.convertFromCartString(data));
             }
+            br.close();
             return;
         } catch (IOException e) {
             return;
@@ -509,7 +514,9 @@ public class Amazeon {
 
                 bw.write(
                         Utils.convertToCartString(cart));
+                bw.newLine();
             }
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -529,6 +536,7 @@ public class Amazeon {
                 String[] data = line.split(",");
                 Amazeon.customers.add(Utils.convertFromCustomerString(data));
             }
+            br.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -540,7 +548,9 @@ public class Amazeon {
             BufferedWriter bw = Utils.createWriter(filepath);
             for (Customer customer : customers) {
                 bw.write(Utils.convertToCustomerString(customer));
+                bw.newLine();
             }
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -560,11 +570,10 @@ public class Amazeon {
                 String[] data = line.split(",");
                 Amazeon.sales.add(Utils.convertFromSaleString(data));
             }
-            return;
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return;
     }
 
     public static void writeSales(ArrayList<Sale> sales, String filepath) {
@@ -572,7 +581,9 @@ public class Amazeon {
             BufferedWriter bw = Utils.createWriter(filepath);
             for (Sale sale : sales) {
                 bw.write(Utils.convertToSaleString(sale));
+                bw.newLine();
             }
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -592,7 +603,7 @@ public class Amazeon {
                 String[] data = line.split(",");
                 Amazeon.stores.add(Utils.convertFromStoreString(data));
             }
-            return;
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -604,7 +615,9 @@ public class Amazeon {
             BufferedWriter bw = Utils.createWriter(filepath);
             for (Store store : stores) {
                 bw.write(Utils.convertToStoreString(store));
+                bw.newLine();
             }
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -625,7 +638,6 @@ public class Amazeon {
                 Amazeon.sellers.add(Utils.convertFromSellerString(data));
             }
             br.close();
-            return;
         } catch (IOException e) {
             return;
         }
@@ -636,6 +648,7 @@ public class Amazeon {
             BufferedWriter bw = Utils.createWriter(filepath);
             for (Seller seller : sellers) {
                 bw.write(Utils.convertToSellerString(seller));
+                bw.newLine();
             }
             bw.close();
         } catch (IOException e) {
