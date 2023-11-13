@@ -100,8 +100,8 @@ public class Customer extends User implements UserInterface<Customer> {
 
     // Contains lists of all products and carts as parameters
     public static ArrayList<Customer> readCustomers(String filepath) {
-        Amazeon.carts =  Cart.readCarts(Utils.DATA_DIR + Utils.CART_FILE);
-        ArrayList<Customer>  customers = new ArrayList<Customer>();
+        Amazeon.carts = Cart.readCarts(Utils.DATA_DIR + Utils.CART_FILE);
+        ArrayList<Customer> customers = new ArrayList<Customer>();
         try {
             BufferedReader br = Utils.createReader(filepath);
             String line;
