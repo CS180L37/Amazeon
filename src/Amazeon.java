@@ -359,54 +359,52 @@ public class Amazeon {
     public void customerLoop(CustomerMarket customerMarket, Customer customer) {
         customerMarket.displayMarketplace();
         do {
-        System.out.println(
-        "What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4)
-        Sort MarketPlace\n5) View Cart\n6) Log Out");
-        int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
-        if (customerAction == 1) {
-        System.out.println("Which product would you like to purchase?");
-        int productID = Integer.parseInt(Utils.SCANNER.nextLine());
-        customer.purchaseProduct(getProductById(productID));
-        } else if (customerAction == 2) {
-        boolean valid = true;
-        do {
-        System.out.println("Would you like to search by name (1), storedId (2) or
-        description (3)? ");
-        int searchCriteria = Integer.parseInt(Utils.SCANNER.nextLine());
-        if (searchCriteria == 1) {
-        System.out.println("Enter the name of the product: ");
-        String name = Utils.SCANNER.nextLine();
-        customerMarket.search(name, null, null);
-        } else if (searchCriteria == 2) {
-        System.out.println("Enter the storeId of the product: ");
-        String storeId = Utils.SCANNER.nextLine();
-        customerMarket.search(null, storeId, null);
-        } else if (searchCriteria == 3) {
-        System.out.println("Enter the description of the product: ");
-        String description = Utils.SCANNER.nextLine();
-        customerMarket.search(null, null, description);
-        } else {
-        valid = false;
-        }
-        } while (!valid);
-        } else if (customerAction == 3) {
-        customerMarket.displayDashboard();
-        } else if (customerAction == 4) {
-        System.out.println("Would you like to sort by price (y) or quantity (n)");
-        int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
-        if (sortCriteria == 1) {
-        customerMarket.sort(true, false);
-        } else {
-        customerMarket.sort(false, true);
-        }
+            System.out.println(
+                    "What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4)Sort MarketPlace\n5) View Cart\n6) Log Out");
+            int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
+            if (customerAction == 1) {
+                System.out.println("Which product would you like to purchase?");
+                int productID = Integer.parseInt(Utils.SCANNER.nextLine());
+                customer.purchaseProduct(getProductById(productID));
+            } else if (customerAction == 2) {
+                boolean valid = true;
+                do {
+                    System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
+                    int searchCriteria = Integer.parseInt(Utils.SCANNER.nextLine());
+                    if (searchCriteria == 1) {
+                        System.out.println("Enter the name of the product: ");
+                        String name = Utils.SCANNER.nextLine();
+                        customerMarket.search(name, null, null);
+                    } else if (searchCriteria == 2) {
+                        System.out.println("Enter the storeId of the product: ");
+                        String storeId = Utils.SCANNER.nextLine();
+                        customerMarket.search(null, storeId, null);
+                    } else if (searchCriteria == 3) {
+                        System.out.println("Enter the description of the product: ");
+                        String description = Utils.SCANNER.nextLine();
+                        customerMarket.search(null, null, description);
+                    } else {
+                        valid = false;
+                    }
+                } while (!valid);
+            } else if (customerAction == 3) {
+                customerMarket.displayDashboard();
+            } else if (customerAction == 4) {
+                System.out.println("Would you like to sort by price (y) or quantity (n)");
+                int sortCriteria = Utils.yesOrNoToInt(Utils.SCANNER.nextLine());
+                if (sortCriteria == 1) {
+                    customerMarket.sort(true, false);
+                } else {
+                    customerMarket.sort(false, true);
+                }
 
-        } else if (customerAction == 5) {
-        customerMarket.displayCart();
-        } else if (customerAction == 6) {
-        break;
-        } else {
-        System.out.println("Please do choose a valid option.");
-        }
+            } else if (customerAction == 5) {
+                customerMarket.displayCart();
+            } else if (customerAction == 6) {
+                break;
+            } else {
+                System.out.println("Please do choose a valid option.");
+            }
         } while (true);
     }
 
