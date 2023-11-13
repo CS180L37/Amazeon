@@ -67,8 +67,7 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
         // }
         // }
         // }
-
-        throw new UnsupportedOperationException("Unimplemented method 'sort1'");
+        return sortedCust;
     }
 
     // sort products by sale
@@ -86,7 +85,7 @@ public class SellerDashboard extends Dashboard<Customer, Product> implements Das
             System.out.println(i + ". " + getData2().get(i) + " - " + numberSales + " Sales");
             numberSales = 0;
         }
-        throw new UnsupportedOperationException("Unimplemented method 'sort2'");
+        return new ArrayList<Product>();
     }
 
     @Override
