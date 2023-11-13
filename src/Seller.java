@@ -193,8 +193,8 @@ public class Seller extends User implements UserInterface<Seller> {
         int quantity = Integer.parseInt(Utils.SCANNER.nextLine());
         System.out.println("Enter product id: ");
         int productId = Integer.parseInt(Utils.SCANNER.nextLine());
-        System.out.println("Enter your seller id: ");
-        int sellerId = Integer.parseInt(Utils.SCANNER.nextLine());
+//        System.out.println("Enter your seller id: ");
+        int sellerId = this.getId();
         System.out.println("Enter your store's id: ");
         int storeId = Integer.parseInt(Utils.SCANNER.nextLine());
 

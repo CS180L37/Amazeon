@@ -361,7 +361,7 @@ public class Amazeon {
         customerMarket.displayMarketplace();
         do {
             System.out.println(
-                    "What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4) Sort MarketPlace\n5) View Cart\n6 Log Out");
+                    "What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4) Sort MarketPlace\n5) View Cart\n6) Log Out");
             int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
             if (customerAction == 1) {
                 System.out.println("Which product would you like to purchase?");
