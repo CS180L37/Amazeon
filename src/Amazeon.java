@@ -457,7 +457,6 @@ public class Amazeon {
             String line;
             while (true) {
                 line = br.readLine();
-                System.out.println(line);
                 if (line == null) {
                     break;
                 }
