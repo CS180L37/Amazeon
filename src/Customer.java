@@ -134,7 +134,7 @@ public class Customer extends User implements UserInterface<Customer> {
     @Override
     public String toString() {
         return "Customer {" +
-                "cart= " + cart +
-                '} ';
+                "cart=" + cart +
+                '}';
     }
 }
