@@ -435,7 +435,7 @@ public class Amazeon {
     }
 
     public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
-        sellerMarket.displayMarketplace();add
+        sellerMarket.displayMarketplace();
         do {
             System.out.println(
                     "What would you like to do?\n1) Create\n2) Edit\n3) Delete\n4) View Sales\n5) Display Dashboard" +
