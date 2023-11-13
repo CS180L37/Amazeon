@@ -34,7 +34,7 @@ public class Product {
     }
 
     public int getSellerId() {
-        return sellerId;
+        return this.sellerId;
     }
 
     public void setSellerId(int sellerId) {

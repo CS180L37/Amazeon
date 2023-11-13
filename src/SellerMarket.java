@@ -17,13 +17,11 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
     @Override
     public void displayMarketplace() {
         this.getUser().displayProducts();
-        throw new UnsupportedOperationException("Unimplemented method 'displayMarketplace'");
     }
 
     @Override
     public void displayDashboard() {
         this.getUser().displayDashboard();
-        throw new UnsupportedOperationException("Unimplemented method 'displayDashboard'");
     }
 
     public SellerDashboard getDashboard() {
@@ -38,7 +36,13 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
     // details
     @Override
     public void displayCart() {
-        throw new UnsupportedOperationException("Unimplemented method 'displayCart'");
+        for (Customer customer : Amazeon.customers) {
+            for (Product product : customer.getCart().getCartProducts()) {
+                if (Product.getSellerId() == this.getUser().getId()) {
+                    System.out.println(Product.toString());
+                }
+            }
+        }
     }
 
     // Never called
