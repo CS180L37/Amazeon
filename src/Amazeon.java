@@ -626,12 +626,6 @@ public class Amazeon {
                 Amazeon.sellers.add(Utils.convertFromSellerString(data));
             }
             br.close();
-            System.out.println(Amazeon.products);
-            System.out.println(Amazeon.carts);
-            System.out.println(Amazeon.customers);
-            System.out.println(Amazeon.sales);
-            System.out.println(Amazeon.stores);
-            System.out.println(Amazeon.sellers);
             return;
         } catch (IOException e) {
             return;
