@@ -6,18 +6,9 @@ Next, our class goes thorough the login process if our user already has an accou
 After the customer or seller loop's run, all new data in addition to data that needs to be updated will be written to files to make sure that the data is preserved.
 In addition to the flow of the program being run here, Amazeon also has many helper methods that make it easy to access instances of other classes using a simple parameter. They have come in much handy when implementing the rest of the program, especially the customer marker and seller market classes. _________________ etc..
 
-### Testing:
-_________________________________________etc..
-
-Relationship to other classes:
-It is the main class which runs our program. Thus, it is not the parent class to any subclass nor does it implement any interface. However, instances of other classes are made within it and used to call methods from their respective classes which may extend and/or implement other classes.
-
-
-
-
 ## MarketInterface
 ### Functionality: 
-The market interface takes in generics as paranmeters. These parameterized types are used in Market.java and represent the user type (customer or seller). The interface contains methods displayMarketplace(), displayDashboard(), displayProductPage(Product product), and displayCart(). Although the implementations of these methods are different for each user type, these are shared methods between the customer market and seller market.
+The market interface takes in generics as parameters. These parameterized types are used in Market.java and represent the user type (customer or seller). The interface contains methods displayMarketplace(), displayDashboard(), displayProductPage(Product product), and displayCart(). Although the implementations of these methods are different for each user type, these are shared methods between the customer market and seller market.
 
 ## Market
 ### Functionality: 
@@ -25,26 +16,29 @@ Market.java consists of a list of all the stores in the marketplace, regardless 
 
 ## CustomerMarket
 ### Functionality: 
-CustomerMarket has a dashboard field used to display the customer's dashobard. This class implements all methods in the MarketInterface class:
+CustomerMarket has a dashboard field used to display the customer's dashboard. This class implements all methods in the MarketInterface class:
 - displayMarketplace(): the entry point for customer marketplace, which displays every product available for purchase along with product information associated with each such as the 					product's name, description, and store name it is associated with
-- displayProductPage(Product product): displays the page of the product the customer wants to look into (when customer clicks on product); the page includes the product's name, 							description, price, quanity available, name of store the product is associated with, the customer's purchase history in this marketplace, and a 						purchaseProduct option
+- displayProductPage(Product product): displays the page of the product the customer wants to look into (when customer clicks on product); the page includes the product's name, 							description, price, quantity available, name of store the product is associated with, the customer's purchase history in this marketplace, and a 						purchaseProduct option
 - displayDashboard(): calls CustomerDashboard.java displayDashboard() method
 - sort(boolean price, boolean quantityAvailable): customer is given the option to sort the marketplace listing page by price of the product or quantityAvailable of the product
-- search(String name, String storeId, String description): allows customer to search for a product based on name, storeId, or description and ouptuts a list of all the products containing 								   that name, storeId, or description
+- search(String name, String storeId, String description): allows customer to search for a product based on name, storeId, or description and outputs a list of all the products containing 								   that name, storeId, or description
 - displayCart() - allows customer to view their cart by calling cart's display method
 
-- #### Relationship to other classes:
-  - extends Market impelements MarketInterface
+#### Relationship to other classes:
+  ```Java
+    extends Market implements MarketInterface
+  ```
 ## SellerMarket
 ### Functionality: 
-SellerMarket has a dashboard field used to display the customer's dashobard. This class implements all methods in the MarketInterface class:
+SellerMarket has a dashboard field used to display the customer's dashboard. This class implements all methods in the MarketInterface class:
 - displayMarketplace(): the entry point for seller marketplace, which displays every product being sold by the seller along with product information associated w/ each just like in 					customer's marketplace
 - displayDashboard(): calls SellerDashboard.java displayDashboard() method
 - displayCart(): allows sellers to view all of their customer's carts by calling cart's display method alog with the store and product details associated with each product
 
-- #### Relationship to other classes:
-  - 	extends Market impelements MarketInterface
-
+#### Relationship to other classes:
+```Java
+  extends Market implements MarketInterface
+```
 
 ## DashboardInterface
 ### Functionality: 
@@ -56,13 +50,15 @@ Dashboard is an abstract class which takes in generic parameters T and U which r
 
 ## CustomerDashboard
 ### Functionality: 
-CustomerDashboard.java consists of a customer field used to access a list of products needed to sort the dashobard. It extends Dashboard which implements DasboardInterface 		       which takes in two generics, T and U, which in the case of the customer dasboard represent Store data. Aditionally, this class consists of two sort methods and one display 		       method:
-- sort1() --> sorts the customer's dashboard (which displays a list of stores) by the number of prdoucts sold by each store in descending order
-- sort2() --> sorts the customer's dashboard (which displays a list of stores) by the number of prdoucts purchased by the particular customer at each store in 						      descending order
+CustomerDashboard.java consists of a customer field used to access a list of products needed to sort the dashboard. It extends Dashboard which implements DashboardInterface 		       which takes in two generics, T and U, which in the case of the customer dashboard represent Store data. Additionally, this class consists of two sort methods and one display 		       method:
+- sort1() --> sorts the customer's dashboard (which displays a list of stores) by the number of products sold by each store in descending order
+- sort2() --> sorts the customer's dashboard (which displays a list of stores) by the number of products purchased by the particular customer at each store in 						      descending order
 - displayDashboard() --> takes in customer input to decide sort1() or sort2(), sorts the dashboard, and displays the list of stores after the sort
 
-- #### Relationship to other classes:
-  - extends Dasboard<Store, Store> implements DashboardInterface<Store, Store>
+#### Relationship to other classes:
+```Java
+extends Dashboard<Store, Store> implements DashboardInterface<Store, Store>
+```
 ## SellerDashboard
 ### Functionality: 
 SellerDashboard.java extends Dashboard which implements DasboardInterface which takes in two generics, T and U, which in the case of the seller dasboard represent Customer 		       data and Product data respectively. Aditionally, this class consists of two sort methods and one display method:
@@ -70,15 +66,17 @@ SellerDashboard.java extends Dashboard which implements DasboardInterface which 
 - sort2() --> sorts the seller's dashboard (which displays a list of products) by the sales associated with each product in descending order
 - displayDashboard() --> takes in seller input to decide sort1() or sort2(), sorts the dashboard, and displays the list of stores/products after the sort
 
-- #### Relationship to other classes:
-  - extends Dasboard<Customer, Product> implements DashboardInterface<Customer, Product>
+#### Relationship to other classes:
+```Java
+extends Dashboard<Customer, Product> implements DashboardInterface<Customer, Product>
+```
 
 ## UserInterface
-- ### Functionality: 
+### Functionality: 
 - The User Interface takes in a generic as a parameter. This generic parameterized type is used in User.java and represents either a customer or a seller. The interface consists of 4 methods: expotData(String filepath), importData(String filepath), editAccount(String email, String password), and deleteAccount(). These methods will be implemented in the Customer and Seller classes and are associated with the flexibility of accounts as well as the preservation of user data.
 
 ## User
-- ### Functionality: 
+### Functionality: 
 - User contains fields email, password, id, and products. User's main methods include:
 createAccount() --> creates an account for user based on whether they are a customer or a seller and updates the customer's file to preserve that data
 login() --> validates user email and login and makes sure they exist in the system before being taken to their respective marketplace
@@ -93,9 +91,10 @@ The customer class describes an instance of customer and consists of methods des
 - readCustomers() --> reads file which contains list of all products and carts as parameters
 - writeCustomers() --> writes updated customer data to file to keep data preserved
 
-- #### Relationship to other classes:
-  - 	extends User implements UserInterface<Customer>
-
+#### Relationship to other classes:
+```Java
+extends User implements UserInterface<Customer>
+```
 
 ## Seller
 ### Functionality: 
@@ -112,8 +111,10 @@ The seller class describes an instance of seller and consists of methods describ
 - updateProduct() --> takes in seller input to edit a product
 - deleteProduct() --> removes product from product list
 
-- #### Relationship to other classes:
-  - 	extends User implements UserInterface<Seller>
+#### Relationship to other classes:
+```Java
+extends User implements UserInterface<Seller>
+```
 
 ## Store
 ### Functionality: 
@@ -139,3 +140,6 @@ contains static shared methods amongst all classes that make our code easier to 
 ## ValidInterface
 ### Functionality: 
 validates user input
+
+## Testing
+We used the Junit testing framework for testing and created helper ```@Before``` and ```@After``` methods in TestUtils which we then extended into the rest of the test classes. We wrote unit tests for methods and an integration test for the whole program 
