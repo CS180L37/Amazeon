@@ -33,8 +33,8 @@ CustomerMarket has a dashboard field used to display the customer's dashobard. T
 - search(String name, String storeId, String description): allows customer to search for a product based on name, storeId, or description and ouptuts a list of all the products containing 								   that name, storeId, or description
 - displayCart() - allows customer to view their cart by calling cart's display method
 
-	Relationship to other classes:
-		- extends Market impelements MarketInterface
+- #### Relationship to other classes:
+  - extends Market impelements MarketInterface
 ## SellerMarket
 ### Functionality: 
 SellerMarket has a dashboard field used to display the customer's dashobard. This class implements all methods in the MarketInterface class:
@@ -42,8 +42,8 @@ SellerMarket has a dashboard field used to display the customer's dashobard. Thi
 - displayDashboard(): calls SellerDashboard.java displayDashboard() method
 - displayCart(): allows sellers to view all of their customer's carts by calling cart's display method alog with the store and product details associated with each product
 
-	Relationship to other classes:
-		- extends Market impelements MarketInterface
+- #### Relationship to other classes:
+  - 	extends Market impelements MarketInterface
 
 
 ## DashboardInterface
@@ -61,8 +61,8 @@ CustomerDashboard.java consists of a customer field used to access a list of pro
 - sort2() --> sorts the customer's dashboard (which displays a list of stores) by the number of prdoucts purchased by the particular customer at each store in 						      descending order
 - displayDashboard() --> takes in customer input to decide sort1() or sort2(), sorts the dashboard, and displays the list of stores after the sort
 
-	Relationship to other classes:
-		- extends Dasboard<Store, Store> implements DashboardInterface<Store, Store>
+- #### Relationship to other classes:
+  - extends Dasboard<Store, Store> implements DashboardInterface<Store, Store>
 ## SellerDashboard
 ### Functionality: 
 SellerDashboard.java extends Dashboard which implements DasboardInterface which takes in two generics, T and U, which in the case of the seller dasboard represent Customer 		       data and Product data respectively. Aditionally, this class consists of two sort methods and one display method:
@@ -70,8 +70,8 @@ SellerDashboard.java extends Dashboard which implements DasboardInterface which 
 - sort2() --> sorts the seller's dashboard (which displays a list of products) by the sales associated with each product in descending order
 - displayDashboard() --> takes in seller input to decide sort1() or sort2(), sorts the dashboard, and displays the list of stores/products after the sort
 
-	Relationship to other classes:
-		- extends Dasboard<Customer, Product> implements DashboardInterface<Customer, Product>
+- #### Relationship to other classes:
+  - extends Dasboard<Customer, Product> implements DashboardInterface<Customer, Product>
 
 ## UserInterface
 - ### Functionality: 
@@ -93,8 +93,8 @@ The customer class describes an instance of customer and consists of methods des
 - readCustomers() --> reads file which contains list of all products and carts as parameters
 - writeCustomers() --> writes updated customer data to file to keep data preserved
 
-	Relationship to other classes:
-		- extends User implements UserInterface<Customer>
+- #### Relationship to other classes:
+  - 	extends User implements UserInterface<Customer>
 
 
 ## Seller
@@ -112,8 +112,8 @@ The seller class describes an instance of seller and consists of methods describ
 - updateProduct() --> takes in seller input to edit a product
 - deleteProduct() --> removes product from product list
 
-	Relationship to other classes:
-		- extends User implements UserInterface<Seller>
+- #### Relationship to other classes:
+  - 	extends User implements UserInterface<Seller>
 
 ## Store
 ### Functionality: 
