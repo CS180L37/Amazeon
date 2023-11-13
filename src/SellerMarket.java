@@ -44,6 +44,7 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
                         + "\nProduct Description: " + product.getDescription() + "\nProduct Price: " + product.getPrice();
             }
             System.out.println(viewCart + "\n");
+        }
     }
 
     // Never called
