@@ -85,7 +85,7 @@ public class Utils {
     }
 
     public static String convertToProductString(Product product) {
-        return Integer.toString(product.getProductId()) + "," + product.getName()
+        return Integer.toString(product.getProductId()) + "," + product.getName() + ","
                 + Integer.toString(product.getQuantity()) + "," + product.getDescription() + ","
                 + Double.toString(product.getPrice()) + "," + Integer.toString(product.getSellerId()) + ","
                 + Integer.toString(product.getStoreId());
@@ -170,7 +170,11 @@ public class Utils {
             if (validateInterface.validate(userInput)) {
                 return userInput;
             }
-            System.out.println((reprompt != null) ? reprompt : prompt);
+            if (reprompt != null) {
+                System.out.println(reprompt);
+            } else {
+                System.out.println(prompt);
+            }
         } while (true);
     }
 }

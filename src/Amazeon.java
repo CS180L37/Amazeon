@@ -130,12 +130,12 @@ public class Amazeon {
 
     public void writeData() {
         writeProducts(Amazeon.products, this.getPathToDataDir() + Utils.PRODUCT_FILE);
-        // writeCarts(Amazeon.carts, this.getPathToDataDir() + Utils.CART_FILE);
-        // writeCustomers(Amazeon.customers, this.getPathToDataDir() +
-        // Utils.CUSTOMER_FILE);
-        // writeSales(Amazeon.sales, this.getPathToDataDir() + Utils.SALE_FILE);
-        // writeStores(Amazeon.stores, this.getPathToDataDir() + Utils.STORE_FILE);
-        // writeSellers(Amazeon.sellers, this.getPathToDataDir() + Utils.SELLER_FILE);
+        writeCarts(Amazeon.carts, this.getPathToDataDir() + Utils.CART_FILE);
+        writeCustomers(Amazeon.customers, this.getPathToDataDir() +
+                Utils.CUSTOMER_FILE);
+        writeSales(Amazeon.sales, this.getPathToDataDir() + Utils.SALE_FILE);
+        writeStores(Amazeon.stores, this.getPathToDataDir() + Utils.STORE_FILE);
+        writeSellers(Amazeon.sellers, this.getPathToDataDir() + Utils.SELLER_FILE);
     }
 
     // Product methods
@@ -474,7 +474,6 @@ public class Amazeon {
     }
 
     public static void writeProducts(ArrayList<Product> products, String filepath) {
-        System.out.println(products);
         try {
             BufferedWriter bw = Utils.createWriter(filepath);
             for (Product product : products) {
