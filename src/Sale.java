@@ -17,10 +17,11 @@ public class Sale {
         this.product = product;
         this.numPurchased = numPurchased;
         this.cost = calculateCost();
-        if (!Amazeon.sellers.isEmpty()) {
-            System.out.printf("%s purchased %s at a total cost of %.2f\n", customer.getId(), product.getName(), cost);
-        }
-        Amazeon.sales.add(this);
+        // if (!Amazeon.sellers.isEmpty()) {
+        // System.out.printf("%s purchased %s at a total cost of %.2f\n",
+        // customer.getId(), product.getName(), cost);
+        // }
+        // Amazeon.sales.add(this);
     }
 
     public Customer getCustomer() {
