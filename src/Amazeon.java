@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /// Our entry point and data manager class
@@ -5,54 +8,27 @@ public class Amazeon {
     // The data that persists
     public String pathToDataDir;
 
-    public static ArrayList<Product> products;
-    public static ArrayList<Cart> carts;
-    public static ArrayList<Customer> customers;
-    public static ArrayList<Sale> sales;
-    public static ArrayList<Store> stores;
-    public static ArrayList<Seller> sellers;
+    public static ArrayList<Product> products = new ArrayList<Product>();
+    public static ArrayList<Cart> carts = new ArrayList<Cart>();
+    public static ArrayList<Customer> customers = new ArrayList<Customer>();
+    public static ArrayList<Sale> sales = new ArrayList<Sale>();
+    public static ArrayList<Store> stores = new ArrayList<Store>();
+    public static ArrayList<Seller> sellers = new ArrayList<Seller>();
 
     public Amazeon(String pathToDataDir) {
         this.pathToDataDir = pathToDataDir;
-        if (products == null) {
-            products = new ArrayList<>();
-        }
-        if (carts == null) {
-            carts = new ArrayList<>();
-        }
-        if (customers == null) {
-            customers = new ArrayList<>();
-        }
-        if (sales == null) {
-            sales = new ArrayList<>();
-        }
-        if (stores == null) {
-            stores = new ArrayList<>();
-        }
-        if (sellers == null) {
-            sellers = new ArrayList<>();
-        }
-        // Amazeon.products = Product.readProducts(pathToDataDir + Utils.PRODUCT_FILE);
-        // System.out.println(Amazeon.products);
-        // Amazeon.carts = Cart.readCarts(pathToDataDir + Utils.CART_FILE);
-        // Amazeon.customers = Customer.readCustomers(pathToDataDir +
-        // Utils.CUSTOMER_FILE);
-        // Amazeon.sales = Sale.readSales(pathToDataDir + Utils.SALE_FILE);
-        // Amazeon.stores = Store.readStores(pathToDataDir + Utils.STORE_FILE);
-        // Amazeon.sellers = Seller.readSellers(pathToDataDir + Utils.SELLER_FILE);
+        readProducts(pathToDataDir + Utils.PRODUCT_FILE);
+        readCarts(pathToDataDir + Utils.CART_FILE);
+        readCustomers(pathToDataDir +
+                Utils.CUSTOMER_FILE);
+        readSales(pathToDataDir + Utils.SALE_FILE);
+        readStores(pathToDataDir + Utils.STORE_FILE);
+        readSellers(pathToDataDir + Utils.SELLER_FILE);
     }
 
     public static void main(String[] args) {
         // Initialize data
         Amazeon amazeon = new Amazeon(Utils.DATA_DIR);
-        Seller.readSellers(amazeon.pathToDataDir);
-        // Test code
-        System.out.println(products.toString());
-        System.out.println(carts.toString());
-        System.out.println(customers.toString());
-        System.out.println(sales.toString());
-        System.out.println(stores.toString());
-        System.out.println(sellers.toString());
 
         CustomerMarket customerMarket;
         SellerMarket sellerMarket;
@@ -72,7 +48,7 @@ public class Amazeon {
                 customerMarket = new CustomerMarket(customer, Amazeon.stores);
                 // Open up options to customer
                 amazeon.customerLoop(customerMarket, customer);
-                amazeon.writeData();
+                // amazeon.writeData();
             } else {
                 // Get the email and password
                 String email = emailPrompt();
@@ -84,7 +60,7 @@ public class Amazeon {
                         Amazeon.customers, Amazeon.products);
                 // Open up options to seller
                 amazeon.sellerLoop(sellerMarket, seller);
-                amazeon.writeData();
+                // amazeon.writeData();
             }
         } else {
             // Create
@@ -98,7 +74,7 @@ public class Amazeon {
                 customerMarket = new CustomerMarket(customer, Amazeon.stores);
                 // Open up options to customer
                 amazeon.customerLoop(customerMarket, customer);
-                amazeon.writeData();
+                // amazeon.writeData();
             } else {
                 // Get the email and password
                 String email = emailPrompt();
@@ -110,7 +86,7 @@ public class Amazeon {
                         Amazeon.customers, Amazeon.products);
                 // Open up options to seller
                 amazeon.sellerLoop(sellerMarket, seller);
-                amazeon.writeData();
+                // amazeon.writeData();
             }
         }
     }
@@ -153,17 +129,16 @@ public class Amazeon {
     }
 
     public void writeData() {
-        Product.writeProducts(Amazeon.products, this.getPathToDataDir() + Utils.PRODUCT_FILE);
-        Cart.writeCarts(Amazeon.carts, this.getPathToDataDir() + Utils.CART_FILE);
-        Customer.writeCustomers(Amazeon.customers, this.getPathToDataDir() + Utils.CUSTOMER_FILE);
-        Sale.writeSales(Amazeon.sales, this.getPathToDataDir() + Utils.SALE_FILE);
-        Store.writeStores(Amazeon.stores, this.getPathToDataDir() + Utils.STORE_FILE);
-        Seller.writeSellers(Amazeon.sellers, this.getPathToDataDir() + Utils.SELLER_FILE);
+        writeProducts(Amazeon.products, this.getPathToDataDir() + Utils.PRODUCT_FILE);
+        writeCarts(Amazeon.carts, this.getPathToDataDir() + Utils.CART_FILE);
+        writeCustomers(Amazeon.customers, this.getPathToDataDir() + Utils.CUSTOMER_FILE);
+        writeSales(Amazeon.sales, this.getPathToDataDir() + Utils.SALE_FILE);
+        writeStores(Amazeon.stores, this.getPathToDataDir() + Utils.STORE_FILE);
+        writeSellers(Amazeon.sellers, this.getPathToDataDir() + Utils.SELLER_FILE);
     }
 
     // Product methods
     public static Product getProductById(int id) {
-        System.out.println(Amazeon.products);
         for (Product product : Amazeon.products) {
             if (product.getProductId() == id) {
                 return product;
@@ -346,7 +321,7 @@ public class Amazeon {
                 return seller;
             }
         }
-        return new Seller(-1, new ArrayList<>(),"", "", new ArrayList<>());
+        return new Seller(-1, new ArrayList<>(), "", "", new ArrayList<>());
     }
 
     public static Seller getSellerById(int sellerId) {
@@ -355,7 +330,7 @@ public class Amazeon {
                 return seller;
             }
         }
-        return new Seller(-1, new ArrayList<>(),"", "", new ArrayList<>());
+        return new Seller(-1, new ArrayList<>(), "", "", new ArrayList<>());
     }
 
     public static int getNextSellerId() {
@@ -428,8 +403,7 @@ public class Amazeon {
                 customerMarket.displayCart();
             } else if (customerAction == 6) {
                 break;
-            }
-            else {
+            } else {
                 System.out.println("Please do choose a valid option.");
             }
         } while (true);
@@ -476,4 +450,204 @@ public class Amazeon {
     public void setPathToDataDir(String pathToDataDir) {
         this.pathToDataDir = pathToDataDir;
     }
+
+    public static void readProducts(String filepath) {
+        try {
+            BufferedReader br = Utils.createReader(filepath);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                products.add(Utils.convertFromProductString(data));
+
+            }
+            br.close();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    public static void writeProducts(ArrayList<Product> products, String filepath) {
+        try {
+            BufferedWriter bw = Utils.createWriter(filepath);
+            for (Product product : products) {
+                bw.write(Utils.convertToProductString(product));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    // Contains a list of all products as a parameter
+    public static void readCarts(String filepath) {
+        try {
+            BufferedReader br = Utils.createReader(filepath);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                Amazeon.carts.add(Utils.convertFromCartString(data));
+            }
+            return;
+        } catch (IOException e) {
+            return;
+        }
+    }
+
+    public static void writeCarts(ArrayList<Cart> carts, String filepath) {
+        try {
+            BufferedWriter bw = Utils.createWriter(filepath);
+            for (Cart cart : carts) {
+
+                bw.write(
+                        Utils.convertToCartString(cart));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    // Contains lists of all products and carts as parameters
+    public static void readCustomers(String filepath) {
+        try {
+            BufferedReader br = Utils.createReader(filepath);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                Amazeon.customers.add(Utils.convertFromCustomerString(data));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return;
+    }
+
+    public static void writeCustomers(ArrayList<Customer> customers, String filepath) {
+        try {
+            BufferedWriter bw = Utils.createWriter(filepath);
+            for (Customer customer : customers) {
+                bw.write(Utils.convertToCustomerString(customer));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    // Contains a list of customers as the parameter
+    public static void readSales(String filepath) {
+        try {
+            BufferedReader br = Utils.createReader(filepath);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                Amazeon.sales.add(Utils.convertFromSaleString(data));
+            }
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return;
+    }
+
+    public static void writeSales(ArrayList<Sale> sales, String filepath) {
+        try {
+            BufferedWriter bw = Utils.createWriter(filepath);
+            for (Sale sale : sales) {
+                bw.write(Utils.convertToSaleString(sale));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    // Contains lists of all products and customers as parameters
+    public static void readStores(String filepath) {
+        try {
+            BufferedReader br = Utils.createReader(filepath);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                Amazeon.stores.add(Utils.convertFromStoreString(data));
+            }
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    public static void writeStores(ArrayList<Store> stores, String filepath) {
+        try {
+            BufferedWriter bw = Utils.createWriter(filepath);
+            for (Store store : stores) {
+                bw.write(Utils.convertToStoreString(store));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    // Contains lists of all products and sales as parameters
+    public static void readSellers(String filepath) {
+        try {
+            BufferedReader br = Utils.createReader(filepath);
+            String line;
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");
+                Amazeon.sellers.add(Utils.convertFromSellerString(data));
+            }
+            br.close();
+            System.out.println(Amazeon.products);
+            System.out.println(Amazeon.carts);
+            System.out.println(Amazeon.customers);
+            System.out.println(Amazeon.sales);
+            System.out.println(Amazeon.stores);
+            System.out.println(Amazeon.sellers);
+            return;
+        } catch (IOException e) {
+            return;
+        }
+    }
+
+    public static void writeSellers(ArrayList<Seller> sellers, String filepath) {
+        try {
+            BufferedWriter bw = Utils.createWriter(filepath);
+            for (Seller seller : sellers) {
+                bw.write(Utils.convertToSellerString(seller));
+            }
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -17,18 +17,8 @@ public class Sale {
         this.product = product;
         this.numPurchased = numPurchased;
         this.cost = calculateCost();
-        System.out.printf("%s purchased %s at a total cost of %2f.\n", customer.getId(), product.getName(), cost);
-        File salesFile = new File(Utils.DATA_DIR + Utils.SALE_FILE);
-        FileWriter fw;
-        BufferedWriter bw;
-        PrintWriter pw;
-        try {
-            fw = new FileWriter(salesFile);
-            bw = new BufferedWriter(fw);
-            pw = new PrintWriter(bw);
-            pw.println(saleID + "," + customer.getId() + "," + product.getName() + "," + numPurchased + "," + cost);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!Amazeon.sellers.isEmpty()) {
+            System.out.printf("%s purchased %s at a total cost of %.2f\n", customer.getId(), product.getName(), cost);
         }
         Amazeon.sales.add(this);
     }
@@ -76,39 +66,5 @@ public class Sale {
     // Calculate the total cost of a sale
     public double calculateCost() {
         return getNumPurchased() * getProduct().getPrice();
-    }
-
-    // Contains a list of customers as the parameter
-    public static ArrayList<Sale> readSales(String filepath) {
-        Amazeon.customers = Customer.readCustomers(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
-        ArrayList<Sale> sales = new ArrayList<Sale>();
-        try {
-            BufferedReader br = Utils.createReader(filepath);
-            String line;
-            while (true) {
-                line = br.readLine();
-                if (line == null) {
-                    break;
-                }
-                String[] data = line.split(",");
-                sales.add(Utils.convertFromSaleString(data));
-            }
-            return sales;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<Sale>();
-    }
-
-    public static void writeSales(ArrayList<Sale> sales, String filepath) {
-        try {
-            BufferedWriter bw = Utils.createWriter(filepath);
-            for (Sale sale : sales) {
-                bw.write(Utils.convertToSaleString(sale));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
     }
 }
