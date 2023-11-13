@@ -112,4 +112,17 @@ public class Product {
             return;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", sellerId=" + sellerId +
+                ", storeId=" + storeId +
+                '}';
+    }
 }

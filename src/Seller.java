@@ -345,4 +345,12 @@ public class Seller extends User implements UserInterface<Seller> {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "name='" + name + '\'' +
+                ", sales=" + sales +
+                '}';
+    }
 }

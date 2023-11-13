@@ -93,4 +93,12 @@ public class Cart {
             return;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "customerID=" + customerID +
+                ", cartProducts=" + cartProducts +
+                '}';
+    }
 }

@@ -9,7 +9,7 @@ public class Utils {
     public static final int NO = 0;
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
-    public static final String DATA_DIR = ".data";
+    public static final String DATA_DIR = "src/.data";
     public static final String TEST_FILE = "/.test.csv";
     public static final String PRODUCT_FILE = "/.product.csv";
     public static final String CART_FILE = "/.cart.csv";
