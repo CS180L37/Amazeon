@@ -425,11 +425,11 @@ public class Amazeon {
                 }
 
             } else if (customerAction == 5) {
-                customerMarket.displayCart();
-            } else if (customerAction == 6) {
-                break;
-            }
-            else {
+                customer Market.displayCart();
+            } else if(customerAction == 6) {
+                break ;
+
+            else{
                 System.out.println("Please do choose a valid option.");
             }
         } while (true);
