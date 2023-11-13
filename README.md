@@ -17,19 +17,19 @@ java Amazeon.java
 - [Amazeon.Java](DOCS.md#Amazeon)
 - [MarketInterface.Java](DOCS.md#MarketInterface)
 - [Market.Java](DOCS.md#Market)
-- CustomerMarket.java
-- SellerMarket.java
-- DashboardInterface.java
-- Dashboard.java (abstract)
-- CustomerDashboard.java
-- SellerDashboard.java
-- UserInterface.java
-- User.java
-- Customer.java
-- Seller.java
-- Store.java
-- Product.java
-- Sale.java
-- Cart.java
-- Utils.java
-- ValidInterface.java
+- [CustomerMarket.java](DOCS.md#CustomerMarket)
+- [SellerMarket.java](DOCS.md#SellerMarket)
+- [DashboardInterface.java](DOCS.md#DashbooardInterface)
+- [Dashboard.java (abstract)](DOCS.md#Dashboard)
+- [CustomerDashboard.java](DOCS.md#CustomerDashboard)
+- [SellerDashboard.java](DOCS.md#SellerDashboard)
+- [UserInterface.java](DOCS.md#UserInterface)
+- [User.java](DOCS.md#User)
+- [Customer.java](DOCS.md#Customer)
+- [Seller.java](DOCS.md#Seller)
+- [Store.java](DOCS.md#Store)
+- [Product.java](DOCS.md#Product)
+- [Sale.java](DOCS.md#Sale)
+- [Cart.java](DOCS.md#Cart)
+- [Utils.java](DOCS.md#Utils)
+- [ValidInterface.java](DOCS.md#ValidInterface)
