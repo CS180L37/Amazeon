@@ -12,6 +12,11 @@ find . -name "*.java" -print | xargs javac
 java Amazeon.java
 ```
 
+## Submissions
+Shlok Seth - Submitted Project Report  
+Xander Zutulas - Submitted Vocarem Workspace
+
+
 ## Documentation
 
 - [Amazeon.Java](DOCS.md#Amazeon)
