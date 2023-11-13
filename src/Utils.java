@@ -81,7 +81,7 @@ public class Utils {
     }
 
     public static String convertToIdString(String input) {
-        return input.substring(1, input.length() - 1).replace(",", "|");
+        return input.substring(1, input.length() - 1).replace(",", "|").replace(" ", "");
     }
 
     public static String convertToProductString(Product product) {
@@ -108,9 +108,9 @@ public class Utils {
     }
 
     public static String convertToCustomerString(Customer customer) {
-        return Integer.toString(Integer.parseInt(customer.getId() + "," + customer.getEmail()
+        return Integer.toString(customer.getId()) + "," + customer.getEmail()
                 + "," + customer.getPassword() + ","
-                + Utils.convertToIdString(Amazeon.getProductIds(customer.getProducts()).toString())));
+                + Utils.convertToIdString(Amazeon.getProductIds(customer.getProducts()).toString());
     }
 
     public static Customer convertFromCustomerString(String[] data) {
