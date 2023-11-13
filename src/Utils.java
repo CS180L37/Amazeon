@@ -134,7 +134,7 @@ public class Utils {
 
     public static String convertToStoreString(Store store) {
         return Integer.toString(store.getId()) + "," + store.getName() + ","
-                + Utils.convertToIdString((Amazeon.getProductIds(store.getProducts())).toString())
+                + Utils.convertToIdString((Amazeon.getProductIds(store.getProducts())).toString()) + ","
                 + Utils.convertToIdString((Amazeon.getCustomerIds(store.getCustomers())).toString());
     }
 
