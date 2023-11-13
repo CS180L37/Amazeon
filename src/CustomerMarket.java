@@ -113,7 +113,6 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
 
     // Search the marketplace by name, storeId, or description
     public ArrayList<Product> search(String name, String storeId, String description) {
-
         ArrayList<Product> relevantProducts = new ArrayList<Product>();
         if (name != null && storeId == null && description == null) {
             for (int i = 0; i < Amazeon.stores.size(); i++) {
@@ -140,6 +139,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
                 }
             }
         }
+
         for (int i = 0; i < relevantProducts.size(); i++) {
             System.out.println("Store Name: " + Amazeon.getStoreById(relevantProducts.get(i).getStoreId()).getName()
                     + "Product Name: " + relevantProducts.get(i).getName()
