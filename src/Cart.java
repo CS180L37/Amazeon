@@ -29,13 +29,13 @@ public class Cart {
     }
 
     // Adds the product to cartProducts
-    public boolean addToCart(Product product) {
-        return cartProducts.add(product);
-    }
+    public boolean addToCart (Product product) {
+        return cart Products.add(product);
+     }
 
-    // Removes the product from cartProducts
-    public boolean removeFromCart(Product product) {
-        return cartProducts.remove(product);
+    // Removes the product from cart Products
+    public boolean removeFromCart (Product product) {
+        return cartProducts.remove (product);
     }
 
     // Purchases all the products in the cart for the specific customer
@@ -95,10 +95,10 @@ public class Cart {
     }
 
     @Override
-    public String toString() {
-        return "Cart{" +
-                "customerID=" + customerID +
-                ", cartProducts=" + cartProducts +
-                '}';
-    }
+    public String to String() {
+        return "Cart {" +
+                "customerID =" + customerID +
+                ", cartProducts =" + cartProducts +
+                '} ';
+     }
 }
