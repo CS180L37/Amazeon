@@ -10,7 +10,7 @@ public class Utils {
     public static final int NO = 0;
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
-    public static final String DATA_DIR = "src/.data";
+    public static final String DATA_DIR = ".data";
     public static final String TEST_FILE = "/.test.csv";
     public static final String PRODUCT_FILE = "/.product.csv";
     public static final String CART_FILE = "/.cart.csv";
@@ -70,7 +70,6 @@ public class Utils {
     public static ArrayList<Integer> splitIdsByPipe(String input) {
         ArrayList<Integer> data = new ArrayList<Integer>();
         String[] idList = input.split("\\|");
-        System.out.println(Arrays.toString(idList));
         for (String id : idList) {
             if (id.equals("NA")) {
                 data.add(-1);
@@ -116,7 +115,7 @@ public class Utils {
 
     public static Customer convertFromCustomerString(String[] data) {
         return new Customer(Integer.parseInt(data[0]), data[1], data[2],
-                    (!data[3].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[3]))
+                (!data[3].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[3]))
                         : new ArrayList<Product>(),
                 Amazeon.getCartById(Integer.parseInt(data[0])));
     }
@@ -156,10 +155,10 @@ public class Utils {
     public static Seller convertFromSellerString(String[] data) {
         return new Seller(
                 Integer.parseInt(data[0]),
-                (!data[3].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[3]))
+                (!data[4].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[4]))
                         : new ArrayList<Product>(),
                 data[2], data[1],
-                (!data[4].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[4]))
+                (!data[5].equals(Utils.NA)) ? Amazeon.getSalesByIds(Utils.splitIdsByPipe(data[5]))
                         : new ArrayList<Sale>());
     }
 

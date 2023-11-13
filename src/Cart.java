@@ -57,43 +57,6 @@ public class Cart {
         }
     }
 
-    // Contains a list of all products as a parameter
-    public static ArrayList<Cart> readCarts(String filepath) {
-        // System.out.println(Amazeon.products);
-        // System.out.println(Amazeon.products.size());
-        Amazeon.products = Product.readProducts(Utils.DATA_DIR + Utils.PRODUCT_FILE);
-        ArrayList<Cart> carts = new ArrayList<Cart>();
-        try {
-            BufferedReader br = Utils.createReader(filepath);
-            String line;
-            while (true) {
-                line = br.readLine();
-                if (line == null) {
-                    break;
-                }
-                String[] data = line.split(",");
-                carts.add(Utils.convertFromCartString(data));
-            }
-            return carts;
-        } catch (IOException e) {
-            return new ArrayList<Cart>();
-        }
-    }
-
-    public static void writeCarts(ArrayList<Cart> carts, String filepath) {
-        try {
-            BufferedWriter bw = Utils.createWriter(filepath);
-            for (Cart cart : carts) {
-
-                bw.write(
-                        Utils.convertToCartString(cart));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-    }
-
     @Override
     public String to String() {
         return "Cart {" +

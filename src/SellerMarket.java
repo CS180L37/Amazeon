@@ -36,12 +36,14 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
     // details
     @Override
     public void displayCart() {
+        String viewCart = "";
         for (Customer customer : Amazeon.customers) {
+            viewCart += "Num Products in Cart: " + customer.getCart().getCartProducts().size();
             for (Product product : customer.getCart().getCartProducts()) {
-                if (Product.getSellerId() == this.getUser().getId()) {
-                    System.out.println(Product.toString());
-                }
+                viewCart += "\nStore Name: " + Amazeon.getStoreById(product.getStoreId()).getName() + "\nProduct Name: " + product.getName()
+                        + "\nProduct Description: " + product.getDescription() + "\nProduct Price: " + product.getPrice();
             }
+            System.out.println(viewCart + "\n");
         }
     }
 

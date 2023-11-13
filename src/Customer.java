@@ -98,39 +98,6 @@ public class Customer extends User implements UserInterface<Customer> {
         Amazeon.customers.remove(this);
     }
 
-    // Contains lists of all products and carts as parameters
-    public static ArrayList<Customer> readCustomers(String filepath) {
-        Amazeon.carts = Cart.readCarts(Utils.DATA_DIR + Utils.CART_FILE);
-        ArrayList<Customer> customers = new ArrayList<Customer>();
-        try {
-            BufferedReader br = Utils.createReader(filepath);
-            String line;
-            while (true) {
-                line = br.readLine();
-                if (line == null) {
-                    break;
-                }
-                String[] data = line.split(",");
-                customers.add(Utils.convertFromCustomerString(data));
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return new ArrayList<Customer>();
-    }
-
-    public static void writeCustomers(ArrayList<Customer> customers, String filepath) {
-        try {
-            BufferedWriter bw = Utils.createWriter(filepath);
-            for (Customer customer : customers) {
-                bw.write(Utils.convertToCustomerString(customer));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-    }
-
     @Override
     public String toString() {
         return "Customer {" +
