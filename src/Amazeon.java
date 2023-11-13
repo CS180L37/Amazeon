@@ -395,20 +395,20 @@ public class Amazeon {
             } else if (customerAction == 2) {
                 boolean valid = true;
                 do {
-                    System.out.println ("Would you like to search by name (1), storedId (2) or description (3)? ");
-                    int search Criteria = Integer.parseInt(Utils.SCANNER.nextLine());
-                    if (search Criteria == 1) {
-                        System.out.println( "Enter the name of the product: ");
-                        Stringname = Utils.SCANNER.nextLine();
-                        customer Market.search(name, null, null);
-                    } else if (search Criteria == 2) {
-                        System.out.print ln("Enter the storeId of the product: ");
-                        StringstoreId = Utils.SCANNER.nextLine();
-                        customer Market.search(null, storeId, null);
-                    } else if (search Criteria == 3) {
-                        System.out.prin tln("Enter the description of the product: ");
+                    System.out.println("Would you like to search by name (1), storedId (2) or description (3)? ");
+                    int searchCriteria = Integer.parseInt(Utils.SCANNER.nextLine());
+                    if (searchCriteria == 1) {
+                        System.out.println("Enter the name of the product: ");
+                        String name = Utils.SCANNER.nextLine();
+                        customerMarket.search(name, null, null);
+                    } else if (searchCriteria == 2) {
+                        System.out.println("Enter the storeId of the product: ");
+                        String storeId = Utils.SCANNER.nextLine();
+                        customerMarket.search(null, storeId, null);
+                    } else if (searchCriteria == 3) {
+                        System.out.println("Enter the description of the product: ");
                         String description = Utils.SCANNER.nextLine();
-                        customer Market.search(null, null, description);
+                        customerMarket.search(null, null, description);
                     } else {
                         valid = false;
                     }

@@ -16,11 +16,11 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     // Displays the list of products
     @Override
     public void displayMarketplace() {
-        for(int i = 0; i < Amazeon.stores.size(); i++) {
-            for(int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
-                System.out.println("Store Name : " + Amazeon.stores.get(i).getName()
-                        + "\nProduct Name : " + Amazeon.stores.get(i).getProducts().get(j).getName()
-                        + "\nProduct Price : " + Amazeon.stores.get(i).getProducts().get(j).getPrice() + "\n");
+        for (int i = 0; i < Amazeon.stores.size(); i++) {
+            for (int j = 0; j < Amazeon.stores.get(i).getProducts().size(); j++) {
+                System.out.println("Store Name: " + Amazeon.stores.get(i).getName()
+                        + "\nProduct Name: " + Amazeon.stores.get(i).getProducts().get(j).getName()
+                        + "\nProduct Price: " + Amazeon.stores.get(i).getProducts().get(j).getPrice() + "\n");
             }
         }
     }
