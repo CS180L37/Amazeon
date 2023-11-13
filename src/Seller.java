@@ -257,40 +257,6 @@ public class Seller extends User implements UserInterface<Seller> {
         this.sales = sales;
     }
 
-    // Contains lists of all products and sales as parameters
-    public static ArrayList<Seller> readSellers(String filepath) {
-        Amazeon.stores = Store.readStores(Utils.DATA_DIR + Utils.STORE_FILE);
-        ArrayList<Seller> sellers = new ArrayList<Seller>();
-        try {
-            BufferedReader br = Utils.createReader(filepath);
-            String line;
-            while (true) {
-                line = br.readLine();
-                if (line == null) {
-                    break;
-                }
-                String[] data = line.split(",");
-                sellers.add(Utils.convertFromSellerString(data));
-            }
-            br.close();
-            return sellers;
-        } catch (IOException e) {
-            return new ArrayList<Seller>();
-        }
-    }
-
-    public static void writeSellers(ArrayList<Seller> sellers, String filepath) {
-        try {
-            BufferedWriter bw = Utils.createWriter(filepath);
-            for (Seller seller : sellers) {
-                bw.write(Utils.convertToSellerString(seller));
-            }
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     // public static void updateSellersFile() {
     // try {
     // // public Seller(int id, ArrayList<Product> products, String email, String

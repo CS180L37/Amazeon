@@ -81,38 +81,6 @@ public class Product {
         this.price = price;
     }
 
-    public static ArrayList<Product> readProducts(String filepath) {
-        ArrayList<Product> products = new ArrayList<Product>();
-        try {
-            BufferedReader br = Utils.createReader(filepath);
-            String line;
-            while (true) {
-                line = br.readLine();
-                if (line == null) {
-                    break;
-                }
-                String[] data = line.split(",");
-                products.add(Utils.convertFromProductString(data));
-            }
-            return products;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ArrayList<Product>();
-        }
-    }
-
-    public static void writeProducts(ArrayList<Product> products, String filepath) {
-        try {
-            BufferedWriter bw = Utils.createWriter(filepath);
-            for (Product product : products) {
-                bw.write(Utils.convertToProductString(product));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-    }
-
     @Override
     public String toString() {
         return "Product{" +
