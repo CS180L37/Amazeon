@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,7 +69,8 @@ public class Utils {
 
     public static ArrayList<Integer> splitIdsByPipe(String input) {
         ArrayList<Integer> data = new ArrayList<Integer>();
-        String[] idList = input.split("|");
+        String[] idList = input.split("\\|");
+        System.out.println(Arrays.toString(idList));
         for (String id : idList) {
             if (id.equals("NA")) {
                 data.add(-1);
@@ -114,7 +116,7 @@ public class Utils {
 
     public static Customer convertFromCustomerString(String[] data) {
         return new Customer(Integer.parseInt(data[0]), data[1], data[2],
-                (!data[3].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[3]))
+                    (!data[3].equals(Utils.NA)) ? Amazeon.getProductsByIds(Utils.splitIdsByPipe(data[3]))
                         : new ArrayList<Product>(),
                 Amazeon.getCartById(Integer.parseInt(data[0])));
     }
@@ -128,7 +130,7 @@ public class Utils {
     public static Sale convertFromSaleString(String[] data) {
         return new Sale(Integer.parseInt(data[0]), Amazeon.getCustomerById(Integer.parseInt(data[1])),
                 Amazeon.getProductById(Integer.parseInt(data[2])),
-                Integer.parseInt(data[4]));
+                Integer.parseInt(data[3]));
     }
 
     public static String convertToStoreString(Store store) {

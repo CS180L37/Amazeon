@@ -14,6 +14,24 @@ public class Amazeon {
 
     public Amazeon(String pathToDataDir) {
         this.pathToDataDir = pathToDataDir;
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+        if (carts == null) {
+            carts = new ArrayList<>();
+        }
+        if (customers == null) {
+            customers = new ArrayList<>();
+        }
+        if (sales == null) {
+            sales = new ArrayList<>();
+        }
+        if (stores == null) {
+            stores = new ArrayList<>();
+        }
+        if (sellers == null) {
+            sellers = new ArrayList<>();
+        }
         // Amazeon.products = Product.readProducts(pathToDataDir + Utils.PRODUCT_FILE);
         // System.out.println(Amazeon.products);
         // Amazeon.carts = Cart.readCarts(pathToDataDir + Utils.CART_FILE);
@@ -135,12 +153,12 @@ public class Amazeon {
     }
 
     public void writeData() {
-        Product.writeProducts(Amazeon.products, this.getPathToDataDir());
-        Cart.writeCarts(Amazeon.carts, this.getPathToDataDir());
-        Customer.writeCustomers(Amazeon.customers, this.getPathToDataDir());
-        Sale.writeSales(Amazeon.sales, this.getPathToDataDir());
-        Store.writeStores(Amazeon.stores, this.getPathToDataDir());
-        Seller.writeSellers(Amazeon.sellers, this.getPathToDataDir());
+        Product.writeProducts(Amazeon.products, this.getPathToDataDir() + Utils.PRODUCT_FILE);
+        Cart.writeCarts(Amazeon.carts, this.getPathToDataDir() + Utils.CART_FILE);
+        Customer.writeCustomers(Amazeon.customers, this.getPathToDataDir() + Utils.CUSTOMER_FILE);
+        Sale.writeSales(Amazeon.sales, this.getPathToDataDir() + Utils.SALE_FILE);
+        Store.writeStores(Amazeon.stores, this.getPathToDataDir() + Utils.STORE_FILE);
+        Seller.writeSellers(Amazeon.sellers, this.getPathToDataDir() + Utils.SELLER_FILE);
     }
 
     // Product methods
@@ -151,7 +169,7 @@ public class Amazeon {
                 return product;
             }
         }
-        return null;
+        return new Product(-1, "", -1, "", -1, -1, -1);
     }
 
     public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
@@ -177,7 +195,7 @@ public class Amazeon {
                 return cart;
             }
         }
-        return null;
+        return new Cart(-1, new ArrayList<Product>());
     }
 
     public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) {
@@ -203,7 +221,7 @@ public class Amazeon {
                 return customer;
             }
         }
-        return null;
+        return new Customer(-1, "", "", new ArrayList<>(), new Cart(-1, new ArrayList<>()));
     }
 
     public static Customer getCustomerById(int customerId) {
@@ -212,11 +230,16 @@ public class Amazeon {
                 return customer;
             }
         }
-        return null;
+        return new Customer(-1, "", "", new ArrayList<>(), new Cart(-1, new ArrayList<>()));
     }
 
     public static int getNextCustomerId() {
-        return customers.get(customers.size() - 1).getId() + 1;
+        int customerListSize = customers.size() - 1;
+        if (customerListSize < 0) {
+            customerListSize = 0;
+            return 1;
+        }
+        return customers.get(customerListSize).getId() + 1;
     }
 
     public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
@@ -324,7 +347,7 @@ public class Amazeon {
                 return seller;
             }
         }
-        return null;
+        return new Seller(-1, new ArrayList<>(),"", "", new ArrayList<>());
     }
 
     public static Seller getSellerById(int sellerId) {
@@ -333,7 +356,7 @@ public class Amazeon {
                 return seller;
             }
         }
-        return null;
+        return new Seller(-1, new ArrayList<>(),"", "", new ArrayList<>());
     }
 
     public static int getNextSellerId() {

@@ -15,6 +15,9 @@ public class Customer extends User implements UserInterface<Customer> {
     public Customer(int id, String email, String password, ArrayList<Product> products, Cart cart) {
         super(id, products, email, password);
         this.cart = cart;
+        if (this.cart == null) {
+            this.cart = new Cart(-1, new ArrayList<>());
+        }
     }
 
     // Exports customer purchase history
@@ -32,6 +35,9 @@ public class Customer extends User implements UserInterface<Customer> {
     }
 
     public int getId() {
+        if (cart == null) {
+            return -1;
+        }
         return cart.getCustomerID();
     }
 
