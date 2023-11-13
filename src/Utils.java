@@ -74,7 +74,7 @@ public class Utils {
             if (id.equals("NA")) {
                 data.add(-1);
             } else {
-                data.add(Integer.parseInt(id));
+                data.add(Integer.parseInt(id.trim()));
             }
         }
         return data;
