@@ -125,9 +125,9 @@ public class Customer extends User implements UserInterface<Customer> {
             for (Customer customer : customers) {
                 bw.write(Utils.convertToCustomerString(customer));
             }
-        } catch(IOException e) {
-            e.printStackTrace ();
-            return ;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
         }
     }
 
