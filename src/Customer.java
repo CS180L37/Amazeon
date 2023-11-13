@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-
 public class Customer extends User implements UserInterface<Customer> {
     private Cart cart;
     // Contains id, email, password, and a list of purchased products
@@ -101,7 +100,7 @@ public class Customer extends User implements UserInterface<Customer> {
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "Customer {" +
                 "cart=" + cart +
                 '}';
     }

@@ -211,7 +211,6 @@ public class Amazeon {
     public static int getNextCustomerId() {
         int customerListSize = customers.size() - 1;
         if (customerListSize < 0) {
-            customerListSize = 0;
             return 1;
         }
         return customers.get(customerListSize).getId() + 1;
@@ -335,6 +334,10 @@ public class Amazeon {
     }
 
     public static int getNextSellerId() {
+        int sellerListSize = customers.size() - 1;
+        if (sellerListSize < 0) {
+            return 1;
+        }
         return sellers.get(sellers.size() - 1).getId() + 1;
     }
 
@@ -410,11 +413,10 @@ public class Amazeon {
 
     public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
         sellerMarket.displayMarketplace();
-        boolean error = true;
         do {
             System.out.println(
                     "What would you like to do?\n1) Create\n2) Edit\n3) Delete\n4) View Sales\n5) Display Dashboard" +
-                            "\n6) View Carts\n");
+                            "\n6) View Carts\n7) Log Out");
 
             int sellerAction = Integer.parseInt(Utils.SCANNER.nextLine());
             if (sellerAction == 1) {
@@ -433,11 +435,12 @@ public class Amazeon {
                 sellerMarket.displayDashboard();
             } else if (sellerAction == 6) {
                 sellerMarket.displayCart();
+            } else if (sellerAction == 7) {
+                break;
             } else {
                 System.out.println("Please choose a valid option.");
-                error = false;
             }
-        } while (!error);
+        } while (true);
     }
 
     public String getPathToDataDir() {
