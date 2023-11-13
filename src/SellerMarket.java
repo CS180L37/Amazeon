@@ -38,8 +38,8 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
     public void displayCart() {
         for (Customer customer : Amazeon.customers) {
             for (Product product : customer.getCart().getCartProducts()) {
-                if (Product.getSellerId() == this.getUser().getId()) {
-                    System.out.println(Product.toString());
+                if (product.getSellerId() == this.getUser().getId()) {
+                    System.out.println(product.toString());
                 }
             }
         }
