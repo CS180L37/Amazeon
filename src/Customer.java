@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-
 public class Customer extends User implements UserInterface<Customer> {
     private Cart cart;
     // Contains id, email, password, and a list of purchased products
@@ -95,8 +94,8 @@ public class Customer extends User implements UserInterface<Customer> {
 
     // Contains lists of all products and carts as parameters
     public static ArrayList<Customer> readCustomers(String filepath) {
-        Amazeon.carts = Cart.readCarts(Utils.DATA_DIR + Utils.CART_FILE);
-        ArrayList<Customer> customers = new ArrayList<Customer>();
+        Amazeon.carts =  Cart.readCarts(Utils.DATA_DIR + Utils.CART_FILE);
+        ArrayList<Customer>  customers = new ArrayList<Customer>();
         try {
             BufferedReader br = Utils.createReader(filepath);
             String line;
