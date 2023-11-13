@@ -383,7 +383,7 @@ public class Amazeon {
         customerMarket.displayMarketplace();
         do {
             System.out.println(
-                    "What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4) Sort MarketPlace\n5) View Cart\6 Log Out");
+                    "What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4) Sort MarketPlace\n5) View Cart\n6 Log Out");
             int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
             if (customerAction == 1) {
                 System.out.println("Which product would you like to purchase?");
@@ -440,7 +440,7 @@ public class Amazeon {
         do {
             System.out.println(
                     "What would you like to do?\n1) Create\n2) Edit\n3) Delete\n4) View Sales\n5) Display Dashboard" +
-                            "6) View Carts\n");
+                            "\n6) View Carts\n");
 
             int sellerAction = Integer.parseInt(Utils.SCANNER.nextLine());
             if (sellerAction == 1) {
