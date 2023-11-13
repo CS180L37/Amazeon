@@ -28,7 +28,7 @@ public class CustomerMarket extends Market<Customer> implements MarketInterface<
     // When clicking on an individual product
     @Override
     public void displayProductPage(Product product) {
-        System.out.println(Amazeon.getStoreById(product.getStoreId()) + "\n" + product.getName() + "\n"
+        System.out.println(Amazeon.getStoreById(product.getStoreId()).getName() + "\n" + product.getName() + "\n"
                 + product.getDescription() + "\n" + product.getQuantity() + "\n" + product.getPrice());
         // add display of purchase history
     }
