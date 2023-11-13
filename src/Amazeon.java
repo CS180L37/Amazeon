@@ -236,7 +236,6 @@ public class Amazeon {
     public static int getNextCustomerId() {
         int customerListSize = customers.size() - 1;
         if (customerListSize < 0) {
-            customerListSize = 0;
             return 1;
         }
         return customers.get(customerListSize).getId() + 1;
@@ -360,6 +359,10 @@ public class Amazeon {
     }
 
     public static int getNextSellerId() {
+        int sellerListSize = customers.size() - 1;
+        if (sellerListSize < 0) {
+            return 1;
+        }
         return sellers.get(sellers.size() - 1).getId() + 1;
     }
 
