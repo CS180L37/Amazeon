@@ -381,10 +381,9 @@ public class Amazeon {
 
     public void customerLoop(CustomerMarket customerMarket, Customer customer) {
         customerMarket.displayMarketplace();
-        boolean error = true;
         do {
             System.out.println(
-                    "What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4) Sort MarketPlace\n5) View Cart");
+                    "What would you like to do?\n1) Purchase\n2) Search\n3) Display Dashboard\n4) Sort MarketPlace\n5) View Cart\6 Log Out");
             int customerAction = Integer.parseInt(Utils.SCANNER.nextLine());
             if (customerAction == 1) {
                 System.out.println("Which product would you like to purchase?");
@@ -424,11 +423,13 @@ public class Amazeon {
 
             } else if (customerAction == 5) {
                 customerMarket.displayCart();
-            } else {
-                System.out.println("Please do choose a valid option.");
-                error = false;
+            } else if (customerAction == 6) {
+                break;
             }
-        } while (!error);
+            else {
+                System.out.println("Please do choose a valid option.");
+            }
+        } while (true);
         // throw new UnsupportedOperationException("Unsupported operation:
         // 'customerLoop'");
     }
