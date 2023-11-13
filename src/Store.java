@@ -50,6 +50,7 @@ public class Store {
 
     // Contains lists of all products and customers as parameters
     public static ArrayList<Store> readStores(String filepath) {
+        Amazeon.sales = Sale.readSales(Utils.DATA_DIR + Utils.SALE_FILE);
         ArrayList<Store> stores = new ArrayList<Store>();
         try {
             BufferedReader br = Utils.createReader(filepath);

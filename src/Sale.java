@@ -77,6 +77,7 @@ public class Sale {
 
     // Contains a list of customers as the parameter
     public static ArrayList<Sale> readSales(String filepath) {
+        Amazeon.customers = Customer.readCustomers(Utils.DATA_DIR + Utils.CUSTOMER_FILE);
         ArrayList<Sale> sales = new ArrayList<Sale>();
         try {
             BufferedReader br = Utils.createReader(filepath);

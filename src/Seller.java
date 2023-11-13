@@ -18,7 +18,7 @@ public class Seller extends User implements UserInterface<Seller> {
     }
 
     public void displayProducts() {
-        for(int i = 0; i < getProducts().size(); i++){
+        for (int i = 0; i < getProducts().size(); i++) {
             System.out.println("Product Name: " + getProducts().get(i).getName()
                     + "\nProduct Stock: " + getProducts().get(i).getQuantity()
                     + "\nStore Name: " + Amazeon.getStoreById(getProducts().get(i).getStoreId()).getName() + "\n\n");
@@ -259,6 +259,7 @@ public class Seller extends User implements UserInterface<Seller> {
 
     // Contains lists of all products and sales as parameters
     public static ArrayList<Seller> readSellers(String filepath) {
+        Amazeon.stores = Store.readStores(Utils.DATA_DIR + Utils.STORE_FILE);
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         try {
             BufferedReader br = Utils.createReader(filepath);

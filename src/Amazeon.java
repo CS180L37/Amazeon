@@ -13,18 +13,21 @@ public class Amazeon {
     public static ArrayList<Seller> sellers;
 
     public Amazeon(String pathToDataDir) {
-        Amazeon.products = Product.readProducts(pathToDataDir + Utils.PRODUCT_FILE);
-        System.out.println(Amazeon.products);
-        Amazeon.carts = Cart.readCarts(pathToDataDir + Utils.CART_FILE);
-        Amazeon.customers = Customer.readCustomers(pathToDataDir + Utils.CUSTOMER_FILE);
-        Amazeon.sales = Sale.readSales(pathToDataDir + Utils.SALE_FILE);
-        Amazeon.stores = Store.readStores(pathToDataDir + Utils.STORE_FILE);
-        Amazeon.sellers = Seller.readSellers(pathToDataDir + Utils.SELLER_FILE);
+        this.pathToDataDir = pathToDataDir;
+        // Amazeon.products = Product.readProducts(pathToDataDir + Utils.PRODUCT_FILE);
+        // System.out.println(Amazeon.products);
+        // Amazeon.carts = Cart.readCarts(pathToDataDir + Utils.CART_FILE);
+        // Amazeon.customers = Customer.readCustomers(pathToDataDir +
+        // Utils.CUSTOMER_FILE);
+        // Amazeon.sales = Sale.readSales(pathToDataDir + Utils.SALE_FILE);
+        // Amazeon.stores = Store.readStores(pathToDataDir + Utils.STORE_FILE);
+        // Amazeon.sellers = Seller.readSellers(pathToDataDir + Utils.SELLER_FILE);
     }
 
     public static void main(String[] args) {
         // Initialize data
         Amazeon amazeon = new Amazeon(Utils.DATA_DIR);
+        Seller.readSellers(amazeon.pathToDataDir);
         // Test code
         System.out.println(products.toString());
         System.out.println(carts.toString());

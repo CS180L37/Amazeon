@@ -59,7 +59,9 @@ public class Cart {
 
     // Contains a list of all products as a parameter
     public static ArrayList<Cart> readCarts(String filepath) {
-        System.out.println(Amazeon.products);
+        // System.out.println(Amazeon.products);
+        // System.out.println(Amazeon.products.size());
+        Amazeon.products = Product.readProducts(Utils.DATA_DIR + Utils.PRODUCT_FILE);
         ArrayList<Cart> carts = new ArrayList<Cart>();
         try {
             BufferedReader br = Utils.createReader(filepath);
