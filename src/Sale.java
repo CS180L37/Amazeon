@@ -9,6 +9,9 @@ public class Sale {
     private int numPurchased;
 
     public Sale(int saleID, Customer customer, Product product, int numPurchased) {
+        if (customer == null || product == null) {
+            return;
+        }
         this.saleId = saleID;
         this.customer = customer;
         this.product = product;
