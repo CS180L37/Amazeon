@@ -408,7 +408,7 @@ public class Amazeon {
                 System.out.println("Please do choose a valid option.");
             }
         } while (true);
-         throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
+        throw new UnsupportedOperationException("Unsupported operation: 'customerLoop'");
     }
 
     public void sellerLoop(SellerMarket sellerMarket, Seller seller) {
@@ -457,6 +457,7 @@ public class Amazeon {
             String line;
             while (true) {
                 line = br.readLine();
+                System.out.println(line);
                 if (line == null) {
                     break;
                 }
@@ -475,9 +476,13 @@ public class Amazeon {
     public static void writeProducts(ArrayList<Product> products, String filepath) {
         try {
             BufferedWriter bw = Utils.createWriter(filepath);
+            int productsNum = 0;
             for (Product product : products) {
                 bw.write(Utils.convertToProductString(product));
-                bw.newLine();
+                if (productsNum != products.size() - 1) {
+                    bw.newLine();
+                }
+                productsNum += 1;
             }
             bw.close();
         } catch (IOException e) {
@@ -509,11 +514,15 @@ public class Amazeon {
     public static void writeCarts(ArrayList<Cart> carts, String filepath) {
         try {
             BufferedWriter bw = Utils.createWriter(filepath);
+            int cartNum = 0;
             for (Cart cart : carts) {
 
                 bw.write(
                         Utils.convertToCartString(cart));
-                bw.newLine();
+                if (cartNum != carts.size() - 1) {
+                    bw.newLine();
+                }
+                cartNum += 1;
             }
             bw.close();
         } catch (IOException e) {
@@ -545,9 +554,13 @@ public class Amazeon {
     public static void writeCustomers(ArrayList<Customer> customers, String filepath) {
         try {
             BufferedWriter bw = Utils.createWriter(filepath);
+            int customerNum = 0;
             for (Customer customer : customers) {
                 bw.write(Utils.convertToCustomerString(customer));
-                bw.newLine();
+                if (customerNum != customers.size() - 1) {
+                    bw.newLine();
+                }
+                customerNum += 1;
             }
             bw.close();
         } catch (IOException e) {
@@ -578,9 +591,13 @@ public class Amazeon {
     public static void writeSales(ArrayList<Sale> sales, String filepath) {
         try {
             BufferedWriter bw = Utils.createWriter(filepath);
+            int saleNum = 0;
             for (Sale sale : sales) {
                 bw.write(Utils.convertToSaleString(sale));
-                bw.newLine();
+                if (saleNum != sales.size() - 1) {
+                    bw.newLine();
+                }
+                saleNum += 1;
             }
             bw.close();
         } catch (IOException e) {
@@ -612,9 +629,13 @@ public class Amazeon {
     public static void writeStores(ArrayList<Store> stores, String filepath) {
         try {
             BufferedWriter bw = Utils.createWriter(filepath);
+            int storeNum = 0;
             for (Store store : stores) {
                 bw.write(Utils.convertToStoreString(store));
-                bw.newLine();
+                if (storeNum != stores.size() - 1) {
+                    bw.newLine();
+                }
+                storeNum += 1;
             }
             bw.close();
         } catch (IOException e) {
@@ -645,9 +666,13 @@ public class Amazeon {
     public static void writeSellers(ArrayList<Seller> sellers, String filepath) {
         try {
             BufferedWriter bw = Utils.createWriter(filepath);
+            int sellerNum = 0;
             for (Seller seller : sellers) {
                 bw.write(Utils.convertToSellerString(seller));
-                bw.newLine();
+                if (sellerNum != sellers.size() - 1) {
+                    bw.newLine();
+                }
+                sellerNum += 1;
             }
             bw.close();
         } catch (IOException e) {
