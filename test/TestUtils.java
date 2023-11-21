@@ -21,14 +21,14 @@ public class TestUtils {
 
     // Initialize what needs to be initialized
     public TestUtils() {
-        this.amazeon = new Amazeon("../src/.data");
+        this.amazeon = new Amazeon();
         this.originalOutput = System.out;
         this.originalSysin = System.in;
     }
 
     @Before
     public void setUp() {
-        this.amazeon = new Amazeon("../src/.data");
+        this.amazeon = new Amazeon();
         this.testOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(this.testOut)); // Set SysOut
     }

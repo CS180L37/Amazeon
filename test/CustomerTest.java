@@ -25,7 +25,8 @@ public class CustomerTest extends TestUtils {
     public void testDeleteAccount() {
         Customer customer = Amazeon.getCustomerById(0);
         customer.deleteAccount();
-        assertEquals(customer, null);
+        assertEquals(Amazeon.getCustomerById(0),
+                new Customer(-1, "", "", new ArrayList<>(), new Cart(-1, new ArrayList<>())));
     }
 
     @Test

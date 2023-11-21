@@ -1,5 +1,8 @@
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.junit.Test;
 
 public class CartTest extends TestUtils {
@@ -8,7 +11,7 @@ public class CartTest extends TestUtils {
     public void testAddToCart() {
         Cart cart = Amazeon.getCartById(1);
         cart.addToCart(Amazeon.getProductById(0));
-        assertEquals(cart.getCartProducts(), Amazeon.getProductById(0));
+        assertEquals(cart.getCartProducts(), new ArrayList<Product>(Arrays.asList(Amazeon.getProductById(0))));
     }
 
     // Try removing a product from a cart
