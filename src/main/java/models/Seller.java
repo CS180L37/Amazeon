@@ -7,7 +7,7 @@ import Amazeon;
 import TODOREFACTOR.User;
 import utils.Utils;
 
-public class Seller extends User implements UserInterface<Seller> {
+public class Seller implements UserInterface<Seller> {
     private int sellerId;
     private String name;
     private String email;

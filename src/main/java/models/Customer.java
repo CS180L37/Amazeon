@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
-public class Customer implements UserInterface {
-    private int cartId;
+public class Customer implements UserInterface<Customer> {
+    private Cart cart;
     private int customerId;
     private String email;
     private String password;
