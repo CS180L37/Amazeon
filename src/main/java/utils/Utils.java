@@ -19,7 +19,7 @@ import models.Seller;
 import models.Store;
 
 public class Utils {
-    public static Firestore db = initializeDatabase();
+    public static Firestore db;
     public static final int YES = 1;
     public static final int NO = 0;
     public static final int ERROR = -1;

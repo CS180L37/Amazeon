@@ -19,20 +19,13 @@ import com.google.cloud.firestore.FirestoreOptions;
 /// Our entry point and data manager class
 /// NOTE: NOTHING SHOULD IMPORT AMAZEON; It is the entry point and imports other parts of the program
 public class Amazeon {
-    // public static ArrayList<Product> products = readProducts(Utils.DATA_DIR +
-    // Utils.PRODUCT_FILE);
-    // public static ArrayList<Cart> carts = readCarts(Utils.DATA_DIR +
-    // Utils.CART_FILE);
-    // public static ArrayList<Customer> customers = readCustomers(Utils.DATA_DIR +
-    // Utils.CUSTOMER_FILE);
-    // public static ArrayList<Sale> sales = readSales(Utils.DATA_DIR +
-    // Utils.SALE_FILE);
-    // public static ArrayList<Store> stores = readStores(Utils.DATA_DIR +
-    // Utils.STORE_FILE);
-    // public static ArrayList<Seller> sellers = readSellers(Utils.DATA_DIR +
-    // Utils.SELLER_FILE);
-
     public static void main(String[] args) {
+        try {
+            Utils.db = Utils.initializeDatabase();
+        } catch (IOException e) {
+            System.out.println("Could not connect to database");
+            return;
+        }
         Amazeon amazeon = new Amazeon();
 
         CustomerMarket customerMarket;
