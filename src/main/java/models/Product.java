@@ -1,5 +1,7 @@
 package models;
 
+import Amazeon;
+
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.BufferedReader;
@@ -21,8 +23,8 @@ public class Product {
         this.quantity = quantity;
         this.description = description;
         this.price = price;
-        this.sellerId = sellerId;
-        this.storeId = storeId;
+        this.seller = Amazeon
+        this.store = storeId;
     }
 
     public int getProductId() {

@@ -7,7 +7,10 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import Amazeon;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.FirestoreOptions;
+
 import models.Cart;
 import models.Customer;
 import models.Product;
@@ -16,6 +19,7 @@ import models.Seller;
 import models.Store;
 
 public class Utils {
+    public static Firestore db = initializeDatabase();
     public static final int YES = 1;
     public static final int NO = 0;
     public static final int ERROR = -1;
@@ -93,5 +97,15 @@ public class Utils {
                 System.out.println(prompt);
             }
         } while (true);
+    }
+
+    public static Firestore initializeDatabase() throws IOException {
+        // Initialize Firestore
+        FirestoreOptions firestoreOptions;
+        firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
+                .setProjectId("amazeon-405720")
+                .setCredentials(GoogleCredentials.getApplicationDefault())
+                .build();
+        return firestoreOptions.getService();
     }
 }

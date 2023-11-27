@@ -31,7 +31,6 @@ public class Amazeon {
     // Utils.STORE_FILE);
     // public static ArrayList<Seller> sellers = readSellers(Utils.DATA_DIR +
     // Utils.SELLER_FILE);
-    public static Firestore db = initializeDatabase();
 
     public static void main(String[] args) {
         Amazeon amazeon = new Amazeon();
@@ -231,15 +230,6 @@ public class Amazeon {
                 System.out.println("Please choose a valid option.");
             }
         } while (true);
-    }
-
-    public static Firestore initializeDatabase() {
-        // Initialize Firestore
-        FirestoreOptions firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
-                .setProjectId(projectId)
-                .setCredentials(GoogleCredentials.getApplicationDefault())
-                .build();
-        return firestoreOptions.getService();
     }
 
     // public static ArrayList<Product> readProducts(String filepath) {
