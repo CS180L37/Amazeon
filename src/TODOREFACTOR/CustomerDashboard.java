@@ -1,6 +1,10 @@
+package TODOREFACTOR;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
+
+import Amazeon;
 
 public class CustomerDashboard extends Dashboard<Store, Store> implements DashboardInterface<Store, Store> {
     Customer customer;

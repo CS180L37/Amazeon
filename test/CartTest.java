@@ -5,6 +5,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import models.Cart;
+import models.Product;
+
 public class CartTest extends TestUtils {
     // Try adding a product to cart
     @Test

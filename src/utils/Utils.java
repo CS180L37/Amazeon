@@ -1,9 +1,19 @@
+package utils;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import Amazeon;
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
 
 public class Utils {
     public static final int YES = 1;
@@ -176,5 +186,231 @@ public class Utils {
                 System.out.println(prompt);
             }
         } while (true);
+    }
+
+    // TODO: id methods
+    // Product methods
+    public static Product getProductById(int id) {
+        // Why is it empty here?
+        for (Product product : getProducts()) {
+            if (product.getProductId() == id) {
+                return product;
+            }
+        }
+        return new Product(-1, "", -1, "", -1, -1, -1);
+    }
+
+    public static ArrayList<Product> getProducts() {
+        return Amazeon.products;
+    }
+
+    public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        for (int productID : productIds) {
+            productList.add(getProductById(productID));
+        }
+        return productList;
+    }
+
+    public static ArrayList<Integer> getProductIds(ArrayList<Product> productList) {
+        ArrayList<Integer> productIds = new ArrayList<Integer>();
+        for (Product product : productList) {
+            productIds.add(product.getProductId());
+        }
+        return productIds;
+    }
+
+    // Cart methods
+    public static Cart getCartById(int cartId) {
+        for (Cart cart : Amazeon.carts) {
+            if (cart.getCustomerID() == cartId) {
+                return cart;
+            }
+        }
+        return new Cart(-1, new ArrayList<Product>());
+    }
+
+    public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) {
+        ArrayList<Cart> cartList = new ArrayList<Cart>();
+        for (int cartID : cartIds) {
+            cartList.add(getCartById(cartID));
+        }
+        return cartList;
+    }
+
+    public static ArrayList<Integer> getCartIds(ArrayList<Cart> cartList) {
+        ArrayList<Integer> cartIDs = new ArrayList<Integer>();
+        for (Cart cart : cartList) {
+            cartIDs.add(cart.getCustomerID());
+        }
+        return cartIDs;
+    }
+
+    // Customer methods
+    public static Customer getCustomerByEmailAndPassword(String email, String password) {
+        for (Customer customer : Amazeon.customers) {
+            if (customer.getEmail().equals(email) || customer.getPassword().equals(password)) {
+                return customer;
+            }
+        }
+        return new Customer(-1, "", "", new ArrayList<>(), new Cart(-1, new ArrayList<>()));
+    }
+
+    public static Customer getCustomerById(int customerId) {
+        for (Customer customer : Amazeon.customers) {
+            if (customer.getId() == customerId) {
+                return customer;
+            }
+        }
+        return new Customer(-1, "", "", new ArrayList<>(), new Cart(-1, new ArrayList<>()));
+    }
+
+    public static int getNextCustomerId() {
+        int customerListSize = customers.size() - 1;
+        if (customerListSize < 0) {
+            return 1;
+        }
+        return customers.get(customerListSize).getId() + 1;
+    }
+
+    public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
+        ArrayList<Customer> customerList = new ArrayList<Customer>();
+        for (int customerId : customerIds) {
+            customerList.add(Amazeon.getCustomerById(customerId));
+        }
+        return customerList;
+    }
+
+    public static ArrayList<Integer> getCustomerIds(ArrayList<Customer> customerList) {
+        ArrayList<Integer> customerIds = new ArrayList<Integer>();
+        for (Customer customer : customerList) {
+            customerIds.add(customer.getId());
+        }
+        return customerIds;
+    }
+
+    // Sale methods
+    public static Sale getSaleById(int i) {
+        Sale sale = null;
+        for (Sale currentSale : Amazeon.sales) {
+            if (currentSale.getSaleId() == i) {
+                sale = currentSale;
+            }
+        }
+        return sale;
+    }
+
+    public static ArrayList<Sale> getSalesByIds(ArrayList<Integer> saleIds) {
+        ArrayList<Sale> sales = new ArrayList<>();
+        for (int currentID : saleIds) {
+            sales.add(getSaleById(currentID));
+        }
+        return sales;
+    }
+
+    public static ArrayList<Integer> getSaleIds(ArrayList<Sale> saleList) {
+        ArrayList<Integer> saleIDs = new ArrayList<>();
+        for (Sale sale : saleList) {
+            saleIDs.add(sale.getSaleId());
+        }
+        return saleIDs;
+    }
+
+    // Stores methods
+    public static Store getStoreById(int id) {
+        Store store = null;
+        for (Store currentStore : Amazeon.stores) {
+            if (currentStore.getId() == id) {
+                store = currentStore;
+            }
+        }
+        return store;
+    }
+
+    public int getStoreIDFromName(String storeName) {
+        for (Store store : stores) {
+            if (store.getName().equalsIgnoreCase(storeName)) {
+                return store.getId();
+            }
+        }
+        return Utils.NO;
+    }
+
+    public static String getStoreNameFromID(int storeID) {
+        for (Store store : Amazeon.stores) {
+            if (store.getId() == storeID) {
+                return store.getName();
+            }
+        }
+        return String.valueOf(Utils.NO);
+    }
+
+    public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) {
+        ArrayList<Store> stores = new ArrayList<Store>();
+        for (int id : storeIds) {
+            stores.add(getStoreById(id));
+        }
+        return stores;
+    }
+
+    public static ArrayList<Integer> getStoreIds(ArrayList<Store> storeList) {
+        ArrayList<Integer> storeIDs = new ArrayList<>();
+        for (Store store : storeList) {
+            storeIDs.add(store.getId());
+        }
+        return storeIDs;
+    }
+
+    public static ArrayList<Integer> getIDsByString(String prodIDs) {
+        String[] IDs = prodIDs.split("\\|");
+        ArrayList<Integer> numIDs = new ArrayList<>();
+        for (String currentID : IDs) {
+            int ID = Integer.parseInt(currentID);
+            numIDs.add(ID);
+        }
+        return numIDs;
+    }
+
+    // Seller methods
+    public static Seller getSellerByEmailAndPassword(String email, String password) {
+        for (Seller seller : sellers) {
+            if (seller.getEmail().equalsIgnoreCase(email) && seller.getPassword().equalsIgnoreCase(password)) {
+                return seller;
+            }
+        }
+        return new Seller(-1, new ArrayList<>(), "", "", new ArrayList<>());
+    }
+
+    public static Seller getSellerById(int sellerId) {
+        for (Seller seller : Amazeon.sellers) {
+            if (seller.getId() == sellerId) {
+                return seller;
+            }
+        }
+        return new Seller(-1, new ArrayList<>(), "", "", new ArrayList<>());
+    }
+
+    public static int getNextSellerId() {
+        int sellerListSize = customers.size() - 1;
+        if (sellerListSize < 0) {
+            return 1;
+        }
+        return sellers.get(sellers.size() - 1).getId() + 1;
+    }
+
+    public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) {
+        ArrayList<Seller> sellers = new ArrayList<Seller>();
+        for (int sellerId : sellerIds) {
+            sellers.add(getSellerById(sellerId));
+        }
+        return sellers;
+    }
+
+    public static ArrayList<Integer> getSellerIds(ArrayList<Seller> sellerList) {
+        ArrayList<Integer> sellerIds = new ArrayList<Integer>();
+        for (Seller seller : sellerList) {
+            sellerIds.add(seller.getId());
+        }
+        return sellerIds;
     }
 }

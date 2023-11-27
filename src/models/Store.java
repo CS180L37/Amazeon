@@ -1,7 +1,9 @@
+package models;
+
 import java.util.ArrayList;
 
 public class Store {
-    private int id;
+    private int storeId;
     private String name;
     private ArrayList<Product> products;
     private ArrayList<Customer> customers;

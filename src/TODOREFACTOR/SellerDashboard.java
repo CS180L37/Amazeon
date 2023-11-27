@@ -1,7 +1,11 @@
+package TODOREFACTOR;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
+
+import Amazeon;
 
 public class SellerDashboard extends Dashboard<Customer, Product> implements DashboardInterface<Customer, Product> {
 

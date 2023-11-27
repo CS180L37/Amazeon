@@ -1,4 +1,8 @@
+package TODOREFACTOR;
+
 import java.util.ArrayList;
+
+import Amazeon;
 
 public class SellerMarket extends Market<Seller> implements MarketInterface<Seller, Customer, Product> {
     private SellerDashboard dashboard;
@@ -40,8 +44,10 @@ public class SellerMarket extends Market<Seller> implements MarketInterface<Sell
         for (Customer customer : Amazeon.customers) {
             viewCart += "Num Products in Cart: " + customer.getCart().getCartProducts().size();
             for (Product product : customer.getCart().getCartProducts()) {
-                viewCart += "\nStore Name: " + Amazeon.getStoreById(product.getStoreId()).getName() + "\nProduct Name: " + product.getName()
-                        + "\nProduct Description: " + product.getDescription() + "\nProduct Price: " + product.getPrice();
+                viewCart += "\nStore Name: " + Amazeon.getStoreById(product.getStoreId()).getName() + "\nProduct Name: "
+                        + product.getName()
+                        + "\nProduct Description: " + product.getDescription() + "\nProduct Price: "
+                        + product.getPrice();
             }
             System.out.println(viewCart + "\n");
         }

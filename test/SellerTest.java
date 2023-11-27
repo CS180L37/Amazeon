@@ -10,6 +10,10 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import models.Product;
+import models.Seller;
+import utils.Utils;
+
 // User parent class has no methods to test
 public class SellerTest extends TestUtils {
     @Test

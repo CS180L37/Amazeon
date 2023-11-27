@@ -1,3 +1,5 @@
+package TODOREFACTOR;
+
 import java.util.ArrayList;
 
 // Parent class for SellerDashboard and CustomerDashboard

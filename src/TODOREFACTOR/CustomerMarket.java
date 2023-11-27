@@ -1,4 +1,8 @@
+package TODOREFACTOR;
+
 import java.util.ArrayList;
+
+import Amazeon;
 
 public class CustomerMarket extends Market<Customer> implements MarketInterface<Customer, Store, Store> {
     private CustomerDashboard dashboard;

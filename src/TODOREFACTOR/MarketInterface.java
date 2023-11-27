@@ -1,4 +1,6 @@
- public interface MarketInterface<T, U, V> {
+package TODOREFACTOR;
+
+public interface MarketInterface<T, U, V> {
     public void displayMarketplace(); // Entry point for `SellerMarket` or `CustomerMarket`
 
     public void displayDashboard(); // Display the dashboard

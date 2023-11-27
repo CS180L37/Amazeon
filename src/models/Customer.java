@@ -1,35 +1,33 @@
+package models;
+
 import java.util.ArrayList;
+
+import Amazeon;
+import TODOREFACTOR.User;
+import utils.Utils;
+
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-public class Customer extends User implements UserInterface<Customer> {
-    private Cart cart;
-    // Contains id, email, password, and a list of purchased products
+
+public class Customer implements UserInterface {
+    private int cartId;
+    private int customerId;
+    private String email;
+    private String password;
+
+    // TODO: retrieve Product by id
+    private ArrayList<Product> products;
 
     public Customer(String email, String password) {
-        super(Amazeon.getNextCustomerId(), new ArrayList<Product>(), email, password);
-        this.cart = new Cart(this.getId(), this.getProducts());
-    }
+        if (userExists()) {
 
-    public Customer(int id, String email, String password, ArrayList<Product> products, Cart cart) {
-        super(id, products, email, password);
-        this.cart = cart;
-        if (this.cart == null) {
-            this.cart = new Cart(-1, new ArrayList<>());
-        }
-    }
-
-    // Exports customer purchase history
-    @Override
-    public void exportData(String filepath) {
-        // Export customer data to Utils.CUSTOMER_FILE
-        try {
-            BufferedWriter bw = Utils.createWriter(filepath);
-            // bw.write(this.getProducts());
-            bw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
+        } else {
+            this.email = email;
+            this.password = password;
+            this.cartId = getNextId();
+            this.customerId = getNextId();
+            this.productIds = new ArrayList<Integer>();
         }
     }
 
@@ -38,12 +36,6 @@ public class Customer extends User implements UserInterface<Customer> {
             return -1;
         }
         return cart.getCustomerID();
-    }
-
-    // unnecessary method
-    @Override
-    public void importData(String filepath) {
-        return;
     }
 
     // Purchases a product
@@ -71,15 +63,6 @@ public class Customer extends User implements UserInterface<Customer> {
         // 'purchaseProduct");
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
-    @Override
     public void editAccount(String email, String password) {
         if (Utils.validateEmail(email)) {
             this.setEmail(email);

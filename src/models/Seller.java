@@ -1,11 +1,21 @@
+package models;
+
 import java.io.*;
 import java.util.*;
 
+import Amazeon;
+import TODOREFACTOR.User;
+import utils.Utils;
+
 public class Seller extends User implements UserInterface<Seller> {
+    private int sellerId;
     private String name;
+    private String email;
+    private String password;
+
+    // TODO: keep retrieval by id methods
+    private ArrayList<Product> products;
     private ArrayList<Sale> sales;
-    // Already has a list of products and an id
-    // Revenue can be calculated from the list of products
 
     public Seller(String email, String password) {
         super(Amazeon.getNextSellerId(), new ArrayList<Product>(), email, password);
@@ -193,7 +203,7 @@ public class Seller extends User implements UserInterface<Seller> {
         int quantity = Integer.parseInt(Utils.SCANNER.nextLine());
         System.out.println("Enter product id: ");
         int productId = Integer.parseInt(Utils.SCANNER.nextLine());
-//        System.out.println("Enter your seller id: ");
+        // System.out.println("Enter your seller id: ");
         int sellerId = this.getId();
         System.out.println("Enter your store's id: ");
         int storeId = Integer.parseInt(Utils.SCANNER.nextLine());
