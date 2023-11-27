@@ -1,6 +1,6 @@
 package models;
 
-import Amazeon;
+import utils.Utils;
 
 import java.util.ArrayList;
 import java.io.IOException;
@@ -16,15 +16,20 @@ public class Product {
     private Seller seller;
     private Store store;
 
-    public Product(int productId, String name, int quantity, String description,
+    private Product(int productId, String name, int quantity, String description,
             double price, int sellerId, int storeId) {
         this.productId = productId;
         this.name = name;
         this.quantity = quantity;
         this.description = description;
         this.price = price;
-        this.seller = Amazeon
+        this.seller = new Seller(Utils.db.collection("sellers"));
         this.store = storeId;
+    }
+
+    // TODO: alternative constructor
+    public static Product createProduct() {
+        return null;
     }
 
     public int getProductId() {

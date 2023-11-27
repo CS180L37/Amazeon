@@ -1,34 +1,43 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
-import Amazeon;
-import TODOREFACTOR.User;
+import org.apache.commons.logging.Log;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+import com.google.api.core.ApiFuture;
+import com.google.api.core.ApiService.Listener;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
+import com.google.firestore.v1.Document;
+
 import utils.Utils;
 
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
-public class Customer implements UserInterface<Customer> {
+public class Customer {
     private Cart cart;
     private int customerId;
     private String email;
     private String password;
 
-    // TODO: retrieve Product by id
     private ArrayList<Product> products;
 
-    public Customer(String email, String password) {
-        if (userExists()) {
-
-        } else {
-            this.email = email;
-            this.password = password;
-            this.cartId = getNextId();
-            this.customerId = getNextId();
-            this.productIds = new ArrayList<Integer>();
-        }
+    private Customer(Cart cart, int customerId, String email, String password, ArrayList<Product> products) {
+        this.cart = cart;
+        this.customerId = customerId;
+        this.email = email;
+        this.password = password;
+        this.products = products;
     }
 
     public int getId() {
@@ -113,5 +122,42 @@ public class Customer implements UserInterface<Customer> {
         return "Customer {" +
                 "cart=" + cart +
                 '}';
+    }
+
+    public Boolean customerExists(String email, String password) {
+        ApiFuture<QuerySnapshot> future = Utils.db.collection("customers").select("email", email).limit(1).get();
+        try {
+            QuerySnapshot query = future.get();
+            List<QueryDocumentSnapshot> documents = query.getDocuments();
+            if (documents.isEmpty()) {
+                return false;
+            }
+            return true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Customer createCustomer(String email, String password) {
+        Map<String, Object> customerData = new HashMap<String, Object>();
+        int customerId = Customer.getNextCustomerId();
+        // Add data to db
+        customerData.put("cartId", customerId);
+        customerData.put("customerId", customerId);
+        customerData.put("email", email);
+        customerData.put("password", password);
+        customerData.put("productIds", Arrays.asList());
+        Utils.db.collection("customers").add(customerData);
+        // Create a new instance
+        Cart cart = Cart.createCart();
+        return new Customer(email, password);
+    }
+
+    @Override
+    public Customer getAccount(String email, String password) {
+        throw new UnsupportedOperationException("Unimplemented method 'getAccount'");
     }
 }

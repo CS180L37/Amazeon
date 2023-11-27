@@ -17,14 +17,14 @@ public class Seller implements UserInterface<Seller> {
     private ArrayList<Product> products;
     private ArrayList<Sale> sales;
 
-    public Seller(String email, String password) {
-        super(Amazeon.getNextSellerId(), new ArrayList<Product>(), email, password);
-        this.sales = new ArrayList<Sale>();
-    }
-
-    public Seller(int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales) {
+    private Seller(int id, ArrayList<Product> products, String email, String password, ArrayList<Sale> sales) {
         super(id, products, email, password);
         this.sales = sales;
+    }
+
+    // TODO: alternative constructor
+    public static Seller createSeller() {
+        return null;
     }
 
     public void displayProducts() {

@@ -10,9 +10,14 @@ public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
 
-    public Cart(int customerID, ArrayList<Product> cartProducts) {
+    private Cart(int customerID, ArrayList<Product> cartProducts) {
         this.customerID = customerID;
         this.cartProducts = (cartProducts != null) ? cartProducts : new ArrayList<Product>();
+    }
+
+    // TODO: alternative constructor
+    public static Cart createCart(int customerId) {
+        return null;
     }
 
     public void setCustomerID(int customerID) {
@@ -43,21 +48,21 @@ public class Cart {
 
     // Purchases all the products in the cart for the specific customer
     public void purchaseCart() {
-        for (Product p : cartProducts) {
-            Amazeon.getCustomerById(customerID).purchaseProduct(p);
-            cartProducts.remove(p);
-        }
+        // for (Product p : cartProducts) {
+        // Amazeon.getCustomerById(customerID).purchaseProduct(p);
+        // cartProducts.remove(p);
+        // }
     }
 
     // Display the customers cart
     public void display() {
-        System.out.println("Customer ID: " + customerID);
-        System.out.println("Cart Contents: ");
+        // System.out.println("Customer ID: " + customerID);
+        // System.out.println("Cart Contents: ");
 
-        for (Product product : cartProducts) {
-            System.out.println("Product ID: " + product.getProductId());
-            System.out.println("Product Name: " + product.getName());
-        }
+        // for (Product product : cartProducts) {
+        // System.out.println("Product ID: " + product.getProductId());
+        // System.out.println("Product Name: " + product.getName());
+        // }
     }
 
     // TODO: adapt these for backend

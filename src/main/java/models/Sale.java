@@ -10,7 +10,7 @@ public class Sale {
     private double cost;
     private int numPurchased;
 
-    public Sale(int saleID, Customer customer, Product product, int numPurchased) {
+    private Sale(int saleID, Customer customer, Product product, int numPurchased) {
         if (customer == null || product == null) {
             return;
         }
@@ -24,6 +24,11 @@ public class Sale {
         // customer.getId(), product.getName(), cost);
         // }
         // Amazeon.sales.add(this);
+    }
+
+    // TODO: alternative constructor
+    public static Sale createSale() {
+        return null;
     }
 
     public Customer getCustomer() {

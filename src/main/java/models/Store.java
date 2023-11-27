@@ -8,11 +8,16 @@ public class Store {
     private ArrayList<Product> products;
     private ArrayList<Customer> customers;
 
-    public Store(int id, String name, ArrayList<Product> products, ArrayList<Customer> customers) {
+    private Store(int id, String name, ArrayList<Product> products, ArrayList<Customer> customers) {
         this.name = name;
         this.products = products;
         this.id = id;
         this.customers = customers;
+    }
+
+    // TODO: alternative constructor
+    public static Store createStore() {
+        return null;
     }
 
     public String getName() {
