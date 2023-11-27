@@ -66,6 +66,34 @@ public class Sale {
         this.saleId = saleId;
     }
 
+    // TODO: adapt these for backend
+    public static Sale getSaleById(int i) {
+        Sale sale = null;
+        for (Sale currentSale : Amazeon.sales) {
+            if (currentSale.getSaleId() == i) {
+                sale = currentSale;
+            }
+        }
+        return sale;
+    }
+
+    public static ArrayList<Sale> getSalesByIds(ArrayList<Integer> saleIds) {
+        ArrayList<Sale> sales = new ArrayList<>();
+        for (int currentID : saleIds) {
+            sales.add(getSaleById(currentID));
+        }
+        return sales;
+    }
+
+    public static int getNextSaleId() {
+        // ArrayList<Integer> saleIDs = new ArrayList<>();
+        // for (Sale sale : saleList) {
+        // saleIDs.add(sale.getSaleId());
+        // }
+        // return saleIDs;
+        return 0;
+    }
+
     // Calculate the total cost of a sale
     public double calculateCost() {
         return getNumPurchased() * getProduct().getPrice();

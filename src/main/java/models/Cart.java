@@ -60,6 +60,34 @@ public class Cart {
         }
     }
 
+    // TODO: adapt these for backend
+    // TODO: adapt the "to string" methods along with the constructors
+    public static Cart getCartById(int cartId) {
+        for (Cart cart : Amazeon.carts) {
+            if (cart.getCustomerID() == cartId) {
+                return cart;
+            }
+        }
+        return new Cart(-1, new ArrayList<Product>());
+    }
+
+    public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) {
+        ArrayList<Cart> cartList = new ArrayList<Cart>();
+        for (int cartID : cartIds) {
+            cartList.add(getCartById(cartID));
+        }
+        return cartList;
+    }
+
+    public static int getNextCartId() {
+        // ArrayList<Integer> cartIDs = new ArrayList<Integer>();
+        // for (Cart cart : cartList) {
+        // cartIDs.add(cart.getCustomerID());
+        // }
+        // return cartIDs;
+        return 0;
+    }
+
     @Override
     public String toString() {
         return "Cart{" +

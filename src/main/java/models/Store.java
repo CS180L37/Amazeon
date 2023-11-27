@@ -46,4 +46,33 @@ public class Store {
     public void setCustomers(ArrayList<Customer> customers) {
         this.customers = customers;
     }
+
+    public static Store getStoreById(int id) {
+        Store store = null;
+        for (Store currentStore : Amazeon.stores) {
+            if (currentStore.getId() == id) {
+                store = currentStore;
+            }
+        }
+        return store;
+    }
+
+    public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) {
+        ArrayList<Store> stores = new ArrayList<Store>();
+        for (int id : storeIds) {
+            stores.add(getStoreById(id));
+        }
+        return stores;
+    }
+
+    public static int getNextStoreId() {
+        // Store store = null;
+        // for (Store currentStore : Amazeon.stores) {
+        // if (currentStore.getId() == id) {
+        // store = currentStore;
+        // }
+        // }
+        // return store;
+        return 0;
+    }
 }

@@ -81,6 +81,33 @@ public class Customer implements UserInterface {
         Amazeon.customers.remove(this);
     }
 
+    // TODO: adapt these for backend
+    public static Customer getCustomerById(int customerId) {
+        for (Customer customer : Amazeon.customers) {
+            if (customer.getId() == customerId) {
+                return customer;
+            }
+        }
+        return new Customer(-1, "", "", new ArrayList<>(), new Cart(-1, new ArrayList<>()));
+    }
+
+    public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) {
+        ArrayList<Customer> customerList = new ArrayList<Customer>();
+        for (int customerId : customerIds) {
+            customerList.add(Amazeon.getCustomerById(customerId));
+        }
+        return customerList;
+    }
+
+    public static int getNextCustomerId() {
+        // int customerListSize = customers.size() - 1;
+        // if (customerListSize < 0) {
+        // return 1;
+        // }
+        // return customers.get(customerListSize).getId() + 1;
+        return 0;
+    }
+
     @Override
     public String toString() {
         return "Customer {" +

@@ -329,4 +329,31 @@ public class Seller extends User implements UserInterface<Seller> {
                 ", sales=" + sales +
                 '}';
     }
+
+    // TODO: adapt these for backend
+    public static Seller getSellerById(int sellerId) {
+        for (Seller seller : Amazeon.sellers) {
+            if (seller.getId() == sellerId) {
+                return seller;
+            }
+        }
+        return new Seller(-1, new ArrayList<>(), "", "", new ArrayList<>());
+    }
+
+    public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) {
+        ArrayList<Seller> sellers = new ArrayList<Seller>();
+        for (int sellerId : sellerIds) {
+            sellers.add(getSellerById(sellerId));
+        }
+        return sellers;
+    }
+
+    public static int getNextSellerId() {
+        // int sellerListSize = customers.size() - 1;
+        // if (sellerListSize < 0) {
+        // return 1;
+        // }
+        // return sellers.get(sellers.size() - 1).getId() + 1;
+        return 0;
+    }
 }

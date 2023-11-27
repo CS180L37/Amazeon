@@ -83,6 +83,33 @@ public class Product {
         this.price = price;
     }
 
+    // TODO: adapt these for backend
+    public static Product getProductById(int id) {
+        for (Product product : getProducts()) {
+            if (product.getProductId() == id) {
+                return product;
+            }
+        }
+        return new Product(-1, "", -1, "", -1, -1, -1);
+    }
+
+    public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        for (int productID : productIds) {
+            productList.add(getProductById(productID));
+        }
+        return productList;
+    }
+
+    public static int getNextProductId() {
+        // int sellerListSize = customers.size() - 1;
+        // if (sellerListSize < 0) {
+        // return 1;
+        // }
+        // return sellers.get(sellers.size() - 1).getId() + 1;
+        return 0;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
