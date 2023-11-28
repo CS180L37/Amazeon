@@ -114,17 +114,4 @@ public class Product {
         // return sellers.get(sellers.size() - 1).getId() + 1;
         return 0;
     }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", name=" + name + '\'' +
-                ", quantity=" + quantity +
-                ", description=" + description + '\'' +
-                ", price=" + price +
-                ", sellerId=" + sellerId +
-                ", storeId=" + storeId +
-                '}';
-    }
 }

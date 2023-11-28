@@ -322,14 +322,6 @@ public class Seller implements UserInterface<Seller> {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Seller{" +
-                "name='" + name + '\'' +
-                ", sales=" + sales +
-                '}';
-    }
-
     // TODO: adapt these for backend
     public static Seller getSellerById(int sellerId) {
         for (Seller seller : Amazeon.sellers) {

@@ -92,12 +92,4 @@ public class Cart {
         // return cartIDs;
         return 0;
     }
-
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "customerID=" + customerID +
-                ", cartProducts=" + cartProducts +
-                '}';
-    }
 }

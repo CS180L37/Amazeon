@@ -123,13 +123,6 @@ public class Customer {
         return 0;
     }
 
-    @Override
-    public String toString() {
-        return "Customer {" +
-                "cart=" + cart +
-                '}';
-    }
-
     // Called in login
     public static Boolean customerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = Utils.db.collection("customers").select("email", email).limit(1).get();
