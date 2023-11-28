@@ -3,13 +3,18 @@ package utils;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 
 import models.Cart;
 import models.Customer;
@@ -107,5 +112,25 @@ public class Utils {
                 .setCredentials(GoogleCredentials.getApplicationDefault())
                 .build();
         return firestoreOptions.getService();
+    }
+
+    // Is there a way I can easily wrap the get, read, and write methods into one
+    // method?
+    public static List<QueryDocumentSnapshot>
+
+            retrieveData(ApiFuture<QuerySnapshot> future) throws IOException {
+        QuerySnapshot query;
+        try {
+            query = future.get();
+        } catch (InterruptedException e) {
+            throw new IOException();
+        } catch (ExecutionException e) {
+            throw new IOException();
+        }
+        List<QueryDocumentSnapshot> documents = query.getDocuments();
+        if (documents.isEmpty()) {
+            return null;
+        }
+        return documents;
     }
 }

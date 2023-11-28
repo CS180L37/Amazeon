@@ -32,12 +32,18 @@ public class Customer {
 
     private ArrayList<Product> products;
 
+    // Create a Customer from all the fields
     private Customer(Cart cart, int customerId, String email, String password, ArrayList<Product> products) {
         this.cart = cart;
         this.customerId = customerId;
         this.email = email;
         this.password = password;
         this.products = products;
+    }
+
+    // Create a Customer from a document
+    private Customer(QueryDocumentSnapshot document) {
+        document.get(email)
     }
 
     public int getId() {
@@ -124,24 +130,15 @@ public class Customer {
                 '}';
     }
 
-    public Boolean customerExists(String email, String password) {
+    // Called in login
+    public static Boolean customerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = Utils.db.collection("customers").select("email", email).limit(1).get();
-        try {
-            QuerySnapshot query = future.get();
-            List<QueryDocumentSnapshot> documents = query.getDocuments();
-            if (documents.isEmpty()) {
-                return false;
-            }
-            return true;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return false;
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents != null) ? true : false;
     }
 
-    public Customer createCustomer(String email, String password) {
+    // Called to create a customer
+    public static Customer createCustomer(String email, String password) {
         Map<String, Object> customerData = new HashMap<String, Object>();
         int customerId = Customer.getNextCustomerId();
         // Add data to db
@@ -152,12 +149,15 @@ public class Customer {
         customerData.put("productIds", Arrays.asList());
         Utils.db.collection("customers").add(customerData);
         // Create a new instance
-        Cart cart = Cart.createCart();
-        return new Customer(email, password);
+        Cart cart = Cart.createCart(customerId);
+        return new Customer(cart, customerId, email, password, new ArrayList<Product>());
     }
 
-    @Override
-    public Customer getAccount(String email, String password) {
-        throw new UnsupportedOperationException("Unimplemented method 'getAccount'");
+    // Called to retrieve a customer
+    public static Customer getCustomer(String email) throws IOException {
+        ApiFuture<QuerySnapshot> future = Utils.db.collection("customers").select("email", email).limit(1).get();
+        List<QueryDocumentSnapshot> documents;
+        documents = Utils.retrieveData(future);
+        return new Customer(documents.get(0));
     }
 }
