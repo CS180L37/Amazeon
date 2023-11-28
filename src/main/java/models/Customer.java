@@ -42,7 +42,7 @@ public class Customer {
         this.cart = Cart.getCartById(document.getLong("customerId").intValue());
         this.customerId = document.getLong("customerId").intValue();
         this.email = document.getString("email");
-        this.password = document.getString("email");
+        this.password = document.getString("password");
         this.products = Product.getProductsByIds((List<Integer>) document.getData().get("productIds"));
     }
 
@@ -61,19 +61,6 @@ public class Customer {
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return documents.get(0).getLong("customerId").intValue();
-    }
-
-    // Purchases a product
-    public void purchaseProduct(Product product) throws IOException {
-        // Update products
-        this.products.add(product);
-        // Update the backend
-        ApiFuture<QuerySnapshot> future = customerCollection
-                .whereEqualTo("customerId", this.getCustomerId())
-                .limit(1)
-                .get();
-        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        documents.get(0).getReference().delete();
     }
 
     // Returns false if invalid email or password
