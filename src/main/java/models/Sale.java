@@ -2,6 +2,7 @@ package models;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Sale {
     private int saleId;
@@ -82,7 +83,7 @@ public class Sale {
         return sale;
     }
 
-    public static ArrayList<Sale> getSalesByIds(ArrayList<Integer> saleIds) {
+    public static ArrayList<Sale> getSalesByIds(List<Integer> saleIds) {
         ArrayList<Sale> sales = new ArrayList<>();
         for (int currentID : saleIds) {
             sales.add(getSaleById(currentID));

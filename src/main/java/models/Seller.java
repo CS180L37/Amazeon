@@ -332,7 +332,7 @@ public class Seller implements UserInterface<Seller> {
         return new Seller(-1, new ArrayList<>(), "", "", new ArrayList<>());
     }
 
-    public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) {
+    public static ArrayList<Seller> getSellersByIds(List<Integer> sellerIds) {
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         for (int sellerId : sellerIds) {
             sellers.add(getSellerById(sellerId));

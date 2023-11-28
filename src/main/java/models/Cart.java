@@ -1,7 +1,7 @@
 package models;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -76,7 +76,7 @@ public class Cart {
         return new Cart(-1, new ArrayList<Product>());
     }
 
-    public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) {
+    public static ArrayList<Cart> getCartsByIds(List<Integer> cartIds) {
         ArrayList<Cart> cartList = new ArrayList<Cart>();
         for (int cartID : cartIds) {
             cartList.add(getCartById(cartID));

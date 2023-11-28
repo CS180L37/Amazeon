@@ -62,7 +62,7 @@ public class Store {
         return store;
     }
 
-    public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) {
+    public static ArrayList<Store> getStoresByIds(List<Integer> storeIds) {
         ArrayList<Store> stores = new ArrayList<Store>();
         for (int id : storeIds) {
             stores.add(getStoreById(id));

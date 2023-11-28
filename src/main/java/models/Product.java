@@ -3,6 +3,7 @@ package models;
 import utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -98,7 +99,7 @@ public class Product {
         return new Product(-1, "", -1, "", -1, -1, -1);
     }
 
-    public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) {
+    public static ArrayList<Product> getProductsByIds(List<Integer> productIds) {
         ArrayList<Product> productList = new ArrayList<Product>();
         for (int productID : productIds) {
             productList.add(getProductById(productID));
