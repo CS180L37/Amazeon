@@ -37,13 +37,17 @@ public class Customer {
     }
 
     // Create a Customer instance from a document (existing data)
-    // NOTE: I'm not sure how null safety treats this/how this works in java
+    // Null safety only needs to be handled for instances that can potentially be
+    // null,
+    // such as productIds
     private Customer(QueryDocumentSnapshot document) {
-        this.cart = Cart.getCartById(document.getLong("customerId").intValue());
-        this.customerId = document.getLong("customerId").intValue();
+        int id = document.getLong("customerId").intValue();
+        this.cart = Cart.getCartById(id);
+        this.customerId = id;
         this.email = document.getString("email");
         this.password = document.getString("password");
-        this.products = Product.getProductsByIds((List<Integer>) document.getData().get("productIds"));
+        List<Integer> productIds = (List<Integer>) document.getData().get("productIds");
+        this.products = Product.getProductsByIds((productIds != null) ? productIds : Arrays.asList());
     }
 
     // Utility method for retrieving a customers document by id
@@ -60,7 +64,7 @@ public class Customer {
         ApiFuture<QuerySnapshot> future = customerCollection.orderBy("customerId", Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return documents.get(0).getLong("customerId").intValue();
+        return documents.get(0).getLong("customerId").intValue() + 1;
     }
 
     // Returns false if invalid email or password

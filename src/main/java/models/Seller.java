@@ -59,7 +59,7 @@ public class Seller {
         ApiFuture<QuerySnapshot> future = sellerCollection.orderBy("sellerId", Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return documents.get(0).getLong("sellerId").intValue();
+        return documents.get(0).getLong("sellerId").intValue() + 1;
     }
 
     public Boolean editAccount(String email, String password) throws IOException {
