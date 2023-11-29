@@ -60,7 +60,7 @@ public class Customer {
         ApiFuture<QuerySnapshot> future = customerCollection.orderBy("customerId", Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return documents.get(0).getLong("customerId").intValue();
+        return documents.get(0).getLong("customerId").intValue() + 1;
     }
 
     // Returns false if invalid email or password
