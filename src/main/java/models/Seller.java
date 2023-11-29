@@ -18,25 +18,29 @@ public class Seller {
     private String name;
     private String email;
     private String password;
-
     private ArrayList<Product> products;
     private ArrayList<Sale> sales;
+
+    // For writing and updating operations on the current instance
+    // For reading use the collection and queries
+    private DocumentReference documentReference;
 
     // NOTE no setters and getters for sellerCollection;
     // the field should not be accessible by the frontend
     private static CollectionReference sellerCollection = Utils.db.collection("sellers");
 
-    private Seller(int sellerId, String name, String email, String password, ArrayList<Product> products,
-            ArrayList<Sale> sales) {
+    protected Seller(int sellerId, String name, String email, String password, ArrayList<Product> products,
+            ArrayList<Sale> sales) throws IOException {
         this.sellerId = sellerId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.products = products;
         this.sales = sales;
+        this.documentReference = getSellerDocument();
     }
 
-    private Seller(QueryDocumentSnapshot document) {
+    private Seller(QueryDocumentSnapshot document) throws IOException {
         this.sellerId = document.getLong("sellerId").intValue();
         this.name = document.getString("name");
         this.email = document.getString("email");
@@ -45,6 +49,7 @@ public class Seller {
         this.products = Product.getProductsByIds((productIds != null) ? productIds : Arrays.asList());
         List<Integer> saleIds = (List<Integer>) document.getData().get("saleIds");
         this.sales = Sale.getSalesByIds((saleIds != null) ? saleIds : Arrays.asList());
+        this.documentReference = getSellerDocument();
     }
 
     // Utility method for retrieving a customers document by id
@@ -65,7 +70,7 @@ public class Seller {
     }
 
     public void deleteSeller() throws IOException {
-        getSellerDocument().delete();
+        this.documentReference.delete();
     }
 
     public static Seller getSellerById(int sellerId) throws IOException {
@@ -127,7 +132,7 @@ public class Seller {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("sellerId", sellerId);
-        this.getSellerDocument().update(data);
+        this.documentReference.update(data);
     }
 
     public String getName() {
@@ -140,7 +145,7 @@ public class Seller {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("name", name);
-        this.getSellerDocument().update(data);
+        this.documentReference.update(data);
     }
 
     public String getEmail() {
@@ -156,7 +161,7 @@ public class Seller {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("email", email);
-        this.getSellerDocument().update(data);
+        this.documentReference.update(data);
     }
 
     public String getPassword() {
@@ -172,7 +177,7 @@ public class Seller {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("password", password);
-        this.getSellerDocument().update(data);
+        this.documentReference.update(data);
     }
 
     public ArrayList<Product> getProducts() {
@@ -189,7 +194,7 @@ public class Seller {
             productIds.add(product.getProductId());
         }
         data.put("productIds", productIds);
-        this.getSellerDocument().update(data);
+        this.documentReference.update(data);
     }
 
     public ArrayList<Sale> getSales() {
@@ -206,6 +211,6 @@ public class Seller {
             saleIds.add(sale.getSaleId());
         }
         data.put("saleIds", saleIds);
-        this.getSellerDocument().update(data);
+        this.documentReference.update(data);
     }
 }

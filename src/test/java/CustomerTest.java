@@ -1,34 +1,57 @@
+
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import models.Cart;
 import models.Customer;
-import models.Product;
 
-// User parent class has no methods to test
 public class CustomerTest extends TestUtils {
-    @Test
-    public void testGetCustomerDocument() {
+    public Customer customer3;
+    public Customer customer4;
 
+    @Override
+    @Before
+    public void setUp() {
+        // Call initial setup
+        super.setUp();
+        // Initialize Customer instances
+        try {
+            customer3 = Customer.getCustomerByEmail("adityasemail@gmail.com");
+            customer4 = Customer.createCustomer("nehasemail@gmail.com", "password");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Private
+    // @Test
+    // public void testGetCustomerDocument() {
+
+    // }
+
+    // Private
+    // @Test
+    // public void testGetNextCustomerId() {
+
+    // }
+
+    @Test
+    public void testGetCustomerById() throws IOException {
+        assertEquals(customer4, Customer.getCustomerById(3));
     }
 
     @Test
-    public void testGetNextCustomerId() {
-
-    }
-
-    @Test
-    public void testGetCustomerById() {
-
-    }
-
-    @Test
-    public void testGetCustomersByIds() {
-
+    public void testGetCustomersByIds() throws IOException {
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        customers.add(customer3);
+        customers.add(customer4);
+        assertEquals(customers, Customer.getCustomersByIds(Arrays.asList(2, 3)));
     }
 
     @Test
@@ -41,10 +64,11 @@ public class CustomerTest extends TestUtils {
 
     }
 
-    @Test
-    public void testCreateCustomer() {
+    // This is implicitly tested in setup
+    // @Test
+    // public void testCreateCustomer() {
 
-    }
+    // }
 
     @Test
     public void testDeleteCustomer() {

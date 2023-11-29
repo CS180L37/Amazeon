@@ -23,24 +23,30 @@ public class Customer {
     private int customerId;
     private String email;
     private String password;
-
     private ArrayList<Product> products;
+
+    // For writing and updating operations on the current instance
+    // For reading use the collection and queries
+    private DocumentReference documentReference;
+
     private static CollectionReference customerCollection = Utils.db.collection("customers");
 
     // Create a Customer from all the fields
-    private Customer(Cart cart, int customerId, String email, String password, ArrayList<Product> products) {
+    private Customer(Cart cart, int customerId, String email, String password, ArrayList<Product> products)
+            throws IOException {
         this.cart = cart;
         this.customerId = customerId;
         this.email = email;
         this.password = password;
         this.products = products;
+        this.documentReference = getCustomerDocument();
     }
 
     // Create a Customer instance from a document (existing data)
     // Null safety only needs to be handled for instances that can potentially be
     // null,
     // such as productIds
-    private Customer(QueryDocumentSnapshot document) {
+    private Customer(QueryDocumentSnapshot document) throws IOException {
         int id = document.getLong("customerId").intValue();
         this.cart = Cart.getCartById(id);
         this.customerId = id;
@@ -48,9 +54,11 @@ public class Customer {
         this.password = document.getString("password");
         List<Integer> productIds = (List<Integer>) document.getData().get("productIds");
         this.products = Product.getProductsByIds((productIds != null) ? productIds : Arrays.asList());
+        this.documentReference = getCustomerDocument();
     }
 
     // Utility method for retrieving a customers document by id
+    // Only called once to minimize queries for efficiency
     private DocumentReference getCustomerDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = customerCollection
                 .whereEqualTo("customerId", this.getCustomerId())
@@ -70,7 +78,7 @@ public class Customer {
     // Frontend should redirect the user to the authentication page upon account
     // deletion
     public void deleteCustomer() throws IOException {
-        getCustomerDocument().delete();
+        this.documentReference.delete();
     }
 
     public static Customer getCustomerById(int customerId) throws IOException {
@@ -130,7 +138,7 @@ public class Customer {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("cartId", cart.getCustomerID());
-        this.getCustomerDocument().update(data);
+        this.documentReference.update(data);
     }
 
     public int getCustomerId() {
@@ -143,7 +151,7 @@ public class Customer {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("customerId", customerId);
-        this.getCustomerDocument().update(data);
+        this.documentReference.update(data);
     }
 
     public String getEmail() {
@@ -159,7 +167,7 @@ public class Customer {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("email", email);
-        this.getCustomerDocument().update(data);
+        this.documentReference.update(data);
     }
 
     public String getPassword() {
@@ -175,7 +183,7 @@ public class Customer {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("password", password);
-        this.getCustomerDocument().update(data);
+        this.documentReference.update(data);
     }
 
     public ArrayList<Product> getProducts() {
@@ -192,6 +200,6 @@ public class Customer {
             productIds.add(product.getProductId());
         }
         data.put("productIds", productIds);
-        this.getCustomerDocument().update(data);
+        this.documentReference.update(data);
     }
 }
