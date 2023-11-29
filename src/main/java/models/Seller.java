@@ -59,6 +59,10 @@ public class Seller {
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        // Throws an exception if sellerDocument is null for some reason
+        if (documents == null) {
+            throw new IOException("Could not retrieve the seller document");
+        }
         return documents.get(0).getReference();
     }
 

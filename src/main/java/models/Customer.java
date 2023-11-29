@@ -65,6 +65,10 @@ public class Customer {
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        // Throws an exception if customerDocument is null for some reason
+        if (documents == null) {
+            throw new IOException("Could not retrieve the customer document");
+        }
         return documents.get(0).getReference();
     }
 
@@ -132,14 +136,17 @@ public class Customer {
         return cart;
     }
 
-    public void setCart(Cart cart) throws IOException {
-        // Set locally
-        this.cart = cart;
-        // Set on the backend
-        HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("cartId", cart.getCustomerID());
-        this.documentReference.update(data);
-    }
+    // This method is unnecessary because you're never going to need a new cart
+    // instance
+    // You'll just modify the existing cart via cart model methods
+    // public void setCartId(Cart cart) throws IOException {
+    // // Set locally
+    // this.cart = cart;
+    // // Set on the backend
+    // HashMap<String, Object> data = new HashMap<String, Object>();
+    // data.put("cartId", cart.getCustomerID());
+    // this.documentReference.update(data);
+    // }
 
     public int getCustomerId() {
         return customerId;
@@ -193,7 +200,7 @@ public class Customer {
     public void setProducts(ArrayList<Product> products) throws IOException {
         // Set locally
         this.products = products;
-        // Set on the backend
+        // Set associated product ids on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         ArrayList<Integer> productIds = new ArrayList<Integer>();
         for (Product product : products) {
