@@ -110,7 +110,7 @@ public class Seller {
     }
 
     // Called to retrieve a specific seller
-    public static Seller getSeller(String email) throws IOException {
+    public static Seller getSellerByEmail(String email) throws IOException {
         ApiFuture<QuerySnapshot> future = sellerCollection.select("email")
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);

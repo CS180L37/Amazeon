@@ -113,7 +113,7 @@ public class Customer {
     }
 
     // Called to retrieve a specific customer
-    public static Customer getCustomer(String email) throws IOException {
+    public static Customer getCustomerByEmail(String email) throws IOException {
         ApiFuture<QuerySnapshot> future = customerCollection.select("email")
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
