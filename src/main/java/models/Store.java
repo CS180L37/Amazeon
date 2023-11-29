@@ -8,10 +8,10 @@ public class Store {
     private ArrayList<Product> products;
     private ArrayList<Customer> customers;
 
-    private Store(int id, String name, ArrayList<Product> products, ArrayList<Customer> customers) {
+    private Store(int storeId, String name, ArrayList<Product> products, ArrayList<Customer> customers) {
         this.name = name;
         this.products = products;
-        this.id = id;
+        this.storeId = storeId;
         this.customers = customers;
     }
 
@@ -24,8 +24,8 @@ public class Store {
         return this.name;
     }
 
-    public int getId() {
-        return this.id;
+    public int getStoreId() {
+        return this.storeId;
     }
 
     public ArrayList<Product> getProducts() {
@@ -40,8 +40,8 @@ public class Store {
         this.name = name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setStoreId(int id) {
+        this.storeId = id;
     }
 
     public void setProducts(ArrayList<Product> products) {
@@ -52,23 +52,23 @@ public class Store {
         this.customers = customers;
     }
 
-    public static Store getStoreById(int id) {
-        Store store = null;
-        for (Store currentStore : Amazeon.stores) {
-            if (currentStore.getId() == id) {
-                store = currentStore;
-            }
-        }
-        return store;
-    }
+//    public static Store getStoreById(int id) {
+//        Store store = null;
+//        for (Store currentStore : Amazeon.stores) {
+//            if (currentStore.getStoreId() == id) {
+//                store = currentStore;
+//            }
+//        }
+//        return store;
+//    }
 
-    public static ArrayList<Store> getStoresByIds(List<Integer> storeIds) {
-        ArrayList<Store> stores = new ArrayList<Store>();
-        for (int id : storeIds) {
-            stores.add(getStoreById(id));
-        }
-        return stores;
-    }
+//    public static ArrayList<Store> getStoresByIds(List<Integer> storeIds) {
+//        ArrayList<Store> stores = new ArrayList<Store>();
+////        for (int id : storeIds) {
+////            stores.add(getStoreById(id));
+////        }
+//        return stores;
+//    }
 
     public static int getNextStoreId() {
         // Store store = null;
