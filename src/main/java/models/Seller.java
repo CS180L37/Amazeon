@@ -41,8 +41,10 @@ public class Seller {
         this.name = document.getString("name");
         this.email = document.getString("email");
         this.password = document.getString("password");
-        this.products = Product.getProductsByIds((List<Integer>) document.getData().get("productIds"));
-        this.sales = Sale.getSalesByIds((List<Integer>) document.getData().get("saleIds"));
+        List<Integer> productIds = (List<Integer>) document.getData().get("productIds");
+        this.products = Product.getProductsByIds((productIds != null) ? productIds : Arrays.asList());
+        List<Integer> saleIds = (List<Integer>) document.getData().get("saleIds")
+        this.sales = Sale.getSalesByIds((saleIds != null) ? saleIds : Arrays.asList());
     }
 
     // Utility method for retrieving a customers document by id
@@ -60,20 +62,6 @@ public class Seller {
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return documents.get(0).getLong("sellerId").intValue() + 1;
-    }
-
-    public Boolean editAccount(String email, String password) throws IOException {
-        if (Utils.validateEmail(email)) {
-            this.setEmail(email);
-        } else {
-            return false;
-        }
-        if (Utils.validatePassword(password)) {
-            this.setPassword(password);
-        } else {
-            return false;
-        }
-        return true;
     }
 
     public void deleteAccount() throws IOException {
@@ -160,6 +148,9 @@ public class Seller {
     }
 
     public void setEmail(String email) throws IOException {
+        if (!Utils.validateEmail(email)) {
+            throw new IOException("Invalid email");
+        }
         // Set locally
         this.email = email;
         // Set on the backend
@@ -173,6 +164,9 @@ public class Seller {
     }
 
     public void setPassword(String password) throws IOException {
+        if (!Utils.validatePassword(password)) {
+            throw new IOException("Invalid password");
+        }
         // Set locally
         this.password = password;
         // Set on the backend

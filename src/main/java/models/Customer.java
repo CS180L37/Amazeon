@@ -67,21 +67,6 @@ public class Customer {
         return documents.get(0).getLong("customerId").intValue() + 1;
     }
 
-    // Returns false if invalid email or password
-    public Boolean editAccount(String email, String password) throws IOException {
-        if (Utils.validateEmail(email)) {
-            this.setEmail(email);
-        } else {
-            return false;
-        }
-        if (Utils.validatePassword(password)) {
-            this.setPassword(password);
-        } else {
-            return false;
-        }
-        return true;
-    }
-
     // Frontend should redirect the user to the authentication page upon account
     // deletion
     public void deleteAccount() throws IOException {
@@ -166,6 +151,9 @@ public class Customer {
     }
 
     public void setEmail(String email) throws IOException {
+        if (!Utils.validateEmail(email)) {
+            throw new IOException("Invalid email");
+        }
         // Set locally
         this.email = email;
         // Set on the backend
@@ -179,6 +167,9 @@ public class Customer {
     }
 
     public void setPassword(String password) throws IOException {
+        if (!Utils.validatePassword(password)) {
+            throw new IOException("Invalid password");
+        }
         // Set locally
         this.password = password;
         // Set on the backend
