@@ -64,7 +64,7 @@ public class Seller {
         return documents.get(0).getLong("sellerId").intValue() + 1;
     }
 
-    public void deleteAccount() throws IOException {
+    public void deleteSeller() throws IOException {
         getSellerDocument().delete();
     }
 

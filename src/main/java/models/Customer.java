@@ -69,7 +69,7 @@ public class Customer {
 
     // Frontend should redirect the user to the authentication page upon account
     // deletion
-    public void deleteAccount() throws IOException {
+    public void deleteCustomer() throws IOException {
         getCustomerDocument().delete();
     }
 
