@@ -17,12 +17,7 @@ public class CustomerTest extends TestUtils {
     }
 
     @Test
-    public void testDeleteAccount() {
-
-    }
-
-    @Test
-    public void testDeleteAccount() {
+    public void testDeleteCustomer() {
 
     }
 }

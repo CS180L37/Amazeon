@@ -43,7 +43,7 @@ public class Seller {
         this.password = document.getString("password");
         List<Integer> productIds = (List<Integer>) document.getData().get("productIds");
         this.products = Product.getProductsByIds((productIds != null) ? productIds : Arrays.asList());
-        List<Integer> saleIds = (List<Integer>) document.getData().get("saleIds")
+        List<Integer> saleIds = (List<Integer>) document.getData().get("saleIds");
         this.sales = Sale.getSalesByIds((saleIds != null) ? saleIds : Arrays.asList());
     }
 
