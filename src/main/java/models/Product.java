@@ -42,22 +42,39 @@ public class Product {
         this.sellerId = sellerId;
         int storeId = document.getLong("storeId").intValue();
         this.storeId = storeId;
+        this.documentReference = getProductDocument();
     }
 
-        // TODO: alternative constructor
+    private DocumentReference getProductDocument() throws IOException {
+        ApiFuture<QuerySnapshot> future = productCollection
+                .whereEqualTo("productId", this.getProductId())
+                .limit(1)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        // Throws an exception if customerDocument is null for some reason
+        if (documents == null) {
+            throw new IOException("Could not retrieve the product document");
+        }
+        return documents.get(0).getReference();
+    }
+
+    // TODO: alternative constructor
         public static Product createProduct(String description, String name, int price, int productId, int quantity, int sellerId, int storeId) throws IOException {
             Map<String, Object> productData = new HashMap<String, Object>();
             // Add data to db
-            productData.put("description", description);
+            productData.put("productId", productId);
             productData.put("name", name);
             productData.put("price", price);
-            productData.put("productId", productId);
+            productData.put("description", description);
             productData.put("quantity", quantity);
             productData.put("sellerId", sellerId);
             productData.put("storeId", storeId);
             productCollection.add(productData);
             // Create a new instance
             return new Product(productId, name, price, description, quantity, sellerId, storeId);
+    }
+    public void deleteProduct() throws IOException {
+        this.documentReference.delete();
     }
 
     public int getProductId() {
@@ -66,6 +83,9 @@ public class Product {
 
     public void setProductId(int productId) {
         this.productId = productId;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("productId", productId);
+        this.documentReference.update(data);
     }
 
     public int getSellerId() {
@@ -74,6 +94,9 @@ public class Product {
 
     public void setSellerId(int sellerId) {
         this.sellerId = sellerId;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("sellerId", sellerId);
+        this.documentReference.update(data);
     }
 
     public int getQuantity() {
@@ -82,6 +105,9 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("quantity", quantity);
+        this.documentReference.update(data);
     }
 
     public String getName() {
@@ -90,6 +116,9 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("name", name);
+        this.documentReference.update(data);
     }
 
     public int getStoreId() {
@@ -98,6 +127,9 @@ public class Product {
 
     public void setStoreId(int storeId) {
         this.storeId = storeId;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("storeId", storeId);
+        this.documentReference.update(data);
     }
 
     public String getDescription() {
@@ -106,14 +138,21 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("description", description);
+        this.documentReference.update(data);
     }
 
     public double getPrice() {
         return price;
+
     }
 
     public void setPrice(double price) {
         this.price = price;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("price", price);
+        this.documentReference.update(data);
     }
 
     // TODO: adapt these for backend
