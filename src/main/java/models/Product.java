@@ -8,7 +8,7 @@ import java.util.*;
 import java.io.IOException;
 
 public class Product {
-    private static int productId;
+    private int productId;
     private String name;
     private int quantity;
     private String description;
@@ -31,7 +31,7 @@ public class Product {
         this.storeId = storeId;
     }
 
-    private Product (QueryDocumentSnapshot document) throws IOException {
+    private Product(QueryDocumentSnapshot document) throws IOException {
         int productId = document.getLong("productId").intValue();
         this.name = document.getString("name");
         this.productId = productId;
@@ -59,20 +59,22 @@ public class Product {
     }
 
     // TODO: alternative constructor
-        public static Product createProduct(String description, String name, int price, int productId, int quantity, int sellerId, int storeId) throws IOException {
-            Map<String, Object> productData = new HashMap<String, Object>();
-            // Add data to db
-            productData.put("productId", productId);
-            productData.put("name", name);
-            productData.put("price", price);
-            productData.put("description", description);
-            productData.put("quantity", quantity);
-            productData.put("sellerId", sellerId);
-            productData.put("storeId", storeId);
-            productCollection.add(productData);
-            // Create a new instance
-            return new Product(productId, name, price, description, quantity, sellerId, storeId);
+    public static Product createProduct(String description, String name, int price, int productId, int quantity,
+            int sellerId, int storeId) throws IOException {
+        Map<String, Object> productData = new HashMap<String, Object>();
+        // Add data to db
+        productData.put("productId", productId);
+        productData.put("name", name);
+        productData.put("price", price);
+        productData.put("description", description);
+        productData.put("quantity", quantity);
+        productData.put("sellerId", sellerId);
+        productData.put("storeId", storeId);
+        productCollection.add(productData);
+        // Create a new instance
+        return new Product(productId, name, price, description, quantity, sellerId, storeId);
     }
+
     public void deleteProduct() throws IOException {
         this.documentReference.delete();
     }
@@ -156,12 +158,12 @@ public class Product {
     }
 
     // TODO: adapt these for backend
-    public static Product getProductById(int Id) throws IOException {
-            ApiFuture<QuerySnapshot> future = productCollection.select("productId")
-                    .where(Filter.equalTo("productId", productId)).limit(1).get();
-            List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-            return new Product(documents.get(0));
-            }
+    public static Product getProductById(int id) throws IOException {
+        ApiFuture<QuerySnapshot> future = productCollection.select("productId")
+                .where(Filter.equalTo("productId", id)).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return new Product(documents.get(0));
+    }
 
     public static ArrayList<Product> getProductsByIds(List<Integer> productIds) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
@@ -172,9 +174,9 @@ public class Product {
     }
 
     public static int getNextProductId() throws IOException {
-            ApiFuture<QuerySnapshot> future = productCollection.orderBy("productId", Query.Direction.DESCENDING)
-                    .limit(1).get();
-            List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-            return documents.get(0).getLong("productId").intValue() + 1;
+        ApiFuture<QuerySnapshot> future = productCollection.orderBy("productId", Query.Direction.DESCENDING)
+                .limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return documents.get(0).getLong("productId").intValue() + 1;
     }
 }

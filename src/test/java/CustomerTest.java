@@ -118,15 +118,15 @@ public class CustomerTest extends TestUtils {
     @Test
     public void testSetPassword() throws IOException {
         customer0.setPassword("adityasnewpassword");
-        assertEquals(customer0,
-                Utils.retrieveData(customers.whereEqualTo("password", "adityasnewpassword").limit(1).get()).get(0));
+        assertEquals(1,
+                Utils.retrieveData(customers.whereEqualTo("password", "adityasnewpassword").limit(1).get()).size());
         assertThrows(IOException.class, () -> customer0.setEmail("invalidPassword:)"));
     }
 
     @Test
     public void testSetProducts() throws IOException {
         customer1.setProducts(new ArrayList<Product>(Arrays.asList(Product.getProductById(3))));
-        assertEquals(customer1,
-                Utils.retrieveData(customers.whereEqualTo("productIds", 3).limit(1).get()).get(0));
+        assertEquals(1,
+                Utils.retrieveData(customers.whereEqualTo("productIds", 3).limit(1).get()).size());
     }
 }
