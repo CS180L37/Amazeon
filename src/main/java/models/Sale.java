@@ -6,18 +6,18 @@ import java.util.List;
 
 public class Sale {
     private int saleId;
-    private Customer customer;
-    private Product product;
+    private Customer customerId;
+    private Product productId;
     private double cost;
     private int numPurchased;
 
-    private Sale(int saleID, Customer customer, Product product, int numPurchased) {
-        if (customer == null || product == null) {
+    private Sale(int saleID, int customerId, int productId, int numPurchased) {
+        if (customerId == 0 || productId == 0) {
             return;
         }
         this.saleId = saleID;
-        this.customer = customer;
-        this.product = product;
+        this.customerId = customerId;
+        this.productId = productId;
         this.numPurchased = numPurchased;
         this.cost = calculateCost();
         // if (!Amazeon.sellers.isEmpty()) {
@@ -36,16 +36,16 @@ public class Sale {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public double getCost() {
