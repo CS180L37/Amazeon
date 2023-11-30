@@ -1,21 +1,24 @@
 package models;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.*;
 import utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 
 public class Product {
-    private int productId;
+    private static int productId;
     private String name;
     private int quantity;
     private String description;
     private double price;
-    private Seller seller;
-    private Store store;
+    private int sellerId;
+    private int storeId;
+
+    private DocumentReference documentReference;
+
+    private static CollectionReference productCollection = Utils.db.collection("products");
 
     private Product(int productId, String name, int quantity, String description,
             double price, int sellerId, int storeId) {
@@ -24,13 +27,37 @@ public class Product {
         this.quantity = quantity;
         this.description = description;
         this.price = price;
-        this.seller = new Seller(Utils.db.collection("sellers"));
-        this.store = storeId;
+        this.sellerId = sellerId;
+        this.storeId = storeId;
     }
 
-    // TODO: alternative constructor
-    public static Product createProduct() {
-        return null;
+    private Product (QueryDocumentSnapshot document) throws IOException {
+        int productId = document.getLong("productId").intValue();
+        this.name = document.getString("name");
+        this.productId = productId;
+        this.quantity = document.getLong("quantity").intValue();
+        this.description = document.getString(description);
+        this.price = document.getLong("price").intValue();
+        int sellerId = document.getLong("sellerId").intValue();
+        this.sellerId = sellerId;
+        int storeId = document.getLong("storeId").intValue();
+        this.storeId = storeId;
+    }
+
+        // TODO: alternative constructor
+        public static Product createProduct(String description, String name, int price, int productId, int quantity, int sellerId, int storeId) throws IOException {
+            Map<String, Object> productData = new HashMap<String, Object>();
+            // Add data to db
+            productData.put("description", description);
+            productData.put("name", name);
+            productData.put("price", price);
+            productData.put("productId", productId);
+            productData.put("quantity", quantity);
+            productData.put("sellerId", sellerId);
+            productData.put("storeId", storeId);
+            productCollection.add(productData);
+            // Create a new instance
+            return new Product(productId, name, price, description, quantity, sellerId, storeId);
     }
 
     public int getProductId() {
@@ -90,16 +117,14 @@ public class Product {
     }
 
     // TODO: adapt these for backend
-    public static Product getProductById(int id) {
-        for (Product product : getProducts()) {
-            if (product.getProductId() == id) {
-                return product;
+    public static Product getProductById(int Id) throws IOException {
+            ApiFuture<QuerySnapshot> future = productCollection.select("productId")
+                    .where(Filter.equalTo("productId", productId)).limit(1).get();
+            List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+            return new Product(documents.get(0));
             }
-        }
-        return new Product(-1, "", -1, "", -1, -1, -1);
-    }
 
-    public static ArrayList<Product> getProductsByIds(List<Integer> productIds) {
+    public static ArrayList<Product> getProductsByIds(List<Integer> productIds) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
         for (int productID : productIds) {
             productList.add(getProductById(productID));
@@ -107,12 +132,10 @@ public class Product {
         return productList;
     }
 
-    public static int getNextProductId() {
-        // int sellerListSize = customers.size() - 1;
-        // if (sellerListSize < 0) {
-        // return 1;
-        // }
-        // return sellers.get(sellers.size() - 1).getId() + 1;
-        return 0;
+    public static int getNextProductId() throws IOException {
+            ApiFuture<QuerySnapshot> future = productCollection.orderBy("productId", Query.Direction.DESCENDING)
+                    .limit(1).get();
+            List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+            return documents.get(0).getLong("productId").intValue() + 1;
     }
 }
