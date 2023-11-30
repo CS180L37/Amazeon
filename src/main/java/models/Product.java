@@ -20,10 +20,9 @@ public class Product {
 
     private static CollectionReference productCollection = Utils.db.collection("products");
 
-    private Product(String name, int quantity, String description,
+    private Product(int productId, String name, int quantity, String description,
             double price, int sellerId, int storeId) {
-        int id = document.getLong("productId").intValue();
-        this.productId = id;
+        this.productId = productId;
         this.name = name;
         this.quantity = quantity;
         this.description = description;
