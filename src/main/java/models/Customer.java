@@ -193,6 +193,10 @@ public class Customer {
         this.documentReference.update(data);
     }
 
+    // With array lists, you should always call the supported and add, remove, and
+    // set methods in the class
+    // If you get the field and then add manually, the database WILL NOT sync the
+    // changes
     public ArrayList<Product> getProducts() {
         return products;
     }
