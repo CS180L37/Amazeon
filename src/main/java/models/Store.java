@@ -74,7 +74,6 @@ public class Store {
         data.put("cartId", "id");
         data.put("productIds", Arrays.asList());
         ApiFuture<DocumentReference> addedDocRef = db.collection("carts").add(data);
-        System.out.println("Added document with ID: " + addedDocRef.get().getId());
         return new Store(cartId, products);
     }
 
