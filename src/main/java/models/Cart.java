@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
-    private static CollectionReference cartsCollection = Utils.db.collection("customers");
+    private static CollectionReference cartsCollection = Utils.db.collection("carts");
     private DocumentReference documentReference;
 
     private Cart(int customerID, ArrayList<Product> cartProducts) throws IOException {
@@ -90,7 +90,7 @@ public class Cart {
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         // Throws an exception if customerDocument is null for some reason
         if (documents == null) {
-            throw new IOException("Could not retrieve the customer document");
+            throw new IOException("Could not retrieve the cart document");
         }
         return documents.get(0).getReference();
     }
@@ -118,5 +118,15 @@ public class Cart {
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return documents.get(0).getLong("customerId").intValue() + 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "customerID=" + this.customerID +
+                ", cartProducts=" + this.cartProducts +
+                ", documentReference=" + this.documentReference +
+                ", documentName='" + this.documentName + '\'' +
+                '}';
     }
 }
