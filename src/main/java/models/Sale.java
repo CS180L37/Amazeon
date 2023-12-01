@@ -21,15 +21,15 @@ public class Sale {
 
     private static CollectionReference saleCollection = Utils.db.collection("sales");
 
-    private Sale(int saleId, int customerId, int productId, int numPurchased) {
+    private Sale(double cost, int customerId,int numPurchased, int productId, int saleId) {
         if (customerId == 0 || productId == 0) {
             return;
         }
-        this.saleId = saleId;
+        this.cost = cost;
         this.customerId = customerId;
-        this.productId = productId;
         this.numPurchased = numPurchased;
-        this.cost = calculateCost();
+        this.productId = productId;
+        this.saleId = saleId;
         // if (!Amazeon.sellers.isEmpty()) {
         // System.out.printf("%s purchased %s at a total cost of %.2f\n",
         // customer.getId(), product.getName(), cost);
@@ -45,6 +45,7 @@ public class Sale {
         this.productId = productId;
         int numPurchased = document.getLong("numPurchased").intValue();
         this.numPurchased = numPurchased;
+        double cost = document.getLong("cost").intValue();
         this.documentReference = getSaleDocument();
     }
 
@@ -62,16 +63,17 @@ public class Sale {
     }
 
     // TODO: alternative constructor
-    public static Sale createSale(int saleId, int customerId, int productId, int numPurchased) {
+    public static Sale createSale(double cost, int saleId, int customerId, int productId, int numPurchased) {
         Map<String, Object> saleData = new HashMap<String, Object>();
         // Add data to db
-        saleData.put("saleId", saleId);
+        saleData.put("cost", cost);
         saleData.put("customerId", customerId);
-        saleData.put("productId", productId);
         saleData.put("numPurchased", numPurchased);
+        saleData.put("productId", productId);
+        saleData.put("saleId", saleId);
         saleCollection.add(saleData);
         // Create a new instance
-        return new Sale(saleId, customerId, productId, numPurchased);
+        return new Sale(cost, customerId, numPurchased, productId, saleId);
     }
     public void deleteSale() throws IOException {
         this.documentReference.delete();
@@ -94,6 +96,9 @@ public class Sale {
 
     public void setCost(double cost) {
         this.cost = cost;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("cost", cost);
+        this.documentReference.update(data);
     }
 
     public int getProductId() {
