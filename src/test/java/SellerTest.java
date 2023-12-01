@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
 
-import org.junit.jupiter.api.BeforeEach;
-
 import models.Product;
 import models.Sale;
 import models.Seller;
@@ -21,14 +19,7 @@ public class SellerTest extends TestUtils {
     public Seller seller2;
     public CollectionReference sellers = db.collection("sellers");
 
-    @Override
-    @BeforeEach
-    public void setUp() {
-        // Call initial setup
-        super.setUp();
-        // Initialize Seller instances
-        // Normally, I would use a .env file for encoding data
-        // But these are test instances
+    public SellerTest() {
         try {
             seller0 = Seller.getSellerByEmail("jkrowling@gmail.com");
             seller2 = Seller.getSellerByEmail("nintendo@nintendo.com");
