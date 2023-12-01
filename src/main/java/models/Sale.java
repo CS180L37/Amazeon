@@ -1,51 +1,93 @@
 package models;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.*;
+import utils.Utils;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import static com.sun.org.apache.xml.internal.serializer.Version.getProduct;
 
 public class Sale {
     private int saleId;
-    private Customer customerId;
-    private Product productId;
+    private int customerId;
+    private int productId;
     private double cost;
     private int numPurchased;
 
-    private Sale(int saleID, int customerId, int productId, int numPurchased) {
+
+    private DocumentReference documentReference;
+
+    private static CollectionReference saleCollection = Utils.db.collection("sales");
+
+    private Sale(double cost, int customerId,int numPurchased, int productId, int saleId) {
         if (customerId == 0 || productId == 0) {
             return;
         }
-        this.saleId = saleID;
+        this.cost = cost;
         this.customerId = customerId;
-        this.productId = productId;
         this.numPurchased = numPurchased;
-        this.cost = calculateCost();
+        this.productId = productId;
+        this.saleId = saleId;
         // if (!Amazeon.sellers.isEmpty()) {
         // System.out.printf("%s purchased %s at a total cost of %.2f\n",
         // customer.getId(), product.getName(), cost);
         // }
         // Amazeon.sales.add(this);
     }
-
-    // TODO: alternative constructor
-    public static Sale createSale() {
-        return null;
+    private Sale(QueryDocumentSnapshot document) throws IOException {
+        int saleId = document.getLong("saleId").intValue();
+        this.saleId = saleId;
+        int customerId = document.getLong("customerId").intValue();
+        this.customerId = customerId;
+        int productId = document.getLong("productId").intValue();
+        this.productId = productId;
+        int numPurchased = document.getLong("numPurchased").intValue();
+        this.numPurchased = numPurchased;
+        double cost = document.getLong("cost").intValue();
+        this.documentReference = getSaleDocument();
     }
 
-    public Customer getCustomer() {
-        return customer;
+    private DocumentReference getSaleDocument() throws IOException {
+        ApiFuture<QuerySnapshot> future = saleCollection
+                .whereEqualTo("productId", this.getSaleId())
+                .limit(1)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        // Throws an exception if customerDocument is null for some reason
+        if (documents == null) {
+            throw new IOException("Could not retrieve the sale document");
+        }
+        return documents.get(0).getReference();
+    }
+
+    // TODO: alternative constructor
+    public static Sale createSale(double cost, int saleId, int customerId, int productId, int numPurchased) {
+        Map<String, Object> saleData = new HashMap<String, Object>();
+        // Add data to db
+        saleData.put("cost", cost);
+        saleData.put("customerId", customerId);
+        saleData.put("numPurchased", numPurchased);
+        saleData.put("productId", productId);
+        saleData.put("saleId", saleId);
+        saleCollection.add(saleData);
+        // Create a new instance
+        return new Sale(cost, customerId, numPurchased, productId, saleId);
+    }
+    public void deleteSale() throws IOException {
+        this.documentReference.delete();
+    }
+
+    public int getCustomerId() {
+        return customerId;
     }
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("customerId", customerId);
+        this.documentReference.update(data);
     }
 
     public double getCost() {
@@ -54,6 +96,20 @@ public class Sale {
 
     public void setCost(double cost) {
         this.cost = cost;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("cost", cost);
+        this.documentReference.update(data);
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("productId", productId);
+        this.documentReference.update(data);
     }
 
     public int getNumPurchased() {
@@ -62,6 +118,9 @@ public class Sale {
 
     public void setNumPurchased(int numPurchased) {
         this.numPurchased = numPurchased;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("numPurchased", numPurchased);
+        this.documentReference.update(data);
     }
 
     public int getSaleId() {
@@ -70,38 +129,36 @@ public class Sale {
 
     public void setSaleId(int saleId) {
         this.saleId = saleId;
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put("saleId", saleId);
+        this.documentReference.update(data);
     }
 
     // TODO: adapt these for backend
-    public static Sale getSaleById(int i) {
-        Sale sale = null;
-        for (Sale currentSale : Amazeon.sales) {
-            if (currentSale.getSaleId() == i) {
-                sale = currentSale;
-            }
-        }
-        return sale;
+    public static Sale getSaleById(int id) throws IOException {
+        ApiFuture<QuerySnapshot> future = saleCollection.select("saleId")
+                .where(Filter.equalTo("saleId", id)).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return new Sale(documents.get(0));
     }
 
-    public static ArrayList<Sale> getSalesByIds(List<Integer> saleIds) {
-        ArrayList<Sale> sales = new ArrayList<>();
-        for (int currentID : saleIds) {
-            sales.add(getSaleById(currentID));
+    public static ArrayList<Sale> getSalesByIds(List<Integer> saleIds) throws IOException{
+        ArrayList<Sale> saleList = new ArrayList<Sale>();
+        for (int saleID : saleIds) {
+            saleList.add(getSaleById(saleID));
         }
-        return sales;
+        return saleList;
     }
 
-    public static int getNextSaleId() {
-        // ArrayList<Integer> saleIDs = new ArrayList<>();
-        // for (Sale sale : saleList) {
-        // saleIDs.add(sale.getSaleId());
-        // }
-        // return saleIDs;
-        return 0;
+    public static int getNextSaleId() throws IOException {
+        ApiFuture<QuerySnapshot> future = saleCollection.orderBy("saleId", Query.Direction.DESCENDING)
+                .limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return documents.get(0).getLong("saleId").intValue() + 1;
     }
 
     // Calculate the total cost of a sale
-    public double calculateCost() {
-        return getNumPurchased() * getProduct().getPrice();
+    public double calculateTotal() {
+        return getNumPurchased() * getCost();
     }
 }
