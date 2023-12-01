@@ -138,4 +138,15 @@ public class Store {
                 .map(Customer::getCustomerId)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "storeId=" + this.storeId +
+                ", name='" + this.name + '\'' +
+                ", products=" + this.products +
+                ", customers=" + this.customers +
+                ", documentReference=" + this.documentReference +
+                '}';
+    }
 }

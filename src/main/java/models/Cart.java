@@ -111,7 +111,6 @@ public class Cart {
         }
         return documents.get(0).getReference();
     }
-    // TODO: adapt the "to string" methods along with the constructors
     public static Cart getCartById(int givenCustomerId) throws IOException {
         ApiFuture<QuerySnapshot> future = cartsCollection.select("customerId")
                 .where(Filter.equalTo("customerId", givenCustomerId)).limit(1).get();
@@ -134,5 +133,15 @@ public class Cart {
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return documents.get(0).getLong("customerId").intValue() + 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "customerID=" + this.customerID +
+                ", cartProducts=" + this.cartProducts +
+                ", documentReference=" + this.documentReference +
+                ", documentName='" + this.documentName + '\'' +
+                '}';
     }
 }
