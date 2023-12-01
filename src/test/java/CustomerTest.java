@@ -3,16 +3,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import models.Cart;
 import models.Customer;
 import models.Product;
 import utils.Utils;
@@ -127,6 +124,13 @@ public class CustomerTest extends TestUtils {
     public void testSetProducts() throws IOException {
         customer1.setProducts(new ArrayList<Product>(Arrays.asList(Product.getProductById(3))));
         assertEquals(1,
-                Utils.retrieveData(customers.whereEqualTo("productIds", 3).limit(1).get()).size());
+                Utils.retrieveData(customers.whereEqualTo("productIds", Arrays.asList(3)).limit(1).get()).size());
+    }
+
+    @Test
+    public void testAddProduct() throws IOException {
+        customer0.addProduct(Product.getProductById(3));
+        assertEquals(1,
+                Utils.retrieveData(customers.whereEqualTo("productIds", Arrays.asList(0, 3)).limit(1).get()).size());
     }
 }

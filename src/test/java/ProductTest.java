@@ -3,16 +3,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import models.Cart;
 import models.Product;
 import utils.Utils;
 
@@ -97,49 +94,42 @@ public class ProductTest extends TestUtils {
     @Test
     public void testSetName() throws IOException {
         product0.setName("New Product Name");
-        assertEquals(product0,
-                Utils.retrieveData(products.whereEqualTo("password", "New Product Name").limit(1).get()).get(0));
+        assertEquals(1,
+                Utils.retrieveData(products.whereEqualTo("name", "New Product Name").limit(1).get()).size());
     }
 
     @Test
     public void testSetQuantity() throws IOException {
         product0.setQuantity(100);
-        assertEquals(product0,
-                Utils.retrieveData(products.whereEqualTo("quantity", 100).limit(1).get()).get(0));
+        assertEquals(1,
+                Utils.retrieveData(products.whereEqualTo("quantity", 100).limit(1).get()).size());
     }
 
     @Test
     public void testSetDescription() throws IOException {
-        product0.setName("New Product Name");
-        assertEquals(product0,
-                Utils.retrieveData(products.whereEqualTo("password", "New Product Name").limit(1).get()).get(0));
+        product0.setDescription("New Description");
+        assertEquals(1,
+                Utils.retrieveData(products.whereEqualTo("description", "New Description").limit(1).get()).size());
     }
 
     @Test
     public void testSetPrice() throws IOException {
-        product0.setName("New Product Name");
-        assertEquals(product0,
-                Utils.retrieveData(products.whereEqualTo("password", "New Product Name").limit(1).get()).get(0));
+        product0.setPrice(20.05);
+        assertEquals(1,
+                Utils.retrieveData(products.whereEqualTo("price", 20.05).limit(1).get()).size());
     }
 
     @Test
     public void testSetSellerId() throws IOException {
-        product0.setName("New Product Name");
-        assertEquals(product0,
-                Utils.retrieveData(products.whereEqualTo("password", "New Product Name").limit(1).get()).get(0));
+        product0.setSellerId(100);
+        assertEquals(1,
+                Utils.retrieveData(products.whereEqualTo("sellerId", 100).limit(1).get()).size());
     }
 
     @Test
     public void testSetStoreId() throws IOException {
-        product0.setName("New Product Name");
-        assertEquals(product0,
-                Utils.retrieveData(products.whereEqualTo("password", "New Product Name").limit(1).get()).get(0));
-    }
-
-    @Test
-    public void testSetProducts() throws IOException {
-        Product1.setProducts(new ArrayList<Product>(Arrays.asList(Product.getProductById(3))));
-        assertEquals(Product1,
-                Utils.retrieveData(Products.whereEqualTo("productIds", 3).limit(1).get()).get(0));
+        product0.setStoreId(100);
+        assertEquals(1,
+                Utils.retrieveData(products.whereEqualTo("storeId", 100).limit(1).get()).size());
     }
 }
