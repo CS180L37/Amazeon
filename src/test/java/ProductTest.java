@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
 
+import models.Customer;
 import models.Product;
 import utils.Utils;
 
@@ -54,11 +55,16 @@ public class ProductTest extends TestUtils {
         assertNull(Product.getProductsByIds(Arrays.asList()));
     }
 
-    // This is implicitly tested in setup
-    // @Test
-    // public void testCreateProduct() {
-
-    // }
+    @Test
+    public void testCreateProduct() {
+        try {
+            Product product4 = Product.createProduct("New joycons because your old ones are drifting", "Joycons", 60, 4,
+                    100, 3, 2);
+            assertEquals(product4, Product.getProductById(4));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testDeleteProduct() throws IOException {

@@ -68,11 +68,15 @@ public class CustomerTest extends TestUtils {
         assertNull(Customer.getCustomerByEmail("fakecustomer@gmail.com"));
     }
 
-    // This is implicitly tested in setup
-    // @Test
-    // public void testCreateCustomer() {
-
-    // }
+    @Test
+    public void testCreateCustomer() {
+        try {
+            Customer customer3 = Customer.createCustomer("kabeer@gmail.com", "password");
+            assertEquals(customer3, Customer.getCustomerByEmail("kabeer@gmail.com"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testDeleteCustomer() throws IOException {

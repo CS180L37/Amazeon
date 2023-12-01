@@ -7,8 +7,6 @@ import utils.Utils;
 import java.io.*;
 import java.util.*;
 
-import static com.sun.org.apache.xml.internal.serializer.Version.getProduct;
-
 public class Sale {
     private int saleId;
     private int customerId;
@@ -16,12 +14,11 @@ public class Sale {
     private double cost;
     private int numPurchased;
 
-
     private DocumentReference documentReference;
 
     private static CollectionReference saleCollection = Utils.db.collection("sales");
 
-    private Sale(double cost, int customerId,int numPurchased, int productId, int saleId) {
+    private Sale(double cost, int customerId, int numPurchased, int productId, int saleId) {
         if (customerId == 0 || productId == 0) {
             return;
         }
@@ -36,6 +33,7 @@ public class Sale {
         // }
         // Amazeon.sales.add(this);
     }
+
     private Sale(QueryDocumentSnapshot document) throws IOException {
         int saleId = document.getLong("saleId").intValue();
         this.saleId = saleId;
@@ -75,6 +73,7 @@ public class Sale {
         // Create a new instance
         return new Sale(cost, customerId, numPurchased, productId, saleId);
     }
+
     public void deleteSale() throws IOException {
         this.documentReference.delete();
     }
@@ -142,7 +141,7 @@ public class Sale {
         return new Sale(documents.get(0));
     }
 
-    public static ArrayList<Sale> getSalesByIds(List<Integer> saleIds) throws IOException{
+    public static ArrayList<Sale> getSalesByIds(List<Integer> saleIds) throws IOException {
         ArrayList<Sale> saleList = new ArrayList<Sale>();
         for (int saleID : saleIds) {
             saleList.add(getSaleById(saleID));
