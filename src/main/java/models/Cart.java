@@ -126,7 +126,6 @@ public class Cart {
                 "customerID=" + this.customerID +
                 ", cartProducts=" + this.cartProducts +
                 ", documentReference=" + this.documentReference +
-                ", documentName='" + this.documentName + '\'' +
                 '}';
     }
 }
