@@ -135,6 +135,13 @@ public class SellerTest extends TestUtils {
     }
 
     @Test
+    public void testRemoveProduct() throws IOException {
+        seller2.removeProduct(Product.getProductById(3));
+        assertEquals(1,
+                Utils.retrieveData(sellers.whereEqualTo("productIds", Arrays.asList()).limit(1).get()).size());
+    }
+
+    @Test
     public void testAddSale() throws IOException {
         seller0.addSale(Sale.getSaleById(1));
         assertEquals(1,

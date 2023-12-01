@@ -231,6 +231,19 @@ public class Seller {
         this.documentReference.update(data);
     }
 
+    public void removeProduct(Product product) throws IOException {
+        // Set locally
+        this.products.remove(product);
+        // Set associated product ids on the backend
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        ArrayList<Integer> productIds = new ArrayList<Integer>();
+        for (Product productPurchased : products) {
+            productIds.add(productPurchased.getProductId());
+        }
+        data.put("productIds", productIds);
+        this.documentReference.update(data);
+    }
+
     public void addSale(Sale sale) throws IOException {
         // Set locally
         this.sales.add(sale);
