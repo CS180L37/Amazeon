@@ -81,7 +81,7 @@ public class Store {
 
     public static Store getStoreById(int givenStoreId) throws IOException {
         ApiFuture<QuerySnapshot> future = storeCollection.select("customerId")
-                .where(Filter.equalTo("customerId", givenStoreId)).limit(1).get();
+                .where(Filter.equalTo("storeId", givenStoreId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return new Store(documents.get(0));
     }
