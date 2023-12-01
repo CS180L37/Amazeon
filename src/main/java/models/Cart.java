@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
-    private static CollectionReference cartsCollection = Utils.db.collection("customers");
+    private static CollectionReference cartsCollection = Utils.db.collection("carts");
     private DocumentReference documentReference;
     private String documentName;
 
@@ -29,7 +29,6 @@ public class Cart {
         this.customerID = Math.toIntExact(document.getLong("customerId"));
         this.cartProducts = Product.getProductsByIds((List<Integer>) document.getData().get("productIds"));
         this.documentReference = getCartDocument();
-        this.documentName = document.getName
     }
 
     // TODO: alternative constructor
@@ -108,11 +107,10 @@ public class Cart {
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         // Throws an exception if customerDocument is null for some reason
         if (documents == null) {
-            throw new IOException("Could not retrieve the customer document");
+            throw new IOException("Could not retrieve the cart document");
         }
         return documents.get(0).getReference();
     }
-    // TODO: adapt these for backend
     // TODO: adapt the "to string" methods along with the constructors
     public static Cart getCartById(int givenCustomerId) throws IOException {
         ApiFuture<QuerySnapshot> future = cartsCollection.select("customerId")
