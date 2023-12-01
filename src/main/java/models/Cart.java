@@ -15,9 +15,6 @@ public class Cart {
     private ArrayList<Product> cartProducts;
     private static CollectionReference cartsCollection = Utils.db.collection("customers");
     private DocumentReference documentReference;
-    private String documentName;
-
-
 
     private Cart(int customerID, ArrayList<Product> cartProducts) throws IOException {
         this.customerID = customerID;
@@ -25,11 +22,11 @@ public class Cart {
         this.documentReference = getCartDocument();
 
     }
+
     private Cart(QueryDocumentSnapshot document) throws IOException {
         this.customerID = Math.toIntExact(document.getLong("customerId"));
         this.cartProducts = Product.getProductsByIds((List<Integer>) document.getData().get("productIds"));
         this.documentReference = getCartDocument();
-        this.documentName = document.getName
     }
 
     // TODO: alternative constructor
@@ -47,7 +44,6 @@ public class Cart {
         data2.put(remoteFieldName, value);
         this.documentReference.update(data2);
     }
-
 
     public void setCartProducts(ArrayList<Product> cartProducts) {
         this.cartProducts = cartProducts;
@@ -79,27 +75,13 @@ public class Cart {
                 .map(Product::getProductId)
                 .collect(Collectors.toList());
     }
+
     // Purchases all the products in the cart for the specific customer
-    //since no sale happening thingy, only noticeable change is cart is now empty
+    // since no sale happening thingy, only noticeable change is cart is now empty
     public void purchaseCart() {
-        // for (Product p : cartProducts) {
-        // Amazeon.getCustomerById(customerID).purchaseProduct(p);
-        // cartProducts.remove(p);
-        // }
         setCartProducts(new ArrayList<Product>());
     }
 
-    // Display the customers cart
-    //redundant, just call getcartproducts
-    public void display() {
-        // System.out.println("Customer ID: " + customerID);
-        // System.out.println("Cart Contents: ");
-
-        // for (Product product : cartProducts) {
-        // System.out.println("Product ID: " + product.getProductId());
-        // System.out.println("Product Name: " + product.getName());
-        // }
-    }
     private DocumentReference getCartDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = cartsCollection
                 .whereEqualTo("customerId", this.getCustomerID())
@@ -112,8 +94,7 @@ public class Cart {
         }
         return documents.get(0).getReference();
     }
-    // TODO: adapt these for backend
-    // TODO: adapt the "to string" methods along with the constructors
+
     public static Cart getCartById(int givenCustomerId) throws IOException {
         ApiFuture<QuerySnapshot> future = cartsCollection.select("customerId")
                 .where(Filter.equalTo("customerId", givenCustomerId)).limit(1).get();
@@ -129,8 +110,9 @@ public class Cart {
         return cartList;
     }
 
-    //shouldnt be used because carts are created w customers, synonymous w customers
-    //id recommend using getnextcustomerid instead, too
+    // Shouldn't be used because carts are created w customers, synonymous w
+    // customers
+    // I'd recommend using getnextcustomerid instead, too
     public static int getNextCartId() throws IOException {
         ApiFuture<QuerySnapshot> future = cartsCollection.orderBy("customerId", Query.Direction.DESCENDING)
                 .limit(1).get();
