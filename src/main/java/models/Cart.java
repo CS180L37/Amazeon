@@ -32,16 +32,16 @@ public class Cart {
         this.documentReference = getCartDocument();
     }
 
-    // TODO: alternative constructor
-    public static Cart createCart(int customerId) throws IOException {
+    public Cart createCart(int customerId) throws IOException {
         Customer currCustomer = Customer.getCustomerById(customerId);
-        try {
-            DocumentReference documentChecked = cartsCollection.document(currCustomer.getEmail());
-        } catch () {
-
-        }
+        this.customerID = currCustomer.getCustomerId();
         this.cartProducts = new ArrayList<>();
-        db.collection("carts").document(currCustomer.getEmail()).set(data);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("customerId", currCustomer.getCustomerId());
+        data.put("productIds", "");
+        cartsCollection.document(currCustomer.getEmail()).set(data);
+        this.documentReference = cartsCollection.document(currCustomer.getEmail());
+        return this;
     }
 
     public void setCustomerID(int customerID) {
