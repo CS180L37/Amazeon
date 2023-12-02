@@ -11,7 +11,11 @@ import org.junit.Test;
 import models.Cart;
 import models.Product;
 
-public class CartTest extends TestUtils {
+public class CartTest {
+    public CartTest() throws IOException {
+        Customer Customer1 = Customer.getCustomerByEmail("adityasemail@gmail.com");
+        Customer Customer2 = Customer.getCustomerByEmail("xandersemail@gmail.com");
+    }
     // Try adding a product to cart
     @Test
     public void testAddToCart() throws IOException {
@@ -37,11 +41,5 @@ public class CartTest extends TestUtils {
         cart.purchaseCart();
         assertEquals(cart.getCartProducts().size(), 0);
         assertEquals(Customer.getCustomerById(cart.getCustomerID()).getProducts(), Product.getProductById(0));
-    }
-
-    // Try displaying
-    @Test
-    public void testDisplay() {
-        throw new UnsupportedOperationException("Unimplemented method 'testDisplay'");
     }
 }

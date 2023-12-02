@@ -226,4 +226,8 @@ public class Customer {
         data.put("productIds", productIds);
         this.documentReference.update(data);
     }
+
+    public DocumentReference getDocumentReference() {
+        return documentReference;
+    }
 }
