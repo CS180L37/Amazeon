@@ -120,13 +120,13 @@ public class Cart {
         return documents.get(0).getLong("customerId").intValue() + 1;
     }
 
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "customerID=" + this.customerID +
-                ", cartProducts=" + this.cartProducts +
-                ", documentReference=" + this.documentReference +
-                ", documentName='" + this.documentName + '\'' +
-                '}';
-    }
+    // @Override
+    // public String toString() {
+    // return "Cart{" +
+    // "customerID=" + this.customerID +
+    // ", cartProducts=" + this.cartProducts +
+    // ", documentReference=" + this.documentReference +
+    // ", documentName='" + this.documentName + '\'' +
+    // '}';
+    // }
 }

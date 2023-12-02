@@ -19,8 +19,6 @@ public class Store {
     private static CollectionReference storeCollection = db.collection("stores");
     private DocumentReference documentReference;
 
-
-
     public String getName() {
         return this.name;
     }
@@ -50,15 +48,13 @@ public class Store {
         updateRemoteStore("productIds", getStoreProductIds());
     }
 
-
     public void setCustomers(ArrayList<Customer> customers) {
         this.customers = customers;
         updateRemoteStore("customerIds", getStoreCustomerIds());
     }
 
-
     private Store(QueryDocumentSnapshot document) throws IOException {
-//        int x = Integer.parseInt(String.valueOf(document.getLong("customerId")));
+        // int x = Integer.parseInt(String.valueOf(document.getLong("customerId")));
         int id = document.getLong("storeId").intValue();
         this.name = document.getString("name");
         List<Integer> productIds = (List<Integer>) document.getData().get("productIds");
@@ -69,13 +65,15 @@ public class Store {
         this.documentReference = getStoreDocument();
 
     }
+
     private Store(int cartId, ArrayList<Product> products) throws IOException {
         this.storeId = cartId;
         this.products = products;
         this.documentReference = getStoreDocument();
     }
-//
-//    // TODO: alternative constructor
+
+    //
+    // // TODO: alternative constructor
     public static Store createStore(int cartId, ArrayList<Product> products) throws IOException {
         // Add document data with auto-generated id.
         Map<String, Object> data = new HashMap<>();
@@ -84,7 +82,6 @@ public class Store {
         storeCollection.add(data);
         return new Store(cartId, products);
     }
-
 
     public static Store getStoreById(int givenStoreId) throws IOException {
         ApiFuture<QuerySnapshot> future = storeCollection.select("customerId")
@@ -139,14 +136,14 @@ public class Store {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public String toString() {
-        return "Store{" +
-                "storeId=" + this.storeId +
-                ", name='" + this.name + '\'' +
-                ", products=" + this.products +
-                ", customers=" + this.customers +
-                ", documentReference=" + this.documentReference +
-                '}';
-    }
+    // @Override
+    // public String toString() {
+    // return "Store{" +
+    // "storeId=" + this.storeId +
+    // ", name='" + this.name + '\'' +
+    // ", products=" + this.products +
+    // ", customers=" + this.customers +
+    // ", documentReference=" + this.documentReference +
+    // '}';
+    // }
 }

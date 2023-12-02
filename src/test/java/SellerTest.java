@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
 
+import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
@@ -63,11 +64,15 @@ public class SellerTest extends TestUtils {
         assertNull(Seller.getSellerByEmail("nintendo@nintendo.com"));
     }
 
-    // This is implicitly tested in setup
-    // @Test
-    // public void testCreateSeller() {
-
-    // }
+    @Test
+    public void testCreateSeller() {
+        try {
+            Seller seller3 = Seller.createSeller("microsoft@outlook.com", "password", "Microsoft");
+            assertEquals(seller3, Customer.getCustomerByEmail("microsoft@outlook.com"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testDeleteSeller() throws IOException {
