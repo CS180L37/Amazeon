@@ -6,16 +6,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.junit.jupiter.api.Test;
+
 import models.Cart;
 import models.Customer;
 import models.Product;
 
-import org.junit.jupiter.api.Test;
+public class CartTest {
+    public CartTest() throws IOException {
+        Customer Customer1 = Customer.getCustomerByEmail("adityasemail@gmail.com");
+        Customer Customer2 = Customer.getCustomerByEmail("xandersemail@gmail.com");
+    }
 
-// import models.Cart;
-// import models.Product;
-
-public class CartTest extends TestUtils {
     // Try adding a product to cart
     @Test
     public void testAddToCart() throws IOException {
