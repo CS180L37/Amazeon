@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
@@ -18,12 +19,16 @@ import utils.Utils;
 public class SellerTest extends TestUtils {
     public Seller seller0;
     public Seller seller2;
-    public CollectionReference sellers = db.collection("sellers");
+    public CollectionReference sellers;
 
-    public SellerTest() {
+    @Override
+    @BeforeEach
+    public void setUp() throws IOException {
+        super.setUp();
         try {
             seller0 = Seller.getSellerByEmail("jkrowling@gmail.com");
             seller2 = Seller.getSellerByEmail("nintendo@nintendo.com");
+            sellers = db.collection("sellers");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,6 +74,8 @@ public class SellerTest extends TestUtils {
         try {
             Seller seller3 = Seller.createSeller("microsoft@outlook.com", "password", "Microsoft");
             assertEquals(seller3, Customer.getCustomerByEmail("microsoft@outlook.com"));
+            // Ensure that trying to create an already existing seller throws an error
+            assertThrows(IOException.class, () -> Seller.createSeller("nintendo@nintendo.com", "password", "Nintendo"));
         } catch (IOException e) {
             e.printStackTrace();
         }

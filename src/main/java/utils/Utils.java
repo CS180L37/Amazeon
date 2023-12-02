@@ -104,18 +104,26 @@ public class Utils {
         } while (true);
     }
 
-    public static Firestore initializeDatabase() throws IOException {
+    public static void initializeDatabase() throws IOException {
         // Initialize Firestore
         FirestoreOptions firestoreOptions;
         firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
                 .setProjectId("amazeon-405720")
                 .setCredentials(GoogleCredentials.getApplicationDefault())
                 .build();
-        return firestoreOptions.getService();
+        db = firestoreOptions.getService();
+        initializeCollections();
     }
 
-    // Is there a way I can easily wrap the get, read, and write methods into one
-    // method?
+    public static void initializeCollections() throws IOException {
+        Customer.customerCollection = Utils.db.collection("customers");
+        Cart.cartsCollection = Utils.db.collection("carts");
+        Product.productCollection = Utils.db.collection("products");
+        Sale.saleCollection = Utils.db.collection("sales");
+        Store.storeCollection = Utils.db.collection("stores");
+        Seller.sellerCollection = Utils.db.collection("sellers");
+    }
+
     public static List<QueryDocumentSnapshot>
 
             retrieveData(ApiFuture<QuerySnapshot> future) throws IOException {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
@@ -16,12 +17,16 @@ import utils.Utils;
 public class CustomerTest extends TestUtils {
     public Customer customer0;
     public Customer customer1;
-    public CollectionReference customers = db.collection("customers");
+    public CollectionReference customers;
 
-    public CustomerTest() {
+    @Override
+    @BeforeEach
+    public void setUp() throws IOException {
+        super.setUp();
         try {
             customer0 = Customer.getCustomerByEmail("adityasemail@gmail.com");
             customer1 = Customer.getCustomerByEmail("shloksemail@gmail.com");
+            customers = db.collection("customers");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,6 +78,8 @@ public class CustomerTest extends TestUtils {
         try {
             Customer customer3 = Customer.createCustomer("kabeer@gmail.com", "password");
             assertEquals(customer3, Customer.getCustomerByEmail("kabeer@gmail.com"));
+            // Ensure that trying to create an already existing customer throws an error
+            assertThrows(IOException.class, () -> Customer.createCustomer("adityasemail@gmail.com", "password"));
         } catch (IOException e) {
             e.printStackTrace();
         }

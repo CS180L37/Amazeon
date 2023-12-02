@@ -16,7 +16,7 @@ public class Store {
     private String name;
     private ArrayList<Product> products;
     private ArrayList<Customer> customers;
-    private static CollectionReference storeCollection = db.collection("stores");
+    public static CollectionReference storeCollection;
     private DocumentReference documentReference;
 
     public String getName() {

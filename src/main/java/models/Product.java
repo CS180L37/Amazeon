@@ -18,7 +18,7 @@ public class Product {
 
     private DocumentReference documentReference;
 
-    private static CollectionReference productCollection = Utils.db.collection("products");
+    public static CollectionReference productCollection;
 
     private Product(int productId, String name, int quantity, String description,
             double price, int sellerId, int storeId) {

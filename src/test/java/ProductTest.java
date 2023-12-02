@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
@@ -15,12 +16,16 @@ import utils.Utils;
 public class ProductTest extends TestUtils {
     public Product product0;
     public Product product1;
-    public CollectionReference products = db.collection("products");
+    public CollectionReference products;
 
-    public ProductTest() {
+    @Override
+    @BeforeEach
+    public void setUp() throws IOException {
+        super.setUp();
         try {
             product0 = Product.getProductById(0);
             product1 = Product.getProductById(1);
+            products = db.collection("products");
         } catch (IOException e) {
             e.printStackTrace();
         }

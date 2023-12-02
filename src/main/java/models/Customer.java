@@ -29,7 +29,7 @@ public class Customer {
     // For reading use the collection and queries
     private DocumentReference documentReference;
 
-    private static CollectionReference customerCollection = Utils.db.collection("customers");
+    public static CollectionReference customerCollection;
 
     // Create a Customer from all the fields
     private Customer(Cart cart, int customerId, String email, String password, ArrayList<Product> products)

@@ -27,7 +27,7 @@ public class Seller {
 
     // NOTE no setters and getters for sellerCollection;
     // the field should not be accessible by the frontend
-    private static CollectionReference sellerCollection = Utils.db.collection("sellers");
+    public static CollectionReference sellerCollection;
 
     protected Seller(int sellerId, String name, String email, String password, ArrayList<Product> products,
             ArrayList<Sale> sales) throws IOException {

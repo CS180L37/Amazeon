@@ -13,17 +13,18 @@ import java.util.stream.Collectors;
 public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
-    private static CollectionReference cartsCollection = Utils.db.collection("carts");
+    public static CollectionReference cartsCollection;
     private DocumentReference documentReference;
 
     private Cart(int customerID, ArrayList<Product> cartProducts) throws IOException {
+        cartsCollection = Utils.db.collection("carts");
         this.customerID = customerID;
         this.cartProducts = (cartProducts != null) ? cartProducts : new ArrayList<Product>();
         this.documentReference = getCartDocument();
-
     }
 
     private Cart(QueryDocumentSnapshot document) throws IOException {
+        cartsCollection = Utils.db.collection("carts");
         this.customerID = Math.toIntExact(document.getLong("customerId"));
         this.cartProducts = Product.getProductsByIds((List<Integer>) document.getData().get("productIds"));
         this.documentReference = getCartDocument();

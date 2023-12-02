@@ -16,7 +16,7 @@ public class Sale {
 
     private DocumentReference documentReference;
 
-    private static CollectionReference saleCollection = Utils.db.collection("sales");
+    public static CollectionReference saleCollection;
 
     private Sale(double cost, int customerId, int numPurchased, int productId, int saleId) {
         if (customerId == 0 || productId == 0) {
