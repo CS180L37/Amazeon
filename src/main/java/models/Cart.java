@@ -10,8 +10,6 @@ import java.util.List;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-import static utils.Utils.db;
-
 public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;
@@ -34,14 +32,16 @@ public class Cart {
 
     // TODO: alternative constructor
     public static Cart createCart(int customerId) throws IOException {
-        Customer currCustomer = Customer.getCustomerById(customerId);
-        try {
-            DocumentReference documentChecked = cartsCollection.document(currCustomer.getEmail());
-        } catch () {
+        return null;
+        // Customer currCustomer = Customer.getCustomerById(customerId);
+        // try {
+        // DocumentReference documentChecked =
+        // cartsCollection.document(currCustomer.getEmail());
+        // } catch () {
 
-        }
-        this.cartProducts = new ArrayList<>();
-        db.collection("carts").document(currCustomer.getEmail()).set(data);
+        // }
+        // this.cartProducts = new ArrayList<>();
+        // db.collection("carts").document(currCustomer.getEmail()).set(data);
     }
 
     public void setCustomerID(int customerID) {

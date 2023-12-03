@@ -13,9 +13,7 @@ java Amazeon.java
 ```
 
 ## Submissions
-Shlok Seth - Submitted Project Report  
-Xander Zutulas - Submitted Vocarem Workspace
-
+Shlok Seth - Submitted Project Report and Vocareum Workspace
 
 ## Documentation
 

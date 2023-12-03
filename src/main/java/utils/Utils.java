@@ -1,8 +1,6 @@
 package utils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
@@ -10,11 +8,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.api.core.ApiFuture;
+import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 
 import models.Cart;
 import models.Customer;
@@ -29,17 +30,6 @@ public class Utils {
     public static final int NO = 0;
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
-    public static final String DATA_DIR = ".data";
-    public static final String TEST_FILE = "/.test.csv";
-    public static final String PRODUCT_FILE = "/.product.csv";
-    public static final String CART_FILE = "/.cart.csv";
-    public static final String CUSTOMER_FILE = "/.customer.csv";
-    public static final String SALE_FILE = "/.sale.csv";
-    public static final String STORE_FILE = "/.store.csv";
-    public static final String CUSTOMER_PURCHASE_HISTORY = "/.customer_purchase_history.csv";
-    public static final String SELLER_PRODUCTS = "/.seller_products.csv";
-    public static final String SELLER_FILE = "/.seller.csv"; // in the format int id, ArrayList<Product> products, //
-                                                             // String email, String password, ArrayList<Sale> sales
     public static final String NA = "NA";
 
     public static boolean validateYesOrNo(String input) {
@@ -106,33 +96,51 @@ public class Utils {
 
     public static void initializeDatabase() throws IOException {
         // Initialize Firestore
+        // GoogleCredentials.fromStream(new
+        // FileInputStream("amazeon-405720-6089a258377a.json"));
+        // Create the database
         FirestoreOptions firestoreOptions;
+        FileInputStream f = new FileInputStream(
+                "src/main/resources/service_account.json");
         firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
-                .setProjectId("amazeon-405720")
-                .setCredentials(GoogleCredentials.getApplicationDefault())
+                .setCredentialsProvider(FixedCredentialsProvider.create(GoogleCredentials.fromStream(f)))
                 .build();
         db = firestoreOptions.getService();
-        initializeCollections();
+        initializeCollections(db);
     }
 
-    public static void initializeCollections() throws IOException {
-        Customer.customerCollection = Utils.db.collection("customers");
-        Cart.cartsCollection = Utils.db.collection("carts");
-        Product.productCollection = Utils.db.collection("products");
-        Sale.saleCollection = Utils.db.collection("sales");
-        Store.storeCollection = Utils.db.collection("stores");
-        Seller.sellerCollection = Utils.db.collection("sellers");
+    // This method takes a database as a parameter to allow flexibility regarding
+    // testing as well
+    public static void initializeCollections(Firestore firestoreDB) {
+        Customer.customersCollection = firestoreDB.collection("customers");
+        Cart.cartsCollection = firestoreDB.collection("carts");
+        Product.productsCollection = firestoreDB.collection("products");
+        Sale.salesCollection = firestoreDB.collection("sales");
+        Store.storesCollection = firestoreDB.collection("stores");
+        Seller.sellersCollection = firestoreDB.collection("sellers");
+    }
+
+    public static void clearCollections(Firestore firestoreDB) {
+        firestoreDB.recursiveDelete(Customer.customersCollection);
+        firestoreDB.recursiveDelete(Cart.cartsCollection);
+        firestoreDB.recursiveDelete(Product.productsCollection);
+        firestoreDB.recursiveDelete(Sale.salesCollection);
+        firestoreDB.recursiveDelete(Store.storesCollection);
+        firestoreDB.recursiveDelete(Seller.sellersCollection);
     }
 
     public static List<QueryDocumentSnapshot>
 
             retrieveData(ApiFuture<QuerySnapshot> future) throws IOException {
         QuerySnapshot query;
+
         try {
             query = future.get();
         } catch (InterruptedException e) {
+            e.printStackTrace();
             throw new IOException();
         } catch (ExecutionException e) {
+            e.printStackTrace();
             throw new IOException();
         }
         List<QueryDocumentSnapshot> documents = query.getDocuments();
@@ -140,5 +148,39 @@ public class Utils {
             return null;
         }
         return documents;
+    }
+
+    public static void
+
+            writeData(ApiFuture<WriteResult> future) throws IOException {
+        WriteResult result;
+
+        try {
+            result = future.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new IOException();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            throw new IOException();
+        }
+        return;
+    }
+
+    public static void
+
+            writeDataWithDoc(ApiFuture<DocumentReference> future) throws IOException {
+        DocumentReference result;
+
+        try {
+            result = future.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new IOException();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            throw new IOException();
+        }
+        return;
     }
 }

@@ -3,29 +3,45 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.google.api.client.util.DateTime;
+import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 
-import models.Customer;
+import io.grpc.netty.shaded.io.netty.util.Timer;
 import models.Product;
 import utils.Utils;
 
 public class ProductTest extends TestUtils {
+    // Utility test case for testing setup
+    @Test
+    public void testTests() {
+        assertEquals(1, 1);
+    }
+
     public Product product0;
     public Product product1;
     public CollectionReference products;
 
-    @Override
     @BeforeEach
+    @Override
     public void setUp() throws IOException {
         super.setUp();
         try {
             product0 = Product.getProductById(0);
             product1 = Product.getProductById(1);
-            products = db.collection("products");
+            if (products == null) {
+                products = db.collection("products");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,6 +59,7 @@ public class ProductTest extends TestUtils {
 
     // }
 
+    // storeId for product0 should NOT be 100...
     @Test
     public void testGetProductById() throws IOException {
         assertEquals(product0, Product.getProductById(0));
@@ -57,13 +74,14 @@ public class ProductTest extends TestUtils {
         assertEquals(products, Product.getProductsByIds(Arrays.asList(0, 1)));
         // assertThrows(IOException.class, () ->
         // Product.getProductsByIds(Arrays.asList()));
-        assertNull(Product.getProductsByIds(Arrays.asList()));
+        assertEquals(Arrays.asList(), Product.getProductsByIds(Arrays.asList()));
     }
 
     @Test
     public void testCreateProduct() {
         try {
-            Product product4 = Product.createProduct("New joycons because your old ones are drifting", "Joycons", 60, 4,
+            Product product4 = Product.createProduct("New joycons because your old ones are drifting",
+                    "Joycons", 60, 4,
                     100, 3, 2);
             assertEquals(product4, Product.getProductById(4));
         } catch (IOException e) {
@@ -74,7 +92,7 @@ public class ProductTest extends TestUtils {
     @Test
     public void testDeleteProduct() throws IOException {
         product0.deleteProduct();
-        assertNull(Product.getProductById(0));
+        assertThrows(IOException.class, () -> Product.getProductById(0));
     }
 
     // @Test
@@ -97,41 +115,48 @@ public class ProductTest extends TestUtils {
     public void testSetName() throws IOException {
         product0.setName("New Product Name");
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("name", "New Product Name").limit(1).get()).size());
+                Utils.retrieveData(products.whereEqualTo("name",
+                        "New Product Name").limit(1).get()).size());
     }
 
     @Test
     public void testSetQuantity() throws IOException {
         product0.setQuantity(100);
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("quantity", 100).limit(1).get()).size());
+                Utils.retrieveData(products.whereEqualTo("quantity",
+                        100).limit(1).get()).size());
     }
 
     @Test
     public void testSetDescription() throws IOException {
         product0.setDescription("New Description");
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("description", "New Description").limit(1).get()).size());
+                Utils.retrieveData(products.whereEqualTo("description",
+                        "New Description").limit(1).get()).size());
     }
 
     @Test
     public void testSetPrice() throws IOException {
         product0.setPrice(20.05);
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("price", 20.05).limit(1).get()).size());
+                Utils.retrieveData(products.whereEqualTo("price",
+                        20.05).limit(1).get()).size());
     }
 
     @Test
     public void testSetSellerId() throws IOException {
         product0.setSellerId(100);
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("sellerId", 100).limit(1).get()).size());
+                Utils.retrieveData(products.whereEqualTo("sellerId",
+                        100).limit(1).get()).size());
     }
 
     @Test
     public void testSetStoreId() throws IOException {
         product0.setStoreId(100);
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("storeId", 100).limit(1).get()).size());
+                Utils.retrieveData(products.whereEqualTo("storeId",
+                        100).limit(1).get()).size());
     }
+
 }

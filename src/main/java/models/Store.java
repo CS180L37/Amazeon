@@ -16,7 +16,7 @@ public class Store {
     private String name;
     private ArrayList<Product> products;
     private ArrayList<Customer> customers;
-    public static CollectionReference storeCollection;
+    public static CollectionReference storesCollection;
     private DocumentReference documentReference;
 
     public String getName() {
@@ -79,12 +79,12 @@ public class Store {
         Map<String, Object> data = new HashMap<>();
         data.put("storeId", getNextStoreId());
         data.put("productIds", Arrays.asList());
-        storeCollection.add(data);
+        storesCollection.add(data);
         return new Store(cartId, products);
     }
 
     public static Store getStoreById(int givenStoreId) throws IOException {
-        ApiFuture<QuerySnapshot> future = storeCollection.select("customerId")
+        ApiFuture<QuerySnapshot> future = storesCollection.select("customerId")
                 .where(Filter.equalTo("storeId", givenStoreId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return new Store(documents.get(0));
@@ -99,7 +99,7 @@ public class Store {
     }
 
     public static int getNextStoreId() throws IOException {
-        ApiFuture<QuerySnapshot> future = storeCollection.orderBy("storeId", Query.Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = storesCollection.orderBy("storeId", Query.Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return documents.get(0).getLong("storeId").intValue() + 1;
@@ -112,7 +112,7 @@ public class Store {
     }
 
     private DocumentReference getStoreDocument() throws IOException {
-        ApiFuture<QuerySnapshot> future = storeCollection
+        ApiFuture<QuerySnapshot> future = storesCollection
                 .whereEqualTo("storeId", this.getStoreDocument())
                 .limit(1)
                 .get();
