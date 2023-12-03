@@ -160,4 +160,33 @@ public class Sale {
     public double calculateTotal() {
         return getNumPurchased() * getCost();
     }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                {
+                    cost: %f
+                    customerId: %s
+                    numPurchased: %s
+                    productId: %s
+                    saleId: %s
+                }""", this.getCost(), this.getCustomerId(),
+                this.getNumPurchased(),
+                this.getProductId(),
+                this.getSaleId());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Sale) {
+            Sale sale = (Sale) obj;
+            if (sale.getCost() == this.getCost() && sale.getCustomerId() == this.getCustomerId()
+                    && sale.getNumPurchased() == this.getNumPurchased()
+                    && sale.getProductId() == this.getProductId()
+                    && sale.getSaleId() == this.getSaleId()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

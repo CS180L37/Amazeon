@@ -30,7 +30,7 @@ public class Cart {
         this.documentReference = getCartDocument();
     }
 
-    public Cart createCart(int customerId) throws IOException {
+    public static Cart createCart(int customerId) throws IOException {
         Customer currCustomer = Customer.getCustomerById(customerId);
         this.customerID = currCustomer.getCustomerId();
         this.cartProducts = new ArrayList<>();

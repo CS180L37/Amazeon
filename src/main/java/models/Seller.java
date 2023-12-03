@@ -298,4 +298,34 @@ public class Seller {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                {
+                    sellerId: %d
+                    name: %s
+                    email: %s
+                    password: %s
+                    products: %s
+                    sales: %s
+                }""", this.getSellerId(), this.getName(),
+                this.getEmail(),
+                this.getPassword(),
+                this.getProducts().toString(), this.getSales().toString());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Seller) {
+            Seller seller = (Seller) obj;
+            if (seller.getSellerId() == this.getSellerId() && seller.getName().equals(this.getName())
+                    && seller.getEmail().equals(this.getEmail())
+                    && seller.getPassword().equals(this.getPassword()) && seller.getProducts() == this.getProducts()
+                    && seller.getSales() == this.getSales()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

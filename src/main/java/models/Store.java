@@ -6,10 +6,7 @@ import utils.Utils;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
-import static utils.Utils.db;
 
 public class Store {
     private int storeId;
@@ -18,40 +15,6 @@ public class Store {
     private ArrayList<Customer> customers;
     public static CollectionReference storesCollection;
     private DocumentReference documentReference;
-
-    public String getName() {
-        return this.name;
-    }
-
-    public int getStoreId() {
-        return this.storeId;
-    }
-
-    public ArrayList<Product> getProducts() {
-        return this.products;
-    }
-
-    public ArrayList<Customer> getCustomers() {
-        return this.customers;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setStoreId(int id) {
-        this.storeId = id;
-    }
-
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
-        updateRemoteStore("productIds", getStoreProductIds());
-    }
-
-    public void setCustomers(ArrayList<Customer> customers) {
-        this.customers = customers;
-        updateRemoteStore("customerIds", getStoreCustomerIds());
-    }
 
     private Store(QueryDocumentSnapshot document) throws IOException {
         // int x = Integer.parseInt(String.valueOf(document.getLong("customerId")));
@@ -72,8 +35,6 @@ public class Store {
         this.documentReference = getStoreDocument();
     }
 
-    //
-    // // TODO: alternative constructor
     public static Store createStore(int cartId, ArrayList<Product> products) throws IOException {
         // Add document data with auto-generated id.
         Map<String, Object> data = new HashMap<>();
@@ -136,14 +97,61 @@ public class Store {
                 .collect(Collectors.toList());
     }
 
-    // @Override
-    // public String toString() {
-    // return "Store{" +
-    // "storeId=" + this.storeId +
-    // ", name='" + this.name + '\'' +
-    // ", products=" + this.products +
-    // ", customers=" + this.customers +
-    // ", documentReference=" + this.documentReference +
-    // '}';
-    // }
+    public String getName() {
+        return this.name;
+    }
+
+    public int getStoreId() {
+        return this.storeId;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return this.products;
+    }
+
+    public ArrayList<Customer> getCustomers() {
+        return this.customers;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStoreId(int id) {
+        this.storeId = id;
+    }
+
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
+        updateRemoteStore("productIds", getStoreProductIds());
+    }
+
+    public void setCustomers(ArrayList<Customer> customers) {
+        this.customers = customers;
+        updateRemoteStore("customerIds", getStoreCustomerIds());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                {
+                    storeId: %d
+                    name: %s
+                    products: %s
+                    customers: %s
+                }""", this.getStoreId(), this.getName(), this.getProducts().toString(), this.getCustomers().toString());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Store) {
+            Store store = (Store) obj;
+            if (store.getStoreId() == this.getStoreId() && store.getName().equals(this.getName())
+                    && store.getProducts() == this.getProducts()
+                    && store.getCustomers() == this.getCustomers()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
