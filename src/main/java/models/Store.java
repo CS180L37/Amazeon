@@ -24,37 +24,45 @@ public class Store {
         this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.storeId = id;
         ArrayList<Integer> customerIds = Utils.firestoreDocToIDArray(document.getData(), "customerIds");
-        this.customers = Customer.getCustomersByIds(customerIds);
+        this.customers = Customer.getCustomersByIds((customerIds != null) ? customerIds : new ArrayList<Integer>());
         this.documentReference = getStoreDocument();
 
     }
 
-    private Store(int cartId, ArrayList<Product> products) throws IOException {
-        this.storeId = cartId;
+    private Store(int storeId, String name, ArrayList<Product> products, ArrayList<Customer> customers)
+            throws IOException {
+        this.storeId = storeId;
+        this.name = name;
         this.products = products;
+        this.customers = customers;
         this.documentReference = getStoreDocument();
     }
 
-    public static Store createStore(int cartId, ArrayList<Product> products) throws IOException {
+    public static Store createStore(int storeId, String name) throws IOException {
         // Add document data with auto-generated id.
         Map<String, Object> data = new HashMap<>();
-        data.put("storeId", getNextStoreId());
+        data.put("storeId", storeId);
+        data.put("name", name);
         data.put("productIds", Arrays.asList());
+        data.put("customerIds", Arrays.asList());
         storesCollection.add(data);
-        return new Store(cartId, products);
+        return new Store(storeId, name, new ArrayList<Product>(), new ArrayList<Customer>());
     }
 
     public static Store getStoreById(int givenStoreId) throws IOException {
         ApiFuture<QuerySnapshot> future = storesCollection
                 .where(Filter.equalTo("storeId", givenStoreId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return new Store(documents.get(0));
+        return (documents != null) ? null : new Store(documents.get(0));
     }
 
     public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) throws IOException {
         ArrayList<Store> stores = new ArrayList<Store>();
         for (int id : storeIds) {
-            stores.add(getStoreById(id));
+            Store store = getStoreById(id);
+            if (store != null) {
+                stores.add(store);
+            }
         }
         return stores;
     }
@@ -74,7 +82,7 @@ public class Store {
 
     private DocumentReference getStoreDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = storesCollection
-                .whereEqualTo("storeId", this.getStoreDocument())
+                .whereEqualTo("storeId", this.getStoreId())
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -115,19 +123,29 @@ public class Store {
 
     public void setName(String name) {
         this.name = name;
+        updateRemoteStore("name", name);
     }
 
     public void setStoreId(int id) {
         this.storeId = id;
+        updateRemoteStore("storeId", id);
     }
 
     public void setProducts(ArrayList<Product> products) {
         this.products = products;
-        updateRemoteStore("productIds", getStoreProductIds());
+        ArrayList<Integer> productIds = new ArrayList<Integer>();
+        for (Product product : products) {
+            productIds.add(product.getProductId());
+        }
+        updateRemoteStore("productIds", productIds);
     }
 
     public void setCustomers(ArrayList<Customer> customers) {
         this.customers = customers;
+        ArrayList<Integer> customerIds = new ArrayList<Integer>();
+        for (Customer customer : customers) {
+            customerIds.add(customer.getCustomerId());
+        }
         updateRemoteStore("customerIds", getStoreCustomerIds());
     }
 

@@ -6,6 +6,7 @@ import utils.Utils;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class Sale {
     private int saleId;
@@ -19,19 +20,11 @@ public class Sale {
     public static CollectionReference salesCollection;
 
     private Sale(double cost, int customerId, int numPurchased, int productId, int saleId) {
-        if (customerId == 0 || productId == 0) {
-            return;
-        }
         this.cost = cost;
         this.customerId = customerId;
         this.numPurchased = numPurchased;
         this.productId = productId;
         this.saleId = saleId;
-        // if (!Amazeon.sellers.isEmpty()) {
-        // System.out.printf("%s purchased %s at a total cost of %.2f\n",
-        // customer.getId(), product.getName(), cost);
-        // }
-        // Amazeon.sales.add(this);
     }
 
     private Sale(QueryDocumentSnapshot document) throws IOException {
@@ -44,12 +37,13 @@ public class Sale {
         int numPurchased = document.getLong("numPurchased").intValue();
         this.numPurchased = numPurchased;
         double cost = document.getLong("cost").intValue();
+        this.cost = cost;
         this.documentReference = getSaleDocument();
     }
 
     private DocumentReference getSaleDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection
-                .whereEqualTo("productId", this.getSaleId())
+                .whereEqualTo("saleId", this.getSaleId())
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -60,7 +54,6 @@ public class Sale {
         return documents.get(0).getReference();
     }
 
-    // TODO: alternative constructor
     public static Sale createSale(double cost, int saleId, int customerId, int productId, int numPurchased) {
         Map<String, Object> saleData = new HashMap<String, Object>();
         // Add data to db
@@ -86,7 +79,11 @@ public class Sale {
         this.customerId = customerId;
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("customerId", customerId);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public double getCost() {
@@ -97,7 +94,11 @@ public class Sale {
         this.cost = cost;
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("cost", cost);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getProductId() {
@@ -108,7 +109,11 @@ public class Sale {
         this.productId = productId;
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("productId", productId);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getNumPurchased() {
@@ -119,7 +124,11 @@ public class Sale {
         this.numPurchased = numPurchased;
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("numPurchased", numPurchased);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getSaleId() {
@@ -130,21 +139,27 @@ public class Sale {
         this.saleId = saleId;
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("saleId", saleId);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
-    // TODO: adapt these for backend
     public static Sale getSaleById(int id) throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection
                 .where(Filter.equalTo("saleId", id)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return new Sale(documents.get(0));
+        return (documents == null) ? null : new Sale(documents.get(0));
     }
 
     public static ArrayList<Sale> getSalesByIds(ArrayList<Integer> saleIds) throws IOException {
         ArrayList<Sale> saleList = new ArrayList<Sale>();
         for (int saleID : saleIds) {
-            saleList.add(getSaleById(saleID));
+            Sale sale = getSaleById(saleID);
+            if (sale != null) {
+                saleList.add(sale);
+            }
         }
         return saleList;
     }

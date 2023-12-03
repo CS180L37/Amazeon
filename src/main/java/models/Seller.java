@@ -30,7 +30,7 @@ public class Seller {
     // the field should not be accessible by the frontend
     public static CollectionReference sellersCollection;
 
-    protected Seller(int sellerId, String name, String email, String password, ArrayList<Product> products,
+    private Seller(int sellerId, String name, String email, String password, ArrayList<Product> products,
             ArrayList<Sale> sales) throws IOException {
         this.sellerId = sellerId;
         this.name = name;

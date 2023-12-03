@@ -138,7 +138,8 @@ public class Utils {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if (entry.getKey().equals(docPath)) {
                 if (!entry.getValue().toString().equals("[]")) {
-                    String[] idArray = entry.getValue().toString().replace("[", "").replace("]", "").split(",");
+                    String[] idArray = entry.getValue().toString().replace("[", "").replace("]", "").replace(" ", "")
+                            .split(",");
                     for (String id : idArray) {
                         array.add(Integer.parseInt(id));
                     }
