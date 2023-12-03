@@ -133,7 +133,7 @@ public class Customer {
         ApiFuture<QuerySnapshot> future = customersCollection
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return new Customer(documents.get(0));
+        return (documents == null) ? null : new Customer(documents.get(0));
     }
 
     public Cart getCart() {
@@ -159,6 +159,8 @@ public class Customer {
     public void setCustomerId(int customerId) {
         // Set locally
         this.customerId = customerId;
+        // If customerId changes, cartId for the instance should change as well
+        this.getCart().setCustomerID(customerId);
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("customerId", customerId);

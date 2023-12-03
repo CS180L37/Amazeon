@@ -127,7 +127,7 @@ public class Seller {
         ApiFuture<QuerySnapshot> future = sellersCollection
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return new Seller(documents.get(0));
+        return (documents == null) ? null : new Seller(documents.get(0));
     }
 
     public int getSellerId() {

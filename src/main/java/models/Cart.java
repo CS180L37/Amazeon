@@ -36,13 +36,13 @@ public class Cart {
     }
 
     public static Cart createCart(int customerId) throws IOException {
-        Customer currCustomer = Customer.getCustomerById(customerId);
-        Cart newCart = new Cart(currCustomer.getCustomerId(), new ArrayList<Product>());
+        Cart newCart = new Cart(customerId, new ArrayList<Product>());
         HashMap<String, Object> data = new HashMap<>();
-        data.put("customerId", currCustomer.getCustomerId());
+        data.put("customerId", customerId);
         data.put("productIds", Arrays.asList());
-        cartsCollection.document(currCustomer.getEmail()).set(data);
-        newCart.documentReference = cartsCollection.document(currCustomer.getEmail());
+        // cartsCollection.document(currCustomer.getEmail()).set(data);
+        // newCart.documentReference =
+        // cartsCollection.document(currCustomer.getEmail());
         return newCart;
     }
 
