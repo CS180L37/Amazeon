@@ -2,9 +2,11 @@ package models;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import org.checkerframework.checker.units.qual.C;
 import utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.io.IOException;
@@ -16,7 +18,11 @@ public class Cart {
     public static CollectionReference cartsCollection;
     private DocumentReference documentReference;
 
-    private Cart(int customerID, ArrayList<Product> cartProducts) throws IOException {
+    public static void main(String[] args) {
+        System.out.println(cartsCollection.toString());
+    }
+
+    Cart(int customerID, ArrayList<Product> cartProducts) throws IOException {
         cartsCollection = Utils.db.collection("carts");
         this.customerID = customerID;
         this.cartProducts = (cartProducts != null) ? cartProducts : new ArrayList<Product>();
@@ -32,14 +38,13 @@ public class Cart {
 
     public static Cart createCart(int customerId) throws IOException {
         Customer currCustomer = Customer.getCustomerById(customerId);
-        this.customerID = currCustomer.getCustomerId();
-        this.cartProducts = new ArrayList<>();
+        Cart newCart = new Cart(currCustomer.getCustomerId(), new ArrayList<>());
         HashMap<String, Object> data = new HashMap<>();
         data.put("customerId", currCustomer.getCustomerId());
         data.put("productIds", "");
         cartsCollection.document(currCustomer.getEmail()).set(data);
-        this.documentReference = cartsCollection.document(currCustomer.getEmail());
-        return this;
+        newCart.documentReference = cartsCollection.document(currCustomer.getEmail());
+        return newCart;
     }
 
     public void setCustomerID(int customerID) {
