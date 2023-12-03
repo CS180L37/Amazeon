@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -29,7 +30,7 @@ public class Customer {
     // For reading use the collection and queries
     private DocumentReference documentReference;
 
-    public static CollectionReference customerCollection;
+    public static CollectionReference customersCollection;
 
     // Create a Customer from all the fields
     private Customer(Cart cart, int customerId, String email, String password, ArrayList<Product> products)
@@ -60,7 +61,7 @@ public class Customer {
     // Utility method for retrieving a customers document by id
     // Only called once to minimize queries for efficiency
     private DocumentReference getCustomerDocument() throws IOException {
-        ApiFuture<QuerySnapshot> future = customerCollection
+        ApiFuture<QuerySnapshot> future = customersCollection
                 .whereEqualTo("customerId", this.getCustomerId())
                 .limit(1)
                 .get();
@@ -73,7 +74,7 @@ public class Customer {
     }
 
     private static int getNextCustomerId() throws IOException {
-        ApiFuture<QuerySnapshot> future = customerCollection.orderBy("customerId", Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = customersCollection.orderBy("customerId", Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return documents.get(0).getLong("customerId").intValue() + 1;
@@ -86,23 +87,26 @@ public class Customer {
     }
 
     public static Customer getCustomerById(int customerId) throws IOException {
-        ApiFuture<QuerySnapshot> future = customerCollection.select("customerId")
+        ApiFuture<QuerySnapshot> future = customersCollection.select("customerId")
                 .where(Filter.equalTo("customerId", customerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return new Customer(documents.get(0));
+        return (documents == null) ? null : new Customer(documents.get(0));
     }
 
     public static ArrayList<Customer> getCustomersByIds(List<Integer> customerIds) throws IOException {
         ArrayList<Customer> customers = new ArrayList<Customer>();
         for (int id : customerIds) {
-            customers.add(getCustomerById(id));
+            Customer customer = getCustomerById(id);
+            if (customer != null) {
+                customers.add(customer);
+            }
         }
         return customers;
     }
 
     // Called in login
     public static Boolean customerExists(String email, String password) throws IOException {
-        ApiFuture<QuerySnapshot> future = customerCollection.select("email")
+        ApiFuture<QuerySnapshot> future = customersCollection.select("email")
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents != null) ? true : false;
@@ -118,7 +122,7 @@ public class Customer {
         customerData.put("email", email);
         customerData.put("password", password);
         customerData.put("productIds", Arrays.asList());
-        customerCollection.add(customerData);
+        customersCollection.add(customerData);
         // Create a new instance
         Cart cart = Cart.createCart(customerId);
         return new Customer(cart, customerId, email, password, new ArrayList<Product>());
@@ -126,7 +130,7 @@ public class Customer {
 
     // Called to retrieve a specific customer
     public static Customer getCustomerByEmail(String email) throws IOException {
-        ApiFuture<QuerySnapshot> future = customerCollection.select("email")
+        ApiFuture<QuerySnapshot> future = customersCollection
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return new Customer(documents.get(0));
@@ -152,19 +156,24 @@ public class Customer {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) throws IOException {
+    public void setCustomerId(int customerId) {
         // Set locally
         this.customerId = customerId;
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("customerId", customerId);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getEmail() {
         return email;
     }
 
+    /// Throws an IOException if the email is invalid
     public void setEmail(String email) throws IOException {
         if (!Utils.validateEmail(email)) {
             throw new IOException("Invalid email");
@@ -174,13 +183,18 @@ public class Customer {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("email", email);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getPassword() {
         return password;
     }
 
+    /// Throws an IOException if the password is invalid
     public void setPassword(String password) throws IOException {
         if (!Utils.validatePassword(password)) {
             throw new IOException("Invalid password");
@@ -190,7 +204,11 @@ public class Customer {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("password", password);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     // With array lists, you should always call the supported and add, remove, and
@@ -201,7 +219,7 @@ public class Customer {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) throws IOException {
+    public void setProducts(ArrayList<Product> products) {
         // Set locally
         this.products = products;
         // Set associated product ids on the backend
@@ -211,10 +229,14 @@ public class Customer {
             productIds.add(product.getProductId());
         }
         data.put("productIds", productIds);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void addProduct(Product product) throws IOException {
+    public void addProduct(Product product) {
         // Set locally
         this.products.add(product);
         // Set associated product ids on the backend
@@ -224,6 +246,37 @@ public class Customer {
             productIds.add(productPurchased.getProductId());
         }
         data.put("productIds", productIds);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                {
+                    cart: %s
+                    customerId: %d
+                    email: %d
+                    password: %s
+                    products: %f
+                }""", this.getCart().toString(), this.getCustomerId(), this.getEmail(), this.getPassword(),
+                this.getProducts());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Customer) {
+            Customer customer = (Customer) obj;
+            if (customer.getCart() == this.getCart() && customer.getCustomerId() == this.getCustomerId()
+                    && customer.getEmail().equals(this.getEmail())
+                    && customer.getPassword().equals(this.getPassword())
+                    && customer.getProducts() == this.getProducts()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

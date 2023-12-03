@@ -16,7 +16,7 @@ public class Sale {
 
     private DocumentReference documentReference;
 
-    public static CollectionReference saleCollection;
+    public static CollectionReference salesCollection;
 
     private Sale(double cost, int customerId, int numPurchased, int productId, int saleId) {
         if (customerId == 0 || productId == 0) {
@@ -48,7 +48,7 @@ public class Sale {
     }
 
     private DocumentReference getSaleDocument() throws IOException {
-        ApiFuture<QuerySnapshot> future = saleCollection
+        ApiFuture<QuerySnapshot> future = salesCollection
                 .whereEqualTo("productId", this.getSaleId())
                 .limit(1)
                 .get();
@@ -69,7 +69,7 @@ public class Sale {
         saleData.put("numPurchased", numPurchased);
         saleData.put("productId", productId);
         saleData.put("saleId", saleId);
-        saleCollection.add(saleData);
+        salesCollection.add(saleData);
         // Create a new instance
         return new Sale(cost, customerId, numPurchased, productId, saleId);
     }
@@ -135,7 +135,7 @@ public class Sale {
 
     // TODO: adapt these for backend
     public static Sale getSaleById(int id) throws IOException {
-        ApiFuture<QuerySnapshot> future = saleCollection.select("saleId")
+        ApiFuture<QuerySnapshot> future = salesCollection.select("saleId")
                 .where(Filter.equalTo("saleId", id)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return new Sale(documents.get(0));
@@ -150,7 +150,7 @@ public class Sale {
     }
 
     public static int getNextSaleId() throws IOException {
-        ApiFuture<QuerySnapshot> future = saleCollection.orderBy("saleId", Query.Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = salesCollection.orderBy("saleId", Query.Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return documents.get(0).getLong("saleId").intValue() + 1;

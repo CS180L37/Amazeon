@@ -12,8 +12,6 @@ import java.util.List;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-import static utils.Utils.db;
-
 public class Cart {
     private int customerID;
     private ArrayList<Product> cartProducts;

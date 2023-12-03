@@ -2,6 +2,7 @@ package models;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -27,7 +28,7 @@ public class Seller {
 
     // NOTE no setters and getters for sellerCollection;
     // the field should not be accessible by the frontend
-    public static CollectionReference sellerCollection;
+    public static CollectionReference sellersCollection;
 
     protected Seller(int sellerId, String name, String email, String password, ArrayList<Product> products,
             ArrayList<Sale> sales) throws IOException {
@@ -54,7 +55,7 @@ public class Seller {
 
     // Utility method for retrieving a customers document by id
     private DocumentReference getSellerDocument() throws IOException {
-        ApiFuture<QuerySnapshot> future = sellerCollection
+        ApiFuture<QuerySnapshot> future = sellersCollection
                 .whereEqualTo("sellerId", this.getSellerId())
                 .limit(1)
                 .get();
@@ -67,7 +68,7 @@ public class Seller {
     }
 
     private static int getNextSellerId() throws IOException {
-        ApiFuture<QuerySnapshot> future = sellerCollection.orderBy("sellerId", Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = sellersCollection.orderBy("sellerId", Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return documents.get(0).getLong("sellerId").intValue() + 1;
@@ -78,23 +79,26 @@ public class Seller {
     }
 
     public static Seller getSellerById(int sellerId) throws IOException {
-        ApiFuture<QuerySnapshot> future = sellerCollection.select("sellerId")
+        ApiFuture<QuerySnapshot> future = sellersCollection.select("sellerId")
                 .where(Filter.equalTo("sellerId", sellerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return new Seller(documents.get(0));
+        return (documents == null) ? null : new Seller(documents.get(0));
     }
 
     public static ArrayList<Seller> getSellersByIds(List<Integer> sellerIds) throws IOException {
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         for (int id : sellerIds) {
-            sellers.add(getSellerById(id));
+            Seller seller = getSellerById(id);
+            if (seller != null) {
+                sellers.add(seller);
+            }
         }
         return sellers;
     }
 
     // Called in login
     public static Boolean sellerExists(String email, String password) throws IOException {
-        ApiFuture<QuerySnapshot> future = sellerCollection.select("email")
+        ApiFuture<QuerySnapshot> future = sellersCollection.select("email")
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents != null) ? true : false;
@@ -111,7 +115,7 @@ public class Seller {
         sellerData.put("password", password);
         sellerData.put("productIds", Arrays.asList());
         sellerData.put("saleIds", Arrays.asList());
-        sellerCollection.add(sellerData);
+        sellersCollection.add(sellerData);
         // Create a new instance
         ArrayList<Product> products = new ArrayList<Product>();
         ArrayList<Sale> sales = new ArrayList<Sale>();
@@ -120,7 +124,7 @@ public class Seller {
 
     // Called to retrieve a specific seller
     public static Seller getSellerByEmail(String email) throws IOException {
-        ApiFuture<QuerySnapshot> future = sellerCollection.select("email")
+        ApiFuture<QuerySnapshot> future = sellersCollection.select("email")
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return new Seller(documents.get(0));
@@ -130,32 +134,41 @@ public class Seller {
         return sellerId;
     }
 
-    public void setSellerId(int sellerId) throws IOException {
+    public void setSellerId(int sellerId) {
         // Set locally
         this.sellerId = sellerId;
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("sellerId", sellerId);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) throws IOException {
+    public void setName(String name) {
         // Set locally
         this.name = name;
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("name", name);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getEmail() {
         return email;
     }
 
+    /// Throws an IOException if the email is invalid
     public void setEmail(String email) throws IOException {
         if (!Utils.validateEmail(email)) {
             throw new IOException("Invalid email");
@@ -165,13 +178,18 @@ public class Seller {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("email", email);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getPassword() {
         return password;
     }
 
+    /// Throws an IOException if the password is invalid
     public void setPassword(String password) throws IOException {
         if (!Utils.validatePassword(password)) {
             throw new IOException("Invalid password");
@@ -181,14 +199,18 @@ public class Seller {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("password", password);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) throws IOException {
+    public void setProducts(ArrayList<Product> products) {
         // Set locally
         this.products = products;
         // Set on the backend
@@ -198,14 +220,18 @@ public class Seller {
             productIds.add(product.getProductId());
         }
         data.put("productIds", productIds);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Sale> getSales() {
         return sales;
     }
 
-    public void setSales(ArrayList<Sale> sales) throws IOException {
+    public void setSales(ArrayList<Sale> sales) {
         // Set locally
         this.sales = sales;
         // Set on the backend
@@ -215,10 +241,14 @@ public class Seller {
             saleIds.add(sale.getSaleId());
         }
         data.put("saleIds", saleIds);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void addProduct(Product product) throws IOException {
+    public void addProduct(Product product) {
         // Set locally
         this.products.add(product);
         // Set associated product ids on the backend
@@ -228,10 +258,14 @@ public class Seller {
             productIds.add(productPurchased.getProductId());
         }
         data.put("productIds", productIds);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void removeProduct(Product product) throws IOException {
+    public void removeProduct(Product product) {
         // Set locally
         this.products.remove(product);
         // Set associated product ids on the backend
@@ -241,10 +275,14 @@ public class Seller {
             productIds.add(productPurchased.getProductId());
         }
         data.put("productIds", productIds);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void addSale(Sale sale) throws IOException {
+    public void addSale(Sale sale) {
         // Set locally
         this.sales.add(sale);
         // Set associated product ids on the backend
@@ -254,6 +292,10 @@ public class Seller {
             saleIds.add(salesMade.getSaleId());
         }
         data.put("saleIds", saleIds);
-        this.documentReference.update(data);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }
