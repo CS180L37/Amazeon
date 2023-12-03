@@ -20,10 +20,10 @@ public class Store {
         // int x = Integer.parseInt(String.valueOf(document.getLong("customerId")));
         int id = document.getLong("storeId").intValue();
         this.name = document.getString("name");
-        List<Integer> productIds = (List<Integer>) document.getData().get("productIds");
-        this.products = Product.getProductsByIds((productIds != null) ? productIds : Arrays.asList());
+        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), "productIds");
+        this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.storeId = id;
-        List<Integer> customerIds = (List<Integer>) document.getData().get("customerIds");
+        ArrayList<Integer> customerIds = Utils.firestoreDocToIDArray(document.getData(), "customerIds");
         this.customers = Customer.getCustomersByIds(customerIds);
         this.documentReference = getStoreDocument();
 
@@ -45,13 +45,13 @@ public class Store {
     }
 
     public static Store getStoreById(int givenStoreId) throws IOException {
-        ApiFuture<QuerySnapshot> future = storesCollection.select("customerId")
+        ApiFuture<QuerySnapshot> future = storesCollection
                 .where(Filter.equalTo("storeId", givenStoreId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return new Store(documents.get(0));
     }
 
-    public static ArrayList<Store> getStoresByIds(List<Integer> storeIds) throws IOException {
+    public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) throws IOException {
         ArrayList<Store> stores = new ArrayList<Store>();
         for (int id : storeIds) {
             stores.add(getStoreById(id));

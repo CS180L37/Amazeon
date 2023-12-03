@@ -46,10 +46,10 @@ public class Seller {
         this.name = document.getString("name");
         this.email = document.getString("email");
         this.password = document.getString("password");
-        List<Integer> productIds = (List<Integer>) document.getData().get("productIds");
-        this.products = Product.getProductsByIds((productIds != null) ? productIds : Arrays.asList());
-        List<Integer> saleIds = (List<Integer>) document.getData().get("saleIds");
-        this.sales = Sale.getSalesByIds((saleIds != null) ? saleIds : Arrays.asList());
+        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), "productIds");
+        this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
+        ArrayList<Integer> saleIds = Utils.firestoreDocToIDArray(document.getData(), "saleIds");
+        this.sales = Sale.getSalesByIds((saleIds != null) ? saleIds : new ArrayList<Integer>());
         this.documentReference = getSellerDocument();
     }
 
@@ -79,13 +79,13 @@ public class Seller {
     }
 
     public static Seller getSellerById(int sellerId) throws IOException {
-        ApiFuture<QuerySnapshot> future = sellersCollection.select("sellerId")
+        ApiFuture<QuerySnapshot> future = sellersCollection
                 .where(Filter.equalTo("sellerId", sellerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Seller(documents.get(0));
     }
 
-    public static ArrayList<Seller> getSellersByIds(List<Integer> sellerIds) throws IOException {
+    public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) throws IOException {
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         for (int id : sellerIds) {
             Seller seller = getSellerById(id);
@@ -98,7 +98,7 @@ public class Seller {
 
     // Called in login
     public static Boolean sellerExists(String email, String password) throws IOException {
-        ApiFuture<QuerySnapshot> future = sellersCollection.select("email")
+        ApiFuture<QuerySnapshot> future = sellersCollection
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents != null) ? true : false;
@@ -124,7 +124,7 @@ public class Seller {
 
     // Called to retrieve a specific seller
     public static Seller getSellerByEmail(String email) throws IOException {
-        ApiFuture<QuerySnapshot> future = sellersCollection.select("email")
+        ApiFuture<QuerySnapshot> future = sellersCollection
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return new Seller(documents.get(0));

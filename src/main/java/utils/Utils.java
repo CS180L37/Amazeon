@@ -1,11 +1,15 @@
 package utils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.logging.Log;
 
 import com.google.api.core.ApiFuture;
 import com.google.api.gax.core.FixedCredentialsProvider;
@@ -127,6 +131,21 @@ public class Utils {
         firestoreDB.recursiveDelete(Sale.salesCollection);
         firestoreDB.recursiveDelete(Store.storesCollection);
         firestoreDB.recursiveDelete(Seller.sellersCollection);
+    }
+
+    public static ArrayList<Integer> firestoreDocToIDArray(Map<String, Object> map, String docPath) {
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getKey().equals(docPath)) {
+                if (!entry.getValue().toString().equals("[]")) {
+                    String[] idArray = entry.getValue().toString().replace("[", "").replace("]", "").split(",");
+                    for (String id : idArray) {
+                        array.add(Integer.parseInt(id));
+                    }
+                }
+            }
+        }
+        return array;
     }
 
     public static List<QueryDocumentSnapshot>

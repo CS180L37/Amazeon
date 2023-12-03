@@ -193,7 +193,7 @@ public class Product {
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
-    public static ArrayList<Product> getProductsByIds(List<Integer> productIds) throws IOException {
+    public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
         for (int productID : productIds) {
             Product product = getProductById(productID);

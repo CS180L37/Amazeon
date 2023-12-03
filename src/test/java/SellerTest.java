@@ -60,10 +60,10 @@ public class SellerTest extends TestUtils {
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         sellers.add(seller0);
         sellers.add(seller2);
-        assertEquals(sellers, Seller.getSellersByIds(Arrays.asList(0, 1)));
+        assertEquals(sellers, Seller.getSellersByIds(new ArrayList<Integer>(Arrays.asList(0, 1))));
         // assertThrows(IOException.class, () ->
         // Seller.getSellersByIds(Arrays.asList()));
-        assertEquals(Arrays.asList(), Seller.getSellersByIds(Arrays.asList()));
+        assertEquals(Arrays.asList(), Seller.getSellersByIds(new ArrayList<Integer>(Arrays.asList())));
     }
 
     @Test

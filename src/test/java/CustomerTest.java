@@ -14,7 +14,7 @@ import models.Customer;
 import models.Product;
 import utils.Utils;
 
-/// NOTE: assuming that the db gets reset to it's initial state every time
+/// NOTE: the db gets reset to it's initial state each time
 public class CustomerTest extends TestUtils {
     public Customer customer0;
     public Customer customer1;
@@ -58,10 +58,10 @@ public class CustomerTest extends TestUtils {
         ArrayList<Customer> customers = new ArrayList<Customer>();
         customers.add(customer0);
         customers.add(customer1);
-        assertEquals(customers, Customer.getCustomersByIds(Arrays.asList(0, 1)));
+        assertEquals(customers, Customer.getCustomersByIds(new ArrayList<Integer>(Arrays.asList(0, 1))));
         // assertThrows(IOException.class, () ->
         // Customer.getCustomersByIds(Arrays.asList()));
-        assertEquals(Arrays.asList(), Customer.getCustomersByIds(Arrays.asList()));
+        assertEquals(Arrays.asList(), Customer.getCustomersByIds(new ArrayList<Integer>(Arrays.asList())));
     }
 
     @Test

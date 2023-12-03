@@ -135,13 +135,13 @@ public class Sale {
 
     // TODO: adapt these for backend
     public static Sale getSaleById(int id) throws IOException {
-        ApiFuture<QuerySnapshot> future = salesCollection.select("saleId")
+        ApiFuture<QuerySnapshot> future = salesCollection
                 .where(Filter.equalTo("saleId", id)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return new Sale(documents.get(0));
     }
 
-    public static ArrayList<Sale> getSalesByIds(List<Integer> saleIds) throws IOException {
+    public static ArrayList<Sale> getSalesByIds(ArrayList<Integer> saleIds) throws IOException {
         ArrayList<Sale> saleList = new ArrayList<Sale>();
         for (int saleID : saleIds) {
             saleList.add(getSaleById(saleID));

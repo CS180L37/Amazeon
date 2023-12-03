@@ -29,8 +29,9 @@ public class Cart {
     }
 
     private Cart(QueryDocumentSnapshot document) throws IOException {
-        this.customerID = Math.toIntExact(document.getLong("customerId"));
-        this.cartProducts = Product.getProductsByIds((List<Integer>) document.getData().get("productIds"));
+        this.customerID = document.getLong("customerId").intValue();
+        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), "productIds");
+        this.cartProducts = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.documentReference = getCartDocument();
     }
 
@@ -107,13 +108,13 @@ public class Cart {
     }
 
     public static Cart getCartById(int givenCustomerId) throws IOException {
-        ApiFuture<QuerySnapshot> future = cartsCollection.select("customerId")
+        ApiFuture<QuerySnapshot> future = cartsCollection
                 .where(Filter.equalTo("customerId", givenCustomerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return new Cart(documents.get(0));
     }
 
-    public static ArrayList<Cart> getCartsByIds(List<Integer> cartIds) throws IOException {
+    public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) throws IOException {
         ArrayList<Cart> cartList = new ArrayList<Cart>();
         for (int cartID : cartIds) {
             cartList.add(getCartById(cartID));

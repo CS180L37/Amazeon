@@ -53,8 +53,8 @@ public class Customer {
         this.customerId = id;
         this.email = document.getString("email");
         this.password = document.getString("password");
-        List<Integer> productIds = (List<Integer>) document.getData().get("productIds");
-        this.products = Product.getProductsByIds((productIds != null) ? productIds : Arrays.asList());
+        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), "productIds");
+        this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.documentReference = getCustomerDocument();
     }
 
@@ -87,13 +87,13 @@ public class Customer {
     }
 
     public static Customer getCustomerById(int customerId) throws IOException {
-        ApiFuture<QuerySnapshot> future = customersCollection.select("customerId")
+        ApiFuture<QuerySnapshot> future = customersCollection
                 .where(Filter.equalTo("customerId", customerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Customer(documents.get(0));
     }
 
-    public static ArrayList<Customer> getCustomersByIds(List<Integer> customerIds) throws IOException {
+    public static ArrayList<Customer> getCustomersByIds(ArrayList<Integer> customerIds) throws IOException {
         ArrayList<Customer> customers = new ArrayList<Customer>();
         for (int id : customerIds) {
             Customer customer = getCustomerById(id);
@@ -106,7 +106,7 @@ public class Customer {
 
     // Called in login
     public static Boolean customerExists(String email, String password) throws IOException {
-        ApiFuture<QuerySnapshot> future = customersCollection.select("email")
+        ApiFuture<QuerySnapshot> future = customersCollection
                 .where(Filter.equalTo("email", email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents != null) ? true : false;

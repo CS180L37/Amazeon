@@ -71,10 +71,10 @@ public class ProductTest extends TestUtils {
         ArrayList<Product> products = new ArrayList<Product>();
         products.add(product0);
         products.add(product1);
-        assertEquals(products, Product.getProductsByIds(Arrays.asList(0, 1)));
+        assertEquals(products, Product.getProductsByIds(new ArrayList<Integer>(Arrays.asList(0, 1))));
         // assertThrows(IOException.class, () ->
         // Product.getProductsByIds(Arrays.asList()));
-        assertEquals(Arrays.asList(), Product.getProductsByIds(Arrays.asList()));
+        assertEquals(Arrays.asList(), Product.getProductsByIds(new ArrayList<Integer>(Arrays.asList())));
     }
 
     @Test
