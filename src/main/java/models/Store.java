@@ -147,8 +147,8 @@ public class Store {
         if (obj instanceof Store) {
             Store store = (Store) obj;
             if (store.getStoreId() == this.getStoreId() && store.getName().equals(this.getName())
-                    && store.getProducts() == this.getProducts()
-                    && store.getCustomers() == this.getCustomers()) {
+                    && store.getProducts().equals(this.getProducts())
+                    && store.getCustomers().equals(this.getCustomers())) {
                 return true;
             }
         }

@@ -321,8 +321,9 @@ public class Seller {
             Seller seller = (Seller) obj;
             if (seller.getSellerId() == this.getSellerId() && seller.getName().equals(this.getName())
                     && seller.getEmail().equals(this.getEmail())
-                    && seller.getPassword().equals(this.getPassword()) && seller.getProducts() == this.getProducts()
-                    && seller.getSales() == this.getSales()) {
+                    && seller.getPassword().equals(this.getPassword())
+                    && seller.getProducts().equals(this.getProducts())
+                    && seller.getSales().equals(this.getSales())) {
                 return true;
             }
         }

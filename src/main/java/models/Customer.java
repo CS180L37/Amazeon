@@ -259,9 +259,9 @@ public class Customer {
                 {
                     cart: %s
                     customerId: %d
-                    email: %d
+                    email: %s
                     password: %s
-                    products: %f
+                    products: %s
                 }""", this.getCart().toString(), this.getCustomerId(), this.getEmail(), this.getPassword(),
                 this.getProducts());
     }
@@ -270,10 +270,10 @@ public class Customer {
     public boolean equals(Object obj) {
         if (obj instanceof Customer) {
             Customer customer = (Customer) obj;
-            if (customer.getCart() == this.getCart() && customer.getCustomerId() == this.getCustomerId()
+            if (customer.getCart().equals(this.getCart()) && customer.getCustomerId() == this.getCustomerId()
                     && customer.getEmail().equals(this.getEmail())
                     && customer.getPassword().equals(this.getPassword())
-                    && customer.getProducts() == this.getProducts()) {
+                    && customer.getProducts().equals(this.getProducts())) {
                 return true;
             }
         }

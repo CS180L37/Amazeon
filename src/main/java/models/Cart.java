@@ -37,10 +37,10 @@ public class Cart {
 
     public static Cart createCart(int customerId) throws IOException {
         Customer currCustomer = Customer.getCustomerById(customerId);
-        Cart newCart = new Cart(currCustomer.getCustomerId(), new ArrayList<>());
+        Cart newCart = new Cart(currCustomer.getCustomerId(), new ArrayList<Product>());
         HashMap<String, Object> data = new HashMap<>();
         data.put("customerId", currCustomer.getCustomerId());
-        data.put("productIds", "");
+        data.put("productIds", Arrays.asList());
         cartsCollection.document(currCustomer.getEmail()).set(data);
         newCart.documentReference = cartsCollection.document(currCustomer.getEmail());
         return newCart;
@@ -111,13 +111,16 @@ public class Cart {
         ApiFuture<QuerySnapshot> future = cartsCollection
                 .where(Filter.equalTo("customerId", givenCustomerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return new Cart(documents.get(0));
+        return (documents == null) ? null : new Cart(documents.get(0));
     }
 
     public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) throws IOException {
         ArrayList<Cart> cartList = new ArrayList<Cart>();
         for (int cartID : cartIds) {
-            cartList.add(getCartById(cartID));
+            Cart cart = getCartById(cartID);
+            if (cart != null) {
+                cartList.add(cart);
+            }
         }
         return cartList;
     }
@@ -132,13 +135,23 @@ public class Cart {
         return documents.get(0).getLong("customerId").intValue() + 1;
     }
 
-    // @Override
-    // public String toString() {
-    // return "Cart{" +
-    // "customerID=" + this.customerID +
-    // ", cartProducts=" + this.cartProducts +
-    // ", documentReference=" + this.documentReference +
-    // ", documentName='" + this.documentName + '\'' +
-    // '}';
-    // }
+    @Override
+    public String toString() {
+        return String.format("""
+                {
+                    customerId: %d
+                    cartProducts: %s
+                }""", this.getCustomerID(), this.getCartProducts().toString());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Cart) {
+            Cart cart = (Cart) obj;
+            if (cart.getCustomerID() == this.getCustomerID() && cart.getCartProducts().equals(this.getCartProducts())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

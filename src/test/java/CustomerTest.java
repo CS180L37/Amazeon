@@ -72,8 +72,7 @@ public class CustomerTest extends TestUtils {
 
     @Test
     public void testGetCustomerByEmail() throws IOException {
-        assertEquals(customer0,
-                Customer.getCustomerByEmail("adityasemail@gmail.com"));
+        assertEquals(customer0, Customer.getCustomerByEmail("adityasemail@gmail.com"));
         assertNull(Customer.getCustomerByEmail("fakecustomer@gmail.com"));
     }
 
