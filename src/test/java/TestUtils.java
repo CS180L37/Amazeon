@@ -36,6 +36,8 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 import utils.Utils;
+import utils.fields;
+
 
 public class TestUtils {
         public static Firestore db;
@@ -59,7 +61,7 @@ public class TestUtils {
                         // Write all the data
                         BulkWriter writer = db.bulkWriter();
                         writer.create(Product.productsCollection.document(), Map.of(
-                                        "description",
+                                        fields.description,
                                         "Harry Potter and the Philosopher's Stone is a fantasy novel written by " +
                                                         "British author J. K. Rowling. The first novel in the Harry Potter series and "
                                                         +
@@ -76,11 +78,11 @@ public class TestUtils {
                                                         "comeback by the dark wizard Lord Voldemort, who killed Harry's parents, but "
                                                         +
                                                         "failed to kill Harry when he was just 15 months old.",
-                                        "name", "Harry Potter", "price", 15, "productId", 1,
-                                        "quantity", 10, "sellerId", 1, "storeId", 0));
+                                        fields.name, "Harry Potter", fields.price, 15, fields.productId, 1,
+                                        fields.quantity, 10, fields.sellerId, 1, fields.storeId, 0));
 
                         writer.create(Product.productsCollection.document(), Map.of(
-                                        "description",
+                                        fields.description,
                                         "The Lightning Thief is a light-hearted fantasy about a modern 12-year-old " +
                                                         "boy who learns that his true father is Poseidon, the Greek god of the sea. "
                                                         +
@@ -89,78 +91,78 @@ public class TestUtils {
                                                         "States to find the entrance to the Underworld and stop a war between the "
                                                         +
                                                         "gods.",
-                                        "name", "Percy Jackson", "price", 9.99, "productId", 0,
-                                        "quantity", 5, "sellerId", 0, "storeId", 0));
+                                        fields.name, "Percy Jackson", fields.price, 9.99, fields.productId, 0,
+                                        fields.quantity, 5, fields.sellerId, 0, fields.storeId, 0));
                         writer.create(Product.productsCollection.document(), Map.of(
-                                        "description", "A piece of wood for hitting a ball",
-                                        "name", "Cricket Bat", "price", 35, "productId", 2,
-                                        "quantity", 50, "sellerId", 2, "storeId", 1));
+                                        fields.description, "A piece of wood for hitting a ball",
+                                        fields.name, "Cricket Bat", fields.price, 35, fields.productId, 2,
+                                        fields.quantity, 50, fields.sellerId, 2, fields.storeId, 1));
 
                         writer.create(Product.productsCollection.document(), Map.of(
-                                        "description", "Nintendo's switching it up with their new game console!",
-                                        "name", "Nintendo Switch", "price", 299.99, "productId", 3,
-                                        "quantity", 10, "sellerId", 3, "storeId", 2));
+                                        fields.description, "Nintendo's switching it up with their new game console!",
+                                        fields.name, "Nintendo Switch", fields.price, 299.99, fields.productId, 3,
+                                        fields.quantity, 10, fields.sellerId, 3, fields.storeId, 2));
 
                         writer.create(Cart.cartsCollection.document(), Map.of(
-                                        "customerId", 0, "productIds", Arrays.asList()));
+                                        "customerId", 0, fields.productIds, Arrays.asList()));
 
                         writer.create(Cart.cartsCollection.document(), Map.of(
-                                        "customerId", 1, "productIds", Arrays.asList(2)));
+                                        "customerId", 1, fields.productIds, Arrays.asList(2)));
 
                         writer.create(Cart.cartsCollection.document(), Map.of(
-                                        "customerId", 2, "productIds", Arrays.asList()));
+                                        "customerId", 2, fields.productIds, Arrays.asList()));
 
                         writer.create(Customer.customersCollection.document(), Map.of(
-                                        "cartId", 0, "customerId", 0, "email", "adityasemail@gmail.com",
-                                        "password", "password", "productIds", Arrays.asList(0)));
+                                        "cartId", 0, "customerId", 0, fields.email, "adityasemail@gmail.com",
+                                        fields.password, fields.password, fields.productIds, Arrays.asList(0)));
 
                         writer.create(Customer.customersCollection.document(), Map.of(
-                                        "cartId", 1, "customerId", 1, "email", "shloksemail@gmail.com",
-                                        "password", "password", "productIds", Arrays.asList()));
+                                        "cartId", 1, "customerId", 1, fields.email, "shloksemail@gmail.com",
+                                        fields.password, fields.password, fields.productIds, Arrays.asList()));
 
                         writer.create(Customer.customersCollection.document(), Map.of(
-                                        "cartId", 2, "customerId", 2, "email", "xandersemail@gmail.com",
-                                        "password", "password", "productIds", Arrays.asList(3)));
+                                        "cartId", 2, "customerId", 2, fields.email, "xandersemail@gmail.com",
+                                        fields.password, fields.password, fields.productIds, Arrays.asList(3)));
 
                         writer.create(Sale.salesCollection.document(), Map.of(
-                                        "cost", 9.99, "customerId", 0, "numPurchased", 1, "productId", 0,
+                                        fields.cost, 9.99, "customerId", 0, fields.numPurchased, 1, fields.productId, 0,
                                         "saleId", 0));
 
                         writer.create(Sale.salesCollection.document(), Map.of(
-                                        "cost", 299.99, "customerId", 2, "numPurchased", 1, "productId", 3,
+                                        fields.cost, 299.99, "customerId", 2, fields.numPurchased, 1, fields.productId, 3,
                                         "saleId", 1));
 
                         writer.create(Store.storesCollection.document(), Map.of(
-                                        "customerIds", Arrays.asList(0), "name", "Goodreads",
-                                        "productIds", Arrays.asList(0, 1), "storeId", 0));
+                                        "customerIds", Arrays.asList(0), fields.name, "Goodreads",
+                                        fields.productIds, Arrays.asList(0, 1), fields.storeId, 0));
 
                         writer.create(Store.storesCollection.document(), Map.of(
-                                        "customerIds", Arrays.asList(), "name", "Dicks Sporting Goods",
-                                        "productIds", Arrays.asList(2), "storeId", 1));
+                                        "customerIds", Arrays.asList(), fields.name, "Dicks Sporting Goods",
+                                        fields.productIds, Arrays.asList(2), fields.storeId, 1));
 
                         writer.create(Store.storesCollection.document(), Map.of(
-                                        "customerIds", Arrays.asList(2), "name", "Gamestop",
-                                        "productIds", Arrays.asList(3), "storeId", 2));
+                                        "customerIds", Arrays.asList(2), fields.name, "Gamestop",
+                                        fields.productIds, Arrays.asList(3), fields.storeId, 2));
 
                         writer.create(Seller.sellersCollection.document(), Map.of(
-                                        "email", "rickriordan@gmail.com", "name", "Rick Riordan",
-                                        "password", "lightning", "productIds", Arrays.asList(0),
-                                        "saleIds", Arrays.asList(0), "sellerId", 0));
+                                        fields.email, "rickriordan@gmail.com", fields.name, "Rick Riordan",
+                                        fields.password, "lightning", fields.productIds, Arrays.asList(0),
+                                        fields.saleIds, Arrays.asList(0), fields.sellerId, 0));
 
                         writer.create(Seller.sellersCollection.document(), Map.of(
-                                        "email", "jkrowling@gmail.com", "name", "JK Rowling",
-                                        "password", "magic", "productIds", Arrays.asList(1),
-                                        "saleIds", Arrays.asList(), "sellerId", 1));
+                                        fields.email, "jkrowling@gmail.com", fields.name, "JK Rowling",
+                                        fields.password, "magic", fields.productIds, Arrays.asList(1),
+                                        fields.saleIds, Arrays.asList(), fields.sellerId, 1));
 
                         writer.create(Seller.sellersCollection.document(), Map.of(
-                                        "email", "ceat@gmail.com", "name", "Ceat",
-                                        "password", "magic", "cricket", Arrays.asList(2),
-                                        "saleIds", Arrays.asList(), "sellerId", 2));
+                                        fields.email, "ceat@gmail.com", fields.name, "Ceat",
+                                        fields.password, "magic", "cricket", Arrays.asList(2),
+                                        fields.saleIds, Arrays.asList(), fields.sellerId, 2));
 
                         writer.create(Seller.sellersCollection.document(), Map.of(
-                                        "email", "nintendo@nintendo.com", "name", "Nintendo",
-                                        "password", "wahoo", "productIds", Arrays.asList(3),
-                                        "saleIds", Arrays.asList(1), "sellerId", 3));
+                                        fields.email, "nintendo@nintendo.com", fields.name, "Nintendo",
+                                        fields.password, "wahoo", fields.productIds, Arrays.asList(3),
+                                        fields.saleIds, Arrays.asList(1), fields.sellerId, 3));
                         // Writes all
                         writer.close();
                 } catch (InterruptedException e) {

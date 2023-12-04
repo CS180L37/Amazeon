@@ -64,14 +64,14 @@
  * public void testSetCost() throws IOException {
  * sale1.setCost(25.00);
  * assertEquals(1,
- * Utils.retrieveData(sales.whereEqualTo("cost", 25.00).limit(1).get()).size());
+ * Utils.retrieveData(sales.whereEqualTo(fields.cost, 25.00).limit(1).get()).size());
  * }
  * 
  * @Test
  * public void testSetProductId() throws IOException {
  * sale1.setProductId(5);
  * assertEquals(1,
- * Utils.retrieveData(sales.whereEqualTo("productId",
+ * Utils.retrieveData(sales.whereEqualTo(fields.productId,
  * 5).limit(1).get()).size());
  * }
  * 
@@ -79,7 +79,7 @@
  * public void testSetNumPurchased() throws IOException {
  * sale1.setNumPurchased(15);
  * assertEquals(1,
- * Utils.retrieveData(sales.whereEqualTo("numPurchased",
+ * Utils.retrieveData(sales.whereEqualTo(fields.numPurchased,
  * 15).limit(1).get()).size());
  * }
  * 

@@ -3,9 +3,6 @@ package models;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.Query.Direction;
-
-import utils.Utils;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +10,8 @@ import java.util.List;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+import utils.Utils;
+import utils.fields;
 
 public class Cart {
     private int customerID;
@@ -31,8 +30,8 @@ public class Cart {
     }
 
     private Cart(QueryDocumentSnapshot document) throws IOException {
-        this.customerID = document.getLong("customerId").intValue();
-        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), "productIds");
+        this.customerID = document.getLong(fields.customerId).intValue();
+        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), fields.productIds);
         this.cartProducts = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.documentReference = getCartDocument();
     }
@@ -40,8 +39,8 @@ public class Cart {
     public static Cart createCart(int customerId) throws IOException {
         Cart newCart = new Cart(customerId, new ArrayList<Product>());
         HashMap<String, Object> data = new HashMap<>();
-        data.put("customerId", customerId);
-        data.put("productIds", Arrays.asList());
+        data.put(fields.customerId, customerId);
+        data.put(fields.productIds, Arrays.asList());
         // cartsCollection.document(currCustomer.getEmail()).set(data);
         // newCart.documentReference =
         // cartsCollection.document(currCustomer.getEmail());
@@ -50,7 +49,7 @@ public class Cart {
 
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
-        updateRemoteCart("customerId", getCustomerID());
+        updateRemoteCart(fields.customerId, getCustomerID());
     }
 
     private void updateRemoteCart(String remoteFieldName, Object value) {
@@ -66,7 +65,7 @@ public class Cart {
     public void setCartProducts(ArrayList<Product> cartProducts) {
         this.cartProducts = cartProducts;
         try {
-            updateRemoteCart("productIds", getCartProductIds());
+            updateRemoteCart(fields.productIds, getCartProductIds());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,7 +83,7 @@ public class Cart {
     public void addToCart(Product product) {
         cartProducts.add(product);
         try {
-            updateRemoteCart("productIds", getCartProductIds());
+            updateRemoteCart(fields.productIds, getCartProductIds());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +92,7 @@ public class Cart {
     // Removes the product from cartProducts
     public void removeFromCart(Product product) throws IOException {
         cartProducts.remove(product);
-        updateRemoteCart("productIds", getCartProductIds());
+        updateRemoteCart(fields.productIds, getCartProductIds());
     }
 
     public ArrayList<Integer> getCartProductIds() throws IOException {
@@ -110,7 +109,7 @@ public class Cart {
 
     private DocumentReference getCartDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = cartsCollection
-                .whereEqualTo("customerId", this.getCustomerID())
+                .whereEqualTo(fields.customerId, this.getCustomerID())
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -123,7 +122,7 @@ public class Cart {
 
     public static Cart getCartById(int givenCustomerId) throws IOException {
         ApiFuture<QuerySnapshot> future = cartsCollection
-                .where(Filter.equalTo("customerId", givenCustomerId)).limit(1).get();
+                .where(Filter.equalTo(fields.customerId, givenCustomerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Cart(documents.get(0));
     }
@@ -156,10 +155,10 @@ public class Cart {
     // customers
     // I'd recommend using getnextcustomerid instead, too
     public static int getNextCartId() throws IOException {
-        ApiFuture<QuerySnapshot> future = cartsCollection.orderBy("customerId", Query.Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = cartsCollection.orderBy(fields.customerId, Query.Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return documents.get(0).getLong("customerId").intValue() + 1;
+        return documents.get(0).getLong(fields.customerId).intValue() + 1;
     }
 
     @Override

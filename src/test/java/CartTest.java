@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.google.cloud.firestore.CollectionReference;
+import models.Customer;
 import com.google.cloud.firestore.Query.Direction;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import models.Cart;
 import models.Cart;
 import models.Product;
 

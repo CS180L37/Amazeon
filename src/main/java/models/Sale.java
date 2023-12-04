@@ -5,6 +5,7 @@ import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.Query.Direction;
 
 import utils.Utils;
+import utils.fields;
 
 import java.io.*;
 import java.util.*;
@@ -32,13 +33,13 @@ public class Sale {
     private Sale(QueryDocumentSnapshot document) throws IOException {
         int saleId = document.getLong("saleId").intValue();
         this.saleId = saleId;
-        int customerId = document.getLong("customerId").intValue();
+        int customerId = document.getLong(fields.customerId).intValue();
         this.customerId = customerId;
-        int productId = document.getLong("productId").intValue();
+        int productId = document.getLong(fields.productId).intValue();
         this.productId = productId;
-        int numPurchased = document.getLong("numPurchased").intValue();
+        int numPurchased = document.getLong(fields.numPurchased).intValue();
         this.numPurchased = numPurchased;
-        double cost = document.getLong("cost").intValue();
+        double cost = document.getLong(fields.cost).intValue();
         this.cost = cost;
         this.documentReference = getSaleDocument();
     }
@@ -59,10 +60,10 @@ public class Sale {
     public static Sale createSale(double cost, int saleId, int customerId, int productId, int numPurchased) {
         Map<String, Object> saleData = new HashMap<String, Object>();
         // Add data to db
-        saleData.put("cost", cost);
-        saleData.put("customerId", customerId);
-        saleData.put("numPurchased", numPurchased);
-        saleData.put("productId", productId);
+        saleData.put(fields.cost, cost);
+        saleData.put(fields.customerId, customerId);
+        saleData.put(fields.numPurchased, numPurchased);
+        saleData.put(fields.productId, productId);
         saleData.put("saleId", saleId);
         salesCollection.add(saleData);
         // Create a new instance
@@ -93,7 +94,7 @@ public class Sale {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("customerId", customerId);
+        data.put(fields.customerId, customerId);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -108,7 +109,7 @@ public class Sale {
     public void setCost(double cost) {
         this.cost = cost;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("cost", cost);
+        data.put(fields.cost, cost);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -123,7 +124,7 @@ public class Sale {
     public void setProductId(int productId) {
         this.productId = productId;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("productId", productId);
+        data.put(fields.productId, productId);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -138,7 +139,7 @@ public class Sale {
     public void setNumPurchased(int numPurchased) {
         this.numPurchased = numPurchased;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("numPurchased", numPurchased);
+        data.put(fields.numPurchased, numPurchased);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {

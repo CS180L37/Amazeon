@@ -22,6 +22,8 @@ import io.grpc.netty.shaded.io.netty.util.Timer;
 import models.Customer;
 import models.Product;
 import utils.Utils;
+import utils.fields;
+
 
 public class ProductTest extends TestUtils {
     // Utility test case for testing setup
@@ -90,7 +92,7 @@ public class ProductTest extends TestUtils {
         products.add(product1);
         products.add(product2);
         products.add(product3);
-        assertEquals(products, Product.sortProducts("productId", Direction.ASCENDING));
+        assertEquals(products, Product.sortProducts(fields.productId, Direction.ASCENDING));
     }
 
     @Test
@@ -131,7 +133,7 @@ public class ProductTest extends TestUtils {
     public void testSetName() throws IOException {
         product0.setName("New Product Name");
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("name",
+                Utils.retrieveData(products.whereEqualTo(fields.name,
                         "New Product Name").limit(1).get()).size());
     }
 
@@ -139,7 +141,7 @@ public class ProductTest extends TestUtils {
     public void testSetQuantity() throws IOException {
         product0.setQuantity(100);
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("quantity",
+                Utils.retrieveData(products.whereEqualTo(fields.quantity,
                         100).limit(1).get()).size());
     }
 
@@ -147,7 +149,7 @@ public class ProductTest extends TestUtils {
     public void testSetDescription() throws IOException {
         product0.setDescription("New Description");
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("description",
+                Utils.retrieveData(products.whereEqualTo(fields.description,
                         "New Description").limit(1).get()).size());
     }
 
@@ -155,7 +157,7 @@ public class ProductTest extends TestUtils {
     public void testSetPrice() throws IOException {
         product0.setPrice(20.05);
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("price",
+                Utils.retrieveData(products.whereEqualTo(fields.price,
                         20.05).limit(1).get()).size());
     }
 
@@ -163,7 +165,7 @@ public class ProductTest extends TestUtils {
     public void testSetSellerId() throws IOException {
         product0.setSellerId(100);
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("sellerId",
+                Utils.retrieveData(products.whereEqualTo(fields.sellerId,
                         100).limit(1).get()).size());
     }
 
@@ -171,7 +173,7 @@ public class ProductTest extends TestUtils {
     public void testSetStoreId() throws IOException {
         product0.setStoreId(100);
         assertEquals(1,
-                Utils.retrieveData(products.whereEqualTo("storeId",
+                Utils.retrieveData(products.whereEqualTo(fields.storeId,
                         100).limit(1).get()).size());
     }
 

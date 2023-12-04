@@ -14,6 +14,7 @@ import com.google.cloud.firestore.Query.Direction;
 import models.Customer;
 import models.Product;
 import utils.Utils;
+import utils.fields;
 
 /// NOTE: the db gets reset to it's initial state each time
 public class CustomerTest extends TestUtils {
@@ -78,8 +79,8 @@ public class CustomerTest extends TestUtils {
 
     @Test
     public void testCustomerExists() throws IOException {
-        assert (Customer.customerExists("adityasemail@gmail.com", "password"));
-        assert (!Customer.customerExists("fakecustomer@gmail.com", "password"));
+        assert (Customer.customerExists("adityasemail@gmail.com", fields.password));
+        assert (!Customer.customerExists("fakecustomer@gmail.com", fields.password));
     }
 
     @Test
@@ -91,12 +92,12 @@ public class CustomerTest extends TestUtils {
     @Test
     public void testCreateCustomer() {
         try {
-            Customer customer3 = Customer.createCustomer("kabeer@gmail.com", "password");
+            Customer customer3 = Customer.createCustomer("kabeer@gmail.com", fields.password);
             assertEquals(customer3, Customer.getCustomerByEmail("kabeer@gmail.com"));
             // Ensure that trying to create an already existing customer throws an error;
             // handled in amazeon
             // assertThrows(IOException.class, () ->
-            // Customer.createCustomer("adityasemail@gmail.com", "password"));
+            // Customer.createCustomer("adityasemail@gmail.com", fields.password));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,7 +137,7 @@ public class CustomerTest extends TestUtils {
     public void testSetPassword() throws IOException {
         customer0.setPassword("adityasnewpassword");
         assertEquals(1,
-                Utils.retrieveData(customers.whereEqualTo("password",
+                Utils.retrieveData(customers.whereEqualTo(fields.password,
                         "adityasnewpassword").limit(1).get()).size());
         assertThrows(IOException.class, () -> customer0.setEmail("invalidPassword:)"));
     }
@@ -145,7 +146,7 @@ public class CustomerTest extends TestUtils {
     public void testSetProducts() throws IOException {
         customer1.setProducts(new ArrayList<Product>(Arrays.asList(Product.getProductById(3))));
         assertEquals(1,
-                Utils.retrieveData(customers.whereEqualTo("productIds",
+                Utils.retrieveData(customers.whereEqualTo(fields.productIds,
                         Arrays.asList(3)).limit(1).get()).size());
     }
 
@@ -153,7 +154,7 @@ public class CustomerTest extends TestUtils {
     public void testAddProduct() throws IOException {
         customer0.addProduct(Product.getProductById(3));
         assertEquals(1,
-                Utils.retrieveData(customers.whereEqualTo("productIds", Arrays.asList(0,
+                Utils.retrieveData(customers.whereEqualTo(fields.productIds, Arrays.asList(0,
                         3)).limit(1).get()).size());
     }
 }

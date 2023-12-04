@@ -34,7 +34,7 @@
 // Customer customer;
 // Seller seller;
 
-// // customer = new Customer("gamer@gmail.com", "password");
+// // customer = new Customer("gamer@gmail.com", fields.password);
 // // customerMarket = new CustomerMarket(customer, Amazeon.stores);
 // // amazeon.customerLoop(customerMarket, customer);
 
