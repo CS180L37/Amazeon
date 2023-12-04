@@ -66,7 +66,7 @@ public class Store {
 
     }
 
-    private Store(int cartId, ArrayList<Product> products) throws IOException {
+    public Store(int cartId, ArrayList<Product> products) throws IOException {
         this.storeId = cartId;
         this.products = products;
         this.documentReference = getStoreDocument();

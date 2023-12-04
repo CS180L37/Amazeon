@@ -32,16 +32,17 @@ public class Cart {
         this.documentReference = getCartDocument();
     }
 
-    public Cart createCart(int customerId) throws IOException {
-        Customer currCustomer = Customer.getCustomerById(customerId);
-        this.customerID = currCustomer.getCustomerId();
-        this.cartProducts = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("customerId", currCustomer.getCustomerId());
-        data.put("productIds", "");
-        cartsCollection.document(currCustomer.getEmail()).set(data);
-        this.documentReference = cartsCollection.document(currCustomer.getEmail());
-        return this;
+    public static Cart createCart(int customerId) throws IOException {
+//        Customer currCustomer = Customer.getCustomerById(customerId);
+//        this.customerID = currCustomer.getCustomerId();
+//        this.cartProducts = new ArrayList<>();
+//        HashMap<String, Object> data = new HashMap<>();
+//        data.put("customerId", currCustomer.getCustomerId());
+//        data.put("productIds", "");
+//        cartsCollection.document(currCustomer.getEmail()).set(data);
+//        this.documentReference = cartsCollection.document(currCustomer.getEmail());
+//        return this;
+        return null;
     }
 
     public void setCustomerID(int customerID) {

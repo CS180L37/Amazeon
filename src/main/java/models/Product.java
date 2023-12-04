@@ -20,8 +20,8 @@ public class Product {
 
     public static CollectionReference productCollection;
 
-    private Product(int productId, String name, int quantity, String description,
-            double price, int sellerId, int storeId) {
+    public Product(int productId, String name, int quantity, String description,
+                   double price, int sellerId, int storeId) {
         this.productId = productId;
         this.name = name;
         this.quantity = quantity;
@@ -59,7 +59,7 @@ public class Product {
     }
 
     // TODO: alternative constructor
-    public static Product createProduct(String description, String name, int price, int productId, int quantity,
+    public static Product createProduct(String description, String name, doublprice, int productId, int quantity,
             int sellerId, int storeId) throws IOException {
         Map<String, Object> productData = new HashMap<String, Object>();
         // Add data to db
