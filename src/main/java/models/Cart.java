@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 public class Cart {
@@ -54,7 +55,11 @@ public class Cart {
     private void updateRemoteCart(String remoteFieldName, Object value) {
         HashMap<String, Object> data2 = new HashMap<String, Object>();
         data2.put(remoteFieldName, value);
-        this.documentReference.update(data2);
+        try {
+            this.documentReference.update(data2).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setCartProducts(ArrayList<Product> cartProducts) {
@@ -107,14 +112,19 @@ public class Cart {
         return documents.get(0).getReference();
     }
 
-    public static Cart getCartById(int givenCustomerId) throws IOException {
+    public static Cart getCartById(int givenCustomerId) {
         ApiFuture<QuerySnapshot> future = cartsCollection
                 .where(Filter.equalTo("customerId", givenCustomerId)).limit(1).get();
-        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return (documents == null) ? null : new Cart(documents.get(0));
+        try {
+            List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+            return (documents == null) ? null : new Cart(documents.get(0));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) throws IOException {
+    public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) {
         ArrayList<Cart> cartList = new ArrayList<Cart>();
         for (int cartID : cartIds) {
             Cart cart = getCartById(cartID);
