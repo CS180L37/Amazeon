@@ -2,15 +2,17 @@ package models;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.Query.Direction;
+
 import utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
-import static utils.Utils.db;
 
 public class Cart {
     private int customerID;
@@ -18,31 +20,32 @@ public class Cart {
     public static CollectionReference cartsCollection;
     private DocumentReference documentReference;
 
-    private Cart(int customerID, ArrayList<Product> cartProducts) throws IOException {
-        cartsCollection = Utils.db.collection("carts");
+    public static void main(String[] args) {
+        System.out.println(cartsCollection.toString());
+    }
+
+    Cart(int customerID, ArrayList<Product> cartProducts) throws IOException {
         this.customerID = customerID;
         this.cartProducts = (cartProducts != null) ? cartProducts : new ArrayList<Product>();
         this.documentReference = getCartDocument();
     }
 
     private Cart(QueryDocumentSnapshot document) throws IOException {
-        cartsCollection = Utils.db.collection("carts");
-        this.customerID = Math.toIntExact(document.getLong("customerId"));
-        this.cartProducts = Product.getProductsByIds((List<Integer>) document.getData().get("productIds"));
+        this.customerID = document.getLong("customerId").intValue();
+        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), "productIds");
+        this.cartProducts = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.documentReference = getCartDocument();
     }
 
     public static Cart createCart(int customerId) throws IOException {
-//        Customer currCustomer = Customer.getCustomerById(customerId);
-//        this.customerID = currCustomer.getCustomerId();
-//        this.cartProducts = new ArrayList<>();
-//        HashMap<String, Object> data = new HashMap<>();
-//        data.put("customerId", currCustomer.getCustomerId());
-//        data.put("productIds", "");
-//        cartsCollection.document(currCustomer.getEmail()).set(data);
-//        this.documentReference = cartsCollection.document(currCustomer.getEmail());
-//        return this;
-        return null;
+        Cart newCart = new Cart(customerId, new ArrayList<Product>());
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("customerId", customerId);
+        data.put("productIds", Arrays.asList());
+        // cartsCollection.document(currCustomer.getEmail()).set(data);
+        // newCart.documentReference =
+        // cartsCollection.document(currCustomer.getEmail());
+        return newCart;
     }
 
     public void setCustomerID(int customerID) {
@@ -53,12 +56,20 @@ public class Cart {
     private void updateRemoteCart(String remoteFieldName, Object value) {
         HashMap<String, Object> data2 = new HashMap<String, Object>();
         data2.put(remoteFieldName, value);
-        this.documentReference.update(data2);
+        try {
+            this.documentReference.update(data2).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setCartProducts(ArrayList<Product> cartProducts) {
         this.cartProducts = cartProducts;
-        updateRemoteCart("productIds", getCartProductIds());
+        try {
+            updateRemoteCart("productIds", getCartProductIds());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getCustomerID() {
@@ -72,7 +83,11 @@ public class Cart {
     // Adds the product to cartProducts
     public void addToCart(Product product) {
         cartProducts.add(product);
-        updateRemoteCart("productIds", getCartProductIds());
+        try {
+            updateRemoteCart("productIds", getCartProductIds());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Removes the product from cartProducts
@@ -81,7 +96,7 @@ public class Cart {
         updateRemoteCart("productIds", getCartProductIds());
     }
 
-    public ArrayList<Integer> getCartProductIds() {
+    public ArrayList<Integer> getCartProductIds() throws IOException {
         return (ArrayList<Integer>) cartProducts.stream()
                 .map(Product::getProductId)
                 .collect(Collectors.toList());
@@ -107,18 +122,34 @@ public class Cart {
     }
 
     public static Cart getCartById(int givenCustomerId) throws IOException {
-        ApiFuture<QuerySnapshot> future = cartsCollection.select("customerId")
+        ApiFuture<QuerySnapshot> future = cartsCollection
                 .where(Filter.equalTo("customerId", givenCustomerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return new Cart(documents.get(0));
+        return (documents == null) ? null : new Cart(documents.get(0));
     }
 
-    public static ArrayList<Cart> getCartsByIds(List<Integer> cartIds) throws IOException {
+    public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) throws IOException {
         ArrayList<Cart> cartList = new ArrayList<Cart>();
         for (int cartID : cartIds) {
-            cartList.add(getCartById(cartID));
+            Cart cart = getCartById(cartID);
+            if (cart != null) {
+                cartList.add(cart);
+            }
         }
         return cartList;
+    }
+
+    public static ArrayList<Cart> sortCarts(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = cartsCollection.orderBy(field, direction).get();
+        ArrayList<Cart> carts = new ArrayList<Cart>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            carts.add(new Cart(doc));
+        }
+        return carts;
     }
 
     // Shouldn't be used because carts are created w customers, synonymous w
@@ -131,13 +162,23 @@ public class Cart {
         return documents.get(0).getLong("customerId").intValue() + 1;
     }
 
-    // @Override
-    // public String toString() {
-    // return "Cart{" +
-    // "customerID=" + this.customerID +
-    // ", cartProducts=" + this.cartProducts +
-    // ", documentReference=" + this.documentReference +
-    // ", documentName='" + this.documentName + '\'' +
-    // '}';
-    // }
+    @Override
+    public String toString() {
+        return String.format("""
+                {
+                    customerId: %d
+                    cartProducts: %s
+                }""", this.getCustomerID(), this.getCartProducts().toString());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Cart) {
+            Cart cart = (Cart) obj;
+            if (cart.getCustomerID() == this.getCustomerID() && cart.getCartProducts().equals(this.getCartProducts())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
