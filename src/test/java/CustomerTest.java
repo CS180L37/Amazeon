@@ -22,6 +22,11 @@ public class CustomerTest extends TestUtils {
     public Customer customer2;
     public CollectionReference customers;
 
+    // Empty to constructor to prevent super constructor from running
+    public CustomerTest() {
+
+    }
+
     @BeforeEach
     @Override
     public void setUp() throws IOException {

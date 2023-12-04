@@ -44,10 +44,19 @@ public class TestUtils {
         public ByteArrayOutputStream testOut;
 
         public TestUtils() {
-                FirestoreOptions options = FirestoreOptions.getDefaultInstance().toBuilder()
-                                .build();
+                // FirestoreOptions options = FirestoreOptions.getDefaultInstance().toBuilder()
+                // .build();
+                db = FirestoreOptions.getDefaultInstance().toBuilder()
+                                .setProjectId("amazeon-405720")
+                                .setHost("localhost:8080")
+                                .setCredentials(new FirestoreOptions.EmulatorCredentials())
+                                .setCredentialsProvider(FixedCredentialsProvider
+                                                .create(new FirestoreOptions.EmulatorCredentials()))
+                                .build()
+                                .getService();
+                // firestore.setFirestoreSettings(settings);
                 // initialize database
-                db = options.getService();
+                // db = options.getService();
                 initializeCollections(db);
         }
 
@@ -154,7 +163,7 @@ public class TestUtils {
 
                         writer.create(Seller.sellersCollection.document(), Map.of(
                                         "email", "ceat@gmail.com", "name", "Ceat",
-                                        "password", "magic", "cricket", Arrays.asList(2),
+                                        "password", "magic", "productIds", Arrays.asList(2),
                                         "saleIds", Arrays.asList(), "sellerId", 2));
 
                         writer.create(Seller.sellersCollection.document(), Map.of(

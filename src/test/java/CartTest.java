@@ -21,6 +21,11 @@ public class CartTest extends TestUtils {
     public Cart cart2;
     public CollectionReference carts;
 
+    // Empty to constructor to prevent super constructor from running
+    public CartTest() {
+
+    }
+
     @BeforeEach
     @Override
     public void setUp() throws IOException {
@@ -70,7 +75,7 @@ public class CartTest extends TestUtils {
     public void testSetCartProducts() throws IOException {
         Cart cart = Cart.getCartById(0);
         ArrayList<Product> newProducts = new ArrayList<>();
-        newProducts.add(Product.createProduct("drink", "Prime", 799, 1, 2, 3, 4));
+        newProducts.add(Product.getProductById(0));
         cart.setCartProducts(newProducts);
         assertEquals(newProducts, cart.getCartProducts());
     }

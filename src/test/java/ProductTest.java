@@ -24,17 +24,16 @@ import models.Product;
 import utils.Utils;
 
 public class ProductTest extends TestUtils {
-    // Utility test case for testing setup
-    @Test
-    public void testTests() {
-        assertEquals(1, 1);
-    }
-
     public Product product0;
     public Product product1;
     public Product product2;
     public Product product3;
     public CollectionReference products;
+
+    // Empty to constructor to prevent super constructor from running
+    public ProductTest() {
+
+    }
 
     @BeforeEach
     @Override

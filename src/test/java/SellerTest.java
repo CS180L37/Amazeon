@@ -25,6 +25,11 @@ public class SellerTest extends TestUtils {
     public Seller seller3;
     public CollectionReference sellers;
 
+    // Empty to constructor to prevent super constructor from running
+    public SellerTest() {
+
+    }
+
     @BeforeEach
     @Override
     public void setUp() throws IOException {
