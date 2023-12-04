@@ -64,7 +64,7 @@ public class Product {
         return documents.get(0).getReference();
     }
 
-    public static Product createProduct(String description, String name, int price, int productId, int quantity,
+    public static Product createProduct(String description, String name, double price, int productId, int quantity,
             int sellerId, int storeId) throws IOException {
         Map<String, Object> productData = new HashMap<String, Object>();
         // Add data to db
