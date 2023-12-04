@@ -77,7 +77,7 @@ public class Product {
         productData.put(fields.storeId, storeId);
         productsCollection.add(productData);
         // Create a new instance
-        return new Product(productId, name, price, description, quantity, sellerId, storeId);
+        return new Product(productId, name, quantity, description, price, sellerId, storeId);
     }
 
     public void deleteProduct() throws IOException {
