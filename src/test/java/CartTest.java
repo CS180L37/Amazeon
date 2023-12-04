@@ -21,11 +21,6 @@ public class CartTest extends TestUtils {
     public Cart cart2;
     public CollectionReference carts;
 
-    // Empty to constructor to prevent super constructor from running
-    public CartTest() {
-
-    }
-
     @BeforeEach
     @Override
     public void setUp() throws IOException {

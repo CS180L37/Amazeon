@@ -38,12 +38,12 @@ import models.Store;
 import utils.Utils;
 
 public class TestUtils {
-        public static Firestore db;
+        public static Firestore db = initializeTestDB();
         public static final PrintStream originalOutput = System.out;
         public static final InputStream originalSysin = System.in;
         public ByteArrayOutputStream testOut;
 
-        public TestUtils() {
+        public static Firestore initializeTestDB() {
                 // FirestoreOptions options = FirestoreOptions.getDefaultInstance().toBuilder()
                 // .build();
                 db = FirestoreOptions.getDefaultInstance().toBuilder()
@@ -58,6 +58,7 @@ public class TestUtils {
                 // initialize database
                 // db = options.getService();
                 initializeCollections(db);
+                return db;
         }
 
         @BeforeEach

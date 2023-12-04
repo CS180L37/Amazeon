@@ -30,11 +30,6 @@ public class ProductTest extends TestUtils {
     public Product product3;
     public CollectionReference products;
 
-    // Empty to constructor to prevent super constructor from running
-    public ProductTest() {
-
-    }
-
     @BeforeEach
     @Override
     public void setUp() throws IOException {

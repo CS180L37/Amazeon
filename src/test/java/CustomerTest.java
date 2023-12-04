@@ -24,7 +24,7 @@ public class CustomerTest extends TestUtils {
 
     // Empty to constructor to prevent super constructor from running
     public CustomerTest() {
-
+        return;
     }
 
     @BeforeEach
