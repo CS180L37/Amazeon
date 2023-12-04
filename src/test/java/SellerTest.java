@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.Query.Direction;
 
 import models.Customer;
 import models.Product;
@@ -18,7 +19,9 @@ import utils.Utils;
 
 // User parent class has no methods to test
 public class SellerTest extends TestUtils {
+    public Seller seller0;
     public Seller seller1;
+    public Seller seller2;
     public Seller seller3;
     public CollectionReference sellers;
 
@@ -27,7 +30,9 @@ public class SellerTest extends TestUtils {
     public void setUp() throws IOException {
         super.setUp();
         try {
+            seller0 = Seller.getSellerById(0);
             seller1 = Seller.getSellerByEmail("jkrowling@gmail.com");
+            seller2 = Seller.getSellerById(2);
             seller3 = Seller.getSellerByEmail("nintendo@nintendo.com");
             if (sellers == null) {
                 sellers = db.collection("sellers");
@@ -91,6 +96,16 @@ public class SellerTest extends TestUtils {
     public void testDeleteSeller() throws IOException {
         seller1.deleteSeller();
         assertThrows(IOException.class, () -> Seller.getSellerById(1));
+    }
+
+    @Test
+    public void testSortSellers() throws IOException {
+        ArrayList<Seller> sellers = new ArrayList<Seller>();
+        sellers.add(seller0);
+        sellers.add(seller1);
+        sellers.add(seller2);
+        sellers.add(seller3);
+        assertEquals(sellers, Seller.sortSellers("sellerId", Direction.ASCENDING));
     }
 
     // @Test

@@ -2,6 +2,8 @@ package models;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.Query.Direction;
+
 import utils.Utils;
 
 import java.util.*;
@@ -209,6 +211,19 @@ public class Product {
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return documents.get(0).getLong("productId").intValue() + 1;
+    }
+
+    public static ArrayList<Product> sortProducts(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection.orderBy(field, direction).get();
+        ArrayList<Product> products = new ArrayList<Product>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            products.add(new Product(doc));
+        }
+        return products;
     }
 
     @Override

@@ -78,6 +78,19 @@ public class Seller {
         this.documentReference.delete();
     }
 
+    public static ArrayList<Seller> sortSellers(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = sellersCollection.orderBy(field, direction).get();
+        ArrayList<Seller> sellers = new ArrayList<Seller>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            sellers.add(new Seller(doc));
+        }
+        return sellers;
+    }
+
     public static Seller getSellerById(int sellerId) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
                 .where(Filter.equalTo("sellerId", sellerId)).limit(1).get();

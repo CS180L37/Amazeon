@@ -2,6 +2,8 @@ package models;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.Query.Direction;
+
 import org.checkerframework.checker.units.qual.C;
 import utils.Utils;
 
@@ -123,6 +125,19 @@ public class Cart {
             }
         }
         return cartList;
+    }
+
+    public static ArrayList<Cart> sortCarts(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = cartsCollection.orderBy(field, direction).get();
+        ArrayList<Cart> carts = new ArrayList<Cart>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            carts.add(new Cart(doc));
+        }
+        return carts;
     }
 
     // Shouldn't be used because carts are created w customers, synonymous w

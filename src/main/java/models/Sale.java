@@ -2,6 +2,8 @@ package models;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.Query.Direction;
+
 import utils.Utils;
 
 import java.io.*;
@@ -69,6 +71,19 @@ public class Sale {
 
     public void deleteSale() throws IOException {
         this.documentReference.delete();
+    }
+
+    public static ArrayList<Sale> sortSales(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = salesCollection.orderBy(field, direction).get();
+        ArrayList<Sale> sales = new ArrayList<Sale>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            sales.add(new Sale(doc));
+        }
+        return sales;
     }
 
     public int getCustomerId() {
