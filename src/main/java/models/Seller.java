@@ -13,6 +13,8 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 
 import utils.Utils;
+import utils.fields;
+
 
 public class Seller {
     private int sellerId;
@@ -42,13 +44,13 @@ public class Seller {
     }
 
     private Seller(QueryDocumentSnapshot document) throws IOException {
-        this.sellerId = document.getLong("sellerId").intValue();
-        this.name = document.getString("name");
-        this.email = document.getString("email");
-        this.password = document.getString("password");
-        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), "productIds");
+        this.sellerId = document.getLong(fields.sellerId).intValue();
+        this.name = document.getString(fields.name);
+        this.email = document.getString(fields.email);
+        this.password = document.getString(fields.password);
+        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), fields.productIds);
         this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
-        ArrayList<Integer> saleIds = Utils.firestoreDocToIDArray(document.getData(), "saleIds");
+        ArrayList<Integer> saleIds = Utils.firestoreDocToIDArray(document.getData(), fields.saleIds);
         this.sales = Sale.getSalesByIds((saleIds != null) ? saleIds : new ArrayList<Integer>());
         this.documentReference = getSellerDocument();
     }
@@ -56,7 +58,7 @@ public class Seller {
     // Utility method for retrieving a customers document by id
     private DocumentReference getSellerDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
-                .whereEqualTo("sellerId", this.getSellerId())
+                .whereEqualTo(fields.sellerId, this.getSellerId())
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -68,10 +70,10 @@ public class Seller {
     }
 
     private static int getNextSellerId() throws IOException {
-        ApiFuture<QuerySnapshot> future = sellersCollection.orderBy("sellerId", Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = sellersCollection.orderBy(fields.sellerId, Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return documents.get(0).getLong("sellerId").intValue() + 1;
+        return documents.get(0).getLong(fields.sellerId).intValue() + 1;
     }
 
     public void deleteSeller() throws IOException {
@@ -93,7 +95,7 @@ public class Seller {
 
     public static Seller getSellerById(int sellerId) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
-                .where(Filter.equalTo("sellerId", sellerId)).limit(1).get();
+                .where(Filter.equalTo(fields.sellerId, sellerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Seller(documents.get(0));
     }
@@ -112,7 +114,7 @@ public class Seller {
     // Called in login
     public static Boolean sellerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
-                .where(Filter.equalTo("email", email)).limit(1).get();
+                .where(Filter.equalTo(fields.email, email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents != null) ? true : false;
     }
@@ -122,12 +124,12 @@ public class Seller {
         Map<String, Object> sellerData = new HashMap<String, Object>();
         int sellerId = Seller.getNextSellerId();
         // Add data to db
-        sellerData.put("sellerId", sellerId);
-        sellerData.put("name", name);
-        sellerData.put("email", email);
-        sellerData.put("password", password);
-        sellerData.put("productIds", Arrays.asList());
-        sellerData.put("saleIds", Arrays.asList());
+        sellerData.put(fields.sellerId, sellerId);
+        sellerData.put(fields.name, name);
+        sellerData.put(fields.email, email);
+        sellerData.put(fields.password, password);
+        sellerData.put(fields.productIds, Arrays.asList());
+        sellerData.put(fields.saleIds, Arrays.asList());
         sellersCollection.add(sellerData);
         // Create a new instance
         ArrayList<Product> products = new ArrayList<Product>();
@@ -138,7 +140,7 @@ public class Seller {
     // Called to retrieve a specific seller
     public static Seller getSellerByEmail(String email) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
-                .where(Filter.equalTo("email", email)).limit(1).get();
+                .where(Filter.equalTo(fields.email, email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Seller(documents.get(0));
     }
@@ -152,7 +154,7 @@ public class Seller {
         this.sellerId = sellerId;
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("sellerId", sellerId);
+        data.put(fields.sellerId, sellerId);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -169,7 +171,7 @@ public class Seller {
         this.name = name;
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("name", name);
+        data.put(fields.name, name);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -190,7 +192,7 @@ public class Seller {
         this.email = email;
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("email", email);
+        data.put(fields.email, email);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -211,7 +213,7 @@ public class Seller {
         this.password = password;
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("password", password);
+        data.put(fields.password, password);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -232,7 +234,7 @@ public class Seller {
         for (Product product : products) {
             productIds.add(product.getProductId());
         }
-        data.put("productIds", productIds);
+        data.put(fields.productIds, productIds);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -253,7 +255,7 @@ public class Seller {
         for (Sale sale : sales) {
             saleIds.add(sale.getSaleId());
         }
-        data.put("saleIds", saleIds);
+        data.put(fields.saleIds, saleIds);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -270,7 +272,7 @@ public class Seller {
         for (Product productPurchased : products) {
             productIds.add(productPurchased.getProductId());
         }
-        data.put("productIds", productIds);
+        data.put(fields.productIds, productIds);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -287,7 +289,7 @@ public class Seller {
         for (Product productPurchased : products) {
             productIds.add(productPurchased.getProductId());
         }
-        data.put("productIds", productIds);
+        data.put(fields.productIds, productIds);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -304,7 +306,7 @@ public class Seller {
         for (Sale salesMade : sales) {
             saleIds.add(salesMade.getSaleId());
         }
-        data.put("saleIds", saleIds);
+        data.put(fields.saleIds, saleIds);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {

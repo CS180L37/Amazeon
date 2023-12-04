@@ -1,4 +1,3 @@
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -16,6 +15,8 @@ import models.Product;
 import models.Sale;
 import models.Seller;
 import utils.Utils;
+import utils.fields;
+
 
 // User parent class has no methods to test
 public class SellerTest extends TestUtils {
@@ -80,13 +81,13 @@ public class SellerTest extends TestUtils {
     @Test
     public void testCreateSeller() {
         try {
-            Seller seller3 = Seller.createSeller("microsoft@outlook.com", "password",
+            Seller seller3 = Seller.createSeller("microsoft@outlook.com", fields.password,
                     "Microsoft");
             assertEquals(seller3, Customer.getCustomerByEmail("microsoft@outlook.com"));
             // Ensure that trying to create an already existing seller throws an error;
             // handled in Amazeon
             // assertThrows(IOException.class, () ->
-            // Seller.createSeller("nintendo@nintendo.com", "password", "Nintendo"));
+            // Seller.createSeller("nintendo@nintendo.com", fields.password, "Nintendo"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,7 +106,7 @@ public class SellerTest extends TestUtils {
         sellers.add(seller1);
         sellers.add(seller2);
         sellers.add(seller3);
-        assertEquals(sellers, Seller.sortSellers("sellerId", Direction.ASCENDING));
+        assertEquals(sellers, Seller.sortSellers(fields.sellerId, Direction.ASCENDING));
     }
 
     // @Test
@@ -128,7 +129,7 @@ public class SellerTest extends TestUtils {
     public void testSetName() throws IOException {
         seller1.setName("New Seller Name");
         assertEquals(1,
-                Utils.retrieveData(sellers.whereEqualTo("name",
+                Utils.retrieveData(sellers.whereEqualTo(fields.name,
                         "New Seller Name").limit(1).get()).size());
     }
 
@@ -144,7 +145,7 @@ public class SellerTest extends TestUtils {
     public void testSetPassword() throws IOException {
         seller1.setPassword("jkrowlingsnewpassword");
         assertEquals(1,
-                Utils.retrieveData(sellers.whereEqualTo("password",
+                Utils.retrieveData(sellers.whereEqualTo(fields.password,
                         "jkrowlingsnewpassword").limit(1).get()).size());
         assertThrows(IOException.class, () -> seller1.setEmail("invalidPassword:)"));
     }
@@ -153,7 +154,7 @@ public class SellerTest extends TestUtils {
     public void testSetProducts() throws IOException {
         seller1.setProducts(new ArrayList<Product>(Arrays.asList(Product.getProductById(3))));
         assertEquals(1,
-                Utils.retrieveData(sellers.whereEqualTo("productIds",
+                Utils.retrieveData(sellers.whereEqualTo(fields.productIds,
                         Arrays.asList(3)).limit(1).get()).size());
     }
 
@@ -161,7 +162,7 @@ public class SellerTest extends TestUtils {
     public void testSetSales() throws IOException {
         seller1.setSales(new ArrayList<Sale>(Arrays.asList(Sale.getSaleById(1))));
         assertEquals(1,
-                Utils.retrieveData(sellers.whereEqualTo("saleIds",
+                Utils.retrieveData(sellers.whereEqualTo(fields.saleIds,
                         Arrays.asList(1)).limit(1).get()).size());
     }
 
@@ -169,7 +170,7 @@ public class SellerTest extends TestUtils {
     public void testAddProduct() throws IOException {
         seller3.addProduct(Product.getProductById(2));
         assertEquals(1,
-                Utils.retrieveData(sellers.whereEqualTo("productIds", Arrays.asList(3,
+                Utils.retrieveData(sellers.whereEqualTo(fields.productIds, Arrays.asList(3,
                         2)).limit(1).get()).size());
     }
 
@@ -177,7 +178,7 @@ public class SellerTest extends TestUtils {
     public void testRemoveProduct() throws IOException {
         seller3.removeProduct(Product.getProductById(3));
         assertEquals(1,
-                Utils.retrieveData(sellers.whereEqualTo("productIds",
+                Utils.retrieveData(sellers.whereEqualTo(fields.productIds,
                         Arrays.asList()).limit(1).get()).size());
     }
 
@@ -185,7 +186,7 @@ public class SellerTest extends TestUtils {
     public void testAddSale() throws IOException {
         seller1.addSale(Sale.getSaleById(1));
         assertEquals(1,
-                Utils.retrieveData(sellers.whereEqualTo("saleIds",
+                Utils.retrieveData(sellers.whereEqualTo(fields.saleIds,
                         Arrays.asList(1)).limit(1).get()).size());
     }
 }

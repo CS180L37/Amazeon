@@ -5,6 +5,7 @@ import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.Query.Direction;
 
 import utils.Utils;
+import utils.fields;
 
 import java.io.IOException;
 import java.util.*;
@@ -19,10 +20,10 @@ public class Store {
     private DocumentReference documentReference;
 
     private Store(QueryDocumentSnapshot document) throws IOException {
-        // int x = Integer.parseInt(String.valueOf(document.getLong("customerId")));
-        int id = document.getLong("storeId").intValue();
-        this.name = document.getString("name");
-        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), "productIds");
+        // int x = Integer.parseInt(String.valueOf(document.getLong(fields.customerId)));
+        int id = document.getLong(fields.storeId).intValue();
+        this.name = document.getString(fields.name);
+        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), fields.productIds);
         this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.storeId = id;
         ArrayList<Integer> customerIds = Utils.firestoreDocToIDArray(document.getData(), "customerIds");
@@ -43,9 +44,9 @@ public class Store {
     public static Store createStore(int storeId, String name) throws IOException {
         // Add document data with auto-generated id.
         Map<String, Object> data = new HashMap<>();
-        data.put("storeId", storeId);
-        data.put("name", name);
-        data.put("productIds", Arrays.asList());
+        data.put(fields.storeId, storeId);
+        data.put(fields.name, name);
+        data.put(fields.productIds, Arrays.asList());
         data.put("customerIds", Arrays.asList());
         storesCollection.add(data);
         return new Store(storeId, name, new ArrayList<Product>(), new ArrayList<Customer>());
@@ -53,7 +54,7 @@ public class Store {
 
     public static Store getStoreById(int givenStoreId) throws IOException {
         ApiFuture<QuerySnapshot> future = storesCollection
-                .where(Filter.equalTo("storeId", givenStoreId)).limit(1).get();
+                .where(Filter.equalTo(fields.storeId, givenStoreId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents != null) ? null : new Store(documents.get(0));
     }
@@ -70,10 +71,10 @@ public class Store {
     }
 
     public static int getNextStoreId() throws IOException {
-        ApiFuture<QuerySnapshot> future = storesCollection.orderBy("storeId", Query.Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = storesCollection.orderBy(fields.storeId, Query.Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return documents.get(0).getLong("storeId").intValue() + 1;
+        return documents.get(0).getLong(fields.storeId).intValue() + 1;
     }
 
     private void updateRemoteStore(String remoteFieldName, Object value) {
@@ -84,7 +85,7 @@ public class Store {
 
     private DocumentReference getStoreDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = storesCollection
-                .whereEqualTo("storeId", this.getStoreId())
+                .whereEqualTo(fields.storeId, this.getStoreId())
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -138,12 +139,12 @@ public class Store {
 
     public void setName(String name) {
         this.name = name;
-        updateRemoteStore("name", name);
+        updateRemoteStore(fields.name, name);
     }
 
     public void setStoreId(int id) {
         this.storeId = id;
-        updateRemoteStore("storeId", id);
+        updateRemoteStore(fields.storeId, id);
     }
 
     public void setProducts(ArrayList<Product> products) {
@@ -152,7 +153,7 @@ public class Store {
         for (Product product : products) {
             productIds.add(product.getProductId());
         }
-        updateRemoteStore("productIds", productIds);
+        updateRemoteStore(fields.productIds, productIds);
     }
 
     public void setCustomers(ArrayList<Customer> customers) {

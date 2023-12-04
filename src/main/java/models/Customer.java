@@ -16,6 +16,9 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.Query.Direction;
 
 import utils.Utils;
+import utils.fields;
+import utils.fields;
+
 
 import java.io.IOException;
 
@@ -48,12 +51,12 @@ public class Customer {
     // null,
     // such as productIds
     private Customer(QueryDocumentSnapshot document) throws IOException {
-        int id = document.getLong("customerId").intValue();
+        int id = document.getLong(fields.customerId).intValue();
         this.cart = Cart.getCartById(id);
         this.customerId = id;
-        this.email = document.getString("email");
-        this.password = document.getString("password");
-        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), "productIds");
+        this.email = document.getString(fields.email);
+        this.password = document.getString(fields.password);
+        ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), fields.productIds);
         this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.documentReference = getCustomerDocument();
     }
@@ -62,7 +65,7 @@ public class Customer {
     // Only called once to minimize queries for efficiency
     private DocumentReference getCustomerDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection
-                .whereEqualTo("customerId", this.getCustomerId())
+                .whereEqualTo(fields.customerId, this.getCustomerId())
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -74,10 +77,10 @@ public class Customer {
     }
 
     private static int getNextCustomerId() throws IOException {
-        ApiFuture<QuerySnapshot> future = customersCollection.orderBy("customerId", Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = customersCollection.orderBy(fields.customerId, Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return documents.get(0).getLong("customerId").intValue() + 1;
+        return documents.get(0).getLong(fields.customerId).intValue() + 1;
     }
 
     // Frontend should redirect the user to the authentication page upon account
@@ -88,7 +91,7 @@ public class Customer {
 
     public static Customer getCustomerById(int customerId) throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection
-                .where(Filter.equalTo("customerId", customerId)).limit(1).get();
+                .where(Filter.equalTo(fields.customerId, customerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Customer(documents.get(0));
     }
@@ -120,7 +123,7 @@ public class Customer {
     // Called in login
     public static Boolean customerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection
-                .where(Filter.equalTo("email", email)).limit(1).get();
+                .where(Filter.equalTo(fields.email, email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents != null) ? true : false;
     }
@@ -131,10 +134,10 @@ public class Customer {
         int customerId = Customer.getNextCustomerId();
         // Add data to db
         customerData.put("cartId", customerId);
-        customerData.put("customerId", customerId);
-        customerData.put("email", email);
-        customerData.put("password", password);
-        customerData.put("productIds", Arrays.asList());
+        customerData.put(fields.customerId, customerId);
+        customerData.put(fields.email, email);
+        customerData.put(fields.password, password);
+        customerData.put(fields.productIds, Arrays.asList());
         customersCollection.add(customerData);
         // Create a new instance
         Cart cart = Cart.createCart(customerId);
@@ -144,7 +147,7 @@ public class Customer {
     // Called to retrieve a specific customer
     public static Customer getCustomerByEmail(String email) throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection
-                .where(Filter.equalTo("email", email)).limit(1).get();
+                .where(Filter.equalTo(fields.email, email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Customer(documents.get(0));
     }
@@ -176,7 +179,7 @@ public class Customer {
         this.getCart().setCustomerID(customerId);
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("customerId", customerId);
+        data.put(fields.customerId, customerId);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -197,7 +200,7 @@ public class Customer {
         this.email = email;
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("email", email);
+        data.put(fields.email, email);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -218,7 +221,7 @@ public class Customer {
         this.password = password;
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("password", password);
+        data.put(fields.password, password);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -243,7 +246,7 @@ public class Customer {
         for (Product product : products) {
             productIds.add(product.getProductId());
         }
-        data.put("productIds", productIds);
+        data.put(fields.productIds, productIds);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -260,7 +263,7 @@ public class Customer {
         for (Product productPurchased : products) {
             productIds.add(productPurchased.getProductId());
         }
-        data.put("productIds", productIds);
+        data.put(fields.productIds, productIds);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
