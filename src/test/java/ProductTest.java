@@ -14,10 +14,12 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Query.Direction;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 
 import io.grpc.netty.shaded.io.netty.util.Timer;
+import models.Customer;
 import models.Product;
 import utils.Utils;
 
@@ -30,6 +32,8 @@ public class ProductTest extends TestUtils {
 
     public Product product0;
     public Product product1;
+    public Product product2;
+    public Product product3;
     public CollectionReference products;
 
     @BeforeEach
@@ -39,6 +43,8 @@ public class ProductTest extends TestUtils {
         try {
             product0 = Product.getProductById(0);
             product1 = Product.getProductById(1);
+            product2 = Product.getProductById(2);
+            product3 = Product.getProductById(3);
             if (products == null) {
                 products = db.collection("products");
             }
@@ -75,6 +81,16 @@ public class ProductTest extends TestUtils {
         // assertThrows(IOException.class, () ->
         // Product.getProductsByIds(Arrays.asList()));
         assertEquals(Arrays.asList(), Product.getProductsByIds(new ArrayList<Integer>(Arrays.asList())));
+    }
+
+    @Test
+    public void testSortProducts() throws IOException {
+        ArrayList<Product> products = new ArrayList<Product>();
+        products.add(product0);
+        products.add(product1);
+        products.add(product2);
+        products.add(product3);
+        assertEquals(products, Product.sortProducts("productId", Direction.ASCENDING));
     }
 
     @Test

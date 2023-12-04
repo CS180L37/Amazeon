@@ -2,6 +2,8 @@ package models;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.Query.Direction;
+
 import utils.Utils;
 
 import java.io.IOException;
@@ -91,6 +93,19 @@ public class Store {
             throw new IOException("Could not retrieve the store document");
         }
         return documents.get(0).getReference();
+    }
+
+    public static ArrayList<Store> sortStores(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = storesCollection.orderBy(field, direction).get();
+        ArrayList<Store> stores = new ArrayList<Store>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            stores.add(new Store(doc));
+        }
+        return stores;
     }
 
     public ArrayList<Integer> getStoreProductIds() {

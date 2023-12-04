@@ -104,6 +104,19 @@ public class Customer {
         return customers;
     }
 
+    public static ArrayList<Customer> sortCustomers(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = customersCollection.orderBy(field, direction).get();
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            customers.add(new Customer(doc));
+        }
+        return customers;
+    }
+
     // Called in login
     public static Boolean customerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection

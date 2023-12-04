@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.Query.Direction;
 
 import models.Customer;
 import models.Product;
@@ -18,6 +19,7 @@ import utils.Utils;
 public class CustomerTest extends TestUtils {
     public Customer customer0;
     public Customer customer1;
+    public Customer customer2;
     public CollectionReference customers;
 
     @BeforeEach
@@ -27,6 +29,7 @@ public class CustomerTest extends TestUtils {
         try {
             customer0 = Customer.getCustomerByEmail("adityasemail@gmail.com");
             customer1 = Customer.getCustomerByEmail("shloksemail@gmail.com");
+            customer2 = Customer.getCustomerByEmail("xandersemail@gmail.com");
             if (customers == null) {
                 customers = db.collection("customers");
             }
@@ -62,6 +65,15 @@ public class CustomerTest extends TestUtils {
         // assertThrows(IOException.class, () ->
         // Customer.getCustomersByIds(Arrays.asList()));
         assertEquals(Arrays.asList(), Customer.getCustomersByIds(new ArrayList<Integer>(Arrays.asList())));
+    }
+
+    @Test
+    public void testSortCustomers() throws IOException {
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        customers.add(customer0);
+        customers.add(customer1);
+        customers.add(customer2);
+        assertEquals(customers, Customer.sortCustomers("customerId", Direction.ASCENDING));
     }
 
     @Test

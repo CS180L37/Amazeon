@@ -7,29 +7,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.google.cloud.firestore.CollectionReference;
-import models.Customer;
+import com.google.cloud.firestore.Query.Direction;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import models.Cart;
 import models.Cart;
 import models.Product;
 
 public class CartTest extends TestUtils {
     public Cart cart0;
     public Cart cart1;
+    public Cart cart2;
     public CollectionReference carts;
-    public CartTest() {
-    }
+
     @BeforeEach
     @Override
     public void setUp() throws IOException {
         super.setUp();
         try {
-            Customer customer0 = Customer.getCustomerByEmail("adityasemail@gmail.com");
-            Customer customer1 = Customer.getCustomerByEmail("shloksemail@gmail.com");
-            cart0 = Cart.getCartById(customer0.getCustomerId());
-            cart1 = Cart.getCartById(customer1.getCustomerId());
+            // Customer customer0 = Customer.getCustomerByEmail("adityasemail@gmail.com");
+            // Customer customer1 = Customer.getCustomerByEmail("shloksemail@gmail.com");
+            cart0 = Cart.getCartById(0);
+            cart1 = Cart.getCartById(1);
+            cart2 = Cart.getCartById(2);
             if (carts == null) {
                 carts = db.collection("Carts");
             }
@@ -75,9 +76,18 @@ public class CartTest extends TestUtils {
     }
 
     @Test
-    public void testGetCartProductIds() {
+    public void testGetCartProductIds() throws IOException {
         Cart cart = Cart.getCartById(0);
         ArrayList<Integer> checkProductIds = new ArrayList<>();
         System.out.println(cart.getCartProductIds());
+    }
+
+    @Test
+    public void testSortCarts() throws IOException {
+        ArrayList<Cart> carts = new ArrayList<Cart>();
+        carts.add(cart0);
+        carts.add(cart1);
+        carts.add(cart2);
+        assertEquals(carts, Cart.sortCarts("customerId", Direction.ASCENDING));
     }
 }
