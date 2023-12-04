@@ -39,8 +39,8 @@ public class CartTest extends TestUtils {
             e.printStackTrace();
         }
     }
-    // Try adding a product to cart
 
+    // Try adding a product to cart
     @Test
     public void testAddToCart() throws IOException {
         Cart cart = Cart.getCartById(1);

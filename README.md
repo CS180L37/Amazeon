@@ -26,7 +26,7 @@ java Amazeon.java
 ```
 
 ## Testing
-- Install the firebase CLI (https://firebase.google.com/docs/cli) and authenticate your Google Cloud Platform account
+- Install the firebase CLI (https://firebase.google.com/docs/cli; the command `curl -sL https://firebase.tools/ | bash` should get you started). You may need to authenticate your Google account to use the emulator
 - Start the firestore emulator via `firebase emulators:start`
 - Run the test suite
 - Stop the firestore emulator after the tests have completed and you're done! :)

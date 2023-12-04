@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import com.google.api.core.ApiFuture;
@@ -47,7 +48,7 @@ public class TestUtils {
         public static Firestore initializeTestDB() {
                 // FirestoreOptions options = FirestoreOptions.getDefaultInstance().toBuilder()
                 // .build();
-                db = FirestoreOptions.getDefaultInstance().toBuilder()
+                Firestore FS = FirestoreOptions.getDefaultInstance().toBuilder()
                                 .setProjectId("amazeon-405720")
                                 .setHost("localhost:8080")
                                 .setCredentials(new FirestoreOptions.EmulatorCredentials())
@@ -57,9 +58,8 @@ public class TestUtils {
                                 .getService();
                 // firestore.setFirestoreSettings(settings);
                 // initialize database
-                // db = options.getService();
-                initializeCollections(db);
-                return db;
+                initializeCollections(FS);
+                return FS;
         }
 
         @BeforeEach
@@ -67,9 +67,7 @@ public class TestUtils {
                 // Reinitialize data
                 clearCollections(db);
                 try {
-                        // Write all the data
-                        BulkWriter writer = db.bulkWriter();
-                        writer.create(Product.productsCollection.document(), Map.of(
+                        Product.productsCollection.add(Map.of(
                                         fields.description,
                                         "Harry Potter and the Philosopher's Stone is a fantasy novel written by " +
                                                         "British author J. K. Rowling. The first novel in the Harry Potter series and "
@@ -88,9 +86,9 @@ public class TestUtils {
                                                         +
                                                         "failed to kill Harry when he was just 15 months old.",
                                         fields.name, "Harry Potter", fields.price, 15, fields.productId, 1,
-                                        fields.quantity, 10, fields.sellerId, 1, fields.storeId, 0));
+                                        fields.quantity, 10, fields.sellerId, 1, fields.storeId, 0)).get();
 
-                        writer.create(Product.productsCollection.document(), Map.of(
+                        Product.productsCollection.add(Map.of(
                                         fields.description,
                                         "The Lightning Thief is a light-hearted fantasy about a modern 12-year-old " +
                                                         "boy who learns that his true father is Poseidon, the Greek god of the sea. "
@@ -101,80 +99,77 @@ public class TestUtils {
                                                         +
                                                         "gods.",
                                         fields.name, "Percy Jackson", fields.price, 9.99, fields.productId, 0,
-                                        fields.quantity, 5, fields.sellerId, 0, fields.storeId, 0));
-                        writer.create(Product.productsCollection.document(), Map.of(
+                                        fields.quantity, 5, fields.sellerId, 0, fields.storeId, 0)).get();
+                        Product.productsCollection.add(Map.of(
                                         fields.description, "A piece of wood for hitting a ball",
                                         fields.name, "Cricket Bat", fields.price, 35, fields.productId, 2,
-                                        fields.quantity, 50, fields.sellerId, 2, fields.storeId, 1));
+                                        fields.quantity, 50, fields.sellerId, 2, fields.storeId, 1)).get();
 
-                        writer.create(Product.productsCollection.document(), Map.of(
+                        Product.productsCollection.add(Map.of(
                                         fields.description, "Nintendo's switching it up with their new game console!",
                                         fields.name, "Nintendo Switch", fields.price, 299.99, fields.productId, 3,
-                                        fields.quantity, 10, fields.sellerId, 3, fields.storeId, 2));
+                                        fields.quantity, 10, fields.sellerId, 3, fields.storeId, 2)).get();
+                        Cart.cartsCollection.add(Map.of(
+                                        "customerId", 0, fields.productIds, Arrays.asList())).get();
 
-                        writer.create(Cart.cartsCollection.document(), Map.of(
-                                        "customerId", 0, fields.productIds, Arrays.asList()));
+                        Cart.cartsCollection.add(Map.of(
+                                        "customerId", 1, fields.productIds, Arrays.asList(2))).get();
 
-                        writer.create(Cart.cartsCollection.document(), Map.of(
-                                        "customerId", 1, fields.productIds, Arrays.asList(2)));
+                        Cart.cartsCollection.add(Map.of(
+                                        "customerId", 2, fields.productIds, Arrays.asList())).get();
 
-                        writer.create(Cart.cartsCollection.document(), Map.of(
-                                        "customerId", 2, fields.productIds, Arrays.asList()));
-
-                        writer.create(Customer.customersCollection.document(), Map.of(
+                        Customer.customersCollection.add(Map.of(
                                         "cartId", 0, "customerId", 0, fields.email, "adityasemail@gmail.com",
-                                        fields.password, fields.password, fields.productIds, Arrays.asList(0)));
+                                        fields.password, fields.password, fields.productIds, Arrays.asList(0))).get();
 
-                        writer.create(Customer.customersCollection.document(), Map.of(
+                        Customer.customersCollection.add(Map.of(
                                         "cartId", 1, "customerId", 1, fields.email, "shloksemail@gmail.com",
-                                        fields.password, fields.password, fields.productIds, Arrays.asList()));
+                                        fields.password, fields.password, fields.productIds, Arrays.asList())).get();
 
-                        writer.create(Customer.customersCollection.document(), Map.of(
+                        Customer.customersCollection.add(Map.of(
                                         "cartId", 2, "customerId", 2, fields.email, "xandersemail@gmail.com",
-                                        fields.password, fields.password, fields.productIds, Arrays.asList(3)));
+                                        fields.password, fields.password, fields.productIds, Arrays.asList(3))).get();
 
-                        writer.create(Sale.salesCollection.document(), Map.of(
+                        Sale.salesCollection.add(Map.of(
                                         fields.cost, 9.99, "customerId", 0, fields.numPurchased, 1, fields.productId, 0,
-                                        "saleId", 0));
+                                        "saleId", 0)).get();
 
-                        writer.create(Sale.salesCollection.document(), Map.of(
+                        Sale.salesCollection.add(Map.of(
                                         fields.cost, 299.99, "customerId", 2, fields.numPurchased, 1, fields.productId,
                                         3,
-                                        "saleId", 1));
+                                        "saleId", 1)).get();
 
-                        writer.create(Store.storesCollection.document(), Map.of(
+                        Store.storesCollection.add(Map.of(
                                         "customerIds", Arrays.asList(0), fields.name, "Goodreads",
-                                        fields.productIds, Arrays.asList(0, 1), fields.storeId, 0));
+                                        fields.productIds, Arrays.asList(0, 1), fields.storeId, 0)).get();
 
-                        writer.create(Store.storesCollection.document(), Map.of(
+                        Store.storesCollection.add(Map.of(
                                         "customerIds", Arrays.asList(), fields.name, "Dicks Sporting Goods",
-                                        fields.productIds, Arrays.asList(2), fields.storeId, 1));
+                                        fields.productIds, Arrays.asList(2), fields.storeId, 1)).get();
 
-                        writer.create(Store.storesCollection.document(), Map.of(
+                        Store.storesCollection.add(Map.of(
                                         "customerIds", Arrays.asList(2), fields.name, "Gamestop",
-                                        fields.productIds, Arrays.asList(3), fields.storeId, 2));
+                                        fields.productIds, Arrays.asList(3), fields.storeId, 2)).get();
 
-                        writer.create(Seller.sellersCollection.document(), Map.of(
+                        Seller.sellersCollection.add(Map.of(
                                         fields.email, "rickriordan@gmail.com", fields.name, "Rick Riordan",
                                         fields.password, "lightning", fields.productIds, Arrays.asList(0),
-                                        fields.saleIds, Arrays.asList(0), fields.sellerId, 0));
+                                        fields.saleIds, Arrays.asList(0), fields.sellerId, 0)).get();
 
-                        writer.create(Seller.sellersCollection.document(), Map.of(
+                        Seller.sellersCollection.add(Map.of(
                                         fields.email, "jkrowling@gmail.com", fields.name, "JK Rowling",
                                         fields.password, "magic", fields.productIds, Arrays.asList(1),
-                                        fields.saleIds, Arrays.asList(), fields.sellerId, 1));
+                                        fields.saleIds, Arrays.asList(), fields.sellerId, 1)).get();
 
-                        writer.create(Seller.sellersCollection.document(), Map.of(
+                        Seller.sellersCollection.add(Map.of(
                                         "email", "ceat@gmail.com", "name", "Ceat",
                                         "password", "magic", "productIds", Arrays.asList(2),
-                                        "saleIds", Arrays.asList(), "sellerId", 2));
+                                        "saleIds", Arrays.asList(), "sellerId", 2)).get();
 
-                        writer.create(Seller.sellersCollection.document(), Map.of(
+                        Seller.sellersCollection.add(Map.of(
                                         fields.email, "nintendo@nintendo.com", fields.name, "Nintendo",
                                         fields.password, "wahoo", fields.productIds, Arrays.asList(3),
-                                        fields.saleIds, Arrays.asList(1), fields.sellerId, 3));
-                        // Writes all
-                        writer.close();
+                                        fields.saleIds, Arrays.asList(1), fields.sellerId, 3)).get();
                 } catch (InterruptedException e) {
                         e.printStackTrace();
                         throw new IOException("Setup interrupted");
@@ -187,15 +182,15 @@ public class TestUtils {
                 System.setOut(new PrintStream(this.testOut));
         }
 
-        @AfterAll
-        public static void tearDown() {
-                try {
-                        db.shutdown();
-                        db.close();
-                } catch (Exception e) {
-                        e.printStackTrace();
-                }
-                System.setOut(originalOutput);
-                System.setIn(originalSysin);
-        }
+        // @AfterAll
+        // public static void tearDown() {
+        // try {
+        // db.shutdown();
+        // db.close();
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
+        // System.setOut(originalOutput);
+        // System.setIn(originalSysin);
+        // }
 }
