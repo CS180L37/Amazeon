@@ -76,7 +76,7 @@ public class ProductTest extends TestUtils {
         assertEquals(products, Product.getProductsByIds(new ArrayList<Integer>(Arrays.asList(0, 1))));
         // assertThrows(IOException.class, () ->
         // Product.getProductsByIds(Arrays.asList()));
-        assertEquals(Arrays.asList(), Product.getProductsByIds(new ArrayList<Integer>(Arrays.asList())));
+        assertEquals(List.of(), Product.getProductsByIds(new ArrayList<Integer>(List.of())));
     }
 
     @Test
