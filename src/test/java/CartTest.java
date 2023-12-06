@@ -22,6 +22,7 @@ public class CartTest extends TestUtils {
     public Cart cart2;
     public CollectionReference carts;
 
+
     @BeforeEach
     @Override
     public void setUp() throws IOException {
@@ -43,44 +44,39 @@ public class CartTest extends TestUtils {
     // Try adding a product to cart
     @Test
     public void testAddToCart() throws IOException {
-        Cart cart = Cart.getCartById(1);
-        cart.purchaseCart();
-        Product newProd = Product.createProduct("drink", "Prime", 799, 1, 2, 3, 4);
-        cart.addToCart(newProd);
-        assertEquals(cart.getCartProducts(), new ArrayList<Product>(Arrays.asList(newProd)));
+        cart2.purchaseCart();
+        Product newProd = Product.createProduct("drink", "Prime", 799.0, 1, 2, 3, 4);
+        cart2.addToCart(newProd);
+        assertEquals(cart2.getCartProducts(), new ArrayList<Product>(Arrays.asList(newProd)));
     }
 
     // Try removing a product from a cart
     @Test
     public void testRemoveFromCart() throws IOException {
-        Cart cart = Cart.getCartById(0);
-        cart.removeFromCart(Product.getProductById(0));
-        assertEquals(cart.getCartProducts().size(), 0);
+        cart0.removeFromCart(Product.getProductById(0));
+        assertEquals(cart0.getCartProducts().size(), 0);
     }
 
     // Try purchasing a cart
     @Test
     public void testPurchaseCart() throws IOException {
-        Cart cart = Cart.getCartById(0);
-        cart.purchaseCart();
-        assertEquals(cart.getCartProducts().size(), 0);
-        assertEquals(cart.getCartProducts(), new ArrayList<Product>());
+        cart0.purchaseCart();
+        assertEquals(cart0.getCartProducts().size(), 0);
+        assertEquals(cart0.getCartProducts(), new ArrayList<Product>());
     }
 
     @Test
     public void testSetCartProducts() throws IOException {
-        Cart cart = Cart.getCartById(0);
         ArrayList<Product> newProducts = new ArrayList<>();
         newProducts.add(Product.getProductById(0));
-        cart.setCartProducts(newProducts);
-        assertEquals(newProducts, cart.getCartProducts());
+        cart1.setCartProducts(newProducts);
+        assertEquals(newProducts, cart1.getCartProducts());
     }
 
     @Test
     public void testGetCartProductIds() throws IOException {
-        Cart cart = Cart.getCartById(0);
         ArrayList<Integer> checkProductIds = new ArrayList<>();
-        System.out.println(cart.getCartProductIds());
+        System.out.println(cart2.getCartProductIds());
     }
 
     @Test
