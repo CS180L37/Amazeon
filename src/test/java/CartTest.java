@@ -22,6 +22,7 @@ public class CartTest extends TestUtils {
     public Cart cart2;
     public CollectionReference carts;
 
+
     @BeforeEach
     @Override
     public void setUp() throws IOException {
@@ -45,7 +46,7 @@ public class CartTest extends TestUtils {
     public void testAddToCart() throws IOException {
         Cart cart = Cart.getCartById(1);
         cart.purchaseCart();
-        Product newProd = Product.createProduct("drink", "Prime", 799, 1, 2, 3, 4);
+        Product newProd = Product.createProduct("drink", "Prime", 799.0, 1, 2, 3, 4);
         cart.addToCart(newProd);
         assertEquals(cart.getCartProducts(), new ArrayList<Product>(Arrays.asList(newProd)));
     }
@@ -61,10 +62,9 @@ public class CartTest extends TestUtils {
     // Try purchasing a cart
     @Test
     public void testPurchaseCart() throws IOException {
-        Cart cart = Cart.getCartById(0);
-        cart.purchaseCart();
-        assertEquals(cart.getCartProducts().size(), 0);
-        assertEquals(cart.getCartProducts(), new ArrayList<Product>());
+        cart0.purchaseCart();
+        assertEquals(cart0.getCartProducts().size(), 0);
+        assertEquals(cart0.getCartProducts(), new ArrayList<Product>());
     }
 
     @Test
