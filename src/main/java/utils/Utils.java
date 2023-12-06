@@ -1,6 +1,12 @@
 package utils;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
@@ -10,6 +16,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.impl.client.HttpClients;
 
 import com.google.api.core.ApiFuture;
 import com.google.api.gax.core.FixedCredentialsProvider;
@@ -124,13 +132,26 @@ public class Utils {
         Seller.sellersCollection = firestoreDB.collection("sellers");
     }
 
-    public static void clearCollections(Firestore firestoreDB) {
-        firestoreDB.recursiveDelete(Customer.customersCollection);
-        firestoreDB.recursiveDelete(Cart.cartsCollection);
-        firestoreDB.recursiveDelete(Product.productsCollection);
-        firestoreDB.recursiveDelete(Sale.salesCollection);
-        firestoreDB.recursiveDelete(Store.storesCollection);
-        firestoreDB.recursiveDelete(Seller.sellersCollection);
+    public static void clearCollections() throws IOException {
+        String urlEndpoint = "http://localhost:8080/emulator/v1/projects/amazeon-405720/databases/(default)/documents";
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .uri(URI.create(
+                        urlEndpoint))
+                .build();
+        HttpResponse<String> response;
+        try {
+            response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new IOException("Could not clear collections, status code: "
+                        + response.statusCode());
+            } else {
+                System.out.println("Deleted collection: " + urlEndpoint);
+            }
+        } catch (InterruptedException e) {
+            throw new IOException("Could not clear collections, exception: " + e.toString());
+        }
     }
 
     public static ArrayList<Integer> firestoreDocToIDArray(Map<String, Object> map, String docPath) {

@@ -65,7 +65,7 @@ public class TestUtils {
         @BeforeEach
         public void setUp() throws IOException {
                 // Reinitialize data
-                clearCollections(db);
+                clearCollections();
                 try {
                         Product.productsCollection.add(Map.of(
                                         fields.description,
@@ -182,15 +182,14 @@ public class TestUtils {
                 System.setOut(new PrintStream(this.testOut));
         }
 
-        // @AfterAll
-        // public static void tearDown() {
-        // try {
-        // db.shutdown();
-        // db.close();
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
-        // System.setOut(originalOutput);
-        // System.setIn(originalSysin);
-        // }
+        @AfterAll
+        public static void tearDown() {
+                try {
+                        clearCollections();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+                System.setOut(originalOutput);
+                System.setIn(originalSysin);
+        }
 }
