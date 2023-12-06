@@ -62,12 +62,14 @@ public class ProductTest extends TestUtils {
     // }
 
     // storeId for product0 should NOT be 100...
+    @BeforeEach
     @Test
     public void testGetProductById() throws IOException {
         assertEquals(product0, Product.getProductById(0));
         assertNull(Product.getProductById(100));
     }
 
+    @BeforeEach
     @Test
     public void testGetProductsByIds() throws IOException {
         ArrayList<Product> products = new ArrayList<Product>();
@@ -78,7 +80,7 @@ public class ProductTest extends TestUtils {
         // Product.getProductsByIds(Arrays.asList()));
         assertEquals(Arrays.asList(), Product.getProductsByIds(new ArrayList<Integer>(Arrays.asList())));
     }
-
+    @BeforeEach
     @Test
     public void testSortProducts() throws IOException {
         ArrayList<Product> products = new ArrayList<Product>();
@@ -88,7 +90,7 @@ public class ProductTest extends TestUtils {
         products.add(product3);
         assertEquals(products, Product.sortProducts(fields.productId, Direction.ASCENDING));
     }
-
+    @BeforeEach
     @Test
     public void testCreateProduct() {
         try {
@@ -100,7 +102,7 @@ public class ProductTest extends TestUtils {
             e.printStackTrace();
         }
     }
-
+    @BeforeEach
     @Test
     public void testDeleteProduct() throws IOException {
         product0.deleteProduct();
@@ -116,7 +118,7 @@ public class ProductTest extends TestUtils {
     // Utils.retrieveData(Products.whereEqualTo("cartId",
     // 3).limit(1).get()).get(0));
     // }
-
+    @BeforeEach
     @Test
     public void testSetProductId() throws IOException {
         product0.setProductId(100);
@@ -130,7 +132,7 @@ public class ProductTest extends TestUtils {
                 Utils.retrieveData(products.whereEqualTo(fields.name,
                         "New Product Name").limit(1).get()).size());
     }
-
+    @BeforeEach
     @Test
     public void testSetQuantity() throws IOException {
         product0.setQuantity(100);
@@ -138,7 +140,7 @@ public class ProductTest extends TestUtils {
                 Utils.retrieveData(products.whereEqualTo(fields.quantity,
                         100).limit(1).get()).size());
     }
-
+    @BeforeEach
     @Test
     public void testSetDescription() throws IOException {
         product0.setDescription("New Description");
@@ -146,7 +148,7 @@ public class ProductTest extends TestUtils {
                 Utils.retrieveData(products.whereEqualTo(fields.description,
                         "New Description").limit(1).get()).size());
     }
-
+    @BeforeEach
     @Test
     public void testSetPrice() throws IOException {
         product0.setPrice(20.05);
@@ -154,7 +156,7 @@ public class ProductTest extends TestUtils {
                 Utils.retrieveData(products.whereEqualTo(fields.price,
                         20.05).limit(1).get()).size());
     }
-
+    @BeforeEach
     @Test
     public void testSetSellerId() throws IOException {
         product0.setSellerId(100);
@@ -162,7 +164,7 @@ public class ProductTest extends TestUtils {
                 Utils.retrieveData(products.whereEqualTo(fields.sellerId,
                         100).limit(1).get()).size());
     }
-
+    @BeforeEach
     @Test
     public void testSetStoreId() throws IOException {
         product0.setStoreId(100);
