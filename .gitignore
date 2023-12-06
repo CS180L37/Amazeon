@@ -41,3 +41,7 @@ out/
 
 # Service Account
 service_account.json
+
+# Firestore
+firebase-debug.log
+firestore-debug.log
