@@ -21,14 +21,16 @@ public class Store {
     private DocumentReference documentReference;
 
     private Store(QueryDocumentSnapshot document) throws IOException {
-        // int x = Integer.parseInt(String.valueOf(document.getLong(fields.customerId)));
+        // int x =
+        // Integer.parseInt(String.valueOf(document.getLong(fields.customerId)));
         int id = document.getLong(fields.storeId).intValue();
         this.name = document.getString(fields.name);
         ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), fields.productIds);
         this.storeProducts = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.storeId = id;
         ArrayList<Integer> customerIds = Utils.firestoreDocToIDArray(document.getData(), "customerIds");
-        this.storeCustomers = Customer.getCustomersByIds((customerIds != null) ? customerIds : new ArrayList<Integer>());
+        this.storeCustomers = Customer
+                .getCustomersByIds((customerIds != null) ? customerIds : new ArrayList<Integer>());
         this.documentReference = getStoreDocument();
 
     }
@@ -182,7 +184,8 @@ public class Store {
                     name: %s
                     products: %s
                     customers: %s
-                }""", this.getStoreId(), this.getName(), this.getStoreProducts().toString(), this.getStoreCustomers().toString());
+                }""", this.getStoreId(), this.getName(), this.getStoreProducts().toString(),
+                this.getStoreCustomers().toString());
     }
 
     @Override

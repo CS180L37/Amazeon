@@ -17,7 +17,6 @@ public class Sale {
     private int productId;
     private double cost;
     private int numPurchased;
-
     private DocumentReference documentReference;
 
     public static CollectionReference salesCollection;
