@@ -39,7 +39,7 @@ public class Sale {
         this.productId = productId;
         int numPurchased = document.getLong(fields.numPurchased).intValue();
         this.numPurchased = numPurchased;
-        double cost = document.getLong(fields.cost).intValue();
+        double cost = document.getLong(fields.cost).doubleValue();
         this.cost = cost;
         this.documentReference = getSaleDocument();
     }

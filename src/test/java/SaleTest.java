@@ -56,7 +56,7 @@ public class SaleTest extends TestUtils {
         ArrayList<Sale> sales = new ArrayList<Sale>();
         sales.add(sale0);
         sales.add(sale1);
-        assertEquals(sales, Sale.getSalesByIds((ArrayList<Integer>) Arrays.asList(0, 1)));
+        assertEquals(sales, Sale.getSalesByIds( new ArrayList<Integer>(Arrays.asList(0, 1))));
 // assertThrows(IOException.class, () ->
 // Seller.getSellersByIds(Arrays.asList()));
         assertEquals(List.of(), Sale.getSalesByIds(new ArrayList<Integer>(List.of())));
@@ -66,8 +66,8 @@ public class SaleTest extends TestUtils {
     public void testSetCustomerId() throws IOException {
         sale1.setCustomerId(50);
         assertEquals(1,
-                Utils.retrieveData(sales.whereEqualTo("customerId",
-                        "50").limit(1).get()).size());
+                Utils.retrieveData(sales.whereEqualTo(fields.customerId,
+                        50).limit(1).get()).size());
     }
 
     @Test
@@ -101,8 +101,8 @@ public class SaleTest extends TestUtils {
 
     @Test
     public void testCalculateCost() throws IOException {
-        assert (getSaleById(0).calculateTotal() == 100.00);
-        assert (getSaleById(1).calculateTotal() == 200.00);
+        assertEquals(getSaleById(0).calculateTotal(), 10);
+        assertEquals(getSaleById(1).calculateTotal(),300);
     }
 }
 
