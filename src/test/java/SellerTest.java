@@ -17,7 +17,6 @@ import models.Seller;
 import utils.Utils;
 import utils.fields;
 
-
 // User parent class has no methods to test
 public class SellerTest extends TestUtils {
     public Seller seller0;
@@ -96,7 +95,7 @@ public class SellerTest extends TestUtils {
     @Test
     public void testDeleteSeller() throws IOException {
         seller1.deleteSeller();
-        assertThrows(IOException.class, () -> Seller.getSellerById(1));
+        assertNull(Seller.getSellerById(1));
     }
 
     @Test

@@ -47,6 +47,14 @@ public class Cart {
         return newCart;
     }
 
+    public void deleteCart() throws IOException {
+        try {
+            this.documentReference.delete().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
         updateRemoteCart(fields.customerId, getCustomerID());
