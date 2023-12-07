@@ -1,19 +1,39 @@
 # Amazeon
-Amazon watch out, there's a new competitor on the block! This is our submission for option 3 of Purdue's CS 180 Project 4
+Amazon watch out, there's a new competitor on the block! This is our submission for option 3 of Purdue's CS 180 Project 4 and 5
 
-## Dependencies
-Just java :)
+## TODO
+- Compile into one executable
+
+## Client Dependencies
+Just Java :)
+> Maven and java handle the rest for you
+
+## Dev Dependencies
+- firebase CLI (https://firebase.google.com/docs/cli)
+- service_account.json file in `src/main/resources`
+- Maven
+- JUnit 
+- google-cloud-firestore
 
 ## Usage
 ```
 git clone https://github.com/CS180L37/Project4-5.git
-cd src
+cd Project4-5
+mv service_account.json src/main/resources
+cd src/main/java
 find . -name "*.java" -print | xargs javac
 java Amazeon.java
 ```
 
-## Submissions
-Shlok Seth - Submitted Project Report and Vocareum Workspace
+## Testing
+> For more specifics, see (https://firebase.google.com/docs/cli)
+- Install the firebase CLI via `curl -sL https://firebase.tools/ | bash` or `npm install -g firebase-tools` if you're on a Windows machine. You may need to authenticate your Google account to use the emulator
+- Start the firestore emulator via `firebase emulators:start`
+- Run the test suite
+- Stop the firestore emulator after the tests have completed and you're done! :)
+
+Or you could just watch the process in action like so:
+TODO: record tests working
 
 ## Documentation
 
