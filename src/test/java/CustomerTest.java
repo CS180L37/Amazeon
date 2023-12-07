@@ -104,6 +104,7 @@ public class CustomerTest extends TestUtils {
             // Customer.createCustomer("adityasemail@gmail.com", fields.password));
         } catch (IOException e) {
             e.printStackTrace();
+            fail();
         }
     }
 

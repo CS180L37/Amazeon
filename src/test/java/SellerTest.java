@@ -89,6 +89,7 @@ public class SellerTest extends TestUtils {
             // Seller.createSeller("nintendo@nintendo.com", fields.password, "Nintendo"));
         } catch (IOException e) {
             e.printStackTrace();
+            fail();
         }
     }
 
