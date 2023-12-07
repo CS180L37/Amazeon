@@ -20,6 +20,7 @@ public class Seller {
     private String name;
     private String email;
     private String password;
+    private boolean isDeleted;
     private ArrayList<Product> products;
     private ArrayList<Sale> sales;
 
@@ -39,6 +40,7 @@ public class Seller {
         this.password = password;
         this.products = products;
         this.sales = sales;
+        this.isDeleted = false;
         this.documentReference = getSellerDocument();
     }
 
@@ -51,6 +53,7 @@ public class Seller {
         this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         ArrayList<Integer> saleIds = Utils.firestoreDocToIDArray(document.getData(), fields.saleIds);
         this.sales = Sale.getSalesByIds((saleIds != null) ? saleIds : new ArrayList<Integer>());
+        this.isDeleted = document.getBoolean(fields.isDeleted).booleanValue();
         this.documentReference = getSellerDocument();
     }
 
@@ -75,18 +78,32 @@ public class Seller {
         return documents.get(0).getLong(fields.sellerId).intValue() + 1;
     }
 
-    public void deleteSeller() throws IOException {
-        try {
-            this.documentReference.delete().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-    }
+    // public void deleteSeller() throws IOException {
+    // try {
+    // this.documentReference.delete().get();
+    // } catch (InterruptedException e) {
+    // e.printStackTrace();
+    // } catch (ExecutionException e) {
+    // e.printStackTrace();
+    // }
+    // }
 
     public static ArrayList<Seller> sortSellers(String field, Direction direction) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection.orderBy(field, direction).get();
+        ArrayList<Seller> sellers = new ArrayList<Seller>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            sellers.add(new Seller(doc));
+        }
+        return sellers;
+    }
+
+    public static ArrayList<Seller> sortNonDeletedSellers(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = sellersCollection.whereNotEqualTo(fields.isDeleted, true)
+                .orderBy(field, direction).get();
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -105,10 +122,29 @@ public class Seller {
         return (documents == null) ? null : new Seller(documents.get(0));
     }
 
+    public static Seller getNonDeletedSellerById(int sellerId) throws IOException {
+        ApiFuture<QuerySnapshot> future = sellersCollection
+                .where(Filter.equalTo(fields.sellerId, sellerId)).whereNotEqualTo(fields.isDeleted, true).limit(1)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Seller(documents.get(0));
+    }
+
     public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) throws IOException {
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         for (int id : sellerIds) {
             Seller seller = getSellerById(id);
+            if (seller != null) {
+                sellers.add(seller);
+            }
+        }
+        return sellers;
+    }
+
+    public static ArrayList<Seller> getNonDeletedSellersByIds(ArrayList<Integer> sellerIds) throws IOException {
+        ArrayList<Seller> sellers = new ArrayList<Seller>();
+        for (int id : sellerIds) {
+            Seller seller = getNonDeletedSellerById(id);
             if (seller != null) {
                 sellers.add(seller);
             }
@@ -240,6 +276,23 @@ public class Seller {
             productIds.add(product.getProductId());
         }
         data.put(fields.productIds, productIds);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        // Set locally
+        this.isDeleted = isDeleted;
+        // Set on the backend
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put(fields.isDeleted, isDeleted);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {

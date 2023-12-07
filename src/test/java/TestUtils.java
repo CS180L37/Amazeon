@@ -86,7 +86,8 @@ public class TestUtils {
                                                         +
                                                         "failed to kill Harry when he was just 15 months old.",
                                         fields.name, "Harry Potter", fields.price, 15, fields.productId, 1,
-                                        fields.quantity, 10, fields.sellerId, 1, fields.storeId, 0)).get();
+                                        fields.quantity, 10, fields.sellerId, 1, fields.storeId, 0, fields.isDeleted,
+                                        false)).get();
 
                         Product.productsCollection.add(Map.of(
                                         fields.description,
@@ -98,78 +99,93 @@ public class TestUtils {
                                                         "States to find the entrance to the Underworld and stop a war between the "
                                                         +
                                                         "gods.",
-                                        fields.name, "Percy Jackson", fields.price, 10, fields.productId, 0,
-                                        fields.quantity, 5, fields.sellerId, 0, fields.storeId, 0)).get();
+                                        fields.name, "Percy Jackson", fields.price, 9.99, fields.productId, 0,
+                                        fields.quantity, 5, fields.sellerId, 0, fields.storeId, 0, fields.isDeleted,
+                                        false)).get();
                         Product.productsCollection.add(Map.of(
                                         fields.description, "A piece of wood for hitting a ball",
                                         fields.name, "Cricket Bat", fields.price, 35, fields.productId, 2,
-                                        fields.quantity, 50, fields.sellerId, 2, fields.storeId, 1)).get();
+                                        fields.quantity, 50, fields.sellerId, 2, fields.storeId, 1, fields.isDeleted,
+                                        false)).get();
 
                         Product.productsCollection.add(Map.of(
                                         fields.description, "Nintendo's switching it up with their new game console!",
-                                        fields.name, "Nintendo Switch", fields.price, 300, fields.productId, 3,
-                                        fields.quantity, 10, fields.sellerId, 3, fields.storeId, 2)).get();
+                                        fields.name, "Nintendo Switch", fields.price, 299.99, fields.productId, 3,
+                                        fields.quantity, 10, fields.sellerId, 3, fields.storeId, 2, fields.isDeleted,
+                                        false)).get();
                         Cart.cartsCollection.add(Map.of(
-                                        "customerId", 0, fields.productIds, Arrays.asList())).get();
+                                        "customerId", 0, fields.productIds, Arrays.asList(), fields.isDeleted, false))
+                                        .get();
 
                         Cart.cartsCollection.add(Map.of(
-                                        "customerId", 1, fields.productIds, Arrays.asList(2))).get();
+                                        "customerId", 1, fields.productIds, Arrays.asList(2), fields.isDeleted, false))
+                                        .get();
 
                         Cart.cartsCollection.add(Map.of(
-                                        "customerId", 2, fields.productIds, Arrays.asList())).get();
+                                        "customerId", 2, fields.productIds, Arrays.asList(), fields.isDeleted, false))
+                                        .get();
 
                         Customer.customersCollection.add(Map.of(
                                         "cartId", 0, "customerId", 0, fields.email, "adityasemail@gmail.com",
-                                        fields.password, fields.password, fields.productIds, Arrays.asList(0))).get();
+                                        fields.password, fields.password, fields.productIds, Arrays.asList(0),
+                                        fields.isDeleted, false)).get();
 
                         Customer.customersCollection.add(Map.of(
                                         "cartId", 1, "customerId", 1, fields.email, "shloksemail@gmail.com",
-                                        fields.password, fields.password, fields.productIds, Arrays.asList())).get();
+                                        fields.password, fields.password, fields.productIds, Arrays.asList(),
+                                        fields.isDeleted, false)).get();
 
                         Customer.customersCollection.add(Map.of(
                                         "cartId", 2, "customerId", 2, fields.email, "xandersemail@gmail.com",
-                                        fields.password, fields.password, fields.productIds, Arrays.asList(3))).get();
+                                        fields.password, fields.password, fields.productIds, Arrays.asList(3),
+                                        fields.isDeleted, false)).get();
 
                         Sale.salesCollection.add(Map.of(
-                                        fields.cost, 10, "customerId", 0, fields.numPurchased, 1, fields.productId, 0,
-                                        "saleId", 0)).get();
+                                        fields.cost, 9.99, "customerId", 0, fields.numPurchased, 1, fields.productId, 0,
+                                        "saleId", 0, fields.isDeleted, false)).get();
 
                         Sale.salesCollection.add(Map.of(
-                                        fields.cost, 300, "customerId", 2, fields.numPurchased, 1, fields.productId,
+                                        fields.cost, 299.99, "customerId", 2, fields.numPurchased, 1, fields.productId,
                                         3,
-                                        "saleId", 1)).get();
+                                        "saleId", 1, fields.isDeleted, false)).get();
 
                         Store.storesCollection.add(Map.of(
                                         "customerIds", Arrays.asList(0), fields.name, "Goodreads",
-                                        fields.productIds, Arrays.asList(0, 1), fields.storeId, 0)).get();
+                                        fields.productIds, Arrays.asList(0, 1), fields.storeId, 0, fields.isDeleted,
+                                        false)).get();
 
                         Store.storesCollection.add(Map.of(
                                         "customerIds", Arrays.asList(), fields.name, "Dicks Sporting Goods",
-                                        fields.productIds, Arrays.asList(2), fields.storeId, 1)).get();
+                                        fields.productIds, Arrays.asList(2), fields.storeId, 1, fields.isDeleted,
+                                        false)).get();
 
                         Store.storesCollection.add(Map.of(
                                         "customerIds", Arrays.asList(2), fields.name, "Gamestop",
-                                        fields.productIds, Arrays.asList(3), fields.storeId, 2)).get();
+                                        fields.productIds, Arrays.asList(3), fields.storeId, 2, fields.isDeleted,
+                                        false)).get();
 
                         Seller.sellersCollection.add(Map.of(
                                         fields.email, "rickriordan@gmail.com", fields.name, "Rick Riordan",
                                         fields.password, "lightning", fields.productIds, Arrays.asList(0),
-                                        fields.saleIds, Arrays.asList(0), fields.sellerId, 0)).get();
+                                        fields.saleIds, Arrays.asList(0), fields.sellerId, 0, fields.isDeleted, false))
+                                        .get();
 
                         Seller.sellersCollection.add(Map.of(
                                         fields.email, "jkrowling@gmail.com", fields.name, "JK Rowling",
                                         fields.password, "magic", fields.productIds, Arrays.asList(1),
-                                        fields.saleIds, Arrays.asList(), fields.sellerId, 1)).get();
+                                        fields.saleIds, Arrays.asList(), fields.sellerId, 1, fields.isDeleted, false))
+                                        .get();
 
                         Seller.sellersCollection.add(Map.of(
                                         "email", "ceat@gmail.com", "name", "Ceat",
                                         "password", "magic", "productIds", Arrays.asList(2),
-                                        "saleIds", Arrays.asList(), "sellerId", 2)).get();
+                                        "saleIds", Arrays.asList(), "sellerId", 2, fields.isDeleted, false)).get();
 
                         Seller.sellersCollection.add(Map.of(
                                         fields.email, "nintendo@nintendo.com", fields.name, "Nintendo",
                                         fields.password, "wahoo", fields.productIds, Arrays.asList(3),
-                                        fields.saleIds, Arrays.asList(1), fields.sellerId, 3)).get();
+                                        fields.saleIds, Arrays.asList(1), fields.sellerId, 3, fields.isDeleted, false))
+                                        .get();
                 } catch (InterruptedException e) {
                         e.printStackTrace();
                         throw new IOException("Setup interrupted");

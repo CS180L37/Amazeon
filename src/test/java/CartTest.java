@@ -68,7 +68,7 @@ public class CartTest extends TestUtils {
 
     @Test
     public void testDeleteCart() throws IOException {
-        cart0.deleteCart();
+        cart0.setDeleted(true);
         assertNull(Cart.getCartById(0));
     }
 

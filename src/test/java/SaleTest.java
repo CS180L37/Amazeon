@@ -40,8 +40,8 @@ public class SaleTest extends TestUtils {
 
     @Test
     public void testDeleteSale() throws IOException {
-        sale0.deleteSale();
-        assertNull(Sale.getSaleById(0));
+        sale0.setDeleted(true);
+        assertNull(Sale.getNonDeletedSaleById(0));
     }
 
     @Test
@@ -55,9 +55,9 @@ public class SaleTest extends TestUtils {
         ArrayList<Sale> sales = new ArrayList<Sale>();
         sales.add(sale0);
         sales.add(sale1);
-        assertEquals(sales, Sale.getSalesByIds( new ArrayList<Integer>(Arrays.asList(0, 1))));
-// assertThrows(IOException.class, () ->
-// Seller.getSellersByIds(Arrays.asList()));
+        assertEquals(sales, Sale.getSalesByIds(new ArrayList<Integer>(Arrays.asList(0, 1))));
+        // assertThrows(IOException.class, () ->
+        // Seller.getSellersByIds(Arrays.asList()));
         assertEquals(List.of(), Sale.getSalesByIds(new ArrayList<Integer>(List.of())));
     }
 
@@ -100,8 +100,7 @@ public class SaleTest extends TestUtils {
 
     @Test
     public void testCalculateCost() throws IOException {
-        assertEquals(getSaleById(0).calculateTotal(), 10);
-        assertEquals(getSaleById(1).calculateTotal(),300);
+        assertEquals(getSaleById(0).calculateTotal(), 9.99);
+        assertEquals(getSaleById(1).calculateTotal(), 299.99);
     }
 }
-

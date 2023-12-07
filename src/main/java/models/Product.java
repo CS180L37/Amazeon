@@ -19,6 +19,7 @@ public class Product {
     private double price;
     private int sellerId;
     private int storeId;
+    private boolean isDeleted;
     private DocumentReference documentReference;
 
     public static CollectionReference productsCollection;
@@ -32,6 +33,7 @@ public class Product {
         this.price = price;
         this.sellerId = sellerId;
         this.storeId = storeId;
+        this.isDeleted = false;
         this.documentReference = getProductDocument();
     }
 
@@ -41,11 +43,12 @@ public class Product {
         this.productId = productId;
         this.quantity = document.getLong(fields.quantity).intValue();
         this.description = document.getString(fields.description);
-        this.price = document.getLong(fields.price).doubleValue();
+        this.price = document.getDouble(fields.price).doubleValue();
         int sellerId = document.getLong(fields.sellerId).intValue();
         this.sellerId = sellerId;
         int storeId = document.getLong(fields.storeId).intValue();
         this.storeId = storeId;
+        this.isDeleted = document.getBoolean(fields.isDeleted).booleanValue();
         this.documentReference = getProductDocument();
     }
 
@@ -78,13 +81,13 @@ public class Product {
         return new Product(productId, name, quantity, description, price, sellerId, storeId);
     }
 
-    public void deleteProduct() throws IOException {
-        try {
-            this.documentReference.delete().get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-    }
+    // public void deleteProduct() throws IOException {
+    // try {
+    // this.documentReference.delete().get();
+    // } catch (InterruptedException | ExecutionException e) {
+    // e.printStackTrace();
+    // }
+    // }
 
     public int getProductId() {
         return productId;
@@ -161,6 +164,23 @@ public class Product {
         }
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        // Set locally
+        this.isDeleted = isDeleted;
+        // Set on the backend
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put(fields.isDeleted, isDeleted);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getDescription() {
         return description;
     }
@@ -199,10 +219,28 @@ public class Product {
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
+    public static Product getNonDeletedProductById(int id) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .where(Filter.equalTo(fields.productId, id)).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
     public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
         for (int productID : productIds) {
             Product product = getProductById(productID);
+            if (product != null) {
+                productList.add(product);
+            }
+        }
+        return productList;
+    }
+
+    public static ArrayList<Product> getNonDeletedProductsByIds(ArrayList<Integer> productIds) throws IOException {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        for (int productID : productIds) {
+            Product product = getNonDeletedProductById(productID);
             if (product != null) {
                 productList.add(product);
             }
@@ -219,6 +257,20 @@ public class Product {
 
     public static ArrayList<Product> sortProducts(String field, Direction direction) throws IOException {
         ApiFuture<QuerySnapshot> future = productsCollection.orderBy(field, direction).get();
+        ArrayList<Product> products = new ArrayList<Product>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            products.add(new Product(doc));
+        }
+        return products;
+    }
+
+    public static ArrayList<Product> sortNonDeletedProducts(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection.whereNotEqualTo(fields.isDeleted, true)
+                .orderBy(field, direction).get();
         ArrayList<Product> products = new ArrayList<Product>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {

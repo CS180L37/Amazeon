@@ -109,8 +109,8 @@ public class CustomerTest extends TestUtils {
 
     @Test
     public void testDeleteCustomer() throws IOException {
-        customer0.deleteCustomer();
-        assertNull(Customer.getCustomerById(0));
+        customer0.setDeleted(true);
+        assertNull(Customer.getNonDeletedCustomerById(0));
     }
 
     // @Test

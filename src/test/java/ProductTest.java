@@ -101,8 +101,8 @@ public class ProductTest extends TestUtils {
 
     @Test
     public void testDeleteProduct() throws IOException {
-        product0.deleteProduct();
-        assertNull(Product.getProductById(0));
+        product0.setDeleted(true);
+        assertNull(Product.getNonDeletedProductById(0));
     }
 
     // @Test
