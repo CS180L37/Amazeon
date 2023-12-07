@@ -68,6 +68,7 @@ public class Sale {
         saleData.put(fields.customerId, customerId);
         saleData.put(fields.numPurchased, numPurchased);
         saleData.put(fields.productId, productId);
+        saleData.put(fields.isDeleted, false);
         saleData.put("saleId", saleId);
         salesCollection.add(saleData);
         // Create a new instance
