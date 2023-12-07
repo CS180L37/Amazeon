@@ -33,8 +33,7 @@ public class Store {
         this.storeCustomers = Customer
                 .getCustomersByIds((customerIds != null) ? customerIds : new ArrayList<Integer>());
         this.isDeleted = document.getBoolean(fields.isDeleted).booleanValue();
-        this.documentReference = getStoreDocument();
-
+        this.documentReference = getStoreDocumentReference();
     }
 
     private Store(int storeId, String name, ArrayList<Product> storeProducts, ArrayList<Customer> storeCustomers)
@@ -44,7 +43,8 @@ public class Store {
         this.storeProducts = storeProducts;
         this.storeCustomers = storeCustomers;
         this.isDeleted = false;
-        this.documentReference = getStoreDocument();
+        this.documentReference = getStoreDocumentReference();
+        //        this.documentReference = getStoreDocument();
     }
 
     public static Store createStore(int storeId, String name) throws IOException {
@@ -113,7 +113,7 @@ public class Store {
         }
     }
 
-    private DocumentReference getStoreDocument() throws IOException {
+    private DocumentReference getStoreDocumentReference() throws IOException {
         ApiFuture<QuerySnapshot> future = storesCollection
                 .whereEqualTo(fields.storeId, this.getStoreId())
                 .limit(1)

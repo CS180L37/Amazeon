@@ -32,7 +32,7 @@ public class Sale {
     }
 
     private Sale(QueryDocumentSnapshot document) throws IOException {
-        int saleId = document.getLong("saleId").intValue();
+        int saleId = document.getLong(fields.saleId).intValue();
         this.saleId = saleId;
         int customerId = document.getLong(fields.customerId).intValue();
         this.customerId = customerId;
@@ -50,7 +50,7 @@ public class Sale {
 
     private DocumentReference getSaleDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection
-                .whereEqualTo("saleId", this.getSaleId())
+                .whereEqualTo(fields.saleId, this.getSaleId())
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -69,7 +69,7 @@ public class Sale {
         saleData.put(fields.numPurchased, numPurchased);
         saleData.put(fields.productId, productId);
         saleData.put(fields.isDeleted, false);
-        saleData.put("saleId", saleId);
+        saleData.put(fields.saleId, saleId);
         salesCollection.add(saleData);
         // Create a new instance
         return new Sale(cost, customerId, numPurchased, productId, saleId);
@@ -196,7 +196,7 @@ public class Sale {
     public void setSaleId(int saleId) {
         this.saleId = saleId;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("saleId", saleId);
+        data.put(fields.saleId, saleId);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -206,14 +206,14 @@ public class Sale {
 
     public static Sale getSaleById(int id) throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection
-                .where(Filter.equalTo("saleId", id)).limit(1).get();
+                .where(Filter.equalTo(fields.saleId, id)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Sale(documents.get(0));
     }
 
     public static Sale getNonDeletedSaleById(int id) throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection
-                .where(Filter.equalTo("saleId", id)).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
+                .where(Filter.equalTo(fields.saleId, id)).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Sale(documents.get(0));
     }
@@ -241,10 +241,10 @@ public class Sale {
     }
 
     public static int getNextSaleId() throws IOException {
-        ApiFuture<QuerySnapshot> future = salesCollection.orderBy("saleId", Query.Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = salesCollection.orderBy(fields.saleId, Query.Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return documents.get(0).getLong("saleId").intValue() + 1;
+        return documents.get(0).getLong(fields.saleId).intValue() + 1;
     }
 
     // Calculate the total cost of a sale
