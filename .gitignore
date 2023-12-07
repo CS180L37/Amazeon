@@ -40,4 +40,8 @@ java/build/**
 out/
 
 # Service Account
-.amazeon-405720-6089a258377a.json
+service_account.json
+
+# Firestore
+firebase-debug.log
+firestore-debug.log

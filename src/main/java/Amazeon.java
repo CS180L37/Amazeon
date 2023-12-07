@@ -1,20 +1,20 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.util.ArrayList;
+// import java.io.BufferedReader;
+// import java.io.BufferedWriter;
+// import java.io.IOException;
+// import java.util.ArrayList;
 
-//import TODOREFACTOR.CustomerMarket;
-//import TODOREFACTOR.SellerMarket;
-import models.Cart;
-import models.Customer;
-import models.Product;
-import models.Sale;
-import models.Seller;
-import models.Store;
-import utils.Utils;
+// import TODOREFACTOR.CustomerMarket;
+// import TODOREFACTOR.SellerMarket;
+// import models.Cart;
+// import models.Customer;
+// import models.Product;
+// import models.Sale;
+// import models.Seller;
+// import models.Store;
+// import utils.Utils;
 
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.FirestoreOptions;
+// import com.google.cloud.firestore.Firestore;
+// import com.google.cloud.firestore.FirestoreOptions;
 
 /// Our entry point and data manager class
 /// NOTE: NOTHING SHOULD IMPORT AMAZEON; It is the entry point and imports other parts of the program
@@ -226,249 +226,248 @@ public class Amazeon {
 //    }
 
 
+// // public static ArrayList<Product> readProducts(String filepath) {
+// // ArrayList<Product> productsList = new ArrayList<Product>();
+// // try {
+// // BufferedReader br = Utils.createReader(filepath);
+// // String line;
+// // while (true) {
+// // line = br.readLine();
+// // if (line == null) {
+// // break;
+// // }
+// // String[] data = line.split(",");
+// // productsList.add(Utils.convertFromProductString(data));
 
+// // }
+// // br.close();
+// // return productsList;
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return new ArrayList<Product>();
+// // }
+// // }
 
-    // public static ArrayList<Product> readProducts(String filepath) {
-    // ArrayList<Product> productsList = new ArrayList<Product>();
-    // try {
-    // BufferedReader br = Utils.createReader(filepath);
-    // String line;
-    // while (true) {
-    // line = br.readLine();
-    // if (line == null) {
-    // break;
-    // }
-    // String[] data = line.split(",");
-    // productsList.add(Utils.convertFromProductString(data));
+// // public static void writeProducts(ArrayList<Product> products, String
+// // filepath) {
+// // try {
+// // BufferedWriter bw = Utils.createWriter(filepath);
+// // int productsNum = 0;
+// // for (Product product : products) {
+// // bw.write(Utils.convertToProductString(product));
+// // if (productsNum != products.size() - 1) {
+// // bw.newLine();
+// // }
+// // productsNum += 1;
+// // }
+// // bw.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return;
+// // }
+// // }
 
-    // }
-    // br.close();
-    // return productsList;
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return new ArrayList<Product>();
-    // }
-    // }
+// // // Contains a list of all products as a parameter
+// // public static ArrayList<Cart> readCarts(String filepath) {
+// // ArrayList<Cart> cartsList = new ArrayList<Cart>();
+// // try {
+// // BufferedReader br = Utils.createReader(filepath);
+// // String line;
+// // while (true) {
+// // line = br.readLine();
+// // if (line == null) {
+// // break;
+// // }
+// // String[] data = line.split(",");
+// // cartsList.add(Utils.convertFromCartString(data));
+// // }
+// // br.close();
+// // return cartsList;
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return new ArrayList<Cart>();
+// // }
+// // }
 
-    // public static void writeProducts(ArrayList<Product> products, String
-    // filepath) {
-    // try {
-    // BufferedWriter bw = Utils.createWriter(filepath);
-    // int productsNum = 0;
-    // for (Product product : products) {
-    // bw.write(Utils.convertToProductString(product));
-    // if (productsNum != products.size() - 1) {
-    // bw.newLine();
-    // }
-    // productsNum += 1;
-    // }
-    // bw.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return;
-    // }
-    // }
+// // public static void writeCarts(ArrayList<Cart> carts, String filepath) {
+// // try {
+// // BufferedWriter bw = Utils.createWriter(filepath);
+// // int cartNum = 0;
+// // for (Cart cart : carts) {
 
-    // // Contains a list of all products as a parameter
-    // public static ArrayList<Cart> readCarts(String filepath) {
-    // ArrayList<Cart> cartsList = new ArrayList<Cart>();
-    // try {
-    // BufferedReader br = Utils.createReader(filepath);
-    // String line;
-    // while (true) {
-    // line = br.readLine();
-    // if (line == null) {
-    // break;
-    // }
-    // String[] data = line.split(",");
-    // cartsList.add(Utils.convertFromCartString(data));
-    // }
-    // br.close();
-    // return cartsList;
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return new ArrayList<Cart>();
-    // }
-    // }
+// // bw.write(
+// // Utils.convertToCartString(cart));
+// // if (cartNum != carts.size() - 1) {
+// // bw.newLine();
+// // }
+// // cartNum += 1;
+// // }
+// // bw.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return;
+// // }
+// // }
 
-    // public static void writeCarts(ArrayList<Cart> carts, String filepath) {
-    // try {
-    // BufferedWriter bw = Utils.createWriter(filepath);
-    // int cartNum = 0;
-    // for (Cart cart : carts) {
+// // // Contains lists of all products and carts as parameters
+// // public static ArrayList<Customer> readCustomers(String filepath) {
+// // ArrayList<Customer> customersList = new ArrayList<Customer>();
+// // try {
+// // BufferedReader br = Utils.createReader(filepath);
+// // String line;
+// // while (true) {
+// // line = br.readLine();
+// // if (line == null) {
+// // break;
+// // }
+// // String[] data = line.split(",");
+// // customersList.add(Utils.convertFromCustomerString(data));
+// // }
+// // br.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return new ArrayList<Customer>();
+// // }
+// // return customersList;
+// // }
 
-    // bw.write(
-    // Utils.convertToCartString(cart));
-    // if (cartNum != carts.size() - 1) {
-    // bw.newLine();
-    // }
-    // cartNum += 1;
-    // }
-    // bw.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return;
-    // }
-    // }
+// // public static void writeCustomers(ArrayList<Customer> customers, String
+// // filepath) {
+// // try {
+// // BufferedWriter bw = Utils.createWriter(filepath);
+// // int customerNum = 0;
+// // for (Customer customer : customers) {
+// // bw.write(Utils.convertToCustomerString(customer));
+// // if (customerNum != customers.size() - 1) {
+// // bw.newLine();
+// // }
+// // customerNum += 1;
+// // }
+// // bw.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return;
+// // }
+// // }
 
-    // // Contains lists of all products and carts as parameters
-    // public static ArrayList<Customer> readCustomers(String filepath) {
-    // ArrayList<Customer> customersList = new ArrayList<Customer>();
-    // try {
-    // BufferedReader br = Utils.createReader(filepath);
-    // String line;
-    // while (true) {
-    // line = br.readLine();
-    // if (line == null) {
-    // break;
-    // }
-    // String[] data = line.split(",");
-    // customersList.add(Utils.convertFromCustomerString(data));
-    // }
-    // br.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return new ArrayList<Customer>();
-    // }
-    // return customersList;
-    // }
+// // // Contains a list of customers as the parameter
+// // public static ArrayList<Sale> readSales(String filepath) {
+// // ArrayList<Sale> saleList = new ArrayList<Sale>();
+// // try {
+// // BufferedReader br = Utils.createReader(filepath);
+// // String line;
+// // while (true) {
+// // line = br.readLine();
+// // if (line == null) {
+// // break;
+// // }
+// // String[] data = line.split(",");
+// // saleList.add(Utils.convertFromSaleString(data));
+// // }
+// // br.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return new ArrayList<Sale>();
+// // }
+// // return saleList;
+// // }
 
-    // public static void writeCustomers(ArrayList<Customer> customers, String
-    // filepath) {
-    // try {
-    // BufferedWriter bw = Utils.createWriter(filepath);
-    // int customerNum = 0;
-    // for (Customer customer : customers) {
-    // bw.write(Utils.convertToCustomerString(customer));
-    // if (customerNum != customers.size() - 1) {
-    // bw.newLine();
-    // }
-    // customerNum += 1;
-    // }
-    // bw.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return;
-    // }
-    // }
+// // public static void writeSales(ArrayList<Sale> sales, String filepath) {
+// // try {
+// // BufferedWriter bw = Utils.createWriter(filepath);
+// // int saleNum = 0;
+// // for (Sale sale : sales) {
+// // bw.write(Utils.convertToSaleString(sale));
+// // if (saleNum != sales.size() - 1) {
+// // bw.newLine();
+// // }
+// // saleNum += 1;
+// // }
+// // bw.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return;
+// // }
+// // }
 
-    // // Contains a list of customers as the parameter
-    // public static ArrayList<Sale> readSales(String filepath) {
-    // ArrayList<Sale> saleList = new ArrayList<Sale>();
-    // try {
-    // BufferedReader br = Utils.createReader(filepath);
-    // String line;
-    // while (true) {
-    // line = br.readLine();
-    // if (line == null) {
-    // break;
-    // }
-    // String[] data = line.split(",");
-    // saleList.add(Utils.convertFromSaleString(data));
-    // }
-    // br.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return new ArrayList<Sale>();
-    // }
-    // return saleList;
-    // }
+// // // Contains lists of all products and customers as parameters
+// // public static ArrayList<Store> readStores(String filepath) {
+// // ArrayList<Store> storeList = new ArrayList<Store>();
+// // try {
+// // BufferedReader br = Utils.createReader(filepath);
+// // String line;
+// // while (true) {
+// // line = br.readLine();
+// // if (line == null) {
+// // break;
+// // }
+// // String[] data = line.split(",");
+// // storeList.add(Utils.convertFromStoreString(data));
+// // }
+// // br.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return new ArrayList<Store>();
+// // }
+// // return storeList;
+// // }
 
-    // public static void writeSales(ArrayList<Sale> sales, String filepath) {
-    // try {
-    // BufferedWriter bw = Utils.createWriter(filepath);
-    // int saleNum = 0;
-    // for (Sale sale : sales) {
-    // bw.write(Utils.convertToSaleString(sale));
-    // if (saleNum != sales.size() - 1) {
-    // bw.newLine();
-    // }
-    // saleNum += 1;
-    // }
-    // bw.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return;
-    // }
-    // }
+// // public static void writeStores(ArrayList<Store> stores, String filepath) {
+// // try {
+// // BufferedWriter bw = Utils.createWriter(filepath);
+// // int storeNum = 0;
+// // for (Store store : stores) {
+// // bw.write(Utils.convertToStoreString(store));
+// // if (storeNum != stores.size() - 1) {
+// // bw.newLine();
+// // }
+// // storeNum += 1;
+// // }
+// // bw.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return;
+// // }
+// // }
 
-    // // Contains lists of all products and customers as parameters
-    // public static ArrayList<Store> readStores(String filepath) {
-    // ArrayList<Store> storeList = new ArrayList<Store>();
-    // try {
-    // BufferedReader br = Utils.createReader(filepath);
-    // String line;
-    // while (true) {
-    // line = br.readLine();
-    // if (line == null) {
-    // break;
-    // }
-    // String[] data = line.split(",");
-    // storeList.add(Utils.convertFromStoreString(data));
-    // }
-    // br.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return new ArrayList<Store>();
-    // }
-    // return storeList;
-    // }
+// // // Contains lists of all products and sales as parameters
+// // public static ArrayList<Seller> readSellers(String filepath) {
+// // ArrayList<Seller> sellerList = new ArrayList<Seller>();
+// // try {
+// // BufferedReader br = Utils.createReader(filepath);
+// // String line;
+// // while (true) {
+// // line = br.readLine();
+// // if (line == null) {
+// // break;
+// // }
+// // String[] data = line.split(",");
+// // sellerList.add(Utils.convertFromSellerString(data));
+// // }
+// // br.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // return new ArrayList<Seller>();
+// // }
+// // return sellerList;
+// // }
 
-    // public static void writeStores(ArrayList<Store> stores, String filepath) {
-    // try {
-    // BufferedWriter bw = Utils.createWriter(filepath);
-    // int storeNum = 0;
-    // for (Store store : stores) {
-    // bw.write(Utils.convertToStoreString(store));
-    // if (storeNum != stores.size() - 1) {
-    // bw.newLine();
-    // }
-    // storeNum += 1;
-    // }
-    // bw.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return;
-    // }
-    // }
+// // public static void writeSellers(ArrayList<Seller> sellers, String
+// filepath) {
+// // try {
+// // BufferedWriter bw = Utils.createWriter(filepath);
+// // int sellerNum = 0;
+// // for (Seller seller : sellers) {
+// // bw.write(Utils.convertToSellerString(seller));
+// // if (sellerNum != sellers.size() - 1) {
+// // bw.newLine();
+// // }
+// // sellerNum += 1;
+// // }
+// // bw.close();
+// // } catch (IOException e) {
+// // e.printStackTrace();
+// // }
+// // }
 
-    // // Contains lists of all products and sales as parameters
-    // public static ArrayList<Seller> readSellers(String filepath) {
-    // ArrayList<Seller> sellerList = new ArrayList<Seller>();
-    // try {
-    // BufferedReader br = Utils.createReader(filepath);
-    // String line;
-    // while (true) {
-    // line = br.readLine();
-    // if (line == null) {
-    // break;
-    // }
-    // String[] data = line.split(",");
-    // sellerList.add(Utils.convertFromSellerString(data));
-    // }
-    // br.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return new ArrayList<Seller>();
-    // }
-    // return sellerList;
-    // }
-
-    // public static void writeSellers(ArrayList<Seller> sellers, String filepath) {
-    // try {
-    // BufferedWriter bw = Utils.createWriter(filepath);
-    // int sellerNum = 0;
-    // for (Seller seller : sellers) {
-    // bw.write(Utils.convertToSellerString(seller));
-    // if (sellerNum != sellers.size() - 1) {
-    // bw.newLine();
-    // }
-    // sellerNum += 1;
-    // }
-    // bw.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // }
-
-}
+// }

@@ -1,20 +1,33 @@
 package utils;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Map;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.logging.Log;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.impl.client.HttpClients;
+
 import com.google.api.core.ApiFuture;
+import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 
 import models.Cart;
 import models.Customer;
@@ -29,17 +42,6 @@ public class Utils {
     public static final int NO = 0;
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
-    public static final String DATA_DIR = ".data";
-    public static final String TEST_FILE = "/.test.csv";
-    public static final String PRODUCT_FILE = "/.product.csv";
-    public static final String CART_FILE = "/.cart.csv";
-    public static final String CUSTOMER_FILE = "/.customer.csv";
-    public static final String SALE_FILE = "/.sale.csv";
-    public static final String STORE_FILE = "/.store.csv";
-    public static final String CUSTOMER_PURCHASE_HISTORY = "/.customer_purchase_history.csv";
-    public static final String SELLER_PRODUCTS = "/.seller_products.csv";
-    public static final String SELLER_FILE = "/.seller.csv"; // in the format int id, ArrayList<Product> products, //
-                                                             // String email, String password, ArrayList<Sale> sales
     public static final String NA = "NA";
 
     public static boolean validateYesOrNo(String input) {
@@ -104,27 +106,82 @@ public class Utils {
         } while (true);
     }
 
-    public static Firestore initializeDatabase() throws IOException {
+    public static void initializeDatabase() throws IOException {
         // Initialize Firestore
+        // GoogleCredentials.fromStream(new
+        // FileInputStream("amazeon-405720-6089a258377a.json"));
+        // Create the database
         FirestoreOptions firestoreOptions;
+        FileInputStream f = new FileInputStream(
+                "src/main/resources/service_account.json");
         firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
-                .setProjectId("amazeon-405720")
-                .setCredentials(GoogleCredentials.getApplicationDefault())
+                .setCredentialsProvider(FixedCredentialsProvider.create(GoogleCredentials.fromStream(f)))
                 .build();
-        return firestoreOptions.getService();
+        db = firestoreOptions.getService();
+        initializeCollections(db);
     }
 
-    // Is there a way I can easily wrap the get, read, and write methods into one
-    // method?
+    // This method takes a database as a parameter to allow flexibility regarding
+    // testing as well
+    public static void initializeCollections(Firestore firestoreDB) {
+        Customer.customersCollection = firestoreDB.collection("customers");
+        Cart.cartsCollection = firestoreDB.collection("carts");
+        Product.productsCollection = firestoreDB.collection("products");
+        Sale.salesCollection = firestoreDB.collection("sales");
+        Store.storesCollection = firestoreDB.collection("stores");
+        Seller.sellersCollection = firestoreDB.collection("sellers");
+    }
+
+    public static void clearCollections() throws IOException {
+        String urlEndpoint = "http://localhost:8080/emulator/v1/projects/amazeon-405720/databases/(default)/documents";
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .uri(URI.create(
+                        urlEndpoint))
+                .build();
+        HttpResponse<String> response;
+        try {
+            response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new IOException("Could not clear collections, status code: "
+                        + response.statusCode());
+            } else {
+                System.out.println("Deleted collection: " + urlEndpoint);
+            }
+        } catch (InterruptedException e) {
+            throw new IOException("Could not clear collections, exception: " + e.toString());
+        }
+    }
+
+    public static ArrayList<Integer> firestoreDocToIDArray(Map<String, Object> map, String docPath) {
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getKey().equals(docPath)) {
+                if (!entry.getValue().toString().equals("[]")) {
+                    String[] idArray = entry.getValue().toString().replace("[", "").replace("]", "").replace(" ", "")
+                            .split(",");
+                    for (String id : idArray) {
+                        array.add(Integer.parseInt(id));
+                    }
+                }
+            }
+        }
+        return array;
+    }
+
     public static List<QueryDocumentSnapshot>
 
             retrieveData(ApiFuture<QuerySnapshot> future) throws IOException {
         QuerySnapshot query;
+
         try {
             query = future.get();
         } catch (InterruptedException e) {
+            e.printStackTrace();
             throw new IOException();
         } catch (ExecutionException e) {
+            e.printStackTrace();
             throw new IOException();
         }
         List<QueryDocumentSnapshot> documents = query.getDocuments();
@@ -132,5 +189,39 @@ public class Utils {
             return null;
         }
         return documents;
+    }
+
+    public static void
+
+            writeData(ApiFuture<WriteResult> future) throws IOException {
+        WriteResult result;
+
+        try {
+            result = future.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new IOException();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            throw new IOException();
+        }
+        return;
+    }
+
+    public static void
+
+            writeDataWithDoc(ApiFuture<DocumentReference> future) throws IOException {
+        DocumentReference result;
+
+        try {
+            result = future.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new IOException();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            throw new IOException();
+        }
+        return;
     }
 }

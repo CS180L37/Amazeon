@@ -2,10 +2,15 @@ package models;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.Query.Direction;
+
 import utils.Utils;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.io.IOException;
+import utils.fields;
+
 
 public class Product {
     private int productId;
@@ -18,10 +23,10 @@ public class Product {
 
     private DocumentReference documentReference;
 
-    private static CollectionReference productCollection = Utils.db.collection("products");
+    public static CollectionReference productsCollection;
 
     private Product(int productId, String name, int quantity, String description,
-            double price, int sellerId, int storeId) {
+            double price, int sellerId, int storeId) throws IOException {
         this.productId = productId;
         this.name = name;
         this.quantity = quantity;
@@ -29,25 +34,26 @@ public class Product {
         this.price = price;
         this.sellerId = sellerId;
         this.storeId = storeId;
+        this.documentReference = getProductDocument();
     }
 
     private Product(QueryDocumentSnapshot document) throws IOException {
-        int productId = document.getLong("productId").intValue();
-        this.name = document.getString("name");
+        int productId = document.getLong(fields.productId).intValue();
+        this.name = document.getString(fields.name);
         this.productId = productId;
-        this.quantity = document.getLong("quantity").intValue();
-        this.description = document.getString(description);
-        this.price = document.getLong("price").intValue();
-        int sellerId = document.getLong("sellerId").intValue();
+        this.quantity = document.getLong(fields.quantity).intValue();
+        this.description = document.getString(fields.description);
+        this.price = document.getLong(fields.price).doubleValue();
+        int sellerId = document.getLong(fields.sellerId).intValue();
         this.sellerId = sellerId;
-        int storeId = document.getLong("storeId").intValue();
+        int storeId = document.getLong(fields.storeId).intValue();
         this.storeId = storeId;
         this.documentReference = getProductDocument();
     }
 
     private DocumentReference getProductDocument() throws IOException {
-        ApiFuture<QuerySnapshot> future = productCollection
-                .whereEqualTo("productId", this.getProductId())
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereEqualTo(fields.productId, this.getProductId())
                 .limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -58,21 +64,20 @@ public class Product {
         return documents.get(0).getReference();
     }
 
-    // TODO: alternative constructor
-    public static Product createProduct(String description, String name, int price, int productId, int quantity,
+    public static Product createProduct(String description, String name, double price, int productId, int quantity,
             int sellerId, int storeId) throws IOException {
         Map<String, Object> productData = new HashMap<String, Object>();
         // Add data to db
-        productData.put("productId", productId);
-        productData.put("name", name);
-        productData.put("price", price);
-        productData.put("description", description);
-        productData.put("quantity", quantity);
-        productData.put("sellerId", sellerId);
-        productData.put("storeId", storeId);
-        productCollection.add(productData);
+        productData.put(fields.productId, productId);
+        productData.put(fields.name, name);
+        productData.put(fields.price, price);
+        productData.put(fields.description, description);
+        productData.put(fields.quantity, quantity);
+        productData.put(fields.sellerId, sellerId);
+        productData.put(fields.storeId, storeId);
+        productsCollection.add(productData);
         // Create a new instance
-        return new Product(productId, name, price, description, quantity, sellerId, storeId);
+        return new Product(productId, name, quantity, description, price, sellerId, storeId);
     }
 
     public void deleteProduct() throws IOException {
@@ -86,8 +91,12 @@ public class Product {
     public void setProductId(int productId) {
         this.productId = productId;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("productId", productId);
-        this.documentReference.update(data);
+        data.put(fields.productId, productId);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getSellerId() {
@@ -97,8 +106,12 @@ public class Product {
     public void setSellerId(int sellerId) {
         this.sellerId = sellerId;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("sellerId", sellerId);
-        this.documentReference.update(data);
+        data.put(fields.sellerId, sellerId);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getQuantity() {
@@ -108,8 +121,12 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("quantity", quantity);
-        this.documentReference.update(data);
+        data.put(fields.quantity, quantity);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getName() {
@@ -119,8 +136,12 @@ public class Product {
     public void setName(String name) {
         this.name = name;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("name", name);
-        this.documentReference.update(data);
+        data.put(fields.name, name);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getStoreId() {
@@ -130,8 +151,12 @@ public class Product {
     public void setStoreId(int storeId) {
         this.storeId = storeId;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("storeId", storeId);
-        this.documentReference.update(data);
+        data.put(fields.storeId, storeId);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getDescription() {
@@ -141,8 +166,12 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("description", description);
-        this.documentReference.update(data);
+        data.put(fields.description, description);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public double getPrice() {
@@ -153,30 +182,79 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
         HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("price", price);
-        this.documentReference.update(data);
+        data.put(fields.price, price);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
-    // TODO: adapt these for backend
     public static Product getProductById(int id) throws IOException {
-        ApiFuture<QuerySnapshot> future = productCollection.select("productId")
-                .where(Filter.equalTo("productId", id)).limit(1).get();
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .where(Filter.equalTo(fields.productId, id)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return new Product(documents.get(0));
+        return (documents == null) ? null : new Product(documents.get(0));
     }
 
-    public static ArrayList<Product> getProductsByIds(List<Integer> productIds) throws IOException {
+    public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
         for (int productID : productIds) {
-            productList.add(getProductById(productID));
+            Product product = getProductById(productID);
+            if (product != null) {
+                productList.add(product);
+            }
         }
         return productList;
     }
 
     public static int getNextProductId() throws IOException {
-        ApiFuture<QuerySnapshot> future = productCollection.orderBy("productId", Query.Direction.DESCENDING)
+        ApiFuture<QuerySnapshot> future = productsCollection.orderBy(fields.productId, Query.Direction.DESCENDING)
                 .limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return documents.get(0).getLong("productId").intValue() + 1;
+        return documents.get(0).getLong(fields.productId).intValue() + 1;
+    }
+
+    public static ArrayList<Product> sortProducts(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection.orderBy(field, direction).get();
+        ArrayList<Product> products = new ArrayList<Product>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            products.add(new Product(doc));
+        }
+        return products;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                {
+                    productId: %d
+                    name: %s
+                    quantity: %d
+                    description: %s
+                    price: %f
+                    sellerId: %d
+                    storeId: %d
+                }""", this.getProductId(), this.getName(), this.getQuantity(), this.getDescription(), this.getPrice(),
+                this.getSellerId(), this.getStoreId());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Product) {
+            Product product = (Product) obj;
+            if (product.getProductId() == this.getProductId() && product.getName().equals(this.getName())
+                    && product.getQuantity() == this.getQuantity()
+                    && product.getDescription().equals(this.getDescription())
+                    && product.getPrice() == this.getPrice() && product.getSellerId() == this.getSellerId()
+                    && product.getStoreId() == this.getStoreId()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

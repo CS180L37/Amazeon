@@ -199,4 +199,3 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
         }
     }
 }
-
