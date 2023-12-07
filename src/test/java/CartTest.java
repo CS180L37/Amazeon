@@ -2,6 +2,7 @@
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +50,22 @@ public class CartTest extends TestUtils {
         Product newProd = Product.createProduct("drink", "Prime", 799.0, 1, 2, 3, 4);
         cart2.addToCart(newProd);
         assertEquals(cart2.getCartProducts(), new ArrayList<Product>(Arrays.asList(newProd)));
+    }
+
+    // Try creating a cart
+    @Test
+    public void testCreateCart() throws IOException {
+        try {
+            Cart cart3 = Cart.createCart(3);
+            assertEquals(cart3, Cart.getCartById(3));
+            // Ensure that trying to create an already existing customer throws an error;
+            // handled in amazeon
+            // assertThrows(IOException.class, () ->
+            // Customer.createCustomer("adityasemail@gmail.com", fields.password));
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     // Try removing a product from a cart

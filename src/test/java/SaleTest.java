@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import models.Cart;
 import models.Product;
 import models.Seller;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +36,21 @@ public class SaleTest extends TestUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testCreateSale() throws IOException {
+        try {
+            Sale sale2 = Sale.createSale(9.99, 2, 0, 0, 1);
+            assertEquals(sale2, Sale.getSaleById(2));
+            // Ensure that trying to create an already existing customer throws an error;
+            // handled in amazeon
+            // assertThrows(IOException.class, () ->
+            // Customer.createCustomer("adityasemail@gmail.com", fields.password));
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail();
         }
     }
 
