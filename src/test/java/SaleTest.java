@@ -1,4 +1,3 @@
-
 import static models.Sale.getSaleById;
 import static org.junit.jupiter.api.Assertions.*;
 

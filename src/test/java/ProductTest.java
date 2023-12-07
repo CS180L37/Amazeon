@@ -169,5 +169,4 @@ public class ProductTest extends TestUtils {
                 Utils.retrieveData(products.whereEqualTo(fields.storeId,
                         100).limit(1).get()).size());
     }
-
 }
