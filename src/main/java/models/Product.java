@@ -11,7 +11,6 @@ import java.util.concurrent.ExecutionException;
 import java.io.IOException;
 import utils.fields;
 
-
 public class Product {
     private int productId;
     private String name;
@@ -81,7 +80,11 @@ public class Product {
     }
 
     public void deleteProduct() throws IOException {
-        this.documentReference.delete();
+        try {
+            this.documentReference.delete().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getProductId() {

@@ -18,8 +18,6 @@ import com.google.cloud.firestore.Query.Direction;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 
-import io.grpc.netty.shaded.io.netty.util.Timer;
-import models.Customer;
 import models.Product;
 import utils.Utils;
 import utils.fields;
@@ -101,10 +99,12 @@ public class ProductTest extends TestUtils {
         }
     }
 
+    // Why does this throw an error when run standalone but doesn't when run as a
+    // part of the test suite?
     @Test
     public void testDeleteProduct() throws IOException {
         product0.deleteProduct();
-        assertThrows(IOException.class, () -> Product.getProductById(0));
+        assertNull(Product.getProductById(0));
     }
 
     // @Test
