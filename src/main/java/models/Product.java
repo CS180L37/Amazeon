@@ -199,6 +199,13 @@ public class Product {
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
+    // public static Product getNonDeletedProductById(int id) throws IOException {
+    // ApiFuture<QuerySnapshot> future = productsCollection
+    // .where(Filter.equalTo(fields.productId, id)).limit(1).get();
+    // List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+    // return (documents == null) ? null : new Product(documents.get(0));
+    // }
+
     public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
         for (int productID : productIds) {

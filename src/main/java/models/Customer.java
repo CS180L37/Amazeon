@@ -17,7 +17,6 @@ import com.google.cloud.firestore.Query.Direction;
 
 import utils.Utils;
 import utils.fields;
-import utils.fields;
 
 import java.io.IOException;
 
