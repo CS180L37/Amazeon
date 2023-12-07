@@ -15,6 +15,8 @@ import utils.fields;
 
 public class Cart {
     private int customerID;
+    private boolean isDeleted;
+
     private ArrayList<Product> cartProducts;
     public static CollectionReference cartsCollection;
     private DocumentReference documentReference;
@@ -26,6 +28,7 @@ public class Cart {
     Cart(int customerID, ArrayList<Product> cartProducts) throws IOException {
         this.customerID = customerID;
         this.cartProducts = (cartProducts != null) ? cartProducts : new ArrayList<Product>();
+        this.isDeleted = false;
         this.documentReference = getCartDocument();
     }
 
@@ -33,7 +36,17 @@ public class Cart {
         this.customerID = document.getLong(fields.customerId).intValue();
         ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), fields.productIds);
         this.cartProducts = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
+        this.isDeleted = document.getBoolean(fields.isDeleted).booleanValue();
         this.documentReference = getCartDocument();
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+        updateRemoteCart(fields.customerId, isDeleted);
     }
 
     public static Cart createCart(int customerId) throws IOException {
@@ -47,13 +60,13 @@ public class Cart {
         return newCart;
     }
 
-    public void deleteCart() throws IOException {
-        try {
-            this.documentReference.delete().get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-    }
+    // public void deleteCart() throws IOException {
+    // try {
+    // this.documentReference.delete().get();
+    // } catch (InterruptedException | ExecutionException e) {
+    // e.printStackTrace();
+    // }
+    // }
 
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
@@ -135,6 +148,14 @@ public class Cart {
         return (documents == null) ? null : new Cart(documents.get(0));
     }
 
+    public static Cart getNonDeletedCartById(int givenCustomerId) throws IOException {
+        ApiFuture<QuerySnapshot> future = cartsCollection
+                .where(Filter.equalTo(fields.customerId, givenCustomerId))
+                .whereNotEqualTo(fields.isDeleted, true).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Cart(documents.get(0));
+    }
+
     public static ArrayList<Cart> getCartsByIds(ArrayList<Integer> cartIds) throws IOException {
         ArrayList<Cart> cartList = new ArrayList<Cart>();
         for (int cartID : cartIds) {
@@ -146,8 +167,33 @@ public class Cart {
         return cartList;
     }
 
+    public static ArrayList<Cart> getNonDeletedCartsByIds(ArrayList<Integer> cartIds) throws IOException {
+        ArrayList<Cart> cartList = new ArrayList<Cart>();
+        for (int cartID : cartIds) {
+            Cart cart = getNonDeletedCartById(cartID);
+            if (cart != null) {
+                cartList.add(cart);
+            }
+        }
+        return cartList;
+    }
+
     public static ArrayList<Cart> sortCarts(String field, Direction direction) throws IOException {
         ApiFuture<QuerySnapshot> future = cartsCollection.orderBy(field, direction).get();
+        ArrayList<Cart> carts = new ArrayList<Cart>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            carts.add(new Cart(doc));
+        }
+        return carts;
+    }
+
+    public static ArrayList<Cart> sortNonDeletedCarts(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = cartsCollection.whereNotEqualTo(fields.isDeleted, true)
+                .orderBy(field, direction).get();
         ArrayList<Cart> carts = new ArrayList<Cart>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {

@@ -94,8 +94,8 @@ public class SellerTest extends TestUtils {
 
     @Test
     public void testDeleteSeller() throws IOException {
-        seller1.deleteSeller();
-        assertNull(Seller.getSellerById(1));
+        seller1.setDeleted(true);
+        assertNull(Seller.getNonDeletedSellerById(1));
     }
 
     @Test

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class Store {
     private int storeId;
     private String name;
+    private boolean isDeleted;
     private ArrayList<Product> storeProducts;
     private ArrayList<Customer> storeCustomers;
     public static CollectionReference storesCollection;
@@ -31,6 +32,7 @@ public class Store {
         ArrayList<Integer> customerIds = Utils.firestoreDocToIDArray(document.getData(), "customerIds");
         this.storeCustomers = Customer
                 .getCustomersByIds((customerIds != null) ? customerIds : new ArrayList<Integer>());
+        this.isDeleted = document.getBoolean(fields.isDeleted).booleanValue();
         this.documentReference = getStoreDocument();
 
     }
@@ -41,6 +43,7 @@ public class Store {
         this.name = name;
         this.storeProducts = storeProducts;
         this.storeCustomers = storeCustomers;
+        this.isDeleted = false;
         this.documentReference = getStoreDocument();
     }
 
@@ -62,10 +65,29 @@ public class Store {
         return (documents == null) ? null : new Store(documents.get(0));
     }
 
+    public static Store getNonDeletedStoreById(int givenStoreId) throws IOException {
+        ApiFuture<QuerySnapshot> future = storesCollection
+                .where(Filter.equalTo(fields.storeId, givenStoreId)).whereNotEqualTo(fields.isDeleted, true).limit(1)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Store(documents.get(0));
+    }
+
     public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) throws IOException {
         ArrayList<Store> stores = new ArrayList<Store>();
         for (int id : storeIds) {
             Store store = getStoreById(id);
+            if (store != null) {
+                stores.add(store);
+            }
+        }
+        return stores;
+    }
+
+    public static ArrayList<Store> getNonDeletedStoresByIds(ArrayList<Integer> storeIds) throws IOException {
+        ArrayList<Store> stores = new ArrayList<Store>();
+        for (int id : storeIds) {
+            Store store = getNonDeletedStoreById(id);
             if (store != null) {
                 stores.add(store);
             }
@@ -105,6 +127,20 @@ public class Store {
 
     public static ArrayList<Store> sortStores(String field, Direction direction) throws IOException {
         ApiFuture<QuerySnapshot> future = storesCollection.orderBy(field, direction).get();
+        ArrayList<Store> stores = new ArrayList<Store>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            stores.add(new Store(doc));
+        }
+        return stores;
+    }
+
+    public static ArrayList<Store> sortNonDeletedStores(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = storesCollection.whereNotEqualTo(fields.isDeleted, true)
+                .orderBy(field, direction).get();
         ArrayList<Store> stores = new ArrayList<Store>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -156,6 +192,23 @@ public class Store {
     public void setStoreId(int id) {
         this.storeId = id;
         updateRemoteStore(fields.storeId, id);
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        // Set locally
+        this.isDeleted = isDeleted;
+        // Set on the backend
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put(fields.isDeleted, isDeleted);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setStoreProducts(ArrayList<Product> storeProducts) {

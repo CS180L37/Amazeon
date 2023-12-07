@@ -16,5 +16,5 @@ public class fields {
     public static final String storeId = "storeId";
     public static final String numPurchased = "numPurchased";
     public static final String cost = "cost";
-
+    public static final String isDeleted = "isDeleted";
 }

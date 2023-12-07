@@ -25,6 +25,8 @@ public class Customer {
     private int customerId;
     private String email;
     private String password;
+    private boolean isDeleted;
+
     private ArrayList<Product> products;
 
     // For writing and updating operations on the current instance
@@ -41,6 +43,7 @@ public class Customer {
         this.email = email;
         this.password = password;
         this.products = products;
+        this.isDeleted = false;
         this.documentReference = getCustomerDocument();
     }
 
@@ -56,6 +59,7 @@ public class Customer {
         this.password = document.getString(fields.password);
         ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), fields.productIds);
         this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
+        this.isDeleted = document.getBoolean(fields.isDeleted).booleanValue();
         this.documentReference = getCustomerDocument();
     }
 
@@ -83,18 +87,26 @@ public class Customer {
 
     // Frontend should redirect the user to the authentication page upon account
     // deletion
-    public void deleteCustomer() throws IOException {
-        try {
-            this.getCart().deleteCart();
-            this.documentReference.delete().get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-    }
+    // public void deleteCustomer() throws IOException {
+    // try {
+    // this.getCart().deleteCart();
+    // this.documentReference.delete().get();
+    // } catch (InterruptedException | ExecutionException e) {
+    // e.printStackTrace();
+    // }
+    // }
 
     public static Customer getCustomerById(int customerId) throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection
                 .where(Filter.equalTo(fields.customerId, customerId)).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Customer(documents.get(0));
+    }
+
+    public static Customer getNonDeletedCustomerById(int customerId) throws IOException {
+        ApiFuture<QuerySnapshot> future = customersCollection
+                .where(Filter.equalTo(fields.customerId, customerId)).whereNotEqualTo(fields.isDeleted, true).limit(1)
+                .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Customer(documents.get(0));
     }
@@ -110,8 +122,33 @@ public class Customer {
         return customers;
     }
 
+    public static ArrayList<Customer> getNonDeletedCustomersByIds(ArrayList<Integer> customerIds) throws IOException {
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        for (int id : customerIds) {
+            Customer customer = getNonDeletedCustomerById(id);
+            if (customer != null) {
+                customers.add(customer);
+            }
+        }
+        return customers;
+    }
+
     public static ArrayList<Customer> sortCustomers(String field, Direction direction) throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection.orderBy(field, direction).get();
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            customers.add(new Customer(doc));
+        }
+        return customers;
+    }
+
+    public static ArrayList<Customer> sortNonDeletedCustomers(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = customersCollection.whereNotEqualTo(fields.isDeleted, true)
+                .orderBy(field, direction).get();
         ArrayList<Customer> customers = new ArrayList<Customer>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -225,6 +262,23 @@ public class Customer {
         // Set on the backend
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put(fields.password, password);
+        try {
+            this.documentReference.update(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        // Set locally
+        this.isDeleted = isDeleted;
+        // Set on the backend
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        data.put(fields.isDeleted, isDeleted);
         try {
             this.documentReference.update(data).get();
         } catch (InterruptedException | ExecutionException e) {
