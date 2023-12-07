@@ -6,6 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
 public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
     //sorts stores by products purchased by this particular customer
     JFrame frame;

@@ -4,6 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
+
 public class CreateAccountGUI extends JComponent implements Runnable{
     JFrame frame;
     JTextField emailTextField; //email input text field

@@ -7,6 +7,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
+
 public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
     //sorts stores by products sold
     JFrame frame;

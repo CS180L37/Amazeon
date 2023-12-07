@@ -5,6 +5,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
+
 public class SellerEditProductGUI extends JComponent implements Runnable {
     JFrame frame;
     JTextField productIdField;
@@ -17,9 +24,9 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == editButton) {
 //                Product product = getProductById(Integer.parseInt(productIdField.getText()));
-                Product product  = new Product(1, "Sour Patch", 7, "sweet and sour candy", 3.00, 1, 1);
-                frame.dispose();
-                SwingUtilities.invokeLater(new SellerUpdateProductGUI(product));
+//                Product product  = new Product(1, "Sour Patch", 7, "sweet and sour candy", 3.00, 1, 1);
+//                frame.dispose();
+//                SwingUtilities.invokeLater(new SellerUpdateProductGUI(product));
             }
             if(e.getSource() == logOutButton) {
                 frame.dispose();

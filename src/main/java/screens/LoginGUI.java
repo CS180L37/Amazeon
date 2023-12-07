@@ -3,7 +3,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import screens.CreateAccountGUI;
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
 
 public class LoginGUI extends JComponent implements Runnable{
     JFrame frame;

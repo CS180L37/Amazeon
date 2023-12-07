@@ -4,18 +4,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
+
 public class SellerCreateProductGUI extends JComponent implements Runnable{
     // Text fields
     JTextField productNameField, productDescField, productPriceField, productStockField, productIDField, storeIDField, sellerIDField;
     JButton createProductButton;
     JButton logOutButton;
     JButton returnHomeButton;
-    Product product;
+//    Product product;
 
 
-//    public CreatePage() {
-//
-//    }
 
     ActionListener actionListener = new ActionListener() {
         @Override

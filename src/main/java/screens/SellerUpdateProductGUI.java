@@ -5,6 +5,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
+
 public class SellerUpdateProductGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton editProductButton;
@@ -15,7 +22,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
 
     int productId;
 
-    Product product  = new Product(1, "Sour Patch", 7, "sweet and sour candy", 3.00, 1, 1);
+//    Product product  = new Product(1, "Sour Patch", 7, "sweet and sour candy", 3.00, 1, 1);
 
     public SellerUpdateProductGUI(Product product) {
         productId = product.getProductId();
@@ -25,13 +32,13 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == editProductButton) {
-                product.setProductId(productId);
-                product.setStoreId(Integer.parseInt(strId.getText()));
-                product.setName(nme.getText());
-                product.setDescription(desc.getText());
-                product.setQuantity(Integer.parseInt(quan.getText()));
-                product.setPrice(Double.parseDouble(prce.getText()));
-                frame.dispose();
+//                product.setProductId(productId);
+//                product.setStoreId(Integer.parseInt(strId.getText()));
+//                product.setName(nme.getText());
+//                product.setDescription(desc.getText());
+//                product.setQuantity(Integer.parseInt(quan.getText()));
+//                product.setPrice(Double.parseDouble(prce.getText()));
+//                frame.dispose();
             }
             if(e.getSource() == logOutButton) {
                 frame.dispose();
