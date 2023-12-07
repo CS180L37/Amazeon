@@ -54,6 +54,7 @@ public class Cart {
         HashMap<String, Object> data = new HashMap<>();
         data.put(fields.customerId, customerId);
         data.put(fields.productIds, Arrays.asList());
+        data.put(fields.isDeleted, false);
         // cartsCollection.document(currCustomer.getEmail()).set(data);
         // newCart.documentReference =
         // cartsCollection.document(currCustomer.getEmail());
