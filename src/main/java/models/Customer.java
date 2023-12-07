@@ -19,7 +19,6 @@ import utils.Utils;
 import utils.fields;
 import utils.fields;
 
-
 import java.io.IOException;
 
 public class Customer {
@@ -86,7 +85,12 @@ public class Customer {
     // Frontend should redirect the user to the authentication page upon account
     // deletion
     public void deleteCustomer() throws IOException {
-        this.documentReference.delete();
+        try {
+            this.getCart().deleteCart();
+            this.documentReference.delete().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Customer getCustomerById(int customerId) throws IOException {

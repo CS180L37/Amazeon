@@ -1,6 +1,7 @@
 // import static org.junit.Assert.assertEquals;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ public class CartTest extends TestUtils {
     public Cart cart1;
     public Cart cart2;
     public CollectionReference carts;
-
 
     @BeforeEach
     @Override
@@ -64,6 +64,12 @@ public class CartTest extends TestUtils {
         cart0.purchaseCart();
         assertEquals(cart0.getCartProducts().size(), 0);
         assertEquals(cart0.getCartProducts(), new ArrayList<Product>());
+    }
+
+    @Test
+    public void testDeleteCart() throws IOException {
+        cart0.deleteCart();
+        assertNull(Cart.getCartById(0));
     }
 
     @Test

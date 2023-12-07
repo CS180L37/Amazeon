@@ -98,7 +98,7 @@ public class TestUtils {
                                                         "States to find the entrance to the Underworld and stop a war between the "
                                                         +
                                                         "gods.",
-                                        fields.name, "Percy Jackson", fields.price, 9.99, fields.productId, 0,
+                                        fields.name, "Percy Jackson", fields.price, 10, fields.productId, 0,
                                         fields.quantity, 5, fields.sellerId, 0, fields.storeId, 0)).get();
                         Product.productsCollection.add(Map.of(
                                         fields.description, "A piece of wood for hitting a ball",
@@ -107,7 +107,7 @@ public class TestUtils {
 
                         Product.productsCollection.add(Map.of(
                                         fields.description, "Nintendo's switching it up with their new game console!",
-                                        fields.name, "Nintendo Switch", fields.price, 299.99, fields.productId, 3,
+                                        fields.name, "Nintendo Switch", fields.price, 300, fields.productId, 3,
                                         fields.quantity, 10, fields.sellerId, 3, fields.storeId, 2)).get();
                         Cart.cartsCollection.add(Map.of(
                                         "customerId", 0, fields.productIds, Arrays.asList())).get();
@@ -131,11 +131,11 @@ public class TestUtils {
                                         fields.password, fields.password, fields.productIds, Arrays.asList(3))).get();
 
                         Sale.salesCollection.add(Map.of(
-                                        fields.cost, 9.99, "customerId", 0, fields.numPurchased, 1, fields.productId, 0,
+                                        fields.cost, 10, "customerId", 0, fields.numPurchased, 1, fields.productId, 0,
                                         "saleId", 0)).get();
 
                         Sale.salesCollection.add(Map.of(
-                                        fields.cost, 299.99, "customerId", 2, fields.numPurchased, 1, fields.productId,
+                                        fields.cost, 300, "customerId", 2, fields.numPurchased, 1, fields.productId,
                                         3,
                                         "saleId", 1)).get();
 

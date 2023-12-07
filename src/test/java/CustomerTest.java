@@ -110,7 +110,7 @@ public class CustomerTest extends TestUtils {
     @Test
     public void testDeleteCustomer() throws IOException {
         customer0.deleteCustomer();
-        assertThrows(IOException.class, () -> Customer.getCustomerById(0));
+        assertNull(Customer.getCustomerById(0));
     }
 
     // @Test

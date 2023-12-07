@@ -15,7 +15,6 @@ import com.google.cloud.firestore.QuerySnapshot;
 import utils.Utils;
 import utils.fields;
 
-
 public class Seller {
     private int sellerId;
     private String name;
@@ -77,7 +76,13 @@ public class Seller {
     }
 
     public void deleteSeller() throws IOException {
-        this.documentReference.delete();
+        try {
+            this.documentReference.delete().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ArrayList<Seller> sortSellers(String field, Direction direction) throws IOException {
