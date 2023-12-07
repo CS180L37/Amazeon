@@ -51,10 +51,10 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
         storeTwoProducts.add(productFive);
         storeTwoProducts.add(productSix);
 
-        storeOne = new Store(100, storeOneProducts);
-        storeOne.setName("Candy One");
-        storeTwo = new Store(101, storeTwoProducts);
-        storeTwo.setName("Candy Two");
+        storeOne = Store.createStore(100, "Candy One");
+        storeOne.setStoreProducts(storeOneProducts);
+        storeTwo = Store.createStore(101, "Candy Two");
+        storeTwo.setStoreProducts(storeTwoProducts);
         storesList.add(storeOne);
         storesList.add(storeTwo);
     }
@@ -125,18 +125,18 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
                         JPanel panel = new JPanel();
 
                         for(int i = 0; i < storesList.size(); i++){
-                            for(int j = 0; j < storesList.get(i).getProducts().size(); j++){
-                                if(storesList.get(i).getProducts().get(j).getName().contains(name.getText())){
+                            for(int j = 0; j < storesList.get(i).getStoreProducts().size(); j++){
+                                if(storesList.get(i).getStoreProducts().get(j).getName().contains(name.getText())){
                                     JButton productButton = new JButton("<html>" +
                                             "<div style='text-align: center;'>" +
-                                            "<div>" + "Product Name: " + storesList.get(i).getProducts().get(j).getName() + "</div>" +
+                                            "<div>" + "Product Name: " + storesList.get(i).getStoreProducts().get(j).getName() + "</div>" +
                                             "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
-                                            "<div>" + "Product Price: $" + storesList.get(i).getProducts().get(j).getPrice() + "0" + "</div>" +
+                                            "<div>" + "Product Price: $" + storesList.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
                                             "</div>" +
                                             "</html>");
                                     productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
                                     panel.add(productButton);
-                                    Product product = storesList.get(i).getProducts().get(j);
+                                    Product product = storesList.get(i).getStoreProducts().get(j);
 
                                     productButton.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
@@ -221,18 +221,18 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
                         JPanel panel = new JPanel();
 
                         for(int i = 0; i < storesList.size(); i++){
-                            for(int j = 0; j < storesList.get(i).getProducts().size(); j++){
-                                if(String.valueOf(storesList.get(i).getProducts().get(j).getStoreId()).contains(storeId.getText())){
+                            for(int j = 0; j < storesList.get(i).getStoreProducts().size(); j++){
+                                if(String.valueOf(storesList.get(i).getStoreProducts().get(j).getStoreId()).contains(storeId.getText())){
                                     JButton productButton = new JButton("<html>" +
                                             "<div style='text-align: center;'>" +
-                                            "<div>" + "Product Name: " + storesList.get(i).getProducts().get(j).getName() + "</div>" +
+                                            "<div>" + "Product Name: " + storesList.get(i).getStoreProducts().get(j).getName() + "</div>" +
                                             "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
-                                            "<div>" + "Product Price: $" + storesList.get(i).getProducts().get(j).getPrice() + "0" + "</div>" +
+                                            "<div>" + "Product Price: $" + storesList.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
                                             "</div>" +
                                             "</html>");
                                     productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
                                     panel.add(productButton);
-                                    Product product = storesList.get(i).getProducts().get(j);
+                                    Product product = storesList.get(i).getStoreProducts().get(j);
 
                                     productButton.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
@@ -315,18 +315,18 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
                         JPanel panel = new JPanel();
 
                         for(int i = 0; i < storesList.size(); i++){
-                            for(int j = 0; j < storesList.get(i).getProducts().size(); j++){
-                                if(storesList.get(i).getProducts().get(j).getDescription().contains(description.getText())){
+                            for(int j = 0; j < storesList.get(i).getStoreProducts().size(); j++){
+                                if(storesList.get(i).getStoreProducts().get(j).getDescription().contains(description.getText())){
                                     JButton productButton = new JButton("<html>" +
                                             "<div style='text-align: center;'>" +
-                                            "<div>" + "Product Name: " + storesList.get(i).getProducts().get(j).getName() + "</div>" +
+                                            "<div>" + "Product Name: " + storesList.get(i).getStoreProducts().get(j).getName() + "</div>" +
                                             "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
-                                            "<div>" + "Product Price: $" + storesList.get(i).getProducts().get(j).getPrice() + "0" + "</div>" +
+                                            "<div>" + "Product Price: $" + storesList.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
                                             "</div>" +
                                             "</html>");
                                     productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
                                     panel.add(productButton);
-                                    Product product = storesList.get(i).getProducts().get(j);
+                                    Product product = storesList.get(i).getStoreProducts().get(j);
 
                                     productButton.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
