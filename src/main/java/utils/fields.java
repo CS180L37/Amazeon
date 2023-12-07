@@ -2,6 +2,7 @@ package utils;
 
 public class fields {
     public static final String customerId = "customerId";
+    public static final String customerIds = "customerIds";
     public static final String sellerId = "sellerId";
     public static final String email = "email";
     public static final String password = "password";
