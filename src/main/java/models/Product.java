@@ -41,7 +41,7 @@ public class Product {
         this.productId = productId;
         this.quantity = document.getLong(fields.quantity).intValue();
         this.description = document.getString(fields.description);
-        this.price = document.getLong(fields.price).doubleValue();
+        this.price = document.getDouble(fields.price).doubleValue();
         int sellerId = document.getLong(fields.sellerId).intValue();
         this.sellerId = sellerId;
         int storeId = document.getLong(fields.storeId).intValue();
