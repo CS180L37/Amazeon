@@ -99,8 +99,6 @@ public class ProductTest extends TestUtils {
         }
     }
 
-    // Why does this throw an error when run standalone but doesn't when run as a
-    // part of the test suite?
     @Test
     public void testDeleteProduct() throws IOException {
         product0.deleteProduct();
