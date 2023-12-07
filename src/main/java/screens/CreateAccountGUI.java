@@ -2,22 +2,19 @@ package screens;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
-import screens.CreateAccountGUI;
-
-public class LoginGUI extends JComponent implements Runnable{
+public class CreateAccountGUI extends JComponent implements Runnable{
     JFrame frame;
     JTextField emailTextField; //email input text field
     JTextField passwordTextField; //password input text field
     JButton loginButton; //login button
     JButton createAccountButton; //should display createAccountGUI
-
     String email;
     String password;
-
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == loginButton) {
+            if(e.getSource() == createAccountButton) {
                 email = String.valueOf(emailTextField.getText());
                 password = String.valueOf(passwordTextField.getText());
                 System.out.println(email + " " + password);
@@ -28,9 +25,9 @@ public class LoginGUI extends JComponent implements Runnable{
                     ex.printStackTrace();
                 }
             }
-            if(e.getSource() == createAccountButton) {
+            if(e.getSource() == loginButton) {
                 frame.dispose();
-                SwingUtilities.invokeLater(new CreateAccountGUI());
+                SwingUtilities.invokeLater(new LoginGUI());
             }
         }
     };
@@ -39,12 +36,12 @@ public class LoginGUI extends JComponent implements Runnable{
         @Override
         public void focusGained(FocusEvent e) {
             if(e.getSource() == emailTextField){
-                if(emailTextField.getText().equals("Email")){
+                if(emailTextField.getText().equals("Enter email you would like to use")){
                     emailTextField.setText("");
                 }
             }
             if(e.getSource() == passwordTextField){
-                if(passwordTextField.getText().equals("Password")){
+                if(passwordTextField.getText().equals("Enter a password")){
                     passwordTextField.setText("");
                 }
             }
@@ -55,19 +52,19 @@ public class LoginGUI extends JComponent implements Runnable{
         public void focusLost(FocusEvent e) {
             if(e.getSource() == emailTextField){
                 if(emailTextField.getText().isEmpty()) {
-                    emailTextField.setText("Email");
+                    emailTextField.setText("Enter email you would like to use");
                 }
             }
             if(e.getSource() == passwordTextField){
                 if(passwordTextField.getText().isEmpty()) {
-                    passwordTextField.setText("Password");
+                    passwordTextField.setText("Enter a password");
                 }
             }
         }
     };
 
     public void run() {
-        frame = new JFrame("Login");
+        frame = new JFrame("Create Account");
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -77,9 +74,9 @@ public class LoginGUI extends JComponent implements Runnable{
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
 
-        emailTextField = new JTextField("Email", 25);
+        emailTextField = new JTextField("Enter email you would like to use", 25);
         emailTextField.addFocusListener(focusListener);
-        passwordTextField = new JTextField("Password", 25);
+        passwordTextField = new JTextField("Enter a password", 25);
         passwordTextField.addFocusListener(focusListener);
         loginButton = new JButton("Login");
         loginButton.addActionListener(actionListener);
@@ -87,7 +84,7 @@ public class LoginGUI extends JComponent implements Runnable{
         createAccountButton.addActionListener(actionListener);
 
         JPanel topPanel = new JPanel();
-        JLabel topTextLabel = new JLabel("LOGIN");
+        JLabel topTextLabel = new JLabel("CREATE ACCOUNT");
         topPanel.add(topTextLabel);
 
         content.add(topPanel, BorderLayout.NORTH);
@@ -106,23 +103,23 @@ public class LoginGUI extends JComponent implements Runnable{
         middlePanel.add(passwordTextField, gbc);
 
         gbc.gridy++;
-        loginButton.setPreferredSize(new Dimension(70, 20));
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        middlePanel.add(loginButton, gbc);
+        createAccountButton.setPreferredSize(new Dimension(130, 20));
+        createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        middlePanel.add(createAccountButton, gbc);
 
         content.add(middlePanel);
 
         JPanel bottomPanel = new JPanel();
-        JLabel bottomTextLabel = new JLabel("Don't have an account?");
+        JLabel bottomTextLabel = new JLabel("Already have an account?");
         bottomPanel.add(bottomTextLabel);
-        createAccountButton.setPreferredSize(new Dimension(130, 20));
-        bottomPanel.add(createAccountButton);
+        loginButton.setPreferredSize(new Dimension(70, 20));
+        bottomPanel.add(loginButton);
 
         content.add(bottomPanel, BorderLayout.SOUTH);
 
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new LoginGUI());
+        SwingUtilities.invokeLater(new CreateAccountGUI());
     }
 }
