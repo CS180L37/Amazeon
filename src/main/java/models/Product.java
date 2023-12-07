@@ -307,6 +307,7 @@ public class Product {
         productData.put(fields.quantity, quantity);
         productData.put(fields.sellerId, sellerId);
         productData.put(fields.storeId, storeId);
+        productData.put(fields.isDeleted, false);
         productsCollection.add(productData);
         // Create a new instance
         return new Product(productId, name, quantity, description, price, sellerId, storeId);

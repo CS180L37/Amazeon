@@ -276,6 +276,7 @@ public class ProductTest extends TestUtils {
             assertEquals(product4, Product.getProductById(4));
         } catch (IOException e) {
             e.printStackTrace();
+            fail();
         }
     }
 

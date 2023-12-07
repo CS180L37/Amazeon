@@ -232,6 +232,7 @@ public class Store {
         data.put(fields.name, name);
         data.put(fields.productIds, Arrays.asList());
         data.put("customerIds", Arrays.asList());
+        data.put(fields.isDeleted, false);
         storesCollection.add(data);
         return new Store(storeId, name, new ArrayList<Product>(), new ArrayList<Customer>());
     }

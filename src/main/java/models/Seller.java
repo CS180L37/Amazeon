@@ -500,6 +500,7 @@ public class Seller {
         sellerData.put(fields.password, password);
         sellerData.put(fields.productIds, Arrays.asList());
         sellerData.put(fields.saleIds, Arrays.asList());
+        sellerData.put(fields.isDeleted, false);
         sellersCollection.add(sellerData);
         // Create a new instance
         ArrayList<Product> products = new ArrayList<Product>();

@@ -454,6 +454,7 @@ public class Customer {
         customerData.put(fields.email, email);
         customerData.put(fields.password, password);
         customerData.put(fields.productIds, Arrays.asList());
+        customerData.put(fields.isDeleted, false);
         customersCollection.add(customerData);
         // Create a new instance
         Cart cart = Cart.createCart(customerId);
