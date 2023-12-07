@@ -71,7 +71,13 @@ public class Sale {
     }
 
     public void deleteSale() throws IOException {
-        this.documentReference.delete();
+        try {
+            this.documentReference.delete().get();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static ArrayList<Sale> sortSales(String field, Direction direction) throws IOException {
