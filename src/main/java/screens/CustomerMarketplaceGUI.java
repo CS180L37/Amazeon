@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class CustomerMarketplaceGUI extends JComponent implements Runnable{
     //frame
     JFrame frame;
+    //container for frame
+    Container content;
 
     //list of buttons you need
     JButton searchButton;
@@ -25,9 +27,9 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable{
 
     //sort marketplace button's dropdown menu (for sorts)
     JPopupMenu sortMarketplaceMenu;
-    JMenuItem mpmenuItemSort1;
-    JMenuItem mpmenuItemSort2;
-
+    JMenuItem mpmenuItemSort1; //price
+    JMenuItem mpmenuItemSort2; //quantity
+    JPanel middlePanel; //panel where sorting happens
 
 
 
@@ -41,7 +43,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable{
     Product productThree = new Product(3, "Dairy Milk", 7, "smooth and creamy wave of deliciousness moulded into a unique chocolate taste", 5.00, 3, 1);
     Product productFour = new Product(4, "Candy Cane", 9, "cane-shaped stick candy", 1.00, 1, 2);
     Product productFive = new Product(5, "Dots", 11, "gum drops", 3.00, 2, 2);
-    Product productSix = new Product(6, "Haribo", 11, "gummy bears", 6.00, 3, 2);
+    Product productSix = new Product(6, "Haribo", 13, "gummy bears", 6.00, 3, 2);
     ArrayList<Product> storeOneProducts = new ArrayList<>();
     ArrayList<Product> storeTwoProducts = new ArrayList<>();
 
@@ -94,6 +96,121 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable{
                     ex.printStackTrace();
                 }
             }
+            if (e.getSource() == menuItemSort1) {
+                frame.dispose();
+                SwingUtilities.invokeLater(new CustomerSortOneDashboardGUI());
+            }
+            if (e.getSource() == menuItemSort2) {
+                frame.dispose();
+                SwingUtilities.invokeLater(new CustomerSortTwoDashboardGUI());
+            }
+            if (e.getSource() == mpmenuItemSort1) {
+                middlePanel.removeAll();
+                middlePanel.revalidate();
+                middlePanel.repaint();
+                middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
+
+                ArrayList<Product> allProducts = new ArrayList<Product>();
+                for (int i = 0; i < storesList.size(); i++) {
+                    for(int j = 0; j < storesList.get(i).getProducts().size(); j++){
+                        allProducts.add(storesList.get(i).getProducts().get(j));
+                    }
+                }
+
+                for (int i = 0; i < allProducts.size() - 1; i++) {
+                    int minIndex = i;
+                    for (int j = i + 1; j < allProducts.size(); j++) {
+                        if (allProducts.get(j).getPrice() < allProducts.get(minIndex).getPrice()) {
+                            minIndex = j;
+                        }
+                    }
+
+                    if (minIndex != i) {
+                         Product product = allProducts.get(minIndex);
+                         allProducts.set(minIndex, allProducts.get(i));
+                         allProducts.set(i, product);
+                    }
+                }
+
+                // // prints all products in marketplace
+                for (int i = 0; i < allProducts.size(); i++) {
+                    JButton productButton = new JButton( //html used for style purposes only
+                            "<html>" +
+                                    "<div style='text-align: center;'>" +
+                                    "<div>" + "Product Name: " + allProducts.get(i).getName() + "</div>" +
+                                    "<div>" + "StoreName: " + allProducts.get(i).getName() + "</div>" +
+                                    "<div>" + "Product Price: $" + allProducts.get(i).getPrice() + "0" + "</div>" +
+                                    "</div>" +
+                                    "</html>"
+                    );
+                    productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+                    middlePanel.add(productButton);
+                    Product product = allProducts.get(i);
+                    productButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            frame.dispose();
+                            SwingUtilities.invokeLater(new CustomerProductPage(product));
+                        }
+                    });
+                }
+
+            }
+
+
+            if (e.getSource() == mpmenuItemSort2) {
+                middlePanel.removeAll();
+                middlePanel.revalidate();
+                middlePanel.repaint();
+                middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
+
+                ArrayList<Product> allProducts = new ArrayList<Product>();
+                for (int i = 0; i < storesList.size(); i++) {
+                    for(int j = 0; j < storesList.get(i).getProducts().size(); j++){
+                        allProducts.add(storesList.get(i).getProducts().get(j));
+                    }
+                }
+
+                for (int i = 0; i < allProducts.size() - 1; i++) {
+                    int minIndex = i;
+                    for (int j = i + 1; j < allProducts.size(); j++) {
+                        if (allProducts.get(j).getQuantity() < allProducts.get(minIndex).getQuantity()) {
+                            minIndex = j;
+                        }
+                    }
+
+                    if (minIndex != i) {
+                        Product product = allProducts.get(minIndex);
+                        allProducts.set(minIndex, allProducts.get(i));
+                        allProducts.set(i, product);
+                    }
+                }
+
+                // // prints all products in marketplace
+                for (int i = 0; i < allProducts.size(); i++) {
+                    JButton productButton = new JButton( //html used for style purposes only
+                            "<html>" +
+                                    "<div style='text-align: center;'>" +
+                                    "<div>" + "Product Name: " + allProducts.get(i).getName() + "</div>" +
+                                    "<div>" + "StoreName: " + allProducts.get(i).getName() + "</div>" +
+                                    "<div>" + "Product Price: $" + allProducts.get(i).getPrice() + "0" + "</div>" +
+                                    "</div>" +
+                                    "</html>"
+                    );
+                    productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+                    middlePanel.add(productButton);
+                    Product product = allProducts.get(i);
+                    productButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            frame.dispose();
+                            SwingUtilities.invokeLater(new CustomerProductPage(product));
+                        }
+                    });
+                }
+            }
+            if (e.getSource() == cartButton) {
+                frame.dispose();
+                SwingUtilities.invokeLater(new CustomerCartGUI());
+            }
         }
     };
 
@@ -102,7 +219,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable{
     public void run() {
         frame = new JFrame("Customer Marketplace"); //creates frame
 
-        Container content = frame.getContentPane(); //creates a container in which things go for that frame
+        content = frame.getContentPane(); //creates a container in which things go for that frame
         content.setLayout(new BorderLayout()); //sets layout nicely
 
         //sets frame style and displays frame
@@ -133,18 +250,22 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable{
         sortDashboardMenu= new JPopupMenu("Dashboard");
 
         menuItemSort1 = new JMenuItem("Sort 1");
+        menuItemSort1.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort1);
 
         menuItemSort2 = new JMenuItem("Sort 2");
+        menuItemSort2.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort2);
 
         //sort marketplace button's dropdown menu
         sortMarketplaceMenu= new JPopupMenu("Dashboard");
 
         mpmenuItemSort1 = new JMenuItem("Sort 1");
+        mpmenuItemSort1.addActionListener(actionListener);
         sortMarketplaceMenu.add(mpmenuItemSort1);
 
         mpmenuItemSort2 = new JMenuItem("Sort 2");
+        mpmenuItemSort2.addActionListener(actionListener);
         sortMarketplaceMenu.add(mpmenuItemSort2);
 
 
@@ -168,7 +289,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable{
         content.add(bottomPanel, BorderLayout.SOUTH); // adds panel to container
 
         //creates panel in middle
-        JPanel middlePanel = new JPanel();
+        middlePanel = new JPanel();
         middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
 
         //iterates through stores list and each stores products' list in order to display product

@@ -9,7 +9,7 @@ import java.io.IOException;
 public class CustomerProductPage extends JComponent implements Runnable {
     JFrame frame;
 
-    JButton purchaseButton;
+    JButton purchaseButton;//should be add to cart button
     JButton returnHomeButton;
     JButton logOutButton;
 
@@ -39,6 +39,8 @@ public class CustomerProductPage extends JComponent implements Runnable {
             if (e.getSource() == purchaseButton) {
                 JOptionPane.showInputDialog(null, "Choose Quantity", "Quantity",
                         JOptionPane.PLAIN_MESSAGE, null, quantityOptions, null);
+                //make sure to set right product quantity after purchase
+                //make sure to add to cart
             }
             if (e.getSource() == returnHomeButton) {
                 try {

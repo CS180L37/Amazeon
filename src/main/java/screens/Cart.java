@@ -1,7 +1,5 @@
 package screens;
 
-import models.Product;
-
 import java.io.IOException;
 import java.util.ArrayList;
 

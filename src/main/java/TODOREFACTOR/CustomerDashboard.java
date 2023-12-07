@@ -33,14 +33,13 @@
 // // list of sales --> each sale has a product --> storeID & product quantity
 // // (store product quantity in var)
 // // storeID --> getStoreID --> gets an instance of SStore
-// // market --> list of stores --> if SStore equals store[i] --> store[i]'s
-// number
+// // market --> list of stores --> if SStore equals store[i] --> store[i]'s number
 // // of products sold += product quantity
 // // sort the stores by products sold
-
+//
 // ArrayList<Integer> numProductsSold = new ArrayList<Integer>(); // list of
 // numProducts sold by each store
-
+//
 // for (int i = 0; i < this.getData1().size(); i++) {
 // int quantity = 0;
 // for (int j = 0; j < this.getData1().get(i).getProducts().size(); j++) {
@@ -52,7 +51,7 @@
 // }
 // numProductsSold.set(i, quantity);
 // }
-
+//
 // for (int i = 0; i < numProductsSold.size() - 1; i++) {
 // int maxIndex = i;
 // for (int j = 0; j < numProductsSold.size(); j++) {
@@ -60,11 +59,11 @@
 // maxIndex = j;
 // }
 // }
-
+//
 // int productsSold = numProductsSold.get(maxIndex);
 // numProductsSold.set(maxIndex, numProductsSold.get(i));
 // numProductsSold.set(maxIndex, productsSold);
-
+//
 // Store store = sortedStores.get(maxIndex);
 // sortedStores.set(maxIndex, sortedStores.get(i));
 // sortedStores.set(maxIndex, store);

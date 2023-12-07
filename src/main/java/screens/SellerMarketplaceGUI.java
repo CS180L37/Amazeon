@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SellerMarketplaceGUI extends JComponent implements Runnable{
+    JFrame frame;
     JButton createButton;
     JButton editButton;
     JButton deleteButton;
@@ -59,11 +60,19 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == createButton) {
+                frame.dispose();
+                SwingUtilities.invokeLater(new SellerCreateProductGUI());
+            }
             if (e.getSource() == dashboardButton) {
                 sortDashboardMenu.show(dashboardButton, 0, dashboardButton.getHeight());
             }
             if (e.getSource() == sortMarketplaceButton) {
                 sortMarketplaceMenu.show(sortMarketplaceButton, 0, sortMarketplaceButton.getHeight());
+            }
+            if (e.getSource() == logOutButton) {
+                frame.dispose();
+                SwingUtilities.invokeLater(new LoginGUI());
             }
         }
     };
@@ -72,7 +81,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 
     //everything that needs to be displayed goes into the run method
     public void run() {
-        JFrame frame = new JFrame("Seller Marketplace"); //creates frame
+        frame = new JFrame("Seller Marketplace"); //creates frame
 
         Container content = frame.getContentPane(); //creates a container in which things go for that frame
         content.setLayout(new BorderLayout()); //sets layout nicely
@@ -153,6 +162,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
         middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
 
         //iterates through stores list and each stores products' list in order to display product information
+        //change to seller's products (currently it is customer's products)
         for(int i = 0; i < storesList.size(); i++){
             for(int j = 0; j < storesList.get(i).getProducts().size(); j++){
                 JButton productButton = new JButton( //html used for style purposes only
@@ -160,7 +170,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
                                 "<div style='text-align: center;'>" +
                                 "<div>" + "Product Name: " + storesList.get(i).getProducts().get(j).getName() + "</div>" +
                                 "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
-                                "<div>" + "Product Price: $" + storesList.get(i).getProducts().get(j).getPrice() + "</div>" +
+                                "<div>" + "Product Stock: " + storesList.get(i).getProducts().get(j).getQuantity() + "</div>" +
                                 "</div>" +
                                 "</html>"
                 );
