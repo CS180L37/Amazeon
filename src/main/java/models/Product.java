@@ -19,7 +19,6 @@ public class Product {
     private double price;
     private int sellerId;
     private int storeId;
-
     private DocumentReference documentReference;
 
     public static CollectionReference productsCollection;
