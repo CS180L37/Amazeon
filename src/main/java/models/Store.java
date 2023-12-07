@@ -9,13 +9,14 @@ import utils.fields;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 public class Store {
     private int storeId;
     private String name;
-    private ArrayList<Product> products;
-    private ArrayList<Customer> customers;
+    private ArrayList<Product> storeProducts;
+    private ArrayList<Customer> storeCustomers;
     public static CollectionReference storesCollection;
     private DocumentReference documentReference;
 
@@ -24,20 +25,20 @@ public class Store {
         int id = document.getLong(fields.storeId).intValue();
         this.name = document.getString(fields.name);
         ArrayList<Integer> productIds = Utils.firestoreDocToIDArray(document.getData(), fields.productIds);
-        this.products = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
+        this.storeProducts = Product.getProductsByIds((productIds != null) ? productIds : new ArrayList<Integer>());
         this.storeId = id;
         ArrayList<Integer> customerIds = Utils.firestoreDocToIDArray(document.getData(), "customerIds");
-        this.customers = Customer.getCustomersByIds((customerIds != null) ? customerIds : new ArrayList<Integer>());
+        this.storeCustomers = Customer.getCustomersByIds((customerIds != null) ? customerIds : new ArrayList<Integer>());
         this.documentReference = getStoreDocument();
 
     }
 
-    private Store(int storeId, String name, ArrayList<Product> products, ArrayList<Customer> customers)
+    private Store(int storeId, String name, ArrayList<Product> storeProducts, ArrayList<Customer> storeCustomers)
             throws IOException {
         this.storeId = storeId;
         this.name = name;
-        this.products = products;
-        this.customers = customers;
+        this.storeProducts = storeProducts;
+        this.storeCustomers = storeCustomers;
         this.documentReference = getStoreDocument();
     }
 
@@ -56,7 +57,7 @@ public class Store {
         ApiFuture<QuerySnapshot> future = storesCollection
                 .where(Filter.equalTo(fields.storeId, givenStoreId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return (documents != null) ? null : new Store(documents.get(0));
+        return (documents == null) ? null : new Store(documents.get(0));
     }
 
     public static ArrayList<Store> getStoresByIds(ArrayList<Integer> storeIds) throws IOException {
@@ -80,7 +81,11 @@ public class Store {
     private void updateRemoteStore(String remoteFieldName, Object value) {
         HashMap<String, Object> data2 = new HashMap<String, Object>();
         data2.put(remoteFieldName, value);
-        this.documentReference.update(data2);
+        try {
+            this.documentReference.update(data2).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     private DocumentReference getStoreDocument() throws IOException {
@@ -110,13 +115,13 @@ public class Store {
     }
 
     public ArrayList<Integer> getStoreProductIds() {
-        return (ArrayList<Integer>) products.stream()
+        return (ArrayList<Integer>) storeProducts.stream()
                 .map(Product::getProductId)
                 .collect(Collectors.toList());
     }
 
     public ArrayList<Integer> getStoreCustomerIds() {
-        return (ArrayList<Integer>) customers.stream()
+        return (ArrayList<Integer>) storeCustomers.stream()
                 .map(Customer::getCustomerId)
                 .collect(Collectors.toList());
     }
@@ -129,12 +134,16 @@ public class Store {
         return this.storeId;
     }
 
-    public ArrayList<Product> getProducts() {
-        return this.products;
+    public ArrayList<Product> getStoreProducts() {
+        return this.storeProducts;
     }
 
-    public ArrayList<Customer> getCustomers() {
-        return this.customers;
+    public ArrayList<Customer> getStoreCustomers() {
+        return this.storeCustomers;
+    }
+
+    public DocumentReference getDocumentReference() {
+        return documentReference;
     }
 
     public void setName(String name) {
@@ -147,19 +156,19 @@ public class Store {
         updateRemoteStore(fields.storeId, id);
     }
 
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
+    public void setStoreProducts(ArrayList<Product> storeProducts) {
+        this.storeProducts = storeProducts;
         ArrayList<Integer> productIds = new ArrayList<Integer>();
-        for (Product product : products) {
+        for (Product product : storeProducts) {
             productIds.add(product.getProductId());
         }
         updateRemoteStore(fields.productIds, productIds);
     }
 
-    public void setCustomers(ArrayList<Customer> customers) {
-        this.customers = customers;
+    public void setStoreCustomers(ArrayList<Customer> storeCustomers) {
+        this.storeCustomers = storeCustomers;
         ArrayList<Integer> customerIds = new ArrayList<Integer>();
-        for (Customer customer : customers) {
+        for (Customer customer : storeCustomers) {
             customerIds.add(customer.getCustomerId());
         }
         updateRemoteStore("customerIds", getStoreCustomerIds());
@@ -173,7 +182,7 @@ public class Store {
                     name: %s
                     products: %s
                     customers: %s
-                }""", this.getStoreId(), this.getName(), this.getProducts().toString(), this.getCustomers().toString());
+                }""", this.getStoreId(), this.getName(), this.getStoreProducts().toString(), this.getStoreCustomers().toString());
     }
 
     @Override
@@ -181,8 +190,8 @@ public class Store {
         if (obj instanceof Store) {
             Store store = (Store) obj;
             if (store.getStoreId() == this.getStoreId() && store.getName().equals(this.getName())
-                    && store.getProducts().equals(this.getProducts())
-                    && store.getCustomers().equals(this.getCustomers())) {
+                    && store.getStoreProducts().equals(this.getStoreProducts())
+                    && store.getStoreCustomers().equals(this.getStoreCustomers())) {
                 return true;
             }
         }
