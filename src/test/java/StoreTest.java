@@ -1,5 +1,5 @@
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.*;
 import models.*;
 import models.Store;
 
@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.google.cloud.firestore.CollectionReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.Utils;
 import utils.fields;
 
 public class StoreTest extends TestUtils {
@@ -26,17 +26,13 @@ public class StoreTest extends TestUtils {
     @Override
     public void setUp() throws IOException {
         super.setUp();
-        try {
-            // Customer customer0 = Customer.getCustomerByEmail("adityasemail@gmail.com");
-            // Customer customer1 = Customer.getCustomerByEmail("shloksemail@gmail.com");
-            store0 = Store.getStoreById(0);
-            store1 = Store.getStoreById(1);
-            store2 = Store.getStoreById(2);
-            if (stores == null) {
-                stores = db.collection("Stores");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Customer customer0 = Customer.getCustomerByEmail("adityasemail@gmail.com");
+        // Customer customer1 = Customer.getCustomerByEmail("shloksemail@gmail.com");
+        store0 = Store.getStoreById(0);
+        store1 = Store.getStoreById(1);
+        store2 = Store.getStoreById(2);
+        if (stores == null) {
+            stores = db.collection("Stores");
         }
     }
     @Test
@@ -70,9 +66,9 @@ public class StoreTest extends TestUtils {
     }
 
     @Test
-    public void testCreateStore() throws IOException, ExecutionException, InterruptedException {
+    public void testCreateStore() throws IOException {
         Store store999 = Store.createStore(999, "testStore");
-        assertEquals("999", Store.storesCollection.get().get().getDocuments().get(Store.storesCollection.get().get().getDocuments().size()-1).get(fields.storeId));
+        assertEquals(store999, Store.getStoreById(999));
     }
 
     @Test
@@ -83,7 +79,7 @@ public class StoreTest extends TestUtils {
         stores.add(store2);
         assertEquals(stores, Store.sortStores(fields.storeId, Query.Direction.ASCENDING));
     }
-    
+
     @Test
     public void testSetCustomers() throws IOException, ExecutionException, InterruptedException {
         Customer customer0 = Customer.getCustomerById(0);
@@ -96,6 +92,4 @@ public class StoreTest extends TestUtils {
         store0.setStoreCustomers(customers);
 //        assertEquals(store0.getDocumentReference().get().get().get(fields.customerId).toString());
     }
-
-
 }
