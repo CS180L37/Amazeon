@@ -16,6 +16,7 @@ import utils.Utils;
 
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
+import com.google.cloud.firestore.Query.Direction;
 
 /// Our entry point and data manager class
 /// NOTE: NOTHING SHOULD IMPORT AMAZEON; It is the entry point and imports
@@ -29,12 +30,6 @@ public class Amazeon {
             return;
         }
 
-        // Product.productsCollection.get().get();
-        try {
-            Product product = Product.getProductById(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         // Event Loop
         // if (hasAccount()) {
         // // Login
