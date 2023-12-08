@@ -178,22 +178,22 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 
         //iterates through stores list and each stores products' list in order to display product information
         //change to seller's products (currently it is customer's products)
-        for(int i = 0; i < storesList.size(); i++){
-            for(int j = 0; j < storesList.get(i).getProducts().size(); j++){
-                JButton productButton = new JButton( //html used for style purposes only
-                        "<html>" +
-                                "<div style='text-align: center;'>" +
-                                "<div>" + "Product Name: " + storesList.get(i).getProducts().get(j).getName() + "</div>" +
-                                "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
-                                "<div>" + "Product Stock: " + storesList.get(i).getProducts().get(j).getQuantity() + "</div>" +
-                                "</div>" +
-                                "</html>"
-                );
-                productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
-                middlePanel.add(productButton);
-
-            }
-        }
+//        for(int i = 0; i < storesList.size(); i++){
+//            for(int j = 0; j < storesList.get(i).getProducts().size(); j++){
+//                JButton productButton = new JButton( //html used for style purposes only
+//                        "<html>" +
+//                                "<div style='text-align: center;'>" +
+//                                "<div>" + "Product Name: " + storesList.get(i).getProducts().get(j).getName() + "</div>" +
+//                                "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
+//                                "<div>" + "Product Stock: " + storesList.get(i).getProducts().get(j).getQuantity() + "</div>" +
+//                                "</div>" +
+//                                "</html>"
+//                );
+//                productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+//                middlePanel.add(productButton);
+//
+//            }
+//        }
 
         //sets up a scroll bar for panel
         JScrollPane scrollPane = new JScrollPane(middlePanel);

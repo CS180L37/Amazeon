@@ -120,48 +120,48 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of
                                                              // products in the marketplace
 
-                ArrayList<Product> allProducts = new ArrayList<Product>();
-                for (int i = 0; i < storesList.size(); i++) {
-                    for (int j = 0; j < storesList.get(i).getProducts().size(); j++) {
-                        allProducts.add(storesList.get(i).getProducts().get(j));
-                    }
-                }
-
-                for (int i = 0; i < allProducts.size() - 1; i++) {
-                    int minIndex = i;
-                    for (int j = i + 1; j < allProducts.size(); j++) {
-                        if (allProducts.get(j).getPrice() < allProducts.get(minIndex).getPrice()) {
-                            minIndex = j;
-                        }
-                    }
-
-                    if (minIndex != i) {
-                        Product product = allProducts.get(minIndex);
-                        allProducts.set(minIndex, allProducts.get(i));
-                        allProducts.set(i, product);
-                    }
-                }
-
-                // // prints all products in marketplace
-                for (int i = 0; i < allProducts.size(); i++) {
-                    JButton productButton = new JButton( // html used for style purposes only
-                            "<html>" +
-                                    "<div style='text-align: center;'>" +
-                                    "<div>" + "Product Name: " + allProducts.get(i).getName() + "</div>" +
-                                    "<div>" + "StoreName: " + allProducts.get(i).getName() + "</div>" +
-                                    "<div>" + "Product Price: $" + allProducts.get(i).getPrice() + "0" + "</div>" +
-                                    "</div>" +
-                                    "</html>");
-                    productButton.setPreferredSize(new Dimension(200, 100)); // sets size of each product button
-                    middlePanel.add(productButton);
-                    Product product = allProducts.get(i);
-                    productButton.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            frame.dispose();
-                            SwingUtilities.invokeLater(new CustomerProductPage(product));
-                        }
-                    });
-                }
+//                ArrayList<Product> allProducts = new ArrayList<Product>();
+//                for (int i = 0; i < storesList.size(); i++) {
+//                    for (int j = 0; j < storesList.get(i).getProducts().size(); j++) {
+//                        allProducts.add(storesList.get(i).getProducts().get(j));
+//                    }
+//                }
+//
+//                for (int i = 0; i < allProducts.size() - 1; i++) {
+//                    int minIndex = i;
+//                    for (int j = i + 1; j < allProducts.size(); j++) {
+//                        if (allProducts.get(j).getPrice() < allProducts.get(minIndex).getPrice()) {
+//                            minIndex = j;
+//                        }
+//                    }
+//
+//                    if (minIndex != i) {
+//                        Product product = allProducts.get(minIndex);
+//                        allProducts.set(minIndex, allProducts.get(i));
+//                        allProducts.set(i, product);
+//                    }
+//                }
+//
+//                // // prints all products in marketplace
+//                for (int i = 0; i < allProducts.size(); i++) {
+//                    JButton productButton = new JButton( // html used for style purposes only
+//                            "<html>" +
+//                                    "<div style='text-align: center;'>" +
+//                                    "<div>" + "Product Name: " + allProducts.get(i).getName() + "</div>" +
+//                                    "<div>" + "StoreName: " + allProducts.get(i).getName() + "</div>" +
+//                                    "<div>" + "Product Price: $" + allProducts.get(i).getPrice() + "0" + "</div>" +
+//                                    "</div>" +
+//                                    "</html>");
+//                    productButton.setPreferredSize(new Dimension(200, 100)); // sets size of each product button
+//                    middlePanel.add(productButton);
+//                    Product product = allProducts.get(i);
+//                    productButton.addActionListener(new ActionListener() {
+//                        public void actionPerformed(ActionEvent e) {
+//                            frame.dispose();
+//                            SwingUtilities.invokeLater(new CustomerProductPage(product));
+//                        }
+//                    });
+//                }
 
             }
 
@@ -172,48 +172,48 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of
                                                              // products in the marketplace
 
-                ArrayList<Product> allProducts = new ArrayList<Product>();
-                for (int i = 0; i < storesList.size(); i++) {
-                    for (int j = 0; j < storesList.get(i).getProducts().size(); j++) {
-                        allProducts.add(storesList.get(i).getProducts().get(j));
-                    }
-                }
-
-                for (int i = 0; i < allProducts.size() - 1; i++) {
-                    int minIndex = i;
-                    for (int j = i + 1; j < allProducts.size(); j++) {
-                        if (allProducts.get(j).getQuantity() < allProducts.get(minIndex).getQuantity()) {
-                            minIndex = j;
-                        }
-                    }
-
-                    if (minIndex != i) {
-                        Product product = allProducts.get(minIndex);
-                        allProducts.set(minIndex, allProducts.get(i));
-                        allProducts.set(i, product);
-                    }
-                }
-
-                // // prints all products in marketplace
-                for (int i = 0; i < allProducts.size(); i++) {
-                    JButton productButton = new JButton( // html used for style purposes only
-                            "<html>" +
-                                    "<div style='text-align: center;'>" +
-                                    "<div>" + "Product Name: " + allProducts.get(i).getName() + "</div>" +
-                                    "<div>" + "StoreName: " + allProducts.get(i).getName() + "</div>" +
-                                    "<div>" + "Product Price: $" + allProducts.get(i).getPrice() + "0" + "</div>" +
-                                    "</div>" +
-                                    "</html>");
-                    productButton.setPreferredSize(new Dimension(200, 100)); // sets size of each product button
-                    middlePanel.add(productButton);
-                    Product product = allProducts.get(i);
-                    productButton.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            frame.dispose();
-                            SwingUtilities.invokeLater(new CustomerProductPage(product));
-                        }
-                    });
-                }
+//                ArrayList<Product> allProducts = new ArrayList<Product>();
+//                for (int i = 0; i < storesList.size(); i++) {
+//                    for (int j = 0; j < storesList.get(i).getProducts().size(); j++) {
+//                        allProducts.add(storesList.get(i).getProducts().get(j));
+//                    }
+//                }
+//
+//                for (int i = 0; i < allProducts.size() - 1; i++) {
+//                    int minIndex = i;
+//                    for (int j = i + 1; j < allProducts.size(); j++) {
+//                        if (allProducts.get(j).getQuantity() < allProducts.get(minIndex).getQuantity()) {
+//                            minIndex = j;
+//                        }
+//                    }
+//
+//                    if (minIndex != i) {
+//                        Product product = allProducts.get(minIndex);
+//                        allProducts.set(minIndex, allProducts.get(i));
+//                        allProducts.set(i, product);
+//                    }
+//                }
+//
+//                // // prints all products in marketplace
+//                for (int i = 0; i < allProducts.size(); i++) {
+//                    JButton productButton = new JButton( // html used for style purposes only
+//                            "<html>" +
+//                                    "<div style='text-align: center;'>" +
+//                                    "<div>" + "Product Name: " + allProducts.get(i).getName() + "</div>" +
+//                                    "<div>" + "StoreName: " + allProducts.get(i).getName() + "</div>" +
+//                                    "<div>" + "Product Price: $" + allProducts.get(i).getPrice() + "0" + "</div>" +
+//                                    "</div>" +
+//                                    "</html>");
+//                    productButton.setPreferredSize(new Dimension(200, 100)); // sets size of each product button
+//                    middlePanel.add(productButton);
+//                    Product product = allProducts.get(i);
+//                    productButton.addActionListener(new ActionListener() {
+//                        public void actionPerformed(ActionEvent e) {
+//                            frame.dispose();
+//                            SwingUtilities.invokeLater(new CustomerProductPage(product));
+//                        }
+//                    });
+//                }
             }
             if (e.getSource() == cartButton) {
                 frame.dispose();
@@ -299,30 +299,30 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
 
         // iterates through stores list and each stores products' list in order to
         // display product
-        for (int i = 0; i < storesList.size(); i++) {
-            for (int j = 0; j < storesList.get(i).getProducts().size(); j++) {
-                JButton productButton = new JButton( // html used for style purposes only
-                        "<html>" +
-                                "<div style='text-align: center;'>" +
-                                "<div>" + "Product Name: " + storesList.get(i).getProducts().get(j).getName() + "</div>"
-                                +
-                                "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
-                                "<div>" + "Product Price: $" + storesList.get(i).getProducts().get(j).getPrice() + "0"
-                                + "</div>" +
-                                "</div>" +
-                                "</html>");
-                productButton.setPreferredSize(new Dimension(200, 100)); // sets size of each product button
-                middlePanel.add(productButton);
-                Product product = storesList.get(i).getProducts().get(j);
-                productButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        frame.dispose();
-                        SwingUtilities.invokeLater(new CustomerProductPage(product));
-                    }
-                });
-
-            }
-        }
+//        for (int i = 0; i < storesList.size(); i++) {
+//            for (int j = 0; j < storesList.get(i).getProducts().size(); j++) {
+//                JButton productButton = new JButton( // html used for style purposes only
+//                        "<html>" +
+//                                "<div style='text-align: center;'>" +
+//                                "<div>" + "Product Name: " + storesList.get(i).getProducts().get(j).getName() + "</div>"
+//                                +
+//                                "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
+//                                "<div>" + "Product Price: $" + storesList.get(i).getProducts().get(j).getPrice() + "0"
+//                                + "</div>" +
+//                                "</div>" +
+//                                "</html>");
+//                productButton.setPreferredSize(new Dimension(200, 100)); // sets size of each product button
+//                middlePanel.add(productButton);
+//                Product product = storesList.get(i).getProducts().get(j);
+//                productButton.addActionListener(new ActionListener() {
+//                    public void actionPerformed(ActionEvent e) {
+//                        frame.dispose();
+//                        SwingUtilities.invokeLater(new CustomerProductPage(product));
+//                    }
+//                });
+//
+//            }
+//        }
 
         // sets up a scroll bar for panel
         JScrollPane scrollPane = new JScrollPane(middlePanel);
