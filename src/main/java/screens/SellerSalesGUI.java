@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import models.Cart;
 import models.Customer;
@@ -13,7 +12,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class SellerCartGUI extends JComponent implements Runnable {
+public class SellerSalesGUI extends JComponent implements Runnable{
     JFrame frame;
     JButton returnHomeButton;
     JButton logOutButton;
@@ -42,19 +41,15 @@ public class SellerCartGUI extends JComponent implements Runnable {
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
 
-        frame.setSize(600, 400);
-        frame.setLocationRelativeTo(null);
+        frame.setTitle("Dashboard Sort One Page");
+        frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
         JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Cart"));
+        topPanel.add(new JLabel("Sales"));
         content.add(topPanel, BorderLayout.NORTH);
-
-        returnHomeButton = new JButton("Return Home");
-        returnHomeButton.addActionListener(actionListener);
-        logOutButton = new JButton("Log Out");
-        logOutButton.addActionListener(actionListener);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(returnHomeButton);
@@ -63,25 +58,24 @@ public class SellerCartGUI extends JComponent implements Runnable {
         content.add(bottomPanel, BorderLayout.SOUTH);
 
 //        JPanel middlePanel = new JPanel();
-//        middlePanel.setLayout(new GridLayout(0,1));
-//        for(int i = 0; i < sales.size(); i++){
-//            ArrayList<Product> cartProducts = getCustomerById(sales.get(i).getCustomerId()).getCart().getCartProducts();
-//            for(int j = 0; j < cartProducts.size(); j++) {
-//                JLabel label = new JLabel("<html>" +
-//                        "<div style='text-align: center;'>" +
-//                        "<div>" + "Customer Name: " + getCustomerbyId(sales.get(i).getCustomerId()).getName() + "</div>" +
-//                        "<div>" + "Store Name: " + getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
-//                        "<div>" + "Product Description: $" + cartProducts.get(j).getDescription() + "0" + "</div>" +
-//                        "<div>" + "Product Price: $" + cartProducts.get(j).getPrice() + "0" + "</div>" +
-//                        "</div>" +
-//                        "</html>");
+//        middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
 //
-//                middlePanel.add(label);
-//            }
+//        for(int i = 0; i < sales.size(); i++) {
+//            JButton salesButton = new JButton("Sale ID: " + sales.get(i).getSaleId());
+//
+//            salesButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+//            middlePanel.add(salesButton);
+//            Sale sale = sales.get(i);
+//            salesButton.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    frame.dispose();
+//                    SwingUtilities.invokeLater(new SellerSalePage(sale));
+//                }
+//            });
 //        }
 //        content.add(middlePanel, BorderLayout.CENTER);
     }
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new SellerCartGUI());
+        SwingUtilities.invokeLater(new SellerSalesGUI());
     }
 }

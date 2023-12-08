@@ -7,12 +7,19 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
+
 public class CustomerSearchGUI extends JComponent implements Runnable{
     JFrame frame;
     JButton nameButton;
     JButton storeIdButton;
     JButton descriptionButton;
-    //    JButton nameEnterButton;
+//    JButton nameEnterButton;
 //    JTextField name;
 //    JButton storeIdEnterButton;
 //    JTextField storeId;

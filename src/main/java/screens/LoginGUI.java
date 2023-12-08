@@ -3,9 +3,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import screens.CreateAccountGUI;
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
 
-public class LoginGUI extends JComponent implements Runnable{
+public class LoginGUI extends JComponent implements Runnable {
     JFrame frame;
     JTextField emailTextField; //email input text field
     JTextField passwordTextField; //password input text field
@@ -17,7 +22,7 @@ public class LoginGUI extends JComponent implements Runnable{
 
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == loginButton) {
+            if (e.getSource() == loginButton) {
                 email = String.valueOf(emailTextField.getText());
                 password = String.valueOf(passwordTextField.getText());
                 System.out.println(email + " " + password);
@@ -28,7 +33,7 @@ public class LoginGUI extends JComponent implements Runnable{
                     ex.printStackTrace();
                 }
             }
-            if(e.getSource() == createAccountButton) {
+            if (e.getSource() == createAccountButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new CreateAccountGUI());
             }
@@ -38,13 +43,13 @@ public class LoginGUI extends JComponent implements Runnable{
     FocusListener focusListener = new FocusListener() {
         @Override
         public void focusGained(FocusEvent e) {
-            if(e.getSource() == emailTextField){
-                if(emailTextField.getText().equals("Email")){
+            if (e.getSource() == emailTextField) {
+                if (emailTextField.getText().equals("Email")) {
                     emailTextField.setText("");
                 }
             }
-            if(e.getSource() == passwordTextField){
-                if(passwordTextField.getText().equals("Password")){
+            if (e.getSource() == passwordTextField) {
+                if (passwordTextField.getText().equals("Password")) {
                     passwordTextField.setText("");
                 }
             }
@@ -53,13 +58,13 @@ public class LoginGUI extends JComponent implements Runnable{
 
         @Override
         public void focusLost(FocusEvent e) {
-            if(e.getSource() == emailTextField){
-                if(emailTextField.getText().isEmpty()) {
+            if (e.getSource() == emailTextField) {
+                if (emailTextField.getText().isEmpty()) {
                     emailTextField.setText("Email");
                 }
             }
-            if(e.getSource() == passwordTextField){
-                if(passwordTextField.getText().isEmpty()) {
+            if (e.getSource() == passwordTextField) {
+                if (passwordTextField.getText().isEmpty()) {
                     passwordTextField.setText("Password");
                 }
             }

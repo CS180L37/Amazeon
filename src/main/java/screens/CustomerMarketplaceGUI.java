@@ -6,6 +6,14 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
+
+
 public class CustomerMarketplaceGUI extends JComponent implements Runnable{
     //frame
     JFrame frame;
@@ -38,35 +46,35 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable{
     //2 stores
     //each with 3 products
 
-    Product productOne = new Product(1, "Air Heads", 3, "tangy, taffy-like, chewy candy", 4.00, 1, 1);
-    Product productTwo = new Product(2, "SourPatch Kids", 5, "soft candy with a coating of invert sugar and sour sugar", 2.00, 2, 1);
-    Product productThree = new Product(3, "Dairy Milk", 7, "smooth and creamy wave of deliciousness moulded into a unique chocolate taste", 5.00, 3, 1);
-    Product productFour = new Product(4, "Candy Cane", 9, "cane-shaped stick candy", 1.00, 1, 2);
-    Product productFive = new Product(5, "Dots", 11, "gum drops", 3.00, 2, 2);
-    Product productSix = new Product(6, "Haribo", 13, "gummy bears", 6.00, 3, 2);
-    ArrayList<Product> storeOneProducts = new ArrayList<>();
-    ArrayList<Product> storeTwoProducts = new ArrayList<>();
-
-    Store storeOne;
-    Store storeTwo;
-
-    ArrayList<Store> storesList = new ArrayList<>();
+//    Product productOne = new Product(1, "Air Heads", 3, "tangy, taffy-like, chewy candy", 4.00, 1, 1);
+//    Product productTwo = new Product(2, "SourPatch Kids", 5, "soft candy with a coating of invert sugar and sour sugar", 2.00, 2, 1);
+//    Product productThree = new Product(3, "Dairy Milk", 7, "smooth and creamy wave of deliciousness moulded into a unique chocolate taste", 5.00, 3, 1);
+//    Product productFour = new Product(4, "Candy Cane", 9, "cane-shaped stick candy", 1.00, 1, 2);
+//    Product productFive = new Product(5, "Dots", 11, "gum drops", 3.00, 2, 2);
+//    Product productSix = new Product(6, "Haribo", 13, "gummy bears", 6.00, 3, 2);
+//    ArrayList<Product> storeOneProducts = new ArrayList<>();
+//    ArrayList<Product> storeTwoProducts = new ArrayList<>();
+//
+//    Store storeOne;
+//    Store storeTwo;
+//
+//    ArrayList<Store> storesList = new ArrayList<>();
 
     //constructor -- needed to create this mock data
     public CustomerMarketplaceGUI() throws IOException {
-        storeOneProducts.add(productOne);
-        storeOneProducts.add(productTwo);
-        storeOneProducts.add(productThree);
-        storeTwoProducts.add(productFour);
-        storeTwoProducts.add(productFive);
-        storeTwoProducts.add(productSix);
-
-        storeOne = new Store(100, storeOneProducts);
-        storeOne.setName("Candy One");
-        storeTwo = new Store(101, storeTwoProducts);
-        storeTwo.setName("Candy Two");
-        storesList.add(storeOne);
-        storesList.add(storeTwo);
+//        storeOneProducts.add(productOne);
+//        storeOneProducts.add(productTwo);
+//        storeOneProducts.add(productThree);
+//        storeTwoProducts.add(productFour);
+//        storeTwoProducts.add(productFive);
+//        storeTwoProducts.add(productSix);
+//
+//        storeOne = new Store(100, storeOneProducts);
+//        storeOne.setName("Candy One");
+//        storeTwo = new Store(101, storeTwoProducts);
+//        storeTwo.setName("Candy Two");
+//        storesList.add(storeOne);
+//        storesList.add(storeTwo);
     }
 
 
@@ -126,9 +134,9 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable{
                     }
 
                     if (minIndex != i) {
-                        Product product = allProducts.get(minIndex);
-                        allProducts.set(minIndex, allProducts.get(i));
-                        allProducts.set(i, product);
+                         Product product = allProducts.get(minIndex);
+                         allProducts.set(minIndex, allProducts.get(i));
+                         allProducts.set(i, product);
                     }
                 }
 

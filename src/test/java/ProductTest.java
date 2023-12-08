@@ -349,6 +349,10 @@ public class ProductTest extends TestUtils {
                 Utils.retrieveData(products.whereEqualTo(fields.storeId,
                         100).limit(1).get()).size());
     }
+<<<<<<< HEAD
 
 }
 >>>>>>> 99c0b56421d1cc589ec4ecc799e336a9f73e92e9
+=======
+}
+>>>>>>> abdf600916891849d045db2be0c092bec2d42103

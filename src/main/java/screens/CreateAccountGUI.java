@@ -4,6 +4,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
+<<<<<<< HEAD
+=======
+import models.Cart;
+import models.Customer;
+import models.Product;
+import models.Sale;
+import models.Seller;
+import models.Store;
+
+>>>>>>> abdf600916891849d045db2be0c092bec2d42103
 public class CreateAccountGUI extends JComponent implements Runnable{
     JFrame frame;
     JTextField emailTextField; //email input text field
@@ -122,4 +132,8 @@ public class CreateAccountGUI extends JComponent implements Runnable{
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new CreateAccountGUI());
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> abdf600916891849d045db2be0c092bec2d42103
