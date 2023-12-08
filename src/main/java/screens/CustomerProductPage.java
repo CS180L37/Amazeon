@@ -13,7 +13,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class CustomerProductPage extends JComponent implements Runnable{
+public class CustomerProductPage extends JComponent implements Runnable {
     JFrame frame;
 
     JButton purchaseButton;//should be add to cart button
