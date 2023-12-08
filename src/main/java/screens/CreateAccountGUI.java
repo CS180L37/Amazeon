@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
-<<<<<<< HEAD
-=======
 import models.Cart;
 import models.Customer;
 import models.Product;
@@ -13,8 +11,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
->>>>>>> abdf600916891849d045db2be0c092bec2d42103
-public class CreateAccountGUI extends JComponent implements Runnable{
+public class CreateAccountGUI extends JComponent implements Runnable {
     JFrame frame;
     JTextField emailTextField; //email input text field
     JTextField passwordTextField; //password input text field
@@ -24,7 +21,7 @@ public class CreateAccountGUI extends JComponent implements Runnable{
     String password;
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == createAccountButton) {
+            if (e.getSource() == createAccountButton) {
                 email = String.valueOf(emailTextField.getText());
                 password = String.valueOf(passwordTextField.getText());
                 System.out.println(email + " " + password);
@@ -35,7 +32,7 @@ public class CreateAccountGUI extends JComponent implements Runnable{
                     ex.printStackTrace();
                 }
             }
-            if(e.getSource() == loginButton) {
+            if (e.getSource() == loginButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
@@ -45,13 +42,13 @@ public class CreateAccountGUI extends JComponent implements Runnable{
     FocusListener focusListener = new FocusListener() {
         @Override
         public void focusGained(FocusEvent e) {
-            if(e.getSource() == emailTextField){
-                if(emailTextField.getText().equals("Enter email you would like to use")){
+            if (e.getSource() == emailTextField) {
+                if (emailTextField.getText().equals("Enter email you would like to use")) {
                     emailTextField.setText("");
                 }
             }
-            if(e.getSource() == passwordTextField){
-                if(passwordTextField.getText().equals("Enter a password")){
+            if (e.getSource() == passwordTextField) {
+                if (passwordTextField.getText().equals("Enter a password")) {
                     passwordTextField.setText("");
                 }
             }
@@ -60,13 +57,13 @@ public class CreateAccountGUI extends JComponent implements Runnable{
 
         @Override
         public void focusLost(FocusEvent e) {
-            if(e.getSource() == emailTextField){
-                if(emailTextField.getText().isEmpty()) {
+            if (e.getSource() == emailTextField) {
+                if (emailTextField.getText().isEmpty()) {
                     emailTextField.setText("Enter email you would like to use");
                 }
             }
-            if(e.getSource() == passwordTextField){
-                if(passwordTextField.getText().isEmpty()) {
+            if (e.getSource() == passwordTextField) {
+                if (passwordTextField.getText().isEmpty()) {
                     passwordTextField.setText("Enter a password");
                 }
             }
@@ -132,8 +129,4 @@ public class CreateAccountGUI extends JComponent implements Runnable{
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new CreateAccountGUI());
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> abdf600916891849d045db2be0c092bec2d42103

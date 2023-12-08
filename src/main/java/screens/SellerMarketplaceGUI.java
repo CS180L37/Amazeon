@@ -17,6 +17,7 @@ import models.Store;
 
 public class SellerMarketplaceGUI extends JComponent implements Runnable{
     JFrame frame;
+    Container content;
     JButton createButton;
     JButton editButton;
     JButton deleteButton;
@@ -88,96 +89,88 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 
 
     //everything that needs to be displayed goes into the run method
-    public void run() {
-        frame = new JFrame("Seller Marketplace"); //creates frame
-
-        Container content = frame.getContentPane(); //creates a container in which things go for that frame
-        content.setLayout(new BorderLayout()); //sets layout nicely
-
-
-    //everything that needs to be displayed goes into the run method
-    public void run() {
-        frame = new JFrame("Seller Marketplace"); //creates frame
-        //sets frame style and displays frame
-        frame.setSize(600, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
+        public void run () {
+            frame = new JFrame("Seller Marketplace"); //creates frame
+            //sets frame style and displays frame
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setVisible(true);
 
 
-        //initialize your buttons and add action listsners to each
-        createButton = new JButton("Create");
-        createButton.addActionListener(actionListener);
+            //initialize your buttons and add action listsners to each
+            createButton = new JButton("Create");
+            createButton.addActionListener(actionListener);
 
-        editButton = new JButton("Edit");
-        editButton.addActionListener(actionListener);
+            editButton = new JButton("Edit");
+            editButton.addActionListener(actionListener);
 
-        deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(actionListener);
+            deleteButton = new JButton("Delete");
+            deleteButton.addActionListener(actionListener);
 
-        editButton = new JButton("Edit");
-        editButton.addActionListener(actionListener);
+            editButton = new JButton("Edit");
+            editButton.addActionListener(actionListener);
 
-        deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(actionListener);
+            deleteButton = new JButton("Delete");
+            deleteButton.addActionListener(actionListener);
 
-        salesButton = new JButton("Sales");
-        salesButton.addActionListener(actionListener);
+            salesButton = new JButton("Sales");
+            salesButton.addActionListener(actionListener);
 
-        dashboardButton = new JButton("Dashboard");
-        dashboardButton.addActionListener(actionListener);
+            dashboardButton = new JButton("Dashboard");
+            dashboardButton.addActionListener(actionListener);
 
-        cartButton = new JButton("Cart");
-        cartButton.addActionListener(actionListener);
+            cartButton = new JButton("Cart");
+            cartButton.addActionListener(actionListener);
 
-        sortMarketplaceButton = new JButton();
-        sortMarketplaceButton.addActionListener(actionListener);
+            sortMarketplaceButton = new JButton();
+            sortMarketplaceButton.addActionListener(actionListener);
 
-        //dashboard button's dropdown menu
-        sortDashboardMenu= new JPopupMenu("Dashboard");
+            //dashboard button's dropdown menu
+            sortDashboardMenu = new JPopupMenu("Dashboard");
 
-        menuItemSort1 = new JMenuItem("Sort 1");
-        sortDashboardMenu.add(menuItemSort1);
+            menuItemSort1 = new JMenuItem("Sort 1");
+            sortDashboardMenu.add(menuItemSort1);
 
-        menuItemSort2 = new JMenuItem("Sort 2");
-        sortDashboardMenu.add(menuItemSort2);
+            menuItemSort2 = new JMenuItem("Sort 2");
+            sortDashboardMenu.add(menuItemSort2);
 
-        //sort marketplace button's dropdown menu
-        sortMarketplaceMenu= new JPopupMenu("Dashboard");
+            //sort marketplace button's dropdown menu
+            sortMarketplaceMenu = new JPopupMenu("Dashboard");
 
-        mpmenuItemSort1 = new JMenuItem("Sort 1");
-        sortMarketplaceMenu.add(mpmenuItemSort1);
+            mpmenuItemSort1 = new JMenuItem("Sort 1");
+            sortMarketplaceMenu.add(mpmenuItemSort1);
 
-        mpmenuItemSort2 = new JMenuItem("Sort 2");
-        sortMarketplaceMenu.add(mpmenuItemSort2);
+            mpmenuItemSort2 = new JMenuItem("Sort 2");
+            sortMarketplaceMenu.add(mpmenuItemSort2);
 
 
-        //creates panel at top of frame and adds buttons
-        JPanel topPanel = new JPanel();
-        topPanel.add(createButton);
-        topPanel.add(editButton);
-        topPanel.add(deleteButton);
-        topPanel.add(salesButton);
-        topPanel.add(dashboardButton);
-        topPanel.add(cartButton);
+            //creates panel at top of frame and adds buttons
+            JPanel topPanel = new JPanel();
+            topPanel.add(createButton);
+            topPanel.add(editButton);
+            topPanel.add(deleteButton);
+            topPanel.add(salesButton);
+            topPanel.add(dashboardButton);
+            topPanel.add(cartButton);
 
-        content.add(topPanel, BorderLayout.NORTH); // adds the panel to the container
+            content.add(topPanel, BorderLayout.NORTH); // adds the panel to the container
 
-        //creates panel at bottom and adds log out button
-        logOutButton = new JButton("Log Out");
-        logOutButton.addActionListener(actionListener);
+            //creates panel at bottom and adds log out button
+            logOutButton = new JButton("Log Out");
+            logOutButton.addActionListener(actionListener);
 
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.add(logOutButton);
+            JPanel bottomPanel = new JPanel();
+            bottomPanel.add(logOutButton);
 
-        content.add(bottomPanel, BorderLayout.SOUTH); // adds panel to container
+            content.add(bottomPanel, BorderLayout.SOUTH); // adds panel to container
 
-        //creates panel in middle
-        JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
+            //creates panel in middle
+            JPanel middlePanel = new JPanel();
+            middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
 
-        //iterates through stores list and each stores products' list in order to display product information
-        //change to seller's products (currently it is customer's products)
+            //iterates through stores list and each stores products' list in order to display product information
+            //change to seller's products (currently it is customer's products)
 //        for(int i = 0; i < storesList.size(); i++){
 //            for(int j = 0; j < storesList.get(i).getProducts().size(); j++){
 //                JButton productButton = new JButton( //html used for style purposes only
@@ -195,22 +188,22 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 //            }
 //        }
 
-        //sets up a scroll bar for panel
-        JScrollPane scrollPane = new JScrollPane(middlePanel);
+            //sets up a scroll bar for panel
+            JScrollPane scrollPane = new JScrollPane(middlePanel);
 
-        // Set preferred size of the scroll pane
-        scrollPane.setPreferredSize(new Dimension(200, 300));
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            // Set preferred size of the scroll pane
+            scrollPane.setPreferredSize(new Dimension(200, 300));
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        content.add(scrollPane, BorderLayout.CENTER); // adds the scroll bar to the container
+            content.add(scrollPane, BorderLayout.CENTER); // adds the scroll bar to the container
 
-    }
-
-    public static void main (String[] args) { //runs the program
-        try{
-            SwingUtilities.invokeLater(new SellerMarketplaceGUI());
-        } catch(Exception e){
-            e.printStackTrace();
         }
-    }
+
+        public static void main (String[]args){ //runs the program
+            try {
+                SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 }
