@@ -65,7 +65,7 @@ public class TestUtils {
         @BeforeEach
         public void setUp() throws IOException {
                 // Reinitialize data
-                // clearCollections();
+                clearCollections();
                 try {
                         Product.productsCollection.add(Map.of(
                                         fields.description,
@@ -200,11 +200,11 @@ public class TestUtils {
 
         @AfterAll
         public static void tearDown() {
-                // try {
-                //         clearCollections();
-                // } catch (IOException e) {
-                //         e.printStackTrace();
-                // }
+                try {
+                        clearCollections();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
                 System.setOut(originalOutput);
                 System.setIn(originalSysin);
         }
