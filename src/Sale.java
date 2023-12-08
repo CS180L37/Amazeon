@@ -1,3 +1,6 @@
+import models.Customer;
+import models.Product;
+
 public class Sale {
     private Customer customer;
     private Product product;

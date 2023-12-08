@@ -1,3 +1,5 @@
+import models.Product;
+
 import java.beans.Customizer;
 import java.util.ArrayList;
 

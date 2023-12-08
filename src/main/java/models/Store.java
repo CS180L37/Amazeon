@@ -4,6 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.Query.Direction;
 
+import org.checkerframework.checker.units.qual.A;
 import utils.Utils;
 import utils.fields;
 
@@ -145,9 +146,9 @@ public class Store {
     }
 
     public static ArrayList<Store> sortNonDeletedStores(String field, Direction direction) throws IOException {
-        ApiFuture<QuerySnapshot> future = storesCollection.whereNotEqualTo(fields.isDeleted, true)
-                .orderBy(field, direction).get();
-        ArrayList<Store> stores = new ArrayList<Store>();
+        Query q = storesCollection.whereNotEqualTo(fields.isDeleted, true);
+        ApiFuture<QuerySnapshot> future = q.orderBy(field, direction).get();
+        List<Store> stores = new ArrayList<Store>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
             return null;
@@ -155,7 +156,7 @@ public class Store {
         for (QueryDocumentSnapshot doc : documents) {
             stores.add(new Store(doc));
         }
-        return stores;
+        return new ArrayList<Store>(stores);
     }
 
     public ArrayList<Integer> getStoreProductIds() {
