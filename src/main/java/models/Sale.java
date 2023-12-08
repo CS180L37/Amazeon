@@ -41,8 +41,6 @@ public class Sale {
         int numPurchased = document.getLong(fields.numPurchased).intValue();
         this.numPurchased = numPurchased;
         double cost = document.getDouble(fields.cost).doubleValue();
-        System.out.println(cost);
-        System.err.println(cost);
         this.cost = cost;
         this.isDeleted = document.getBoolean(fields.isDeleted).booleanValue();
         this.documentReference = getSaleDocument();

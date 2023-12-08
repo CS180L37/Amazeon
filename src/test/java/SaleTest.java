@@ -56,8 +56,6 @@ public class SaleTest extends TestUtils {
 
     @Test
     public void testDeleteSale() throws IOException {
-        System.out.println(sale0);
-        System.err.println(sale0);
         sale0.setDeleted(true);
         assertNull(Sale.getNonDeletedSaleById(0));
     }

@@ -50,15 +50,17 @@ public class Cart {
     }
 
     public static Cart createCart(int customerId) throws IOException {
-        Cart newCart = new Cart(customerId, new ArrayList<Product>());
         HashMap<String, Object> data = new HashMap<>();
         data.put(fields.customerId, customerId);
         data.put(fields.productIds, Arrays.asList());
         data.put(fields.isDeleted, false);
-        // cartsCollection.document(currCustomer.getEmail()).set(data);
-        // newCart.documentReference =
-        // cartsCollection.document(currCustomer.getEmail());
-        return newCart;
+        try {
+            cartsCollection.add(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return new Cart(customerId, new ArrayList<Product>());
+        
     }
 
     // public void deleteCart() throws IOException {
