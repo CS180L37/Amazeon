@@ -156,6 +156,11 @@ public class Store {
         for (QueryDocumentSnapshot doc : documents) {
             stores.add(new Store(doc));
         }
+        for (int i = 0; i < stores.size(); i++) {
+            if (stores.get(i).isDeleted()) {
+                stores.remove(i);
+            }
+        }
         return new ArrayList<Store>(stores);
     }
 
