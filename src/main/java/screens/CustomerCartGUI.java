@@ -14,7 +14,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class CustomerCartGUI extends JComponent implements Runnable{
+public class CustomerCartGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton purchaseAllButton;
     JButton returnHomeButton;
