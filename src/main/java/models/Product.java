@@ -77,7 +77,11 @@ public class Product {
         productData.put(fields.sellerId, sellerId);
         productData.put(fields.storeId, storeId);
         productData.put(fields.isDeleted, false);
-        productsCollection.add(productData);
+        try {
+            productsCollection.add(productData).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         // Create a new instance
         return new Product(productId, name, quantity, description, price, sellerId, storeId);
     }
@@ -294,8 +298,9 @@ public class Product {
                     price: %f
                     sellerId: %d
                     storeId: %d
+                    isDeleted: %b
                 }""", this.getProductId(), this.getName(), this.getQuantity(), this.getDescription(), this.getPrice(),
-                this.getSellerId(), this.getStoreId());
+                this.getSellerId(), this.getStoreId(), this.isDeleted());
     }
 
     @Override
@@ -306,7 +311,7 @@ public class Product {
                     && product.getQuantity() == this.getQuantity()
                     && product.getDescription().equals(this.getDescription())
                     && product.getPrice() == this.getPrice() && product.getSellerId() == this.getSellerId()
-                    && product.getStoreId() == this.getStoreId()) {
+                    && product.getStoreId() == this.getStoreId() && product.isDeleted() == this.isDeleted()) {
                 return true;
             }
         }

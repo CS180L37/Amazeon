@@ -70,7 +70,11 @@ public class Sale {
         saleData.put(fields.productId, productId);
         saleData.put(fields.isDeleted, false);
         saleData.put(fields.saleId, saleId);
-        salesCollection.add(saleData);
+        try {
+            salesCollection.add(saleData).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         // Create a new instance
         return new Sale(cost, customerId, numPurchased, productId, saleId);
     }
@@ -261,10 +265,11 @@ public class Sale {
                     numPurchased: %s
                     productId: %s
                     saleId: %s
+                    isDeleted: %b
                 }""", this.getCost(), this.getCustomerId(),
                 this.getNumPurchased(),
                 this.getProductId(),
-                this.getSaleId());
+                this.getSaleId(), this.isDeleted());
     }
 
     @Override
@@ -274,7 +279,7 @@ public class Sale {
             if (sale.getCost() == this.getCost() && sale.getCustomerId() == this.getCustomerId()
                     && sale.getNumPurchased() == this.getNumPurchased()
                     && sale.getProductId() == this.getProductId()
-                    && sale.getSaleId() == this.getSaleId()) {
+                    && sale.getSaleId() == this.getSaleId() && sale.isDeleted() == this.isDeleted()) {
                 return true;
             }
         }

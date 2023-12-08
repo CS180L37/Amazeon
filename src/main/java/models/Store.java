@@ -44,7 +44,7 @@ public class Store {
         this.storeCustomers = storeCustomers;
         this.isDeleted = false;
         this.documentReference = getStoreDocumentReference();
-        //        this.documentReference = getStoreDocument();
+        // this.documentReference = getStoreDocument();
     }
 
     public static Store createStore(int storeId, String name) throws IOException {
@@ -55,7 +55,11 @@ public class Store {
         data.put(fields.productIds, Arrays.asList());
         data.put("customerIds", Arrays.asList());
         data.put(fields.isDeleted, false);
-        storesCollection.add(data);
+        try {
+            storesCollection.add(data).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return new Store(storeId, name, new ArrayList<Product>(), new ArrayList<Customer>());
     }
 
@@ -238,8 +242,9 @@ public class Store {
                     name: %s
                     products: %s
                     customers: %s
+                    isDeleted: %b
                 }""", this.getStoreId(), this.getName(), this.getStoreProducts().toString(),
-                this.getStoreCustomers().toString());
+                this.getStoreCustomers().toString(), this.isDeleted());
     }
 
     @Override
@@ -248,7 +253,7 @@ public class Store {
             Store store = (Store) obj;
             if (store.getStoreId() == this.getStoreId() && store.getName().equals(this.getName())
                     && store.getStoreProducts().equals(this.getStoreProducts())
-                    && store.getStoreCustomers().equals(this.getStoreCustomers())) {
+                    && store.getStoreCustomers().equals(this.getStoreCustomers()) && store.isDeleted() == this.isDeleted()) {
                 return true;
             }
         }

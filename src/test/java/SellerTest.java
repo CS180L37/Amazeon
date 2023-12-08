@@ -82,7 +82,7 @@ public class SellerTest extends TestUtils {
         try {
             Seller seller3 = Seller.createSeller("microsoft@outlook.com", fields.password,
                     "Microsoft");
-            assertEquals(seller3, Customer.getCustomerByEmail("microsoft@outlook.com"));
+            assertEquals(seller3, Seller.getSellerByEmail("microsoft@outlook.com"));
             // Ensure that trying to create an already existing seller throws an error;
             // handled in Amazeon
             // assertThrows(IOException.class, () ->

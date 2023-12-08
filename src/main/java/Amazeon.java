@@ -32,7 +32,6 @@ public class Amazeon {
         // Product.productsCollection.get().get();
         try {
             Product product = Product.getProductById(0);
-            System.out.println(product.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

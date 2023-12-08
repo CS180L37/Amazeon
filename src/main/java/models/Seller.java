@@ -172,7 +172,13 @@ public class Seller {
         sellerData.put(fields.productIds, Arrays.asList());
         sellerData.put(fields.saleIds, Arrays.asList());
         sellerData.put(fields.isDeleted, false);
-        sellersCollection.add(sellerData);
+        try {
+            sellersCollection.add(sellerData).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         // Create a new instance
         ArrayList<Product> products = new ArrayList<Product>();
         ArrayList<Sale> sales = new ArrayList<Sale>();
@@ -383,10 +389,11 @@ public class Seller {
                     password: %s
                     products: %s
                     sales: %s
+                    isDeleted: %b
                 }""", this.getSellerId(), this.getName(),
                 this.getEmail(),
                 this.getPassword(),
-                this.getProducts().toString(), this.getSales().toString());
+                this.getProducts().toString(), this.getSales().toString(), this.isDeleted());
     }
 
     @Override
@@ -397,7 +404,7 @@ public class Seller {
                     && seller.getEmail().equals(this.getEmail())
                     && seller.getPassword().equals(this.getPassword())
                     && seller.getProducts().equals(this.getProducts())
-                    && seller.getSales().equals(this.getSales())) {
+                    && seller.getSales().equals(this.getSales()) && seller.isDeleted() == this.isDeleted()) {
                 return true;
             }
         }

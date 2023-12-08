@@ -222,14 +222,16 @@ public class Cart {
                 {
                     customerId: %d
                     cartProducts: %s
-                }""", this.getCustomerID(), this.getCartProducts().toString());
+                    isDeleted: %b
+                }""", this.getCustomerID(), this.getCartProducts().toString(), this.isDeleted());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Cart) {
             Cart cart = (Cart) obj;
-            if (cart.getCustomerID() == this.getCustomerID() && cart.getCartProducts().equals(this.getCartProducts())) {
+            if (cart.getCustomerID() == this.getCustomerID() && cart.getCartProducts().equals(this.getCartProducts())
+                    && cart.isDeleted() == this.isDeleted()) {
                 return true;
             }
         }

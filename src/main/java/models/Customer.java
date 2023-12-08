@@ -179,7 +179,11 @@ public class Customer {
         customerData.put(fields.password, password);
         customerData.put(fields.productIds, Arrays.asList());
         customerData.put(fields.isDeleted, false);
-        customersCollection.add(customerData);
+        try {
+            customersCollection.add(customerData).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         // Create a new instance
         Cart cart = Cart.createCart(customerId);
         return new Customer(cart, customerId, email, password, new ArrayList<Product>());
@@ -338,8 +342,9 @@ public class Customer {
                     email: %s
                     password: %s
                     products: %s
+                    isDeleted: %b
                 }""", this.getCart().toString(), this.getCustomerId(), this.getEmail(), this.getPassword(),
-                this.getProducts());
+                this.getProducts(), this.isDeleted());
     }
 
     @Override
@@ -349,7 +354,7 @@ public class Customer {
             if (customer.getCart().equals(this.getCart()) && customer.getCustomerId() == this.getCustomerId()
                     && customer.getEmail().equals(this.getEmail())
                     && customer.getPassword().equals(this.getPassword())
-                    && customer.getProducts().equals(this.getProducts())) {
+                    && customer.getProducts().equals(this.getProducts()) && customer.isDeleted() == this.isDeleted()) {
                 return true;
             }
         }

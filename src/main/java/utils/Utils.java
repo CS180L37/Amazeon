@@ -90,21 +90,22 @@ public class Utils {
     // return bw;
     // }
 
-    public static String inputPrompt(String prompt, ValidateInterface validateInterface, String... reprompt) {
-        System.out.println(prompt);
-        String userInput;
-        do {
-            userInput = Utils.SCANNER.nextLine();
-            if (validateInterface.validate(userInput)) {
-                return userInput;
-            }
-            if (reprompt != null) {
-                System.out.println(reprompt);
-            } else {
-                System.out.println(prompt);
-            }
-        } while (true);
-    }
+    // public static String inputPrompt(String prompt, ValidateInterface
+    // validateInterface, String... reprompt) {
+    // System.out.println(prompt);
+    // String userInput;
+    // do {
+    // userInput = Utils.SCANNER.nextLine();
+    // if (validateInterface.validate(userInput)) {
+    // return userInput;
+    // }
+    // if (reprompt != null) {
+    // System.out.println(reprompt);
+    // } else {
+    // System.out.println(prompt);
+    // }
+    // } while (true);
+    // }
 
     public static void initializeDatabase() throws IOException {
         // Initialize Firestore

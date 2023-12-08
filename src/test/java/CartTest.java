@@ -100,7 +100,6 @@ public class CartTest extends TestUtils {
     @Test
     public void testGetCartProductIds() throws IOException {
         ArrayList<Integer> checkProductIds = new ArrayList<>();
-        System.out.println(cart2.getCartProductIds());
     }
 
     @Test
