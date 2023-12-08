@@ -6,7 +6,7 @@ Amazon watch out, there's a new competitor on the block! This is our submission 
 
 ## Client Dependencies
 Just Java :)
-> Maven and java handle the rest for you
+> ok maybe not just java if you want to compile and run from source; just java if you want to run the built jar file; maven will handle a lot of the process for you though
 
 ## Dev Dependencies
 - firebase CLI (https://firebase.google.com/docs/cli)
@@ -33,7 +33,7 @@ java Amazeon.java
 - Stop the firestore emulator after the tests have completed and you're done! :)
 
 Or you could just watch the process in action like so:
-TODO: record tests working
+![](src/test/resources/TestCases.mp4)
 
 ## Documentation
 
