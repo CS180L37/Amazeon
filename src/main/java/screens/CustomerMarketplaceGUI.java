@@ -42,9 +42,12 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
 
     ArrayList<Store> stores;
 
+    Customer customer;
+
     // constructor -- needed to create this mock data
-    public CustomerMarketplaceGUI() throws IOException {
+    public CustomerMarketplaceGUI(Customer customer) throws IOException {
         System.out.println("getting here"); //for debugging
+        this.customer = customer;
         stores = Store.sortNonDeletedStores(fields.storeId, Query.Direction.ASCENDING);
     }
 
@@ -65,23 +68,23 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
             }
             if (e.getSource() == purchaseButton) {
                 frame.dispose();
-                SwingUtilities.invokeLater(new CustomerPurchaseGUI());
+                SwingUtilities.invokeLater(new CustomerPurchaseGUI(customer));
             }
             if (e.getSource() == searchButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new CustomerSearchGUI());
+                    SwingUtilities.invokeLater(new CustomerSearchGUI(customer));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
             if (e.getSource() == menuItemSort1) {
                 frame.dispose();
-                SwingUtilities.invokeLater(new CustomerSortOneDashboardGUI());
+                SwingUtilities.invokeLater(new CustomerSortOneDashboardGUI(customer));
             }
             if (e.getSource() == menuItemSort2) {
                 frame.dispose();
-                SwingUtilities.invokeLater(new CustomerSortTwoDashboardGUI());
+                SwingUtilities.invokeLater(new CustomerSortTwoDashboardGUI(customer));
             }
             if (e.getSource() == mpmenuItemSort1) {
                 middlePanel.removeAll();
@@ -128,8 +131,12 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                     Product product = allProducts.get(i);
                     productButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            frame.dispose();
-                            SwingUtilities.invokeLater(new CustomerProductPage(product));
+                            try {
+                                frame.dispose();
+                                SwingUtilities.invokeLater(new CustomerProductPage(customer, product));
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
                     });
                 }
@@ -180,8 +187,12 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                     Product product = allProducts.get(i);
                     productButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            frame.dispose();
-                            SwingUtilities.invokeLater(new CustomerProductPage(product));
+                            try {
+                                frame.dispose();
+                                SwingUtilities.invokeLater(new CustomerProductPage(customer, product));
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
                     });
                 }
@@ -287,8 +298,12 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 Product product = stores.get(i).getStoreProducts().get(j);
                 productButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        frame.dispose();
-                        SwingUtilities.invokeLater(new CustomerProductPage(product));
+                        try {
+                            frame.dispose();
+                            SwingUtilities.invokeLater(new CustomerProductPage(customer, product));
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 });
 
@@ -306,11 +321,11 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
 
     }
 
-    public static void main(String[] args) { // runs the program
-        try {
-            SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) { // runs the program
+//        try {
+//            SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

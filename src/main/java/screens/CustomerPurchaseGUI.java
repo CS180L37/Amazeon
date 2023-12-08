@@ -20,10 +20,21 @@ public class CustomerPurchaseGUI extends JComponent implements Runnable {
     JButton returnHomeButton;
     JButton logOutButton;
 
+    Customer customer;
+
+    public CustomerPurchaseGUI(Customer customer) {
+        this.customer = customer;
+    }
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == enterButton) {
+                try {
+                    Product product = Product.getProductById(Integer.parseInt(String.valueOf(productId)));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 //takes us to that product's page for purchase
                 //use get Product by productId if valid
                 //SwingUtilities.invokeLater(new CustomerProductPage(Product));
@@ -31,7 +42,7 @@ public class CustomerPurchaseGUI extends JComponent implements Runnable {
             if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -93,7 +104,7 @@ public class CustomerPurchaseGUI extends JComponent implements Runnable {
 
 
     }
-    public static void main(String[] args){
-        SwingUtilities.invokeLater(new CustomerPurchaseGUI());
-    }
+//    public static void main(String[] args){
+//        SwingUtilities.invokeLater(new CustomerPurchaseGUI());
+//    }
 }

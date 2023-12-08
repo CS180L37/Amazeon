@@ -20,17 +20,23 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
     JButton returnHomeButton;
     JButton logOutButton;
 
+    Customer customer;
+
+    public CustomerSortTwoDashboardGUI(Customer customer) {
+        this.customer = customer;
+    }
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == sortByProductsSoldButton) {
                 frame.dispose();
-                SwingUtilities.invokeLater(new CustomerSortOneDashboardGUI());
+                SwingUtilities.invokeLater(new CustomerSortOneDashboardGUI(customer));
             }
             if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -128,7 +134,7 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
         bottomPanel.add(logOutButton);
         content.add(bottomPanel, BorderLayout.SOUTH);
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new CustomerSortTwoDashboardGUI());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new CustomerSortTwoDashboardGUI());
+//    }
 }

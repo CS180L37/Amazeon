@@ -46,7 +46,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 //    ArrayList<Store> storesList = new ArrayList<>();
 
     //constructor -- needed to create this mock data
-    public SellerMarketplaceGUI() throws IOException {
+    public SellerMarketplaceGUI(Seller seller) throws IOException {
 //        storeOneProducts.add(productOne);
 //        storeOneProducts.add(productTwo);
 //        storeOneProducts.add(productThree);
@@ -198,11 +198,11 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 
     }
 
-    public static void main (String[] args) { //runs the program
-        try{
-            SwingUtilities.invokeLater(new SellerMarketplaceGUI());
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+//    public static void main (String[] args) { //runs the program
+//        try{
+//            SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+//        } catch(Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 }
