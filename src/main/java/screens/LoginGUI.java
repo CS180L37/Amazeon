@@ -2,6 +2,7 @@ package screens;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 import models.Cart;
 import models.Customer;
@@ -27,10 +28,20 @@ public class LoginGUI extends JComponent implements Runnable{
                 password = String.valueOf(passwordTextField.getText());
                 System.out.println(email + " " + password);
                 try {
-                    frame.dispose();
-                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                    if(Customer.customerExists(email, password)) {
+                        frame.dispose();
+                        SwingUtilities.invokeLater((new CustomerMarketplaceGUI()));
+                    }
+                    else {
+                        if(Seller.sellerExists(email, password)) {
+                            frame.dispose();
+                            SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Invalid username or password! Please try again.","Invalid Account", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
             if(e.getSource() == createAccountButton) {

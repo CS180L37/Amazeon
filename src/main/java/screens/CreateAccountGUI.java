@@ -24,19 +24,28 @@ public class CreateAccountGUI extends JComponent implements Runnable{
     JButton createAccountButton; //should display createAccountGUI
     String email;
     String password;
+    String name;
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == createAccountButton) {
                 email = String.valueOf(emailTextField.getText());
                 password = String.valueOf(passwordTextField.getText());
                 if(customerButton.isSelected()) {
-                    //createCustomer
-                    //invoke customer marketplace gui
-                    frame.dispose();
+                    try {
+                        Customer.createCustomer(email, password);
+                        frame.dispose();
+                        SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 } else {
-                    //createSeller
-                    //invoke seller marketplace gui
-                    frame.dispose();
+                    try {
+                        Seller.createSeller(email, password, name);
+                        frame.dispose();
+                        SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
             if(e.getSource() == loginButton) {
@@ -48,6 +57,7 @@ public class CreateAccountGUI extends JComponent implements Runnable{
             }
             if(e.getSource() == sellerButton) {
                 customerButton.setSelected(false);
+                name = JOptionPane.showInputDialog("Enter Your Name: ");
             }
         }
     };
