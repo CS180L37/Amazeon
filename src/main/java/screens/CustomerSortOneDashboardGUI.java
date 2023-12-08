@@ -14,7 +14,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
+public class CustomerSortOneDashboardGUI extends JComponent implements Runnable {
     //sorts stores by products sold
     JFrame frame;
     JButton sortByProductsPurchasedButton;
