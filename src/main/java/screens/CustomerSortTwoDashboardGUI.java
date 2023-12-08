@@ -13,7 +13,7 @@ import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
-public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
+public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable {
     //sorts stores by products purchased by this particular customer
     JFrame frame;
     JButton sortByProductsSoldButton;

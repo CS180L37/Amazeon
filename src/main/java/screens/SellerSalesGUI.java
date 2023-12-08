@@ -12,7 +12,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class SellerSalesGUI extends JComponent implements Runnable{
+public class SellerSalesGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton returnHomeButton;
     JButton logOutButton;

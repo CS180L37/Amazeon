@@ -14,7 +14,7 @@ import models.Seller;
 import models.Store;
 
 
-public class SellerDeleteProductGUI extends JComponent implements Runnable{
+public class SellerDeleteProductGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton deleteButton;
     JButton returnHomeButton;

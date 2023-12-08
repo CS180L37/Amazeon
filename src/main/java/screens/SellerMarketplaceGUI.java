@@ -15,7 +15,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class SellerMarketplaceGUI extends JComponent implements Runnable{
+public class SellerMarketplaceGUI extends JComponent implements Runnable {
     JFrame frame;
     Container content;
     JButton createButton;
@@ -199,7 +199,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 
         }
 
-        public static void main (String[]args){ //runs the program
+        public static void main (String[]args) { //runs the program
             try {
                 SwingUtilities.invokeLater(new SellerMarketplaceGUI());
             } catch (Exception e) {

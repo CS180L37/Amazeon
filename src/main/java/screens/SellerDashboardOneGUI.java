@@ -13,7 +13,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class SellerDashboardOneGUI extends JComponent implements Runnable{
+public class SellerDashboardOneGUI extends JComponent implements Runnable {
 
     //sorts customers by number of items they have purchased
     JFrame frame;

@@ -28,7 +28,7 @@ public class CustomerProductPage extends JComponent implements Runnable {
 
     String[] quantityOptions;
 
-    public CustomerProductPage(Product product){
+    public CustomerProductPage(Product product) {
         storeName = "Candyyyyyy";
         productName = product.getName();
         description = product.getDescription();
