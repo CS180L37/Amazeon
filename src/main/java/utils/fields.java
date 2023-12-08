@@ -12,6 +12,7 @@ public class fields {
     public static final String quantity = "quantity";
     public static final String productId = "productId";
     public static final String saleIds = "saleIds";
+    public static final String saleId = "saleId";
     public static final String productIds = "productIds";
     public static final String storeId = "storeId";
     public static final String numPurchased = "numPurchased";

@@ -333,12 +333,12 @@ public class TestUtils {
 
                         Sale.salesCollection.add(Map.of(
                                         fields.cost, 9.99, "customerId", 0, fields.numPurchased, 1, fields.productId, 0,
-                                        "saleId", 0, fields.isDeleted, false)).get();
+                                        fields.saleId, 0, fields.isDeleted, false)).get();
 
                         Sale.salesCollection.add(Map.of(
                                         fields.cost, 299.99, "customerId", 2, fields.numPurchased, 1, fields.productId,
                                         3,
-                                        "saleId", 1, fields.isDeleted, false)).get();
+                                        fields.saleId, 1, fields.isDeleted, false)).get();
 
                         Store.storesCollection.add(Map.of(
                                         "customerIds", Arrays.asList(0), fields.name, "Goodreads",
