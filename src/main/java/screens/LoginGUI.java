@@ -29,6 +29,7 @@ public class LoginGUI extends JComponent implements Runnable{
                 System.out.println(email + " " + password);
                 try {
                     if(Customer.customerExists(email, password)) {
+//                        Customer customer = Customer.getCustomerByEmail(email);
                         frame.dispose();
                         SwingUtilities.invokeLater((new CustomerMarketplaceGUI()));
                     }

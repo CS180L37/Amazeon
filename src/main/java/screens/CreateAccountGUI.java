@@ -13,6 +13,8 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
+import utils.fields;
+
 public class CreateAccountGUI extends JComponent implements Runnable{
     JFrame frame;
     JTextField emailTextField; //email input text field
