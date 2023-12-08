@@ -33,7 +33,7 @@ java Amazeon.java
 - Stop the firestore emulator after the tests have completed and you're done! :)
 
 Or you could just watch the process in action like so:
-![](https://github.com/CS180L37/Project4-5/blob/master/src/test/resources/TestCases.mp4)
+[TestCases.webm](https://github.com/CS180L37/Project4-5/assets/86136010/ba9ea788-1bc2-4f1f-8001-7250c13bc2cb)
 
 ## Documentation
 
