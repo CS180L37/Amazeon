@@ -4,11 +4,9 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.Query.Direction;
 
-import org.checkerframework.checker.units.qual.A;
 import utils.Utils;
 import utils.fields;
 
-import javax.print.Doc;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -146,19 +144,16 @@ public class Store {
     }
 
     public static ArrayList<Store> sortNonDeletedStores(String field, Direction direction) throws IOException {
-        ApiFuture<QuerySnapshot> future = storesCollection.whereNotEqualTo(fields.isDeleted, true).get();
-        ArrayList<Store> stores = new ArrayList<>();
+        ApiFuture<QuerySnapshot> future = storesCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true)
+                .orderBy(field, direction).get();
+        ArrayList<Store> stores = new ArrayList<Store>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
             return null;
         }
         for (QueryDocumentSnapshot doc : documents) {
             stores.add(new Store(doc));
-        }
-        for (int i = 0; i < stores.size(); i++) {
-            if (stores.get(i).isDeleted()) {
-                stores.remove(i);
-            }
         }
         return stores;
     }
@@ -259,7 +254,8 @@ public class Store {
             Store store = (Store) obj;
             if (store.getStoreId() == this.getStoreId() && store.getName().equals(this.getName())
                     && store.getStoreProducts().equals(this.getStoreProducts())
-                    && store.getStoreCustomers().equals(this.getStoreCustomers()) && store.isDeleted() == this.isDeleted()) {
+                    && store.getStoreCustomers().equals(this.getStoreCustomers())
+                    && store.isDeleted() == this.isDeleted()) {
                 return true;
             }
         }

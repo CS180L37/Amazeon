@@ -102,7 +102,8 @@ public class Seller {
     }
 
     public static ArrayList<Seller> sortNonDeletedSellers(String field, Direction direction) throws IOException {
-        ApiFuture<QuerySnapshot> future = sellersCollection.whereNotEqualTo(fields.isDeleted, true)
+        ApiFuture<QuerySnapshot> future = sellersCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true)
                 .orderBy(field, direction).get();
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
