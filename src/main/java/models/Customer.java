@@ -171,6 +171,12 @@ public class Customer {
 
     // Called to create a customer
     public static Customer createCustomer(String email, String password) throws IOException {
+        if (!Utils.validateEmail(email)) {
+            throw new IOException("Invalid email");
+        }
+        if (!Utils.validatePassword(password)) {
+            throw new IOException("Invalid password");
+        }
         Map<String, Object> customerData = new HashMap<String, Object>();
         int customerId = Customer.getNextCustomerId();
         // Add data to db
