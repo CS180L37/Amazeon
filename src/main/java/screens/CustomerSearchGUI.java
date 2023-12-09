@@ -102,37 +102,43 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
 
                         JPanel panel = new JPanel();
 
-                        for (int i = 0; i < stores.size(); i++) {
-                            for (int j = 0; j < stores.get(i).getStoreProducts().size(); j++) {
-                                if (stores.get(i).getStoreProducts().get(j).getName().contains(name.getText())) {
-                                    JButton productButton = new JButton("<html>" +
-                                            "<div style='text-align: center;'>" +
-                                            "<div>" + "Product Name: "
-                                            + stores.get(i).getStoreProducts().get(j).getName() + "</div>" +
-                                            "<div>" + "StoreName: " + stores.get(i).getName() + "</div>" +
-                                            "<div>" + "Product Price: $"
-                                            + stores.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
-                                            "</div>" +
-                                            "</html>");
-                                    productButton.setPreferredSize(new Dimension(200, 100)); // sets size of each
-                                                                                             // product button
-                                    panel.add(productButton);
-                                    Product product = stores.get(i).getStoreProducts().get(j);
+                        // for (int i = 0; i < stores.size(); i++) {
+                        // for (int j = 0; j < stores.get(i).getStoreProducts().size(); j++) {
+                        // if
+                        // (stores.get(i).getStoreProducts().get(j).getName().contains(name.getText()))
+                        // {
+                        // JButton productButton = new JButton("<html>" +
+                        // "<div style='text-align: center;'>" +
+                        // "<div>" + "Product Name: "
+                        // + stores.get(i).getStoreProducts().get(j).getName() + "</div>" +
+                        // "<div>" + "StoreName: " + stores.get(i).getName() + "</div>" +
+                        // "<div>" + "Product Price: $"
+                        // + stores.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
+                        // "</div>" +
+                        // "</html>");
+                        // productButton.setPreferredSize(new Dimension(200, 100)); // sets size of each
+                        // // product button
+                        // panel.add(productButton);
+                        // Product product = stores.get(i).getStoreProducts().get(j);
 
-                                    productButton.addActionListener(new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                            try {
-                                                frame.dispose();
-                                                SwingUtilities.invokeLater(new CustomerProductPage(customer, product));
-                                            } catch (IOException ex) {
-                                                throw new RuntimeException(ex);
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                        content.add(panel, BorderLayout.CENTER);
+                        // productButton.addActionListener(new ActionListener() {
+                        // public void actionPerformed(ActionEvent e) {
+                        // try {
+                        // frame.dispose();
+                        // SwingUtilities.invokeLater(new CustomerProductPage(customer, product));
+                        // } catch (IOException ex) {
+                        // throw new RuntimeException(ex);
+                        // }
+                        // }
+                        // });
+                        // }
+                        // }
+                        // }
+
+                        // Search products by name
+                        Product.
+
+                                content.add(panel, BorderLayout.CENTER);
 
                         JPanel bottomPanel = new JPanel();
                         bottomPanel.add(returnHomeButton);
