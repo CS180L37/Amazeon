@@ -21,12 +21,6 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
     JButton nameButton;
     JButton storeIdButton;
     JButton descriptionButton;
-    // JButton nameEnterButton;
-    // JTextField name;
-    // JButton storeIdEnterButton;
-    // JTextField storeId;
-    // JButton descriptionEnterButton;
-    // JTextField description;
     JButton returnHomeButton;
     JButton logOutButton;
     Customer customer;
@@ -44,6 +38,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
             if (e.getSource() == nameButton) {
                 frame.dispose();
                 frame = new JFrame();
+                frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
 
                 Container content = frame.getContentPane();
                 content.setLayout(new BorderLayout());
@@ -87,6 +82,8 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                     public void actionPerformed(ActionEvent e) {
                         frame.dispose();
                         frame = new JFrame();
+                        frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+
 
                         Container content = frame.getContentPane();
                         content.setLayout(new BorderLayout());
@@ -146,6 +143,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
             if (e.getSource() == storeIdButton) {
                 frame.dispose();
                 frame = new JFrame();
+                frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
 
                 Container content = frame.getContentPane();
                 content.setLayout(new BorderLayout());
@@ -189,6 +187,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                     public void actionPerformed(ActionEvent e) {
                         frame.dispose();
                         frame = new JFrame();
+                        frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
 
                         Container content = frame.getContentPane();
                         content.setLayout(new BorderLayout());
@@ -247,6 +246,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
             if (e.getSource() == descriptionButton) {
                 frame.dispose();
                 frame = new JFrame();
+                frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
 
                 Container content = frame.getContentPane();
                 content.setLayout(new BorderLayout());
@@ -289,6 +289,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                     public void actionPerformed(ActionEvent e) {
                         frame.dispose();
                         frame = new JFrame();
+                        frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
 
                         Container content = frame.getContentPane();
                         content.setLayout(new BorderLayout());
