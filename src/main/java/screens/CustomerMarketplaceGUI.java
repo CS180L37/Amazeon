@@ -23,7 +23,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
 
     // list of buttons you need
     JButton searchButton;
-    JButton purchaseButton;
+//    JButton purchaseButton;
     JButton dashboardButton;
     JButton sortMarketplaceButton;
     JButton cartButton;
@@ -277,8 +277,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
         searchButton = new JButton("Search");
         searchButton.addActionListener(actionListener);
 
-        purchaseButton = new JButton("Purchase");
-        purchaseButton.addActionListener(actionListener);
+//        purchaseButton = new JButton("Purchase");
+//        purchaseButton.addActionListener(actionListener);
 
         dashboardButton = new JButton("Dashboard");
         dashboardButton.addActionListener(actionListener);
@@ -322,7 +322,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
         // creates panel at top of frame and adds buttons
         JPanel topPanel = new JPanel();
         topPanel.add(searchButton);
-        topPanel.add(purchaseButton);
+//        topPanel.add(purchaseButton);
         topPanel.add(dashboardButton);
         topPanel.add(sortMarketplaceButton);
         topPanel.add(cartButton);
