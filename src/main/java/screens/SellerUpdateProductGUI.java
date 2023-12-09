@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import models.Cart;
 import models.Customer;
@@ -17,14 +19,15 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
     JButton editProductButton;
     JButton returnHomeButton;
     JButton logOutButton;
-
     JTextField strId, nme, desc, quan, prce;
 
     int productId;
 
-//    Product product  = new Product(1, "Sour Patch", 7, "sweet and sour candy", 3.00, 1, 1);
-
-    public SellerUpdateProductGUI(Product product) {
+    Seller seller;
+    Product product;
+    public SellerUpdateProductGUI(Seller seller, Product product) {
+        this.seller = seller;
+        this.product = product;
         productId = product.getProductId();
     }
 
@@ -32,13 +35,32 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == editProductButton) {
-//                product.setProductId(productId);
-//                product.setStoreId(Integer.parseInt(strId.getText()));
-//                product.setName(nme.getText());
-//                product.setDescription(desc.getText());
-//                product.setQuantity(Integer.parseInt(quan.getText()));
-//                product.setPrice(Double.parseDouble(prce.getText()));
-//                frame.dispose();
+                for(int i = 0; i < seller.getProducts().size(); i++) {
+                    if(seller.getProducts().get(i).equals(product)) {
+                        if(!strId.getText().equals("")) {
+                            seller.getProducts().get(i).setStoreId(Integer.parseInt(strId.getText()));
+                        }
+                        if(!nme.getText().equals("")){
+                            seller.getProducts().get(i).setName(nme.getText());
+                        }
+                        if(!desc.getText().equals("")){
+                            seller.getProducts().get(i).setDescription(desc.getText());
+                        }
+                        if(!quan.getText().equals("")){
+                            seller.getProducts().get(i).setQuantity(Integer.parseInt(quan.getText()));
+                        }
+                        if(!prce.getText().equals("")){
+                            seller.getProducts().get(i).setPrice(Double.parseDouble(prce.getText()));
+                        }
+                    }
+                }
+                frame.dispose();
+                JOptionPane.showMessageDialog(null, "Product Updated!", "Update Product", JOptionPane.INFORMATION_MESSAGE);
+                try {
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             if(e.getSource() == logOutButton) {
                 frame.dispose();
@@ -47,7 +69,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
             if(e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

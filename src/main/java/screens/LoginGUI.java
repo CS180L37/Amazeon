@@ -29,13 +29,15 @@ public class LoginGUI extends JComponent implements Runnable{
                 System.out.println(email + " " + password);
                 try {
                     if(Customer.customerExists(email, password)) {
+                        Customer customer = Customer.getCustomerByEmail(email);
                         frame.dispose();
-                        SwingUtilities.invokeLater((new CustomerMarketplaceGUI()));
+                        SwingUtilities.invokeLater((new CustomerMarketplaceGUI(customer)));
                     }
                     else {
                         if(Seller.sellerExists(email, password)) {
+                            Seller seller = Seller.getSellerByEmail(email);
                             frame.dispose();
-                            SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                            SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                         } else {
                             JOptionPane.showMessageDialog(null, "Invalid username or password! Please try again.","Invalid Account", JOptionPane.ERROR_MESSAGE);
                         }

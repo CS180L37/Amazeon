@@ -12,12 +12,15 @@ import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import screens.LoginGUI;
 import utils.Utils;
 import utils.fields;
 
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
 import com.google.cloud.firestore.Query.Direction;
+
+import javax.swing.*;
 
 /// Our entry point and data manager class
 /// NOTE: NOTHING SHOULD IMPORT AMAZEON; It is the entry point and imports
@@ -28,8 +31,13 @@ public class Amazeon {
             Utils.initializeDatabase();
         } catch (IOException e) {
             // TODO: display error message
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error", "title", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        SwingUtilities.invokeLater(new LoginGUI());
+
 
         // Event Loop
         // if (hasAccount()) {

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 import models.Cart;
 import models.Customer;
@@ -16,7 +17,7 @@ import models.Store;
 public class CustomerProductPage extends JComponent implements Runnable {
     JFrame frame;
 
-    JButton purchaseButton;//should be add to cart button
+    JButton addToCartButton;//should be add to cart button
     JButton returnHomeButton;
     JButton logOutButton;
 
@@ -25,15 +26,20 @@ public class CustomerProductPage extends JComponent implements Runnable {
     String description;
     double price;
     int quantity;
-
+    int productId;
+    Customer customer;
+    Product product;
     String[] quantityOptions;
 
-    public CustomerProductPage(Product product){
-        storeName = "Candyyyyyy";
+    public CustomerProductPage(Customer customer, Product product) throws IOException {
+        storeName = Store.getStoreById(product.getStoreId()).getName();
         productName = product.getName();
         description = product.getDescription();
         price = product.getPrice();
         quantity = product.getQuantity();
+        productId = product.getProductId();
+        this.customer = customer;
+        this.product = product;
         quantityOptions = new String[quantity];
         for(int i = 0; i < quantity; i++){
             quantityOptions[i] = String.valueOf(i+1);
@@ -43,16 +49,17 @@ public class CustomerProductPage extends JComponent implements Runnable {
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == purchaseButton) {
-                JOptionPane.showInputDialog(null, "Choose Quantity", "Quantity",
-                        JOptionPane.PLAIN_MESSAGE, null, quantityOptions, null);
-                //make sure to set right product quantity after purchase
-                //make sure to add to cart
+            if (e.getSource() == addToCartButton) {
+                if(product.getQuantity() <= 0) {
+                    JOptionPane.showMessageDialog(null, "Out of Stock!", "Out of Stock", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    customer.getCart().addToCart(product);
+                }
             }
             if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -100,8 +107,8 @@ public class CustomerProductPage extends JComponent implements Runnable {
 
         content.add(topPanel, BorderLayout.NORTH);
 
-        purchaseButton = new JButton("Purchase");
-        purchaseButton.addActionListener(actionListener);
+        addToCartButton = new JButton("Add To Cart");
+        addToCartButton.addActionListener(actionListener);
 
         JPanel westPanel = new JPanel();
         westPanel.setLayout(new GridBagLayout());
@@ -121,7 +128,7 @@ public class CustomerProductPage extends JComponent implements Runnable {
         gbc.gridy++;
         westPanel.add(price, gbc);
         gbc.gridy++;
-        westPanel.add(purchaseButton, gbc);
+        westPanel.add(addToCartButton, gbc);
 
         content.add(westPanel, BorderLayout.WEST);
 
@@ -133,18 +140,26 @@ public class CustomerProductPage extends JComponent implements Runnable {
 
 
         JPanel eastPanel = new JPanel();
+        eastPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbcc = new GridBagConstraints();
+        gbcc.gridx = 0;
+        gbcc.gridy = 0;
+        gbcc.insets = new Insets(5,5,5,5);
 
         JLabel prevPurchase = new JLabel("Previously Purchased Items");
-        eastPanel.add(prevPurchase);
-//        for(int i = 0; i < customer.getProducts().size(); i++){
-//            JLabel label = new JLabel( "<html>" +
-//                    "<div style='text-align: center;'>" +
-//                    "<div>" + "Product Name: " + customer.getProducts().get(i).getName() + "</div>" +
-//                    "<div>" + "StoreName: " + customer.getProducts().get(i).getQuantity() + "</div>" +
-//                    "</div>" +
-//                    "</html>");
-//            eastPanel.add(label);
-//        }
+        eastPanel.add(prevPurchase, gbcc);
+        for(int i = 0; i < customer.getProducts().size(); i++){
+            System.out.println(customer.getProducts().get(i));
+            gbcc.gridy++;
+            JLabel label = new JLabel( "<html>" +
+                    "<div style='text-align: center;'>" +
+                    "<div>" + "Product Name: " + customer.getProducts().get(i).getName() + "</div>" +
+                    "<div>" + "StoreName: " + customer.getProducts().get(i).getQuantity() + "</div>" +
+                    "</div>" +
+                    "</html>");
+            eastPanel.add(label, gbc);
+        }
 
         content.add(eastPanel, BorderLayout.EAST);
 

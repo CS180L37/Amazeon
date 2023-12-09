@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import models.Cart;
 import models.Customer;
@@ -19,13 +21,28 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
     JButton logOutButton;
     JTextField productId;
 
+    Seller seller;
+
+    public SellerDeleteProductGUI(Seller seller) {
+        this.seller = seller;
+    }
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == deleteButton) {
-//                Product product = getProductById(Integer.parseInt(productId.getText()));
-//                product.deleteProduct();
-                frame.dispose();
+                Product product;
+                try {
+                    product = Product.getProductById(Integer.parseInt(productId.getText()));
+                    ArrayList<Product> newProductList = seller.getProducts();
+                    newProductList.remove(product);
+                    seller.setProducts(newProductList);
+                    product.setDeleted(true);
+                    frame.dispose();
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             if(e.getSource() == logOutButton) {
                 frame.dispose();
@@ -34,7 +51,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
             if(e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -91,7 +108,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
 
         content.add(middlePanel, BorderLayout.CENTER);
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new SellerDeleteProductGUI());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new SellerDeleteProductGUI());
+//    }
 }

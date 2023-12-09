@@ -7,12 +7,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.cloud.firestore.Query;
 import models.Cart;
 import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import utils.fields;
 
 public class CustomerSearchGUI extends JComponent implements Runnable{
     JFrame frame;
@@ -27,36 +29,14 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
 //    JTextField description;
     JButton returnHomeButton;
     JButton logOutButton;
+    Customer customer;
+    ArrayList<Store> stores;
 
-//    Product productOne = new Product(1, "Air Heads", 3, "tangy, taffy-like, chewy candy", 4.00, 1, 1);
-//    Product productTwo = new Product(2, "SourPatch Kids", 5, "soft candy with a coating of invert sugar and sour sugar", 2.00, 2, 1);
-//    Product productThree = new Product(3, "Dairy Milk", 7, "smooth and creamy wave of deliciousness moulded into a unique chocolate taste", 5.00, 3, 1);
-//    Product productFour = new Product(4, "Candy Cane", 9, "cane-shaped stick candy", 1.00, 1, 2);
-//    Product productFive = new Product(5, "Dots", 11, "gum drops", 3.00, 2, 2);
-//    Product productSix = new Product(6, "Haribo", 11, "gummy bears", 6.00, 3, 2);
-//    ArrayList<Product> storeOneProducts = new ArrayList<>();
-//    ArrayList<Product> storeTwoProducts = new ArrayList<>();
-//
-//    Store storeOne;
-//    Store storeTwo;
-//
-//    ArrayList<Store> storesList = new ArrayList<>();
 
     //constructor -- needed to create this mock data
-    public CustomerSearchGUI() throws IOException {
-//        storeOneProducts.add(productOne);
-//        storeOneProducts.add(productTwo);
-//        storeOneProducts.add(productThree);
-//        storeTwoProducts.add(productFour);
-//        storeTwoProducts.add(productFive);
-//        storeTwoProducts.add(productSix);
-//
-//        storeOne = Store.createStore(100, "Candy One");
-//        storeOne.setStoreProducts(storeOneProducts);
-//        storeTwo = Store.createStore(101, "Candy Two");
-//        storeTwo.setStoreProducts(storeTwoProducts);
-//        storesList.add(storeOne);
-//        storesList.add(storeTwo);
+    public CustomerSearchGUI(Customer customer) throws IOException {
+        this.customer = customer;
+        stores = Store.sortNonDeletedStores(fields.storeId, Query.Direction.ASCENDING);
     }
 
     ActionListener actionListener = new ActionListener() {
@@ -124,29 +104,33 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
 
                         JPanel panel = new JPanel();
 
-//                        for(int i = 0; i < storesList.size(); i++){
-//                            for(int j = 0; j < storesList.get(i).getStoreProducts().size(); j++){
-//                                if(storesList.get(i).getStoreProducts().get(j).getName().contains(name.getText())){
-//                                    JButton productButton = new JButton("<html>" +
-//                                            "<div style='text-align: center;'>" +
-//                                            "<div>" + "Product Name: " + storesList.get(i).getStoreProducts().get(j).getName() + "</div>" +
-//                                            "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
-//                                            "<div>" + "Product Price: $" + storesList.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
-//                                            "</div>" +
-//                                            "</html>");
-//                                    productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
-//                                    panel.add(productButton);
-//                                    Product product = storesList.get(i).getStoreProducts().get(j);
-//
-//                                    productButton.addActionListener(new ActionListener() {
-//                                        public void actionPerformed(ActionEvent e) {
-//                                            frame.dispose();
-//                                            SwingUtilities.invokeLater(new CustomerProductPage(product));
-//                                        }
-//                                    });
-//                                }
-//                            }
-//                        }
+                        for(int i = 0; i < stores.size(); i++){
+                            for(int j = 0; j < stores.get(i).getStoreProducts().size(); j++){
+                                if(stores.get(i).getStoreProducts().get(j).getName().contains(name.getText())){
+                                    JButton productButton = new JButton("<html>" +
+                                            "<div style='text-align: center;'>" +
+                                            "<div>" + "Product Name: " + stores.get(i).getStoreProducts().get(j).getName() + "</div>" +
+                                            "<div>" + "StoreName: " + stores.get(i).getName() + "</div>" +
+                                            "<div>" + "Product Price: $" + stores.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
+                                            "</div>" +
+                                            "</html>");
+                                    productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+                                    panel.add(productButton);
+                                    Product product = stores.get(i).getStoreProducts().get(j);
+
+                                    productButton.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            try {
+                                                frame.dispose();
+                                                SwingUtilities.invokeLater(new CustomerProductPage(customer, product));
+                                            } catch (IOException ex) {
+                                                throw new RuntimeException(ex);
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
                         content.add(panel, BorderLayout.CENTER);
 
                         JPanel bottomPanel = new JPanel();
@@ -220,29 +204,33 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
 
                         JPanel panel = new JPanel();
 
-//                        for(int i = 0; i < storesList.size(); i++){
-//                            for(int j = 0; j < storesList.get(i).getStoreProducts().size(); j++){
-//                                if(String.valueOf(storesList.get(i).getStoreProducts().get(j).getStoreId()).contains(storeId.getText())){
-//                                    JButton productButton = new JButton("<html>" +
-//                                            "<div style='text-align: center;'>" +
-//                                            "<div>" + "Product Name: " + storesList.get(i).getStoreProducts().get(j).getName() + "</div>" +
-//                                            "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
-//                                            "<div>" + "Product Price: $" + storesList.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
-//                                            "</div>" +
-//                                            "</html>");
-//                                    productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
-//                                    panel.add(productButton);
-//                                    Product product = storesList.get(i).getStoreProducts().get(j);
-//
-//                                    productButton.addActionListener(new ActionListener() {
-//                                        public void actionPerformed(ActionEvent e) {
-//                                            frame.dispose();
-//                                            SwingUtilities.invokeLater(new CustomerProductPage(product));
-//                                        }
-//                                    });
-//                                }
-//                            }
-//                        }
+                        for(int i = 0; i < stores.size(); i++){
+                            for(int j = 0; j < stores.get(i).getStoreProducts().size(); j++){
+                                if(String.valueOf(stores.get(i).getStoreProducts().get(j).getStoreId()).contains(storeId.getText())){
+                                    JButton productButton = new JButton("<html>" +
+                                            "<div style='text-align: center;'>" +
+                                            "<div>" + "Product Name: " + stores.get(i).getStoreProducts().get(j).getName() + "</div>" +
+                                            "<div>" + "StoreName: " + stores.get(i).getName() + "</div>" +
+                                            "<div>" + "Product Price: $" + stores.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
+                                            "</div>" +
+                                            "</html>");
+                                    productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+                                    panel.add(productButton);
+                                    Product product = stores.get(i).getStoreProducts().get(j);
+
+                                    productButton.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            try {
+                                                frame.dispose();
+                                                SwingUtilities.invokeLater(new CustomerProductPage(customer, product));
+                                            } catch (IOException ex) {
+                                                throw new RuntimeException(ex);
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
                         content.add(panel, BorderLayout.CENTER);
 
                         JPanel bottomPanel = new JPanel();
@@ -314,29 +302,33 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
 
                         JPanel panel = new JPanel();
 
-//                        for(int i = 0; i < storesList.size(); i++){
-//                            for(int j = 0; j < storesList.get(i).getStoreProducts().size(); j++){
-//                                if(storesList.get(i).getStoreProducts().get(j).getDescription().contains(description.getText())){
-//                                    JButton productButton = new JButton("<html>" +
-//                                            "<div style='text-align: center;'>" +
-//                                            "<div>" + "Product Name: " + storesList.get(i).getStoreProducts().get(j).getName() + "</div>" +
-//                                            "<div>" + "StoreName: " + storesList.get(i).getName() + "</div>" +
-//                                            "<div>" + "Product Price: $" + storesList.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
-//                                            "</div>" +
-//                                            "</html>");
-//                                    productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
-//                                    panel.add(productButton);
-//                                    Product product = storesList.get(i).getStoreProducts().get(j);
-//
-//                                    productButton.addActionListener(new ActionListener() {
-//                                        public void actionPerformed(ActionEvent e) {
-//                                            frame.dispose();
-//                                            SwingUtilities.invokeLater(new CustomerProductPage(product));
-//                                        }
-//                                    });
-//                                }
-//                            }
-//                        }
+                        for(int i = 0; i < stores.size(); i++){
+                            for(int j = 0; j < stores.get(i).getStoreProducts().size(); j++){
+                                if(stores.get(i).getStoreProducts().get(j).getDescription().contains(description.getText())){
+                                    JButton productButton = new JButton("<html>" +
+                                            "<div style='text-align: center;'>" +
+                                            "<div>" + "Product Name: " + stores.get(i).getStoreProducts().get(j).getName() + "</div>" +
+                                            "<div>" + "StoreName: " + stores.get(i).getName() + "</div>" +
+                                            "<div>" + "Product Price: $" + stores.get(i).getStoreProducts().get(j).getPrice() + "0" + "</div>" +
+                                            "</div>" +
+                                            "</html>");
+                                    productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+                                    panel.add(productButton);
+                                    Product product = stores.get(i).getStoreProducts().get(j);
+
+                                    productButton.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            try {
+                                                frame.dispose();
+                                                SwingUtilities.invokeLater(new CustomerProductPage(customer, product));
+                                            } catch (IOException ex) {
+                                                throw new RuntimeException(ex);
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
                         content.add(panel, BorderLayout.CENTER);
 
                         JPanel bottomPanel = new JPanel();
@@ -350,7 +342,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
             if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -418,11 +410,11 @@ public class CustomerSearchGUI extends JComponent implements Runnable{
         content.add(bottomPanel, BorderLayout.SOUTH);
 
     }
-    public static void main(String[] args) {
-        try{
-            SwingUtilities.invokeLater(new CustomerSearchGUI());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        try{
+//            SwingUtilities.invokeLater(new CustomerSearchGUI());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

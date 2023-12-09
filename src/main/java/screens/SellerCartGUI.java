@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import models.Cart;
@@ -12,12 +13,18 @@ import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
-
 public class SellerCartGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton returnHomeButton;
     JButton logOutButton;
 
+    Seller seller;
+
+    ArrayList<Sale> sales;
+    public SellerCartGUI(Seller seller) {
+        this.seller = seller;
+        sales = seller.getSales();
+    }
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -28,7 +35,7 @@ public class SellerCartGUI extends JComponent implements Runnable {
             if(e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -62,26 +69,55 @@ public class SellerCartGUI extends JComponent implements Runnable {
         bottomPanel.add(logOutButton);
         content.add(bottomPanel, BorderLayout.SOUTH);
 
-//        JPanel middlePanel = new JPanel();
-//        middlePanel.setLayout(new GridLayout(0,1));
-//        for(int i = 0; i < sales.size(); i++){
-//            ArrayList<Product> cartProducts = getCustomerById(sales.get(i).getCustomerId()).getCart().getCartProducts();
-//            for(int j = 0; j < cartProducts.size(); j++) {
-//                JLabel label = new JLabel("<html>" +
-//                        "<div style='text-align: center;'>" +
-//                        "<div>" + "Customer Name: " + getCustomerbyId(sales.get(i).getCustomerId()).getName() + "</div>" +
-//                        "<div>" + "Store Name: " + getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
-//                        "<div>" + "Product Description: $" + cartProducts.get(j).getDescription() + "0" + "</div>" +
-//                        "<div>" + "Product Price: $" + cartProducts.get(j).getPrice() + "0" + "</div>" +
-//                        "</div>" +
-//                        "</html>");
-//
-//                middlePanel.add(label);
-//            }
-//        }
-//        content.add(middlePanel, BorderLayout.CENTER);
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new GridLayout(0,1));
+
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        for(int i = 0; i < sales.size(); i++) {
+            Customer customer;
+            try {
+                customer = Customer.getCustomerById(sales.get(i).getCustomerId());
+                if(!customers.contains(customer)) {
+                    customers.add(customer);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        for(int i = 0; i < customers.size(); i++) {
+            ArrayList<Product> cartProducts = customers.get(i).getCart().getCartProducts();
+            if(cartProducts.size() <= 0) {
+                JLabel label = new JLabel("Nothing in cart currently");
+                middlePanel.add(label);
+            } else {
+                for(int j = 0; j < cartProducts.size(); j++) {
+                    try {
+                        JLabel label = new JLabel("<html>" +
+                                "<div style='text-align: center;'>" +
+                                "<div>" + "Customer ID: " + customers.get(i).getCustomerId() + "</div>" +
+                                "<div>" + "Store Name: " + Store.getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
+                                "<div>" + "Product Description: " + cartProducts.get(j).getDescription() + "</div>" +
+                                "<div>" + "Product Price: $" + cartProducts.get(j).getPrice() + "0" + "</div>" +
+                                "</div>" +
+                                "</html>");
+                        middlePanel.add(label);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+
+        JScrollPane scrollPane = new JScrollPane(middlePanel);
+
+        // Set preferred size of the scroll pane
+        scrollPane.setPreferredSize(new Dimension(200, 300));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        content.add(scrollPane, BorderLayout.CENTER); // adds the scroll bar to the container
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new SellerCartGUI());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new SellerCartGUI());
+//    }
 }

@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import models.Cart;
 import models.Customer;
@@ -20,37 +21,53 @@ public class CustomerCartGUI extends JComponent implements Runnable{
     JButton returnHomeButton;
     JButton logOutButton;
 
-//    public CustomerCartGUI(){
-//
-//    }
-//    should take in a cart which takes in customer id and cart products
-//    public CustomerCartGUI(Cart cart){
-//
-//    }
+    Customer customer;
+    Cart cart;
+    ArrayList<Sale> sales;
+    public CustomerCartGUI(Customer customer){
+        this.customer = customer;
+        cart = customer.getCart();
+    }
 
-//    ActionListener actionListener = new ActionListener() {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            if (e.getSource() == purchaseAllButton) {
-//                for(int i = 0; i < cart.getProducts(); i++) {
-//                    customer.getProducts().add(cart.getProducts().get(i));
-//                    cart.removeProduct(cart.getProducts().get(i));
-//                }
-//            }
-//            if (e.getSource() == returnHomeButton) {
-//                try {
-//                    frame.dispose();
-//                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//            if (e.getSource() == logOutButton) {
-//                frame.dispose();
-//                SwingUtilities.invokeLater(new LoginGUI());
-//            }
-//        }
-//    };
+    ActionListener actionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == purchaseAllButton) {
+                for(int i = 0; i < cart.getCartProducts().size(); i++) {
+                    try {
+                        Product product = cart.getCartProducts().get(i);
+                        product.setQuantity(product.getQuantity() - 1);
+                        //1) remove from cart
+                        cart.removeFromCart(product);
+                        //2) add to customer's product list
+                        ArrayList<Product> newProducts = customer.getProducts();
+                        newProducts.add(product);
+                        customer.setProducts(newProducts);
+                        //add to sales list of seller
+                        Seller seller = Seller.getSellerById(product.getSellerId());
+                        Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(), customer.getCustomerId(), product.getProductId(), 1);
+                        ArrayList<Sale> newSales = seller.getSales();
+                        newSales.add(sale);
+                        seller.setSales(newSales);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+            if (e.getSource() == returnHomeButton) {
+                try {
+                    frame.dispose();
+                    SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (e.getSource() == logOutButton) {
+                frame.dispose();
+                SwingUtilities.invokeLater(new LoginGUI());
+            }
+        }
+    };
     public void run() {
         frame = new JFrame();
 
@@ -66,63 +83,97 @@ public class CustomerCartGUI extends JComponent implements Runnable{
         JPanel topPanel = new JPanel();
         topPanel.add(new JLabel("Cart"));
         content.add(topPanel, BorderLayout.NORTH);
-//
-//        returnHomeButton = new JButton("Return Home");
-//        returnHomeButton.addActionListener(actionListener);
-//        logOutButton = new JButton("Log Out");
-//        logOutButton.addActionListener(actionListener);
-//
-//        JPanel bottomPanel = new JPanel();
-//        bottomPanel.add(returnHomeButton);
-//        bottomPanel.add(new JLabel("     "));
-//        bottomPanel.add(logOutButton);
-//        content.add(bottomPanel, BorderLayout.SOUTH);
-//
-//        JPanel middlePanel = new JPanel();
-//        middlePanel.setLayout(new GridBagLayout());
-//
-//        GridBagConstraints gbc = new GridBagConstraints();
-//        gbc.gridx = 0;
-//        gbc.gridy = 0;
-//        gbc.insets = new Insets(5, 5, 5, 5);
-//
-//        middlePanel.add(new JLabel("Customer ID: " /* + customer.getId()*/), gbc);
-//        gbc.gridy++;
-//        middlePanel.add(new JLabel("Products"), gbc);
-//        gbc.gridy++;
-//        for (int i = 0; i < cart.getProducts(); i++) {
-//            JLabel label = new JLabel(("<html>" +
-//                    "<div style='text-align: center;'>" +
-//                    "<div>" + "Product Id: " + cart.getProducts().get(i).getProductId() + "</div>" +
-//                    "<div>" + "Product Name: $" + cart.getProducts().get(i).getName() + "</div>" +
-//                    "</div>" +
-//                    "</html>"), gbc);
-//            Product product = new Product(cart.getProducts().get(i));
-//            JButton removeButton = new JButton("Remove");
-//            middlePanel.add(removeButton);
-//            gbc.gridx++;
-//            JButton purchaseButton = new JButton("Purchase");
-//            middlePanel.add(purchaseButton);
-//            gbc.gridy++;
-//
-//            removeButton.addActionListener(new ActionListener() {
-//                public void actionPerformed(ActionEvent e) {
-//                    cart.removeFromCart(product);
-//                }
-//            });
-//
-//            purchaseButton.addActionListener(new ActionListener() {
-//                public void actionPerformed(ActionEvent e) {
-//                    customer.getProducts().add(product);
-//                }
-//            });
-//        }
-//        purchaseAllButton = new JButton("Purchase All");
-//        purchaseAllButton.addActionListener(actionListener);
-//        middlePanel.add(purchaseAllButton, gbc);
-//        content.add(middlePanel, BorderLayout.CENTER);
+
+        returnHomeButton = new JButton("Return Home");
+        returnHomeButton.addActionListener(actionListener);
+        logOutButton = new JButton("Log Out");
+        logOutButton.addActionListener(actionListener);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.add(returnHomeButton);
+        bottomPanel.add(new JLabel("     "));
+        bottomPanel.add(logOutButton);
+        content.add(bottomPanel, BorderLayout.SOUTH);
+
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        middlePanel.add(new JLabel("Customer ID: " + customer.getCustomerId()), gbc);
+        gbc.gridy++;
+        if(cart.getCartProducts().size() > 0){
+            middlePanel.add(new JLabel("Products"), gbc);
+            for (int i = 0; i < cart.getCartProducts().size(); i++) {
+                System.out.println(cart.getCartProducts().size());
+                gbc.gridy++;
+                JLabel label = new JLabel("<html>" +
+                        "<div style='text-align: center;'>" +
+                        "<div>" + "Product Id: " + cart.getCartProducts().get(i).getProductId() + "</div>" +
+                        "<div>" + "Product Name: " + cart.getCartProducts().get(i).getName() + "</div>" +
+                        "</div>" +
+                        "</html>");
+                middlePanel.add(label,gbc);
+                Product product = cart.getCartProducts().get(i);
+                gbc.gridy++;
+                JButton removeButton = new JButton("Remove");
+                middlePanel.add(removeButton, gbc);
+                gbc.gridy++;
+                JButton purchaseButton = new JButton("Purchase");
+                middlePanel.add(purchaseButton, gbc);
+
+                removeButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            cart.removeFromCart(product);
+                            JOptionPane.showMessageDialog(null, "Removed From Cart!", "Add To Cart", JOptionPane.INFORMATION_MESSAGE);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                });
+
+                purchaseButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            String[] options = new String[product.getQuantity()];
+                            for(int i = 0; i < options.length; i++) {
+                                options[i] = String.valueOf(i + 1);
+                            }
+                            int numPurchase = Integer.parseInt((String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
+                                    JOptionPane.PLAIN_MESSAGE, null, options, null));
+                            product.setQuantity(product.getQuantity() - numPurchase);
+                            //1) remove from cart
+                            cart.removeFromCart(product);
+                            //2) add to customer's product list
+                            ArrayList<Product> newProducts = customer.getProducts();
+                            newProducts.add(product);
+                            customer.setProducts(newProducts);
+                            //add to sales list of seller
+                            Seller seller = Seller.getSellerById(product.getSellerId());
+                            Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(), customer.getCustomerId(), product.getProductId(), numPurchase);
+                            ArrayList<Sale> newSales = seller.getSales();
+                            newSales.add(sale);
+                            seller.setSales(newSales);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                });
+            }
+            gbc.gridy++;
+            purchaseAllButton = new JButton("Purchase All");
+            purchaseAllButton.addActionListener(actionListener);
+            middlePanel.add(purchaseAllButton, gbc);
+        } else {
+            middlePanel.add(new JLabel("No Products In Your Cart"), gbc);
+        }
+        content.add(middlePanel, BorderLayout.CENTER);
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new CustomerCartGUI());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new CustomerCartGUI());
+//    }
 }

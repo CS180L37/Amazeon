@@ -13,6 +13,8 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
+import utils.fields;
+
 public class CreateAccountGUI extends JComponent implements Runnable{
     JFrame frame;
     JTextField emailTextField; //email input text field
@@ -33,16 +35,18 @@ public class CreateAccountGUI extends JComponent implements Runnable{
                 if(customerButton.isSelected()) {
                     try {
                         Customer.createCustomer(email, password);
+                        Customer customer = Customer.getCustomerByEmail(email);
                         frame.dispose();
-                        SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
+                        SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
                 } else {
                     try {
                         Seller.createSeller(email, password, name);
+                        Seller seller = Seller.getSellerByEmail(email);
                         frame.dispose();
-                        SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                        SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
