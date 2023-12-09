@@ -105,7 +105,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                         Product product;
                         JButton productButton;
                         try {
-                            product = Product.getProductByName(name.getText());
+                            product = Product.getProductsByName(name.getText());
                             productButton = new JButton("<html>" + "<div style='text-align: center;'>"
                                     + "<div>" + "Product Name: " + product.getName()
                                     + "</div>" + "<div>" + "StoreName: " + Store.getStoreById(product.getStoreId()).getName() + "</div>"
@@ -204,7 +204,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                         Product product;
                         JButton productButton;
                         try {
-                            product = Product.getProductByName(storeName.getText());
+                            product = Product.getProductsByStoreName(storeName.getText());
                             productButton = new JButton("<html>" + "<div style='text-align: center;'>"
                                     + "<div>" + "Product Name: " + product.getName()
                                     + "</div>" + "<div>" + "StoreName: " + Store.getStoreById(product.getStoreId()).getName() + "</div>"
@@ -301,7 +301,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                         Product product;
                         JButton productButton;
                         try {
-                            product = Product.getProductByDescription(description.getText());
+                            product = Product.getProductsByDescription(description.getText());
                             productButton = new JButton("<html>" + "<div style='text-align: center;'>"
                                     + "<div>" + "Product Name: " + product.getName()
                                     + "</div>" + "<div>" + "StoreName: " + Store.getStoreById(product.getStoreId()).getName() + "</div>"
