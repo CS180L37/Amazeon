@@ -64,17 +64,18 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Dashboard"));
-        content.add(topPanel, BorderLayout.NORTH);
-
         sortOneButton = new JButton("Sort By Sales of Products");
         sortOneButton.addActionListener(actionListener);
-        sortOneButton.setPreferredSize(new Dimension(150, 30));
+        sortOneButton.setPreferredSize(new Dimension(100, 20));
         returnHomeButton = new JButton("Return Home");
         returnHomeButton.addActionListener(actionListener);
         logOutButton = new JButton("Log Out");
         logOutButton.addActionListener(actionListener);
+
+        JPanel topPanel = new JPanel();
+        topPanel.add(new JLabel("Dashboard"));
+        topPanel.add(sortOneButton);
+        content.add(topPanel, BorderLayout.NORTH);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(returnHomeButton);
@@ -83,8 +84,8 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         content.add(bottomPanel, BorderLayout.SOUTH);
 
         // sorts by products by number of sales
-        JPanel westPanel = new JPanel();
-        westPanel.setLayout(new GridBagLayout());
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -127,18 +128,13 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         }
 
         for(int i = 0; i < sortedProducts.size(); i++) {
-            JLabel productName = new JLabel("Product " + i + " Name: " + sortedProducts.get(i).getName() + " " + numSalesPerProduct.get(i));
+            JLabel productName = new JLabel("Product " + i + " Name: " + sortedProducts.get(i).getName() + "       Num Sales: " + numSalesPerProduct.get(i));
 
-            westPanel.add(productName, gbc);
+            middlePanel.add(productName, gbc);
             gbc.gridy++;
         }
-        content.add(westPanel, BorderLayout.WEST);
+        content.add(middlePanel, BorderLayout.CENTER);
 
-
-
-        JPanel eastPanel = new JPanel();
-        eastPanel.add(sortOneButton);
-        content.add(eastPanel, BorderLayout.EAST);
     }
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(new SellerDashboardTwoGUI());

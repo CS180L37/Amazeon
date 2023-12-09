@@ -69,14 +69,11 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
         frame.setVisible(true);
 
         JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Dashboard\nStores By Number of Products Purchased"));
-        content.add(topPanel, BorderLayout.NORTH);
-
+        topPanel.add(new JLabel("Dashboard: By Number of Products Purchased   "));
         sortByProductsSoldButton = new JButton("Sort By Products Sold");
         sortByProductsSoldButton.addActionListener(actionListener);
-        JPanel eastPanel = new JPanel();
-        eastPanel.add(sortByProductsSoldButton);
-        content.add(eastPanel, BorderLayout.EAST);
+        topPanel.add(sortByProductsSoldButton);
+        content.add(topPanel, BorderLayout.NORTH);
 
         //sorting
         JPanel middlePanel = new JPanel();
@@ -128,7 +125,7 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
         }
 
         for(int i = 0; i < sortedStores.size(); i++){
-            JLabel storeName = new JLabel(sortedStores.get(i).getName() + " -- Num Products Sold: " + numPurchasedEachStore.get(i));
+            JLabel storeName = new JLabel(sortedStores.get(i).getName() + " -- Num Products Purchased: " + numPurchasedEachStore.get(i));
             middlePanel.add(storeName, gbc);
             gbc.gridy++;
         }

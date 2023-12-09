@@ -207,7 +207,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
             }
             if (e.getSource() == cartButton) {
                 frame.dispose();
-                SwingUtilities.invokeLater(new CustomerCartGUI());
+                SwingUtilities.invokeLater(new CustomerCartGUI(customer));
             }
         }
     };

@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import models.Cart;
 import models.Customer;
@@ -33,23 +35,32 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == editProductButton) {
-                if(!strId.getText().equals("")) {
-                    product.setStoreId(Integer.parseInt(strId.getText()));
-                }
-                if(!nme.getText().equals("")){
-                    product.setName(nme.getText());
-                }
-                if(!desc.getText().equals("")){
-                    product.setDescription(desc.getText());
-                }
-                if(!quan.getText().equals("")){
-                    product.setQuantity(Integer.parseInt(quan.getText()));
-                }
-                if(!prce.getText().equals("")){
-                    product.setPrice(Double.parseDouble(prce.getText()));
+                for(int i = 0; i < seller.getProducts().size(); i++) {
+                    if(seller.getProducts().get(i).equals(product)) {
+                        if(!strId.getText().equals("")) {
+                            seller.getProducts().get(i).setStoreId(Integer.parseInt(strId.getText()));
+                        }
+                        if(!nme.getText().equals("")){
+                            seller.getProducts().get(i).setName(nme.getText());
+                        }
+                        if(!desc.getText().equals("")){
+                            seller.getProducts().get(i).setDescription(desc.getText());
+                        }
+                        if(!quan.getText().equals("")){
+                            seller.getProducts().get(i).setQuantity(Integer.parseInt(quan.getText()));
+                        }
+                        if(!prce.getText().equals("")){
+                            seller.getProducts().get(i).setPrice(Double.parseDouble(prce.getText()));
+                        }
+                    }
                 }
                 frame.dispose();
                 JOptionPane.showMessageDialog(null, "Product Updated!", "Update Product", JOptionPane.INFORMATION_MESSAGE);
+                try {
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             if(e.getSource() == logOutButton) {
                 frame.dispose();

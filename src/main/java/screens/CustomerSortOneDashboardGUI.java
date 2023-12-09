@@ -68,14 +68,12 @@ public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
         frame.setVisible(true);
 
         JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Dashboard\nStores By Number of Products Sold"));
-        content.add(topPanel, BorderLayout.NORTH);
-
+        topPanel.add(new JLabel("Dashboard Stores By Number of Products Sold"));
         sortByProductsPurchasedButton = new JButton("Sort By Products Purchased");
         sortByProductsPurchasedButton.addActionListener(actionListener);
-        JPanel eastPanel = new JPanel();
-        eastPanel.add(sortByProductsPurchasedButton);
-        content.add(eastPanel, BorderLayout.EAST);
+        topPanel.add(sortByProductsPurchasedButton);
+        content.add(topPanel, BorderLayout.NORTH);
+
 
         //sorting
         JPanel middlePanel = new JPanel();
@@ -101,13 +99,13 @@ public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
                     int sellerId = stores.get(i).getStoreProducts().get(j).getSellerId();
                     Seller seller = Seller.getSellerById(sellerId);
                     for (int k = 0; k < seller.getSales().size(); k++) {
-                        quantity += Product.getProductById(seller.getSales().get(i).getProductId()).getQuantity();
+                        quantity += seller.getSales().get(k).getNumPurchased();
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
-            numProductsSold.set(i, quantity);
+            numProductsSold.add(i, quantity);
         }
 
         for (int i = 0; i < numProductsSold.size() - 1; i++) {

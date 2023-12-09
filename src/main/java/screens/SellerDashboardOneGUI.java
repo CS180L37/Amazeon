@@ -66,17 +66,18 @@ public class SellerDashboardOneGUI extends JComponent implements Runnable{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Dashboard"));
-        content.add(topPanel, BorderLayout.NORTH);
-
         sortTwoButton = new JButton("Sort By Sales of Products");
         sortTwoButton.addActionListener(actionListener);
-        sortTwoButton.setPreferredSize(new Dimension(150, 30));
+        sortTwoButton.setPreferredSize(new Dimension(100, 20));
         returnHomeButton = new JButton("Return Home");
         returnHomeButton.addActionListener(actionListener);
         logOutButton = new JButton("Log Out");
         logOutButton.addActionListener(actionListener);
+
+        JPanel topPanel = new JPanel();
+        topPanel.add(new JLabel("Dashboard"));
+        topPanel.add(sortTwoButton);
+        content.add(topPanel, BorderLayout.NORTH);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(returnHomeButton);
@@ -86,8 +87,8 @@ public class SellerDashboardOneGUI extends JComponent implements Runnable{
 
         //sort section of dashboard code
 
-        JPanel westPanel = new JPanel();
-        westPanel.setLayout(new GridBagLayout());
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -122,14 +123,11 @@ public class SellerDashboardOneGUI extends JComponent implements Runnable{
         for(int i = 0; i < sortedCust.size(); i++) {
             JLabel customerName = new JLabel("Customer " + i + " ID: " + sortedCust.get(i).getCustomerId());
 
-            westPanel.add(customerName, gbc);
+            middlePanel.add(customerName, gbc);
             gbc.gridy++;
         }
-        content.add(westPanel, BorderLayout.WEST);
+        content.add(middlePanel, BorderLayout.CENTER);
 
-        JPanel eastPanel = new JPanel();
-        eastPanel.add(sortTwoButton);
-        content.add(eastPanel, BorderLayout.EAST);
     }
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(new SellerDashboardOneGUI());

@@ -87,23 +87,35 @@ public class SellerCartGUI extends JComponent implements Runnable {
 
         for(int i = 0; i < customers.size(); i++) {
             ArrayList<Product> cartProducts = customers.get(i).getCart().getCartProducts();
-            for(int j = 0; j < cartProducts.size(); j++) {
-                try {
-                    JLabel label = new JLabel("<html>" +
-                            "<div style='text-align: center;'>" +
-                            "<div>" + "Customer ID: " + customers.get(i).getCustomerId() + "</div>" +
-                            "<div>" + "Store Name: " + Store.getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
-                            "<div>" + "Product Description: " + cartProducts.get(j).getDescription() + "</div>" +
-                            "<div>" + "Product Price: $" + cartProducts.get(j).getPrice() + "0" + "</div>" +
-                            "</div>" +
-                            "</html>");
-                    middlePanel.add(label);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+            if(cartProducts.size() <= 0) {
+                JLabel label = new JLabel("Nothing in cart currently");
+                middlePanel.add(label);
+            } else {
+                for(int j = 0; j < cartProducts.size(); j++) {
+                    try {
+                        JLabel label = new JLabel("<html>" +
+                                "<div style='text-align: center;'>" +
+                                "<div>" + "Customer ID: " + customers.get(i).getCustomerId() + "</div>" +
+                                "<div>" + "Store Name: " + Store.getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
+                                "<div>" + "Product Description: " + cartProducts.get(j).getDescription() + "</div>" +
+                                "<div>" + "Product Price: $" + cartProducts.get(j).getPrice() + "0" + "</div>" +
+                                "</div>" +
+                                "</html>");
+                        middlePanel.add(label);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
-        content.add(middlePanel, BorderLayout.CENTER);
+
+        JScrollPane scrollPane = new JScrollPane(middlePanel);
+
+        // Set preferred size of the scroll pane
+        scrollPane.setPreferredSize(new Dimension(200, 300));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        content.add(scrollPane, BorderLayout.CENTER); // adds the scroll bar to the container
     }
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(new SellerCartGUI());

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 import models.Cart;
 import models.Customer;
@@ -106,7 +107,7 @@ public class CustomerProductPage extends JComponent implements Runnable {
 
         content.add(topPanel, BorderLayout.NORTH);
 
-        addToCartButton = new JButton("Purchase");
+        addToCartButton = new JButton("Add To Cart");
         addToCartButton.addActionListener(actionListener);
 
         JPanel westPanel = new JPanel();
@@ -149,6 +150,7 @@ public class CustomerProductPage extends JComponent implements Runnable {
         JLabel prevPurchase = new JLabel("Previously Purchased Items");
         eastPanel.add(prevPurchase, gbcc);
         for(int i = 0; i < customer.getProducts().size(); i++){
+            System.out.println(customer.getProducts().get(i));
             gbcc.gridy++;
             JLabel label = new JLabel( "<html>" +
                     "<div style='text-align: center;'>" +

@@ -51,7 +51,7 @@ public class SellerSalesGUI extends JComponent implements Runnable{
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
 
-        frame.setTitle("Dashboard Sort One Page");
+        frame.setTitle("Sale Page");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -60,6 +60,11 @@ public class SellerSalesGUI extends JComponent implements Runnable{
         JPanel topPanel = new JPanel();
         topPanel.add(new JLabel("Sales"));
         content.add(topPanel, BorderLayout.NORTH);
+
+        returnHomeButton = new JButton("Return Home");
+        returnHomeButton.addActionListener(actionListener);
+        logOutButton = new JButton("Log Out");
+        logOutButton.addActionListener(actionListener);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(returnHomeButton);
@@ -73,7 +78,7 @@ public class SellerSalesGUI extends JComponent implements Runnable{
         for(int i = 0; i < sales.size(); i++) {
             JButton salesButton = new JButton("Sale ID: " + sales.get(i).getSaleId());
 
-            salesButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+            salesButton.setPreferredSize(new Dimension(150, 30)); //sets size of each product button
             middlePanel.add(salesButton);
             Sale sale = sales.get(i);
             salesButton.addActionListener(new ActionListener() {

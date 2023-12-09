@@ -31,9 +31,11 @@ public class CustomerPurchaseGUI extends JComponent implements Runnable {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == enterButton) {
                 try {
-                    Product product = Product.getProductById(Integer.parseInt(String.valueOf(productId)));
+                    Product product = Product.getProductById(Integer.parseInt(String.valueOf(productId.getText())));
+                    customer.getCart().addToCart(product);
+                    JOptionPane.showMessageDialog(null, "Added to Cart!", "Add To Cart", JOptionPane.INFORMATION_MESSAGE);
                 } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, "Please enter valid product id", "Error Message", JOptionPane.ERROR_MESSAGE);
                 }
                 //takes us to that product's page for purchase
                 //use get Product by productId if valid

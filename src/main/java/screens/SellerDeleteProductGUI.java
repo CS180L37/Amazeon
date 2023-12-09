@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import models.Cart;
 import models.Customer;
@@ -33,11 +34,15 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
                 Product product;
                 try {
                     product = Product.getProductById(Integer.parseInt(productId.getText()));
+                    ArrayList<Product> newProductList = seller.getProducts();
+                    newProductList.remove(product);
+                    seller.setProducts(newProductList);
+                    product.setDeleted(true);
+                    frame.dispose();
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                product.setDeleted(true);
-                frame.dispose();
             }
             if(e.getSource() == logOutButton) {
                 frame.dispose();
