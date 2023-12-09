@@ -231,6 +231,81 @@ public class Product {
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
+    public static Product getProductByName(String name) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereArrayContains(fields.name, name).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getNonDeletedProductByName(String name) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereArrayContains(fields.name, name).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getProductByDescription(String description) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereArrayContains(fields.description, description).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getNonDeletedProductByDescription(String description) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereArrayContains(fields.description, description).whereNotEqualTo(fields.isDeleted, true).limit(1)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static ArrayList<Product> getProductsByNames(ArrayList<String> productNames) throws IOException {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        for (String productName : productNames) {
+            Product product = getProductByName(productName);
+            if (product != null) {
+                productList.add(product);
+            }
+        }
+        return productList;
+    }
+
+    public static ArrayList<Product> getNonDeletedProductsByNames(ArrayList<String> productNames) throws IOException {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        for (String productName : productNames) {
+            Product product = getNonDeletedProductByName(productName);
+            if (product != null) {
+                productList.add(product);
+            }
+        }
+        return productList;
+    }
+
+    public static ArrayList<Product> getProductsByDescriptions(ArrayList<String> productDescriptions)
+            throws IOException {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        for (String productName : productDescriptions) {
+            Product product = getProductByName(productName);
+            if (product != null) {
+                productList.add(product);
+            }
+        }
+        return productList;
+    }
+
+    public static ArrayList<Product> getNonDeletedProductsByDescriptions(ArrayList<String> productDescriptions)
+            throws IOException {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        for (String productName : productDescriptions) {
+            Product product = getNonDeletedProductByName(productName);
+            if (product != null) {
+                productList.add(product);
+            }
+        }
+        return productList;
+    }
+
     public static ArrayList<Product> getProductsByIds(ArrayList<Integer> productIds) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
         for (int productID : productIds) {
