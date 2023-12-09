@@ -46,7 +46,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
 
     // constructor -- needed to create this mock data
     public CustomerMarketplaceGUI(Customer customer) throws IOException {
-        System.out.println("getting here"); //for debugging
+//        System.out.println("getting here"); //for debugging
         this.customer = customer;
         stores = Store.sortNonDeletedStores(fields.storeId, Query.Direction.ASCENDING);
     }
