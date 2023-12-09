@@ -33,8 +33,6 @@ public class CustomerProductPage extends JComponent implements Runnable {
     Product product;
     String[] options;
 
-    Cart cart;
-
     public CustomerProductPage(Customer customer, Product product) throws IOException {
         storeName = Store.getStoreById(product.getStoreId()).getName();
         productName = product.getName();
