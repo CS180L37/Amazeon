@@ -100,11 +100,21 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
             int numProductsPurchased = 0;
             for (Product product : products) {
                 if (product.getStoreId() == stores.get(i).getStoreId()) {
-                    numProductsPurchased += product.getQuantity();
+                    ArrayList<Sale> sales;
+                    try {
+                        sales = Seller.getSellerById(product.getSellerId()).getSales();
+                        for(int j = 0; j < sales.size(); j++) {
+                            if(sales.get(i).getCustomerId() == customer.getCustomerId() && sales.get(i).getProductId() == product.getProductId())
+                                numProductsPurchased += sales.get(i).getNumPurchased();
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
             numPurchasedEachStore.add(i, numProductsPurchased);
         }
+
 
     // sorts stores
         for (int i = 0; i < numPurchasedEachStore.size() - 1; i++) {
