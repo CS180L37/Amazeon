@@ -248,7 +248,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
         // dashboard button's dropdown menu
         sortDashboardMenu = new JPopupMenu("Dashboard");
 
-        menuItemSort1 = new JMenuItem("Sort 1");
+        menuItemSort1 = new JMenuItem("Sort Stores by Number of Products Sold");
         menuItemSort1.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort1);
 
@@ -259,7 +259,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
         // sort marketplace button's dropdown menu
         sortMarketplaceMenu = new JPopupMenu("Dashboard");
 
-        mpmenuItemSort1 = new JMenuItem("Sort 1");
+        mpmenuItemSort1 = new JMenuItem("Sort Stores by Number of Products you've Purchased");
         mpmenuItemSort1.addActionListener(actionListener);
         sortMarketplaceMenu.add(mpmenuItemSort1);
 
