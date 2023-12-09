@@ -32,14 +32,17 @@ public class CustomerPurchaseGUI extends JComponent implements Runnable {
             if (e.getSource() == enterButton) {
                 try {
                     Product product = Product.getProductById(Integer.parseInt(String.valueOf(productId.getText())));
-                    if(product.getQuantity() <= 0) {
-                        JOptionPane.showMessageDialog(null, "Out of Stock!", "Out of Stock", JOptionPane.INFORMATION_MESSAGE);
+                    if (product.getQuantity() <= 0) {
+                        JOptionPane.showMessageDialog(null, "Out of Stock!", "Out of Stock",
+                                JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         customer.getCart().addToCart(product);
-                        JOptionPane.showMessageDialog(null, "Added to Cart!", "Add To Cart", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Added to Cart!", "Add To Cart",
+                                JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Please enter valid product id", "Error Message", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please enter valid product id", "Error Message",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
             if (e.getSource() == returnHomeButton) {
@@ -56,8 +59,14 @@ public class CustomerPurchaseGUI extends JComponent implements Runnable {
             }
         }
     };
+
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -105,9 +114,8 @@ public class CustomerPurchaseGUI extends JComponent implements Runnable {
 
         content.add(bottomPanel, BorderLayout.SOUTH);
 
-
     }
-//    public static void main(String[] args){
-//        SwingUtilities.invokeLater(new CustomerPurchaseGUI());
-//    }
+    // public static void main(String[] args){
+    // SwingUtilities.invokeLater(new CustomerPurchaseGUI());
+    // }
 }

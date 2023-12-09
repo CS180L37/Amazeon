@@ -12,6 +12,8 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+
 public class Store {
     private int storeId;
     private String name;
@@ -143,7 +145,8 @@ public class Store {
         return stores;
     }
 
-    public static ArrayList<Store> sortNonDeletedStores(String field, Direction direction) throws IOException {
+    public static ArrayList<Store> sortNonDeletedStores(@Nonnull String field, @Nonnull Direction direction)
+            throws IOException {
         ApiFuture<QuerySnapshot> future = storesCollection.orderBy(fields.isDeleted)
                 .whereNotEqualTo(fields.isDeleted, true)
                 .orderBy(field, direction).get();

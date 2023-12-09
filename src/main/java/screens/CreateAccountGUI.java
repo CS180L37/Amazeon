@@ -1,4 +1,5 @@
 package screens;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -15,24 +16,24 @@ import models.Store;
 
 import utils.fields;
 
-public class CreateAccountGUI extends JComponent implements Runnable{
+public class CreateAccountGUI extends JComponent implements Runnable {
     JFrame frame;
-    JTextField emailTextField; //email input text field
-    JTextField passwordTextField; //password input text field
-    //asks whether they will login as customer or seller
+    JTextField emailTextField; // email input text field
+    JTextField passwordTextField; // password input text field
+    // asks whether they will login as customer or seller
     JToggleButton customerButton;
     JToggleButton sellerButton;
-    JButton loginButton; //login button
-    JButton createAccountButton; //should display createAccountGUI
+    JButton loginButton; // login button
+    JButton createAccountButton; // should display createAccountGUI
     String email;
     String password;
     String name;
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == createAccountButton) {
+            if (e.getSource() == createAccountButton) {
                 email = String.valueOf(emailTextField.getText());
                 password = String.valueOf(passwordTextField.getText());
-                if(customerButton.isSelected()) {
+                if (customerButton.isSelected()) {
                     try {
                         Customer.createCustomer(email, password);
                         Customer customer = Customer.getCustomerByEmail(email);
@@ -52,14 +53,14 @@ public class CreateAccountGUI extends JComponent implements Runnable{
                     }
                 }
             }
-            if(e.getSource() == loginButton) {
+            if (e.getSource() == loginButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
-            if(e.getSource() == customerButton) {
+            if (e.getSource() == customerButton) {
                 sellerButton.setSelected(false);
             }
-            if(e.getSource() == sellerButton) {
+            if (e.getSource() == sellerButton) {
                 customerButton.setSelected(false);
                 name = JOptionPane.showInputDialog("Enter Your Name: ");
             }
@@ -69,13 +70,13 @@ public class CreateAccountGUI extends JComponent implements Runnable{
     FocusListener focusListener = new FocusListener() {
         @Override
         public void focusGained(FocusEvent e) {
-            if(e.getSource() == emailTextField){
-                if(emailTextField.getText().equals("Enter email you would like to use")){
+            if (e.getSource() == emailTextField) {
+                if (emailTextField.getText().equals("Enter email you would like to use")) {
                     emailTextField.setText("");
                 }
             }
-            if(e.getSource() == passwordTextField){
-                if(passwordTextField.getText().equals("Enter a password")){
+            if (e.getSource() == passwordTextField) {
+                if (passwordTextField.getText().equals("Enter a password")) {
                     passwordTextField.setText("");
                 }
             }
@@ -84,20 +85,26 @@ public class CreateAccountGUI extends JComponent implements Runnable{
 
         @Override
         public void focusLost(FocusEvent e) {
-            if(e.getSource() == emailTextField){
-                if(emailTextField.getText().isEmpty()) {
+            if (e.getSource() == emailTextField) {
+                if (emailTextField.getText().isEmpty()) {
                     emailTextField.setText("Enter email you would like to use");
                 }
             }
-            if(e.getSource() == passwordTextField){
-                if(passwordTextField.getText().isEmpty()) {
+            if (e.getSource() == passwordTextField) {
+                if (passwordTextField.getText().isEmpty()) {
                     passwordTextField.setText("Enter a password");
                 }
             }
         }
     };
+
     public void run() {
         frame = new JFrame("Create Account");
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -126,7 +133,6 @@ public class CreateAccountGUI extends JComponent implements Runnable{
 
         content.add(topPanel, BorderLayout.NORTH);
 
-
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -152,7 +158,6 @@ public class CreateAccountGUI extends JComponent implements Runnable{
         createAccountButton.setPreferredSize(new Dimension(130, 25));
         createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         middlePanel.add(createAccountButton, gbc);
-
 
         content.add(middlePanel);
 
