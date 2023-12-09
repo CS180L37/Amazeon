@@ -161,6 +161,29 @@ public class Store {
         return stores;
     }
 
+    public static ArrayList<Store> sortNonDeletedStoresByNumProductsSold(
+            @Nonnull Direction direction)
+            throws IOException {
+        ApiFuture<QuerySnapshot> future = storesCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true).get();
+        ArrayList<Store> stores = new ArrayList<Store>();
+        ArrayList<Store> sortedStores = new ArrayList<Store>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            stores.add(new Store(doc));
+        }
+        // stores.sort(new Comparator<Integer>() {
+        // public int compare(Store store1, Store store2) {
+        // return
+        // store2.getStoreProducts().size().compare(store1.getStoreProducts().size());
+        // }
+        // });
+        return stores;
+    }
+
     public ArrayList<Integer> getStoreProductIds() {
         return (ArrayList<Integer>) storeProducts.stream()
                 .map(Product::getProductId)
