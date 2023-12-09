@@ -1,5 +1,7 @@
 package models;
 
+import models.Store;
+
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.Query.Direction;
@@ -245,6 +247,20 @@ public class Product {
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
+    public static Product getProductByStoreName(String storeName) throws IOException {
+        ApiFuture<QuerySnapshot> future = Store.storesCollection
+                .whereArrayContains(fields.name, storeName).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getNonDeletedProductByStoreName(String storeName) throws IOException {
+        ApiFuture<QuerySnapshot> future = Store.storesCollection
+                .whereArrayContains(fields.name, storeName).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
     public static Product getProductByDescription(String description) throws IOException {
         ApiFuture<QuerySnapshot> future = productsCollection
                 .whereArrayContains(fields.description, description).limit(1).get();
@@ -260,47 +276,108 @@ public class Product {
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
-    public static ArrayList<Product> getProductsByNames(ArrayList<String> productNames) throws IOException {
+    public static ArrayList<Product> getProductsByName(String productName) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : productNames) {
-            Product product = getProductByName(productName);
-            if (product != null) {
+        ApiFuture<QuerySnapshot> future = productsCollection.get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            Product product = new Product(document);
+            if (product.name.toLowerCase().contains(productName.toLowerCase())) {
                 productList.add(product);
             }
         }
         return productList;
     }
 
-    public static ArrayList<Product> getNonDeletedProductsByNames(ArrayList<String> productNames) throws IOException {
+    public static ArrayList<Product> getNonDeletedProductsByName(String productName) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : productNames) {
-            Product product = getNonDeletedProductByName(productName);
-            if (product != null) {
+        ApiFuture<QuerySnapshot> future = productsCollection.whereNotEqualTo(fields.isDeleted, true).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            Product product = new Product(document);
+            if (product.name.toLowerCase().contains(productName.toLowerCase())) {
                 productList.add(product);
             }
         }
         return productList;
     }
 
-    public static ArrayList<Product> getProductsByDescriptions(ArrayList<String> productDescriptions)
+    public static ArrayList<Product> getProductsByDescription(String productDescription)
             throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : productDescriptions) {
-            Product product = getProductByName(productName);
-            if (product != null) {
+        ApiFuture<QuerySnapshot> future = productsCollection.get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            Product product = new Product(document);
+            if (product.description.toLowerCase().contains(productDescription.toLowerCase())) {
                 productList.add(product);
             }
         }
         return productList;
     }
 
-    public static ArrayList<Product> getNonDeletedProductsByDescriptions(ArrayList<String> productDescriptions)
+    public static ArrayList<Product> getNonDeletedProductsByDescription(String productDescription)
             throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : productDescriptions) {
-            Product product = getNonDeletedProductByName(productName);
-            if (product != null) {
+        ApiFuture<QuerySnapshot> future = productsCollection.whereNotEqualTo(fields.isDeleted, true)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            Product product = new Product(document);
+            if (product.description.toLowerCase().contains(productDescription.toLowerCase())) {
                 productList.add(product);
+            }
+        }
+        return productList;
+    }
+
+    public static ArrayList<Product> getProductsByStoreName(String storeName)
+            throws IOException {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        ApiFuture<QuerySnapshot> future = productsCollection.get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            Product product = new Product(document);
+            ArrayList<Store> stores = Store.getNonDeletedStoresByStoreName(storeName);
+            for (Store store : stores) {
+                if (product.getStoreId() == store.getStoreId()) {
+                    productList.add(product);
+                }
+            }
+        }
+        return productList;
+    }
+
+    public static ArrayList<Product> getNonDeletedProductsByStoreName(String storeName)
+            throws IOException {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        ApiFuture<QuerySnapshot> future = productsCollection.whereNotEqualTo(fields.isDeleted, true).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            Product product = new Product(document);
+            ArrayList<Store> stores = Store.getNonDeletedStoresByStoreName(storeName);
+            for (Store store : stores) {
+                if (product.getStoreId() == store.getStoreId()) {
+                    productList.add(product);
+                }
             }
         }
         return productList;
