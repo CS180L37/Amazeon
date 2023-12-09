@@ -58,3 +58,7 @@ For an example of the process, view the screencast here:
 - [Utils.java](DOCS.md#Utils)
 - [ValidInterface.java](DOCS.md#ValidInterface)
 - [Testing](DOCS.md#Testing)
+
+## Documentation
+- frontend
+- backend
