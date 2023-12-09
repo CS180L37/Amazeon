@@ -34,9 +34,21 @@ public class CustomerCartGUI extends JComponent implements Runnable{
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == purchaseAllButton) {
                 for(int i = 0; i < cart.getCartProducts().size(); i++) {
-                    customer.getProducts().add(cart.getCartProducts().get(i));
                     try {
-                        cart.removeFromCart(cart.getCartProducts().get(i));
+                        Product product = cart.getCartProducts().get(i);
+                        product.setQuantity(product.getQuantity() - 1);
+                        //1) remove from cart
+                        cart.removeFromCart(product);
+                        //2) add to customer's product list
+                        ArrayList<Product> newProducts = customer.getProducts();
+                        newProducts.add(product);
+                        customer.setProducts(newProducts);
+                        //add to sales list of seller
+                        Seller seller = Seller.getSellerById(product.getSellerId());
+                        Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(), customer.getCustomerId(), product.getProductId(), 1);
+                        ArrayList<Sale> newSales = seller.getSales();
+                        newSales.add(sale);
+                        seller.setSales(newSales);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -127,8 +139,25 @@ public class CustomerCartGUI extends JComponent implements Runnable{
                 purchaseButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         try {
+                            String[] options = new String[product.getQuantity()];
+                            for(int i = 0; i < options.length; i++) {
+                                options[i] = String.valueOf(i + 1);
+                            }
+                            int numPurchase = Integer.parseInt((String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
+                                    JOptionPane.PLAIN_MESSAGE, null, options, null));
+                            product.setQuantity(product.getQuantity() - numPurchase);
+                            //1) remove from cart
                             cart.removeFromCart(product);
-                            customer.getProducts().add(product);
+                            //2) add to customer's product list
+                            ArrayList<Product> newProducts = customer.getProducts();
+                            newProducts.add(product);
+                            customer.setProducts(newProducts);
+                            //add to sales list of seller
+                            Seller seller = Seller.getSellerById(product.getSellerId());
+                            Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(), customer.getCustomerId(), product.getProductId(), numPurchase);
+                            ArrayList<Sale> newSales = seller.getSales();
+                            newSales.add(sale);
+                            seller.setSales(newSales);
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }

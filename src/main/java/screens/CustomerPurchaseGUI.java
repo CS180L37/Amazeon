@@ -32,14 +32,15 @@ public class CustomerPurchaseGUI extends JComponent implements Runnable {
             if (e.getSource() == enterButton) {
                 try {
                     Product product = Product.getProductById(Integer.parseInt(String.valueOf(productId.getText())));
-                    customer.getCart().addToCart(product);
-                    JOptionPane.showMessageDialog(null, "Added to Cart!", "Add To Cart", JOptionPane.INFORMATION_MESSAGE);
+                    if(product.getQuantity() <= 0) {
+                        JOptionPane.showMessageDialog(null, "Out of Stock!", "Out of Stock", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        customer.getCart().addToCart(product);
+                        JOptionPane.showMessageDialog(null, "Added to Cart!", "Add To Cart", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Please enter valid product id", "Error Message", JOptionPane.ERROR_MESSAGE);
                 }
-                //takes us to that product's page for purchase
-                //use get Product by productId if valid
-                //SwingUtilities.invokeLater(new CustomerProductPage(Product));
             }
             if (e.getSource() == returnHomeButton) {
                 try {
@@ -69,7 +70,7 @@ public class CustomerPurchaseGUI extends JComponent implements Runnable {
         JLabel topLabel = new JLabel("Purchase");
         JLabel label = new JLabel("Enter product id of product you would like to purchase");
         productId = new JTextField(20);
-        enterButton = new JButton("Enter");
+        enterButton = new JButton("Add to Cart");
         enterButton.addActionListener(actionListener);
         returnHomeButton = new JButton("Return Home");
         returnHomeButton.addActionListener(actionListener);

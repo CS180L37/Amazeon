@@ -50,11 +50,11 @@ public class CustomerProductPage extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == addToCartButton) {
-                customer.getCart().addToCart(product);
-//                int quant = Integer.parseInt((String) JOptionPane.showInputDialog(null, "Choose Quantity", "Quantity",
-//                        JOptionPane.PLAIN_MESSAGE, null, quantityOptions, null)); this should happen in cart itself
-                //make sure to set right product quantity after purchase
-                //make sure to add to cart
+                if(product.getQuantity() <= 0) {
+                    JOptionPane.showMessageDialog(null, "Out of Stock!", "Out of Stock", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    customer.getCart().addToCart(product);
+                }
             }
             if (e.getSource() == returnHomeButton) {
                 try {
