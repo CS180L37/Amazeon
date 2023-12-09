@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 import models.Cart;
 import models.Customer;
@@ -17,7 +18,7 @@ import models.Store;
 public class CustomerProductPage extends JComponent implements Runnable {
     JFrame frame;
 
-    JButton addToCartButton;// should be add to cart button
+    JButton purchaseButton;// should be add to cart button
     JButton returnHomeButton;
     JButton logOutButton;
 
@@ -28,8 +29,11 @@ public class CustomerProductPage extends JComponent implements Runnable {
     int quantity;
     int productId;
     Customer customer;
+    Cart cart;
     Product product;
-    String[] quantityOptions;
+    String[] options;
+
+    Cart cart;
 
     public CustomerProductPage(Customer customer, Product product) throws IOException {
         storeName = Store.getStoreById(product.getStoreId()).getName();
@@ -40,21 +44,43 @@ public class CustomerProductPage extends JComponent implements Runnable {
         productId = product.getProductId();
         this.customer = customer;
         this.product = product;
-        quantityOptions = new String[quantity];
+        cart = customer.getCart();
+        options = new String[quantity];
         for (int i = 0; i < quantity; i++) {
-            quantityOptions[i] = String.valueOf(i + 1);
+            options[i] = String.valueOf(i + 1);
         }
     }
 
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == addToCartButton) {
+            if (e.getSource() == purchaseButton) {
                 if (product.getQuantity() <= 0) {
                     JOptionPane.showMessageDialog(null, "Out of Stock!", "Out of Stock",
                             JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    customer.getCart().addToCart(product);
+                    try{
+                        int numPurchase = Integer.parseInt(
+                                (String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
+                                        JOptionPane.PLAIN_MESSAGE, null, options, null));
+                        product.setQuantity(product.getQuantity() - numPurchase);
+                        // 1) remove from cart
+                        cart.removeFromCart(product);
+                        // 2) add to customer's product list
+                        ArrayList<Product> newProducts = customer.getProducts();
+                        newProducts.add(product);
+                        customer.setProducts(newProducts);
+                        // add to sales list of seller
+                        Seller seller = Seller.getSellerById(product.getSellerId());
+                        Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(),
+                                customer.getCustomerId(), product.getProductId(), numPurchase);
+                        ArrayList<Sale> newSales = seller.getSales();
+                        newSales.add(sale);
+                        seller.setSales(newSales);
+                        JOptionPane.showMessageDialog(null, "products", "Purchased Product", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
             if (e.getSource() == returnHomeButton) {
@@ -114,8 +140,8 @@ public class CustomerProductPage extends JComponent implements Runnable {
 
         content.add(topPanel, BorderLayout.NORTH);
 
-        addToCartButton = new JButton("Add To Cart");
-        addToCartButton.addActionListener(actionListener);
+        purchaseButton = new JButton("Purchase");
+        purchaseButton.addActionListener(actionListener);
 
         JPanel westPanel = new JPanel();
         westPanel.setLayout(new GridBagLayout());
@@ -135,7 +161,7 @@ public class CustomerProductPage extends JComponent implements Runnable {
         gbc.gridy++;
         westPanel.add(price, gbc);
         gbc.gridy++;
-        westPanel.add(addToCartButton, gbc);
+        westPanel.add(purchaseButton, gbc);
 
         content.add(westPanel, BorderLayout.WEST);
 

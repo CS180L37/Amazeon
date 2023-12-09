@@ -163,7 +163,6 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         middlePanel.add(editProductButton, gbc);
 
         content.add(middlePanel, BorderLayout.CENTER);
-
     }
     // public static void main(String[] args) {
     // Product product = new Product(1, "Sour Patch", 7, "sweet and sour candy",

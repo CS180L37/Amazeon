@@ -66,10 +66,10 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
-            if (e.getSource() == purchaseButton) {
-                frame.dispose();
-                SwingUtilities.invokeLater(new CustomerPurchaseGUI(customer));
-            }
+//            if (e.getSource() == purchaseButton) {
+//                frame.dispose();
+//                SwingUtilities.invokeLater(new CustomerPurchaseGUI(customer));
+//            }
             if (e.getSource() == searchButton) {
                 try {
                     frame.dispose();
