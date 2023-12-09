@@ -274,7 +274,8 @@ public class Product {
     }
 
     public static ArrayList<Product> sortNonDeletedProducts(String field, Direction direction) throws IOException {
-        ApiFuture<QuerySnapshot> future = productsCollection.whereNotEqualTo(fields.isDeleted, true)
+        ApiFuture<QuerySnapshot> future = productsCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true)
                 .orderBy(field, direction).get();
         ArrayList<Product> products = new ArrayList<Product>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);

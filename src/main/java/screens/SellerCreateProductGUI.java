@@ -1,41 +1,67 @@
 package screens;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
+import com.google.cloud.firestore.Query;
 import models.Cart;
 import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import utils.fields;
 
-public class SellerCreateProductGUI extends JComponent implements Runnable{
+public class SellerCreateProductGUI extends JComponent implements Runnable {
+    JFrame frame;
     // Text fields
-    JTextField productNameField, productDescField, productPriceField, productStockField, productIDField, storeIDField, sellerIDField;
+    JTextField productNameField, productDescField, productPriceField, productStockField, productIDField, storeIDField,
+            sellerIDField;
     JButton createProductButton;
     JButton logOutButton;
     JButton returnHomeButton;
-//    Product product;
 
+    Seller seller;
 
+    public SellerCreateProductGUI(Seller seller) {
+        this.seller = seller;
+    }
 
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == createProductButton) {
-//                product.createProduct(productDescField.getText(), productNameField.getText(),
-//                        Double.parseDouble(productPriceField.getText()), Integer.parseInt(productIDField.getText()),
-//                        Integer.parseInt(productStockField.getText()), Integer.parseInt(sellerIDField.getText()),
-//                        Integer.parseInt(storeIDField.getText()));
+            if (e.getSource() == createProductButton) {
+                try {
+                    Product product = Product.createProduct(productDescField.getText(), productNameField.getText(),
+                            Double.parseDouble(productPriceField.getText()), Integer.parseInt(productIDField.getText()),
+                            Integer.parseInt(productStockField.getText()), Integer.parseInt(sellerIDField.getText()),
+                            Integer.parseInt(storeIDField.getText()));
+                    ArrayList<Product> storeProducts = Store.getStoreById(Integer.parseInt(storeIDField.getText()))
+                            .getStoreProducts();
+                    storeProducts.add(product);
+                    Store.getStoreById(Integer.parseInt(storeIDField.getText())).setStoreProducts(storeProducts);
+
+                    ArrayList<Product> newProductList = seller.getProducts();
+                    newProductList.add(product);
+                    seller.setProducts(newProductList);
+                    frame.dispose();
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
-            if(e.getSource() == logOutButton) {
+            if (e.getSource() == logOutButton) {
+                frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
-            if(e.getSource() == returnHomeButton) {
+            if (e.getSource() == returnHomeButton) {
                 try {
-                    SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    frame.dispose();
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -44,10 +70,14 @@ public class SellerCreateProductGUI extends JComponent implements Runnable{
         }
     };
 
-
     public void run() {
         // Setting up the frame
-        JFrame frame = new JFrame();
+        frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -73,6 +103,12 @@ public class SellerCreateProductGUI extends JComponent implements Runnable{
         productPriceField = new JTextField(20);
         productStockField = new JTextField(20);
         productIDField = new JTextField(20);
+        productIDField.setEnabled(false);
+        try {
+            productIDField.setText(String.valueOf(Product.getNextProductId()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         storeIDField = new JTextField(20);
         sellerIDField = new JTextField(20);
 
@@ -96,7 +132,7 @@ public class SellerCreateProductGUI extends JComponent implements Runnable{
         bottomPanel.add(logOutButton);
         content.add(bottomPanel, BorderLayout.SOUTH);
 
-        //setLayout(new GridLayout(8, 2));
+        // setLayout(new GridLayout(8, 2));
 
         // Adding components to the frame
         JPanel middlePanel = new JPanel();
@@ -105,7 +141,7 @@ public class SellerCreateProductGUI extends JComponent implements Runnable{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(2,5,2,5);
+        gbc.insets = new Insets(2, 5, 2, 5);
 
         middlePanel.add(productNameLabel, gbc);
         gbc.gridx++;
@@ -146,7 +182,7 @@ public class SellerCreateProductGUI extends JComponent implements Runnable{
         content.add(middlePanel, BorderLayout.CENTER);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new SellerCreateProductGUI());
-    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new SellerCreateProductGUI());
+    // }
 }

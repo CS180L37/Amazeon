@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import models.Cart;
 import models.Customer;
@@ -12,29 +14,44 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class SellerDeleteProductGUI extends JComponent implements Runnable{
+public class SellerDeleteProductGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton deleteButton;
     JButton returnHomeButton;
     JButton logOutButton;
     JTextField productId;
 
+    Seller seller;
+
+    public SellerDeleteProductGUI(Seller seller) {
+        this.seller = seller;
+    }
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == deleteButton) {
-//                Product product = getProductById(Integer.parseInt(productId.getText()));
-//                product.deleteProduct();
-                frame.dispose();
+            if (e.getSource() == deleteButton) {
+                Product product;
+                try {
+                    product = Product.getProductById(Integer.parseInt(productId.getText()));
+                    ArrayList<Product> newProductList = seller.getProducts();
+                    newProductList.remove(product);
+                    seller.setProducts(newProductList);
+                    product.setDeleted(true);
+                    frame.dispose();
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
-            if(e.getSource() == logOutButton) {
+            if (e.getSource() == logOutButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
-            if(e.getSource() == returnHomeButton) {
+            if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -45,6 +62,11 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
 
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -81,7 +103,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(5,5,5,5);
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         middlePanel.add(deleteLabel, gbc);
         gbc.gridy++;
@@ -91,7 +113,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
 
         content.add(middlePanel, BorderLayout.CENTER);
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new SellerDeleteProductGUI());
-    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new SellerDeleteProductGUI());
+    // }
 }

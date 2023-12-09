@@ -1,5 +1,6 @@
 # Amazeon
 Amazon watch out, there's a new competitor on the block! This is our submission for option 3 of Purdue's CS 180 Project 4 and 5
+> Report, Video, & Code submitted by TODO
 
 ## TODO
 - Compile into one executable
@@ -32,8 +33,8 @@ java Amazeon.java
 - Run the test suite
 - Stop the firestore emulator after the tests have completed and you're done! :)
 
-Or you could just watch the process in action like so:
-![](src/test/resources/TestCases.mp4)
+For an example of the process, view the screencast here:
+[TestCases.webm](https://github.com/CS180L37/Project4-5/assets/86136010/ba9ea788-1bc2-4f1f-8001-7250c13bc2cb)
 
 ## Documentation
 
@@ -57,3 +58,7 @@ Or you could just watch the process in action like so:
 - [Utils.java](DOCS.md#Utils)
 - [ValidInterface.java](DOCS.md#ValidInterface)
 - [Testing](DOCS.md#Testing)
+
+## Documentation
+- frontend
+- backend

@@ -147,7 +147,8 @@ public class Customer {
     }
 
     public static ArrayList<Customer> sortNonDeletedCustomers(String field, Direction direction) throws IOException {
-        ApiFuture<QuerySnapshot> future = customersCollection.whereNotEqualTo(fields.isDeleted, true)
+        ApiFuture<QuerySnapshot> future = customersCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true)
                 .orderBy(field, direction).get();
         ArrayList<Customer> customers = new ArrayList<Customer>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -170,6 +171,12 @@ public class Customer {
 
     // Called to create a customer
     public static Customer createCustomer(String email, String password) throws IOException {
+        if (!Utils.validateEmail(email)) {
+            throw new IOException("Invalid email");
+        }
+        if (!Utils.validatePassword(password)) {
+            throw new IOException("Invalid password");
+        }
         Map<String, Object> customerData = new HashMap<String, Object>();
         int customerId = Customer.getNextCustomerId();
         // Add data to db
