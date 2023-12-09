@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import models.Cart;
 import models.Customer;
@@ -17,6 +19,14 @@ public class SellerSalesGUI extends JComponent implements Runnable{
     JButton returnHomeButton;
     JButton logOutButton;
 
+    Seller seller;
+
+    ArrayList<Sale> sales = new ArrayList<Sale>();
+    public SellerSalesGUI(Seller seller) {
+        this.seller = seller;
+        sales = seller.getSales();
+    }
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -27,7 +37,7 @@ public class SellerSalesGUI extends JComponent implements Runnable{
             if(e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -57,25 +67,29 @@ public class SellerSalesGUI extends JComponent implements Runnable{
         bottomPanel.add(logOutButton);
         content.add(bottomPanel, BorderLayout.SOUTH);
 
-//        JPanel middlePanel = new JPanel();
-//        middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
-//
-//        for(int i = 0; i < sales.size(); i++) {
-//            JButton salesButton = new JButton("Sale ID: " + sales.get(i).getSaleId());
-//
-//            salesButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
-//            middlePanel.add(salesButton);
-//            Sale sale = sales.get(i);
-//            salesButton.addActionListener(new ActionListener() {
-//                public void actionPerformed(ActionEvent e) {
-//                    frame.dispose();
-//                    SwingUtilities.invokeLater(new SellerSalePage(sale));
-//                }
-//            });
-//        }
-//        content.add(middlePanel, BorderLayout.CENTER);
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
+
+        for(int i = 0; i < sales.size(); i++) {
+            JButton salesButton = new JButton("Sale ID: " + sales.get(i).getSaleId());
+
+            salesButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+            middlePanel.add(salesButton);
+            Sale sale = sales.get(i);
+            salesButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        frame.dispose();
+                        SwingUtilities.invokeLater(new SellerSalePage(seller, sale));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+        }
+        content.add(middlePanel, BorderLayout.CENTER);
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new SellerSalesGUI());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new SellerSalesGUI());
+//    }
 }

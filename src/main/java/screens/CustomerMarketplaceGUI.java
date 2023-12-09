@@ -79,12 +79,20 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 }
             }
             if (e.getSource() == menuItemSort1) {
-                frame.dispose();
-                SwingUtilities.invokeLater(new CustomerSortOneDashboardGUI(customer));
+                try {
+                    frame.dispose();
+                    SwingUtilities.invokeLater(new CustomerSortOneDashboardGUI(customer));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             if (e.getSource() == menuItemSort2) {
-                frame.dispose();
-                SwingUtilities.invokeLater(new CustomerSortTwoDashboardGUI(customer));
+                try {
+                    frame.dispose();
+                    SwingUtilities.invokeLater(new CustomerSortTwoDashboardGUI(customer));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             if (e.getSource() == mpmenuItemSort1) {
                 middlePanel.removeAll();

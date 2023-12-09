@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import models.Cart;
 import models.Customer;
@@ -19,14 +20,24 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
     JButton returnHomeButton;
     JButton logOutButton;
 
+    Seller seller;
+
+    public SellerEditProductGUI(Seller seller) {
+        this.seller = seller;
+    }
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == editButton) {
-//                Product product = getProductById(Integer.parseInt(productIdField.getText()));
-//                Product product  = new Product(1, "Sour Patch", 7, "sweet and sour candy", 3.00, 1, 1);
-//                frame.dispose();
-//                SwingUtilities.invokeLater(new SellerUpdateProductGUI(product));
+                Product product;
+                try {
+                    product = Product.getProductById(Integer.parseInt(productIdField.getText()));
+                    frame.dispose();
+                    SwingUtilities.invokeLater(new SellerUpdateProductGUI(seller, product));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             if(e.getSource() == logOutButton) {
                 frame.dispose();
@@ -35,7 +46,7 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
             if(e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -86,10 +97,11 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
         gbc.gridx++;
         middlePanel.add(productIdField, gbc);
         gbc.gridy++;
+        gbc.gridx = 0;
         middlePanel.add(editButton, gbc);
         content.add(middlePanel, BorderLayout.CENTER);
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new SellerEditProductGUI());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new SellerEditProductGUI());
+//    }
 }

@@ -37,7 +37,7 @@ public class LoginGUI extends JComponent implements Runnable{
                         if(Seller.sellerExists(email, password)) {
                             Seller seller = Seller.getSellerByEmail(email);
                             frame.dispose();
-                            SwingUtilities.invokeLater(new SellerMarketplaceGUI(/*seller*/));
+                            SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                         } else {
                             JOptionPane.showMessageDialog(null, "Invalid username or password! Please try again.","Invalid Account", JOptionPane.ERROR_MESSAGE);
                         }

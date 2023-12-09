@@ -17,14 +17,15 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
     JButton editProductButton;
     JButton returnHomeButton;
     JButton logOutButton;
-
     JTextField strId, nme, desc, quan, prce;
 
     int productId;
 
-//    Product product  = new Product(1, "Sour Patch", 7, "sweet and sour candy", 3.00, 1, 1);
-
-    public SellerUpdateProductGUI(Product product) {
+    Seller seller;
+    Product product;
+    public SellerUpdateProductGUI(Seller seller, Product product) {
+        this.seller = seller;
+        this.product = product;
         productId = product.getProductId();
     }
 
@@ -32,13 +33,23 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == editProductButton) {
-//                product.setProductId(productId);
-//                product.setStoreId(Integer.parseInt(strId.getText()));
-//                product.setName(nme.getText());
-//                product.setDescription(desc.getText());
-//                product.setQuantity(Integer.parseInt(quan.getText()));
-//                product.setPrice(Double.parseDouble(prce.getText()));
-//                frame.dispose();
+                if(!strId.getText().equals("")) {
+                    product.setStoreId(Integer.parseInt(strId.getText()));
+                }
+                if(!nme.getText().equals("")){
+                    product.setName(nme.getText());
+                }
+                if(!desc.getText().equals("")){
+                    product.setDescription(desc.getText());
+                }
+                if(!quan.getText().equals("")){
+                    product.setQuantity(Integer.parseInt(quan.getText()));
+                }
+                if(!prce.getText().equals("")){
+                    product.setPrice(Double.parseDouble(prce.getText()));
+                }
+                frame.dispose();
+                JOptionPane.showMessageDialog(null, "Product Updated!", "Update Product", JOptionPane.INFORMATION_MESSAGE);
             }
             if(e.getSource() == logOutButton) {
                 frame.dispose();
@@ -47,7 +58,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
             if(e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
-                    SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

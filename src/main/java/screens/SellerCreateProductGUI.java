@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import models.Cart;
 import models.Customer;
@@ -17,25 +18,32 @@ public class SellerCreateProductGUI extends JComponent implements Runnable{
     JButton createProductButton;
     JButton logOutButton;
     JButton returnHomeButton;
-//    Product product;
 
+    Seller seller;
 
+    public SellerCreateProductGUI(Seller seller) {
+        this.seller = seller;
+    }
 
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == createProductButton) {
-//                product.createProduct(productDescField.getText(), productNameField.getText(),
-//                        Double.parseDouble(productPriceField.getText()), Integer.parseInt(productIDField.getText()),
-//                        Integer.parseInt(productStockField.getText()), Integer.parseInt(sellerIDField.getText()),
-//                        Integer.parseInt(storeIDField.getText()));
+                try {
+                    Product.createProduct(productDescField.getText(), productNameField.getText(),
+                            Double.parseDouble(productPriceField.getText()), Integer.parseInt(productIDField.getText()),
+                            Integer.parseInt(productStockField.getText()), Integer.parseInt(sellerIDField.getText()),
+                            Integer.parseInt(storeIDField.getText()));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             if(e.getSource() == logOutButton) {
                 SwingUtilities.invokeLater(new LoginGUI());
             }
             if(e.getSource() == returnHomeButton) {
                 try {
-                    SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+                    SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -146,7 +154,7 @@ public class SellerCreateProductGUI extends JComponent implements Runnable{
         content.add(middlePanel, BorderLayout.CENTER);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new SellerCreateProductGUI());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new SellerCreateProductGUI());
+//    }
 }

@@ -46,7 +46,7 @@ public class CreateAccountGUI extends JComponent implements Runnable{
                         Seller.createSeller(email, password, name);
                         Seller seller = Seller.getSellerByEmail(email);
                         frame.dispose();
-                        SwingUtilities.invokeLater(new SellerMarketplaceGUI(/*seller*/));
+                        SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
