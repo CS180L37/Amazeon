@@ -132,7 +132,7 @@ public class LoginGUI extends JComponent implements Runnable {
         middlePanel.add(passwordTextField, gbc);
 
         gbc.gridy++;
-        loginButton.setPreferredSize(new Dimension(70, 20));
+        loginButton.setPreferredSize(new Dimension(125, 20));
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         middlePanel.add(loginButton, gbc);
 
