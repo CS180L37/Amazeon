@@ -43,7 +43,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == nameButton) {
                 frame.dispose();
-                JFrame frame = new JFrame();
+                frame = new JFrame();
 
                 Container content = frame.getContentPane();
                 content.setLayout(new BorderLayout());
@@ -86,7 +86,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                 nameEnterButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         frame.dispose();
-                        JFrame frame = new JFrame();
+                        frame = new JFrame();
 
                         Container content = frame.getContentPane();
                         content.setLayout(new BorderLayout());
@@ -145,13 +145,14 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                         bottomPanel.add(new JLabel("     "));
                         bottomPanel.add(logOutButton);
                         content.add(bottomPanel, BorderLayout.SOUTH);
+
                     }
                 });
 
             }
             if (e.getSource() == storeIdButton) {
                 frame.dispose();
-                JFrame frame = new JFrame();
+                frame = new JFrame();
 
                 Container content = frame.getContentPane();
                 content.setLayout(new BorderLayout());
@@ -194,7 +195,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                 storeIdEnterButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         frame.dispose();
-                        JFrame frame = new JFrame();
+                        frame = new JFrame();
 
                         Container content = frame.getContentPane();
                         content.setLayout(new BorderLayout());
@@ -253,7 +254,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
             }
             if (e.getSource() == descriptionButton) {
                 frame.dispose();
-                JFrame frame = new JFrame();
+                frame = new JFrame();
 
                 Container content = frame.getContentPane();
                 content.setLayout(new BorderLayout());
@@ -295,7 +296,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                 descriptionEnterButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         frame.dispose();
-                        JFrame frame = new JFrame();
+                        frame = new JFrame();
 
                         Container content = frame.getContentPane();
                         content.setLayout(new BorderLayout());
