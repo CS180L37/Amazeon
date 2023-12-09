@@ -128,7 +128,6 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                             }
                          });
 
-                        // Search products by name
                         content.add(panel, BorderLayout.CENTER);
 
                         JPanel bottomPanel = new JPanel();

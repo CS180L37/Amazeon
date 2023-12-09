@@ -37,6 +37,15 @@ public class Amazeon {
             JOptionPane.showMessageDialog(null, "Error", "title", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        try {
+            Product.getNonDeletedProductGreaterThanPrice(20);
+            Product.getNonDeletedProductLessThanPrice(50);
+            Product.getNonDeletedProductGreaterThanQuantity(30);
+            Product.getNonDeletedProductLessThanQuantity(10);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         SwingUtilities.invokeLater(new LoginGUI());
     }
 }

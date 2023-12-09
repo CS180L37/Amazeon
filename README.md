@@ -56,9 +56,9 @@ For an example of the process, view the screencast here:
 - [Sale.java](DOCS.md#Sale)
 - [Cart.java](DOCS.md#Cart)
 - [Utils.java](DOCS.md#Utils)
-- [ValidInterface.java](DOCS.md#ValidInterface)
+- [ValidateInterface.java](DOCS.md#ValidateInterface)
 - [Testing](DOCS.md#Testing)
 
-## Documentation
-- frontend
-- backend
+### Front-End
+### Back-End
+### Testing
