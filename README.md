@@ -61,4 +61,27 @@ For an example of the process, view the screencast here:
 
 ### Front-End
 ### Back-End
+Each class in the backend individually ensures its data persists.
+Aside from those fields mentioned, every class includes a documentReference field and a CollectionReference object. Generally, getter and setter methods do not exist for these fields. There are generally constructors that take every field other than these two as parameters, and contructors that take a QueryDocumentSnapshot as a parameter for initializing a pre-existing object from the database.
+There are also create<Object> methods (such as createCustomer(<params>)) for every class, as also methods for getting an object from the remote database using its ID (e.g. getCustomerById), sorting a given collection of such objects, with or without filtering deleted ones (e.g. sortNonDeletedCarts(String field, Direction direction), sortCarts(String field, Direction direction)), and getting the ID of the next such object in its collection in the remote database (last ID plus one).
+Finally, all 6 classes also have toString() and equals() methods.
+#### Customer & Seller
+The Customer and Seller classes, which are similar, both have the fields email, password, isDeleted, and products. In addition, Customer has customerId, and cart; Seller has name, sellerId, and sales. Both classes have constructors that take parameters of all these fields. Cart in Customer is the only field without a setter (as it is modified in the Cart class).
+Both of these classes have the functionality to find users from the database by their email, and marking the current user as deleted. In addition, the Customer class can be used to add a product to a customer's purchase history. The Seller class can also be used to add to their sales, and add or remove products from their range of products.
+#### Store
+The Store class has the fields storeId, name, isDeleted, storeProducts, and storeCustomers.
+It has the functionality to get a store's documentReference, and includes a centralized method that can be used to update the database with any changes.
+#### Cart
+The Cart class has the fields customerId, isDeleted, cartProducts, cartsCollection and documentReference.
+it has the functionality to purchase a cart, get a non-deleted by its ID, get multiple carts (with or without the filter of including deleted ones).
+#### Product
+The Product class has the fields productId, name, quantity, description, price, sellerId, storeId, and isDeleted.
+It has the functionality to fetch the document of the current instance of the product from the remote database, and fetch multiple or one product on the basis of their/its name(/s) or description(/s), with or without including deleted products.
+#### Sale
+The Sale class has the fields saleId, customerId, productId, cost, numPurchased, and isDeleted.
+It has the functionality to fetch the document of the current instance of the sale from the remote database and calculate the total of 
 ### Testing
+For testing, we made test cases for every method and they all pass.
+### Utils
+We have a field of static strings that can be used to query FireStore (such as fields.storeId which represents "storeId"), and some Enums.
+We also have functionality to validate any input by the user, and methods to initialize FireStore and read, write and retrieve data.
