@@ -38,7 +38,11 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
             if (e.getSource() == nameButton) {
                 frame.dispose();
                 frame = new JFrame();
-                frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                try {
+                    frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 Container content = frame.getContentPane();
                 content.setLayout(new BorderLayout());
@@ -82,7 +86,11 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                     public void actionPerformed(ActionEvent e) {
                         frame.dispose();
                         frame = new JFrame();
-                        frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                        try {
+                            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
 
 
                         Container content = frame.getContentPane();
@@ -143,7 +151,11 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
             if (e.getSource() == storeIdButton) {
                 frame.dispose();
                 frame = new JFrame();
-                frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                try {
+                    frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 Container content = frame.getContentPane();
                 content.setLayout(new BorderLayout());
@@ -187,7 +199,11 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                     public void actionPerformed(ActionEvent e) {
                         frame.dispose();
                         frame = new JFrame();
-                        frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                        try {
+                            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
 
                         Container content = frame.getContentPane();
                         content.setLayout(new BorderLayout());
@@ -246,7 +262,11 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
             if (e.getSource() == descriptionButton) {
                 frame.dispose();
                 frame = new JFrame();
-                frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                try {
+                    frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 Container content = frame.getContentPane();
                 content.setLayout(new BorderLayout());
@@ -289,7 +309,11 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                     public void actionPerformed(ActionEvent e) {
                         frame.dispose();
                         frame = new JFrame();
-                        frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                        try {
+                            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
 
                         Container content = frame.getContentPane();
                         content.setLayout(new BorderLayout());
