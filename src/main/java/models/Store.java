@@ -173,6 +173,40 @@ public class Store {
                 .collect(Collectors.toList());
     }
 
+    public static ArrayList<Store> getStoresByStoreName(String storeName)
+            throws IOException {
+        ArrayList<Store> storeList = new ArrayList<Store>();
+        ApiFuture<QuerySnapshot> future = Store.storesCollection.get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return storeList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            Store store = new Store(document);
+            if (store.name.toLowerCase().contains(storeName.toLowerCase())) {
+                storeList.add(store);
+            }
+        }
+        return storeList;
+    }
+
+    public static ArrayList<Store> getNonDeletedStoresByStoreName(String storeName)
+            throws IOException {
+        ArrayList<Store> storeList = new ArrayList<Store>();
+        ApiFuture<QuerySnapshot> future = Store.storesCollection.whereNotEqualTo(fields.isDeleted, true).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return storeList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            Store store = new Store(document);
+            if (store.name.toLowerCase().contains(storeName.toLowerCase())) {
+                storeList.add(store);
+            }
+        }
+        return storeList;
+    }
+
     public String getName() {
         return this.name;
     }
