@@ -41,7 +41,6 @@ public class CreateAccountGUI extends JComponent implements Runnable {
                         SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(null, "Invalid Email/Password. Please try again!", "Error Message", JOptionPane.ERROR_MESSAGE);
-                        throw new RuntimeException(ex);
                     }
                 } else {
                     try {
@@ -51,7 +50,6 @@ public class CreateAccountGUI extends JComponent implements Runnable {
                         SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(null, "Invalid Email/Password. Please try again!", "Error Message", JOptionPane.ERROR_MESSAGE);
-                        throw new RuntimeException(ex);
                     }
                 }
             }
