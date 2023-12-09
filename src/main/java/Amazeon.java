@@ -13,6 +13,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 import utils.Utils;
+import utils.fields;
 
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
