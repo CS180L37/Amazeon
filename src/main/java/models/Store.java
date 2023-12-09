@@ -146,9 +146,8 @@ public class Store {
     }
 
     public static ArrayList<Store> sortNonDeletedStores(String field, Direction direction) throws IOException {
-        Query q = storesCollection.whereNotEqualTo(fields.isDeleted, true);
-        ApiFuture<QuerySnapshot> future = q.orderBy(field, direction).get();
-        List<Store> stores = new ArrayList<Store>();
+        ApiFuture<QuerySnapshot> future = storesCollection.whereNotEqualTo(fields.isDeleted, true).get();
+        ArrayList<Store> stores = new ArrayList<>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
             return null;
@@ -161,7 +160,7 @@ public class Store {
                 stores.remove(i);
             }
         }
-        return new ArrayList<Store>(stores);
+        return stores;
     }
 
     public ArrayList<Integer> getStoreProductIds() {
