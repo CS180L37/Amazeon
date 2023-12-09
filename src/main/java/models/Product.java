@@ -245,6 +245,34 @@ public class Product {
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
+    public static Product getProductLessThanPrice(double price) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereLessThanOrEqualTo(fields.price, price).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getProductGreaterThanPrice(double price) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereGreaterThanOrEqualTo(fields.price, price).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getProductLessThanQuantity(int quantity) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereLessThanOrEqualTo(fields.quantity, quantity).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getProductGreaterThanQuantity(int quantity) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereGreaterThanOrEqualTo(fields.quantity, quantity).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
     public static Product getProductByDescription(String description) throws IOException {
         ApiFuture<QuerySnapshot> future = productsCollection
                 .whereArrayContains(fields.description, description).limit(1).get();
