@@ -245,60 +245,16 @@ public class Product {
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
-    public static Product getProductLessThanPrice(double price) throws IOException {
+    public static Product getProductByStoreName(String storeName) throws IOException {
         ApiFuture<QuerySnapshot> future = productsCollection
-                .whereLessThanOrEqualTo(fields.price, price).limit(1).get();
+                .whereArrayContains(fields.name, storeName).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
-    public static Product getProductGreaterThanPrice(double price) throws IOException {
-        ApiFuture<QuerySnapshot> future = productsCollection
-                .whereGreaterThanOrEqualTo(fields.price, price).limit(1).get();
-        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return (documents == null) ? null : new Product(documents.get(0));
-    }
-
-    public static Product getProductLessThanQuantity(int quantity) throws IOException {
-        ApiFuture<QuerySnapshot> future = productsCollection
-                .whereLessThanOrEqualTo(fields.quantity, quantity).limit(1).get();
-        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return (documents == null) ? null : new Product(documents.get(0));
-    }
-
-    public static Product getProductGreaterThanQuantity(int quantity) throws IOException {
-        ApiFuture<QuerySnapshot> future = productsCollection
-                .whereGreaterThanOrEqualTo(fields.quantity, quantity).limit(1).get();
-        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return (documents == null) ? null : new Product(documents.get(0));
-    }
-
-    public static Product getNonDeletedProductLessThanPrice(double price) throws IOException {
-        ApiFuture<QuerySnapshot> future = productsCollection
-                .whereLessThanOrEqualTo(fields.price, price).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
-        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return (documents == null) ? null : new Product(documents.get(0));
-    }
-
-    public static Product getNonDeletedProductGreaterThanPrice(double price) throws IOException {
-        ApiFuture<QuerySnapshot> future = productsCollection
-                .whereGreaterThanOrEqualTo(fields.price, price).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
-        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return (documents == null) ? null : new Product(documents.get(0));
-    }
-
-    public static Product getNonDeletedProductLessThanQuantity(int quantity) throws IOException {
-        ApiFuture<QuerySnapshot> future = productsCollection
-                .whereLessThanOrEqualTo(fields.quantity, quantity).whereNotEqualTo(fields.isDeleted, true).limit(1)
-                .get();
-        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-        return (documents == null) ? null : new Product(documents.get(0));
-    }
-
-    public static Product getNonDeletedProductGreaterThanQuantity(int quantity) throws IOException {
-        ApiFuture<QuerySnapshot> future = productsCollection
-                .whereGreaterThanOrEqualTo(fields.quantity, quantity).whereNotEqualTo(fields.isDeleted, true).limit(1)
-                .get();
+    public static Product getNonDeletedProductByStoreName(String storeName) throws IOException {
+        ApiFuture<QuerySnapshot> future = Store.storesCollection
+                .whereArrayContains(fields.name, storeName).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Product(documents.get(0));
     }
