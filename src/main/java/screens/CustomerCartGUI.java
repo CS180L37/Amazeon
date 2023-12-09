@@ -15,7 +15,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class CustomerCartGUI extends JComponent implements Runnable{
+public class CustomerCartGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton purchaseAllButton;
     JButton returnHomeButton;
@@ -24,7 +24,8 @@ public class CustomerCartGUI extends JComponent implements Runnable{
     Customer customer;
     Cart cart;
     ArrayList<Sale> sales;
-    public CustomerCartGUI(Customer customer){
+
+    public CustomerCartGUI(Customer customer) {
         this.customer = customer;
         cart = customer.getCart();
     }
@@ -33,19 +34,20 @@ public class CustomerCartGUI extends JComponent implements Runnable{
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == purchaseAllButton) {
-                for(int i = 0; i < cart.getCartProducts().size(); i++) {
+                for (int i = 0; i < cart.getCartProducts().size(); i++) {
                     try {
                         Product product = cart.getCartProducts().get(i);
                         product.setQuantity(product.getQuantity() - 1);
-                        //1) remove from cart
+                        // 1) remove from cart
                         cart.removeFromCart(product);
-                        //2) add to customer's product list
+                        // 2) add to customer's product list
                         ArrayList<Product> newProducts = customer.getProducts();
                         newProducts.add(product);
                         customer.setProducts(newProducts);
-                        //add to sales list of seller
+                        // add to sales list of seller
                         Seller seller = Seller.getSellerById(product.getSellerId());
-                        Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(), customer.getCustomerId(), product.getProductId(), 1);
+                        Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(), customer.getCustomerId(),
+                                product.getProductId(), 1);
                         ArrayList<Sale> newSales = seller.getSales();
                         newSales.add(sale);
                         seller.setSales(newSales);
@@ -68,13 +70,19 @@ public class CustomerCartGUI extends JComponent implements Runnable{
             }
         }
     };
+
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        Container content = frame.getContentPane(); //creates a container in which things go for that frame
-        content.setLayout(new BorderLayout()); //sets layout nicely
+        Container content = frame.getContentPane(); // creates a container in which things go for that frame
+        content.setLayout(new BorderLayout()); // sets layout nicely
 
-        //sets frame style and displays frame
+        // sets frame style and displays frame
         frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -105,7 +113,7 @@ public class CustomerCartGUI extends JComponent implements Runnable{
 
         middlePanel.add(new JLabel("Customer ID: " + customer.getCustomerId()), gbc);
         gbc.gridy++;
-        if(cart.getCartProducts().size() > 0){
+        if (cart.getCartProducts().size() > 0) {
             middlePanel.add(new JLabel("Products"), gbc);
             for (int i = 0; i < cart.getCartProducts().size(); i++) {
                 System.out.println(cart.getCartProducts().size());
@@ -116,7 +124,7 @@ public class CustomerCartGUI extends JComponent implements Runnable{
                         "<div>" + "Product Name: " + cart.getCartProducts().get(i).getName() + "</div>" +
                         "</div>" +
                         "</html>");
-                middlePanel.add(label,gbc);
+                middlePanel.add(label, gbc);
                 Product product = cart.getCartProducts().get(i);
                 gbc.gridy++;
                 JButton removeButton = new JButton("Remove");
@@ -129,7 +137,8 @@ public class CustomerCartGUI extends JComponent implements Runnable{
                     public void actionPerformed(ActionEvent e) {
                         try {
                             cart.removeFromCart(product);
-                            JOptionPane.showMessageDialog(null, "Removed From Cart!", "Add To Cart", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Removed From Cart!", "Add To Cart",
+                                    JOptionPane.INFORMATION_MESSAGE);
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -140,21 +149,23 @@ public class CustomerCartGUI extends JComponent implements Runnable{
                     public void actionPerformed(ActionEvent e) {
                         try {
                             String[] options = new String[product.getQuantity()];
-                            for(int i = 0; i < options.length; i++) {
+                            for (int i = 0; i < options.length; i++) {
                                 options[i] = String.valueOf(i + 1);
                             }
-                            int numPurchase = Integer.parseInt((String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
-                                    JOptionPane.PLAIN_MESSAGE, null, options, null));
+                            int numPurchase = Integer.parseInt(
+                                    (String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
+                                            JOptionPane.PLAIN_MESSAGE, null, options, null));
                             product.setQuantity(product.getQuantity() - numPurchase);
-                            //1) remove from cart
+                            // 1) remove from cart
                             cart.removeFromCart(product);
-                            //2) add to customer's product list
+                            // 2) add to customer's product list
                             ArrayList<Product> newProducts = customer.getProducts();
                             newProducts.add(product);
                             customer.setProducts(newProducts);
-                            //add to sales list of seller
+                            // add to sales list of seller
                             Seller seller = Seller.getSellerById(product.getSellerId());
-                            Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(), customer.getCustomerId(), product.getProductId(), numPurchase);
+                            Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(),
+                                    customer.getCustomerId(), product.getProductId(), numPurchase);
                             ArrayList<Sale> newSales = seller.getSales();
                             newSales.add(sale);
                             seller.setSales(newSales);
@@ -173,7 +184,7 @@ public class CustomerCartGUI extends JComponent implements Runnable{
         }
         content.add(middlePanel, BorderLayout.CENTER);
     }
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new CustomerCartGUI());
-//    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new CustomerCartGUI());
+    // }
 }

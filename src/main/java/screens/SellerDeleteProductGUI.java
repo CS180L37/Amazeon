@@ -14,7 +14,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class SellerDeleteProductGUI extends JComponent implements Runnable{
+public class SellerDeleteProductGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton deleteButton;
     JButton returnHomeButton;
@@ -30,7 +30,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == deleteButton) {
+            if (e.getSource() == deleteButton) {
                 Product product;
                 try {
                     product = Product.getProductById(Integer.parseInt(productId.getText()));
@@ -44,11 +44,11 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
                     throw new RuntimeException(ex);
                 }
             }
-            if(e.getSource() == logOutButton) {
+            if (e.getSource() == logOutButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
-            if(e.getSource() == returnHomeButton) {
+            if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
@@ -62,6 +62,11 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
 
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -98,7 +103,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(5,5,5,5);
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         middlePanel.add(deleteLabel, gbc);
         gbc.gridy++;
@@ -108,7 +113,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable{
 
         content.add(middlePanel, BorderLayout.CENTER);
     }
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new SellerDeleteProductGUI());
-//    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new SellerDeleteProductGUI());
+    // }
 }

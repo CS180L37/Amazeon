@@ -15,7 +15,7 @@ import models.Seller;
 import models.Store;
 
 public class SellerDashboardTwoGUI extends JComponent implements Runnable {
-    //sorts products by number of sales
+    // sorts products by number of sales
     JFrame frame;
 
     JButton sortOneButton;
@@ -31,15 +31,15 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == sortOneButton) {
+            if (e.getSource() == sortOneButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new SellerDashboardOneGUI(seller));
             }
-            if(e.getSource() == logOutButton) {
+            if (e.getSource() == logOutButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
-            if(e.getSource() == returnHomeButton) {
+            if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
@@ -51,9 +51,13 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         }
     };
 
-
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -90,7 +94,7 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(5,5,5,5);
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         ArrayList<Product> sortedProducts = new ArrayList<Product>();
         for (int i = 0; i < seller.getProducts().size(); i++) {
@@ -98,10 +102,10 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         }
 
         ArrayList<Integer> numSalesPerProduct = new ArrayList<Integer>();
-        for(int i = 0; i < sortedProducts.size(); i++){
+        for (int i = 0; i < sortedProducts.size(); i++) {
             int numPurchased = 0;
-            for(int j = 0 ; j < seller.getSales().size(); j++) {
-                if(seller.getSales().get(j).getProductId() == sortedProducts.get(i).getProductId()) {
+            for (int j = 0; j < seller.getSales().size(); j++) {
+                if (seller.getSales().get(j).getProductId() == sortedProducts.get(i).getProductId()) {
                     numPurchased += seller.getSales().get(j).getNumPurchased();
                 } else {
                     numPurchased += 0;
@@ -113,8 +117,7 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         for (int i = 0; i < numSalesPerProduct.size() - 1; i++) {
             int minIndex = i;
             for (int j = 0; j < numSalesPerProduct.size(); j++) {
-                if (numSalesPerProduct.get(j) <
-                        numSalesPerProduct.get(minIndex)) {
+                if (numSalesPerProduct.get(j) < numSalesPerProduct.get(minIndex)) {
                     minIndex = j;
                 }
             }
@@ -127,8 +130,9 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
             numSalesPerProduct.set(minIndex, numSales);
         }
 
-        for(int i = 0; i < sortedProducts.size(); i++) {
-            JLabel productName = new JLabel("Product " + i + " Name: " + sortedProducts.get(i).getName() + "       Num Sales: " + numSalesPerProduct.get(i));
+        for (int i = 0; i < sortedProducts.size(); i++) {
+            JLabel productName = new JLabel("Product " + i + " Name: " + sortedProducts.get(i).getName()
+                    + "       Num Sales: " + numSalesPerProduct.get(i));
 
             middlePanel.add(productName, gbc);
             gbc.gridy++;
@@ -136,8 +140,7 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         content.add(middlePanel, BorderLayout.CENTER);
 
     }
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new SellerDashboardTwoGUI());
-//    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new SellerDashboardTwoGUI());
+    // }
 }
-

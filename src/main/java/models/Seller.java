@@ -163,6 +163,12 @@ public class Seller {
 
     // Called to create a seller
     public static Seller createSeller(String email, String password, String name) throws IOException {
+        if (!Utils.validateEmail(email)) {
+            throw new IOException("Invalid email");
+        }
+        if (!Utils.validatePassword(password)) {
+            throw new IOException("Invalid password");
+        }
         Map<String, Object> sellerData = new HashMap<String, Object>();
         int sellerId = Seller.getNextSellerId();
         // Add data to db

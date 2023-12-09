@@ -25,6 +25,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
 
     Seller seller;
     Product product;
+
     public SellerUpdateProductGUI(Seller seller, Product product) {
         this.seller = seller;
         this.product = product;
@@ -34,39 +35,40 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == editProductButton) {
-                for(int i = 0; i < seller.getProducts().size(); i++) {
-                    if(seller.getProducts().get(i).equals(product)) {
-                        if(!strId.getText().equals("")) {
+            if (e.getSource() == editProductButton) {
+                for (int i = 0; i < seller.getProducts().size(); i++) {
+                    if (seller.getProducts().get(i).equals(product)) {
+                        if (!strId.getText().equals("")) {
                             seller.getProducts().get(i).setStoreId(Integer.parseInt(strId.getText()));
                         }
-                        if(!nme.getText().equals("")){
+                        if (!nme.getText().equals("")) {
                             seller.getProducts().get(i).setName(nme.getText());
                         }
-                        if(!desc.getText().equals("")){
+                        if (!desc.getText().equals("")) {
                             seller.getProducts().get(i).setDescription(desc.getText());
                         }
-                        if(!quan.getText().equals("")){
+                        if (!quan.getText().equals("")) {
                             seller.getProducts().get(i).setQuantity(Integer.parseInt(quan.getText()));
                         }
-                        if(!prce.getText().equals("")){
+                        if (!prce.getText().equals("")) {
                             seller.getProducts().get(i).setPrice(Double.parseDouble(prce.getText()));
                         }
                     }
                 }
                 frame.dispose();
-                JOptionPane.showMessageDialog(null, "Product Updated!", "Update Product", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Product Updated!", "Update Product",
+                        JOptionPane.INFORMATION_MESSAGE);
                 try {
                     SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             }
-            if(e.getSource() == logOutButton) {
+            if (e.getSource() == logOutButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
-            if(e.getSource() == returnHomeButton) {
+            if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
@@ -77,8 +79,14 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
             }
         }
     };
+
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -100,7 +108,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         nme = new JTextField(10);
         desc = new JTextField(10);
         quan = new JTextField(10);
-        prce= new JTextField(10);
+        prce = new JTextField(10);
 
         editProductButton = new JButton("Edit Product");
         editProductButton.addActionListener(actionListener);
@@ -125,8 +133,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(5,5,5,5);
-
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         middlePanel.add(newStoreID, gbc);
         gbc.gridx++;
@@ -151,16 +158,16 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         middlePanel.add(newPrice, gbc);
         gbc.gridx++;
         middlePanel.add(prce, gbc);
-//        gbc.gridx--;
+        // gbc.gridx--;
         gbc.gridy++;
         middlePanel.add(editProductButton, gbc);
 
         content.add(middlePanel, BorderLayout.CENTER);
 
-
     }
-//    public static void main(String[] args) {
-//        Product product  = new Product(1, "Sour Patch", 7, "sweet and sour candy", 3.00, 1, 1);
-//        SwingUtilities.invokeLater(new EditProductGUI(product));
-//    }
+    // public static void main(String[] args) {
+    // Product product = new Product(1, "Sour Patch", 7, "sweet and sour candy",
+    // 3.00, 1, 1);
+    // SwingUtilities.invokeLater(new EditProductGUI(product));
+    // }
 }

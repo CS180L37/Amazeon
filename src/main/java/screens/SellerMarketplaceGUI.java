@@ -13,7 +13,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class SellerMarketplaceGUI extends JComponent implements Runnable{
+public class SellerMarketplaceGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton createButton;
     JButton editButton;
@@ -30,14 +30,14 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
     Seller seller;
     ArrayList<Product> products;
 
-    //constructor -- needed to create this mock data
+    // constructor -- needed to create this mock data
     public SellerMarketplaceGUI(Seller seller) throws IOException {
         this.seller = seller;
         products = seller.getProducts();
     }
 
-
-    //action listeners --> depending on what button you click, you do certain things (for now only the dropdowns are implemented)
+    // action listeners --> depending on what button you click, you do certain
+    // things (for now only the dropdowns are implemented)
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -45,11 +45,11 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
                 frame.dispose();
                 SwingUtilities.invokeLater(new SellerCreateProductGUI(seller));
             }
-            if(e.getSource() == deleteButton) {
+            if (e.getSource() == deleteButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new SellerDeleteProductGUI(seller));
             }
-            if(e.getSource() == editButton) {
+            if (e.getSource() == editButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new SellerEditProductGUI(seller));
             }
@@ -79,23 +79,25 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
         }
     };
 
-
-
-    //everything that needs to be displayed goes into the run method
+    // everything that needs to be displayed goes into the run method
     public void run() {
-        frame = new JFrame("Seller Marketplace"); //creates frame
+        frame = new JFrame("Seller Marketplace"); // creates frame
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        Container content = frame.getContentPane(); //creates a container in which things go for that frame
-        content.setLayout(new BorderLayout()); //sets layout nicely
+        Container content = frame.getContentPane(); // creates a container in which things go for that frame
+        content.setLayout(new BorderLayout()); // sets layout nicely
 
-        //sets frame style and displays frame
+        // sets frame style and displays frame
         frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
 
-
-        //initialize your buttons and add action listsners to each
+        // initialize your buttons and add action listsners to each
         createButton = new JButton("Create");
         createButton.addActionListener(actionListener);
 
@@ -114,13 +116,8 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
         cartButton = new JButton("Cart");
         cartButton.addActionListener(actionListener);
 
-
-
-
-
-
-        //dashboard button's dropdown menu
-        sortDashboardMenu= new JPopupMenu("Dashboard");
+        // dashboard button's dropdown menu
+        sortDashboardMenu = new JPopupMenu("Dashboard");
 
         menuItemSort1 = new JMenuItem("Sort 1");
         menuItemSort1.addActionListener(actionListener);
@@ -130,10 +127,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
         menuItemSort2.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort2);
 
-
-
-
-        //creates panel at top of frame and adds buttons
+        // creates panel at top of frame and adds buttons
         JPanel topPanel = new JPanel();
         topPanel.add(createButton);
         topPanel.add(editButton);
@@ -144,7 +138,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 
         content.add(topPanel, BorderLayout.NORTH); // adds the panel to the container
 
-        //creates panel at bottom and adds log out button
+        // creates panel at bottom and adds log out button
         logOutButton = new JButton("Log Out");
         logOutButton.addActionListener(actionListener);
 
@@ -153,33 +147,35 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 
         content.add(bottomPanel, BorderLayout.SOUTH); // adds panel to container
 
-        //creates panel in middle
+        // creates panel in middle
         JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
+        middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in
+                                                     // the marketplace
 
-        //iterates through stores list and each stores products' list in order to display product information
-        //change to seller's products (currently it is customer's products)
-        for(int i = 0; i < products.size(); i++){
+        // iterates through stores list and each stores products' list in order to
+        // display product information
+        // change to seller's products (currently it is customer's products)
+        for (int i = 0; i < products.size(); i++) {
             JButton productButton;
             try {
-                productButton = new JButton( //html used for style purposes only
+                productButton = new JButton( // html used for style purposes only
                         "<html>" +
                                 "<div style='text-align: center;'>" +
                                 "<div>" + "Product Name: " + products.get(i).getName() + "</div>" +
-                                "<div>" + "StoreName: " + Store.getStoreById(products.get(i).getStoreId()).getName() + "</div>" +
+                                "<div>" + "StoreName: " + Store.getStoreById(products.get(i).getStoreId()).getName()
+                                + "</div>" +
                                 "<div>" + "Product Stock: " + products.get(i).getQuantity() + "</div>" +
                                 "</div>" +
-                                "</html>"
-                );
+                                "</html>");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            productButton.setPreferredSize(new Dimension(200, 100)); //sets size of each product button
+            productButton.setPreferredSize(new Dimension(200, 100)); // sets size of each product button
             middlePanel.add(productButton);
 
         }
 
-        //sets up a scroll bar for panel
+        // sets up a scroll bar for panel
         JScrollPane scrollPane = new JScrollPane(middlePanel);
 
         // Set preferred size of the scroll pane
@@ -190,11 +186,11 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable{
 
     }
 
-//    public static void main (String[] args) { //runs the program
-//        try{
-//            SwingUtilities.invokeLater(new SellerMarketplaceGUI());
-//        } catch(Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    // public static void main (String[] args) { //runs the program
+    // try{
+    // SwingUtilities.invokeLater(new SellerMarketplaceGUI());
+    // } catch(Exception e){
+    // e.printStackTrace();
+    // }
+    // }
 }

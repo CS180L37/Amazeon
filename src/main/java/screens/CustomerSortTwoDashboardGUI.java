@@ -16,8 +16,8 @@ import models.Seller;
 import models.Store;
 import utils.fields;
 
-public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
-    //sorts stores by products purchased by this particular customer
+public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable {
+    // sorts stores by products purchased by this particular customer
     JFrame frame;
     JButton sortByProductsSoldButton;
     JButton returnHomeButton;
@@ -57,8 +57,14 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
             }
         }
     };
+
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -75,7 +81,7 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
         topPanel.add(sortByProductsSoldButton);
         content.add(topPanel, BorderLayout.NORTH);
 
-        //sorting
+        // sorting
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new GridBagLayout());
 
@@ -103,8 +109,9 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
                     ArrayList<Sale> sales;
                     try {
                         sales = Seller.getSellerById(product.getSellerId()).getSales();
-                        for(int j = 0; j < sales.size(); j++) {
-                            if(sales.get(i).getCustomerId() == customer.getCustomerId() && sales.get(i).getProductId() == product.getProductId())
+                        for (int j = 0; j < sales.size(); j++) {
+                            if (sales.get(i).getCustomerId() == customer.getCustomerId()
+                                    && sales.get(i).getProductId() == product.getProductId())
                                 numProductsPurchased += sales.get(i).getNumPurchased();
                         }
                     } catch (IOException e) {
@@ -115,8 +122,7 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
             numPurchasedEachStore.add(i, numProductsPurchased);
         }
 
-
-    // sorts stores
+        // sorts stores
         for (int i = 0; i < numPurchasedEachStore.size() - 1; i++) {
             int maxIndex = i;
             for (int j = 0; j < numPurchasedEachStore.size(); j++) {
@@ -134,8 +140,9 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
             sortedStores.set(maxIndex, store);
         }
 
-        for(int i = 0; i < sortedStores.size(); i++){
-            JLabel storeName = new JLabel(sortedStores.get(i).getName() + " -- Num Products Purchased: " + numPurchasedEachStore.get(i));
+        for (int i = 0; i < sortedStores.size(); i++) {
+            JLabel storeName = new JLabel(
+                    sortedStores.get(i).getName() + " -- Num Products Purchased: " + numPurchasedEachStore.get(i));
             middlePanel.add(storeName, gbc);
             gbc.gridy++;
         }
@@ -151,7 +158,7 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable{
         bottomPanel.add(logOutButton);
         content.add(bottomPanel, BorderLayout.SOUTH);
     }
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new CustomerSortTwoDashboardGUI());
-//    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new CustomerSortTwoDashboardGUI());
+    // }
 }

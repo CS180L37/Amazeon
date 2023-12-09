@@ -16,8 +16,8 @@ import models.Seller;
 import models.Store;
 import utils.fields;
 
-public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
-    //sorts stores by products sold
+public class CustomerSortOneDashboardGUI extends JComponent implements Runnable {
+    // sorts stores by products sold
     JFrame frame;
     JButton sortByProductsPurchasedButton;
     JButton returnHomeButton;
@@ -56,8 +56,14 @@ public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
             }
         }
     };
+
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -74,8 +80,7 @@ public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
         topPanel.add(sortByProductsPurchasedButton);
         content.add(topPanel, BorderLayout.NORTH);
 
-
-        //sorting
+        // sorting
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new GridBagLayout());
 
@@ -83,7 +88,6 @@ public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 0);
-
 
         ArrayList<Store> sortedStores = new ArrayList<Store>();
         for (int i = 0; i < stores.size(); i++) {
@@ -125,8 +129,9 @@ public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
             sortedStores.set(maxIndex, store);
         }
 
-        for(int i = 0; i < sortedStores.size(); i++){
-            JLabel storeName = new JLabel(sortedStores.get(i).getName() + " -- Num Products Sold: " + numProductsSold.get(i));
+        for (int i = 0; i < sortedStores.size(); i++) {
+            JLabel storeName = new JLabel(
+                    sortedStores.get(i).getName() + " -- Num Products Sold: " + numProductsSold.get(i));
             middlePanel.add(storeName, gbc);
             gbc.gridy++;
         }
@@ -143,7 +148,7 @@ public class CustomerSortOneDashboardGUI extends JComponent implements Runnable{
         content.add(bottomPanel, BorderLayout.SOUTH);
 
     }
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new CustomerSortOneDashboardGUI());
-//    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new CustomerSortOneDashboardGUI());
+    // }
 }
