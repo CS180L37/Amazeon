@@ -60,7 +60,7 @@ public class Cart {
             e.printStackTrace();
         }
         return new Cart(customerId, new ArrayList<Product>());
-        
+
     }
 
     // public void deleteCart() throws IOException {
@@ -195,7 +195,8 @@ public class Cart {
     }
 
     public static ArrayList<Cart> sortNonDeletedCarts(String field, Direction direction) throws IOException {
-        ApiFuture<QuerySnapshot> future = cartsCollection.whereNotEqualTo(fields.isDeleted, true)
+        ApiFuture<QuerySnapshot> future = cartsCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true)
                 .orderBy(field, direction).get();
         ArrayList<Cart> carts = new ArrayList<Cart>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
