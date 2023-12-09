@@ -1,5 +1,9 @@
 package screens;
+
 import javax.swing.*;
+
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -11,42 +15,42 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class LoginGUI extends JComponent implements Runnable{
+public class LoginGUI extends JComponent implements Runnable {
     JFrame frame;
-    JTextField emailTextField; //email input text field
-    JTextField passwordTextField; //password input text field
-    JButton loginButton; //login button
-    JButton createAccountButton; //should display createAccountGUI
+    JTextField emailTextField; // email input text field
+    JTextField passwordTextField; // password input text field
+    JButton loginButton; // login button
+    JButton createAccountButton; // should display createAccountGUI
 
     String email;
     String password;
 
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == loginButton) {
+            if (e.getSource() == loginButton) {
                 email = String.valueOf(emailTextField.getText());
                 password = String.valueOf(passwordTextField.getText());
                 System.out.println(email + " " + password);
                 try {
-                    if(Customer.customerExists(email, password)) {
+                    if (Customer.customerExists(email, password)) {
                         Customer customer = Customer.getCustomerByEmail(email);
                         frame.dispose();
                         SwingUtilities.invokeLater((new CustomerMarketplaceGUI(customer)));
-                    }
-                    else {
-                        if(Seller.sellerExists(email, password)) {
+                    } else {
+                        if (Seller.sellerExists(email, password)) {
                             Seller seller = Seller.getSellerByEmail(email);
                             frame.dispose();
                             SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                         } else {
-                            JOptionPane.showMessageDialog(null, "Invalid username or password! Please try again.","Invalid Account", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Invalid username or password! Please try again.",
+                                    "Invalid Account", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             }
-            if(e.getSource() == createAccountButton) {
+            if (e.getSource() == createAccountButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new CreateAccountGUI());
             }
@@ -56,13 +60,13 @@ public class LoginGUI extends JComponent implements Runnable{
     FocusListener focusListener = new FocusListener() {
         @Override
         public void focusGained(FocusEvent e) {
-            if(e.getSource() == emailTextField){
-                if(emailTextField.getText().equals("Email")){
+            if (e.getSource() == emailTextField) {
+                if (emailTextField.getText().equals("Email")) {
                     emailTextField.setText("");
                 }
             }
-            if(e.getSource() == passwordTextField){
-                if(passwordTextField.getText().equals("Password")){
+            if (e.getSource() == passwordTextField) {
+                if (passwordTextField.getText().equals("Password")) {
                     passwordTextField.setText("");
                 }
             }
@@ -71,13 +75,13 @@ public class LoginGUI extends JComponent implements Runnable{
 
         @Override
         public void focusLost(FocusEvent e) {
-            if(e.getSource() == emailTextField){
-                if(emailTextField.getText().isEmpty()) {
+            if (e.getSource() == emailTextField) {
+                if (emailTextField.getText().isEmpty()) {
                     emailTextField.setText("Email");
                 }
             }
-            if(e.getSource() == passwordTextField){
-                if(passwordTextField.getText().isEmpty()) {
+            if (e.getSource() == passwordTextField) {
+                if (passwordTextField.getText().isEmpty()) {
                     passwordTextField.setText("Password");
                 }
             }
@@ -86,6 +90,11 @@ public class LoginGUI extends JComponent implements Runnable{
 
     public void run() {
         frame = new JFrame("Login");
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -110,14 +119,13 @@ public class LoginGUI extends JComponent implements Runnable{
 
         content.add(topPanel, BorderLayout.NORTH);
 
-
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(7, 7, 7, 7);
-        
+
         middlePanel.add(emailTextField, gbc);
 
         gbc.gridy++;

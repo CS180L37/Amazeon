@@ -14,7 +14,7 @@ import models.Sale;
 import models.Seller;
 import models.Store;
 
-public class SellerSalesGUI extends JComponent implements Runnable{
+public class SellerSalesGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton returnHomeButton;
     JButton logOutButton;
@@ -22,6 +22,7 @@ public class SellerSalesGUI extends JComponent implements Runnable{
     Seller seller;
 
     ArrayList<Sale> sales = new ArrayList<Sale>();
+
     public SellerSalesGUI(Seller seller) {
         this.seller = seller;
         sales = seller.getSales();
@@ -30,11 +31,11 @@ public class SellerSalesGUI extends JComponent implements Runnable{
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == logOutButton) {
+            if (e.getSource() == logOutButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
-            if(e.getSource() == returnHomeButton) {
+            if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
@@ -45,8 +46,14 @@ public class SellerSalesGUI extends JComponent implements Runnable{
             }
         }
     };
+
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -73,12 +80,13 @@ public class SellerSalesGUI extends JComponent implements Runnable{
         content.add(bottomPanel, BorderLayout.SOUTH);
 
         JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in the marketplace
+        middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of products in
+                                                     // the marketplace
 
-        for(int i = 0; i < sales.size(); i++) {
+        for (int i = 0; i < sales.size(); i++) {
             JButton salesButton = new JButton("Sale ID: " + sales.get(i).getSaleId());
 
-            salesButton.setPreferredSize(new Dimension(150, 30)); //sets size of each product button
+            salesButton.setPreferredSize(new Dimension(150, 30)); // sets size of each product button
             middlePanel.add(salesButton);
             Sale sale = sales.get(i);
             salesButton.addActionListener(new ActionListener() {
@@ -94,7 +102,7 @@ public class SellerSalesGUI extends JComponent implements Runnable{
         }
         content.add(middlePanel, BorderLayout.CENTER);
     }
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new SellerSalesGUI());
-//    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new SellerSalesGUI());
+    // }
 }

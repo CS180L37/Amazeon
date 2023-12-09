@@ -17,7 +17,7 @@ import models.Store;
 public class CustomerProductPage extends JComponent implements Runnable {
     JFrame frame;
 
-    JButton addToCartButton;//should be add to cart button
+    JButton addToCartButton;// should be add to cart button
     JButton returnHomeButton;
     JButton logOutButton;
 
@@ -41,8 +41,8 @@ public class CustomerProductPage extends JComponent implements Runnable {
         this.customer = customer;
         this.product = product;
         quantityOptions = new String[quantity];
-        for(int i = 0; i < quantity; i++){
-            quantityOptions[i] = String.valueOf(i+1);
+        for (int i = 0; i < quantity; i++) {
+            quantityOptions[i] = String.valueOf(i + 1);
         }
     }
 
@@ -50,8 +50,9 @@ public class CustomerProductPage extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == addToCartButton) {
-                if(product.getQuantity() <= 0) {
-                    JOptionPane.showMessageDialog(null, "Out of Stock!", "Out of Stock", JOptionPane.INFORMATION_MESSAGE);
+                if (product.getQuantity() <= 0) {
+                    JOptionPane.showMessageDialog(null, "Out of Stock!", "Out of Stock",
+                            JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     customer.getCart().addToCart(product);
                 }
@@ -70,8 +71,14 @@ public class CustomerProductPage extends JComponent implements Runnable {
             }
         }
     };
-    public void run(){
+
+    public void run() {
         frame = new JFrame("Login");
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -84,11 +91,11 @@ public class CustomerProductPage extends JComponent implements Runnable {
         JLabel productInfo = new JLabel("Product Information");
         JLabel storeName = new JLabel("<html>&#8226; " + "Store Name: " + this.storeName + "</html>");
         JLabel productName = new JLabel("<html>&#8226; " + "Product Name: " + this.productName + "</html>");
-        JLabel description = new JLabel("<html>&#8226; " +  "Product Description: " + this.description + "</html>");
+        JLabel description = new JLabel("<html>&#8226; " + "Product Description: " + this.description + "</html>");
         JLabel quantity = new JLabel("<html>&#8226; " + "Product Quantity: " + this.quantity + "</html>");
         JLabel price = new JLabel("<html>&#8226; " + "Product Price: " + this.price + "0" + "</html>");
 
-        //setting a visible font size and spacing for labels
+        // setting a visible font size and spacing for labels
         Font largerFont = productInfo.getFont().deriveFont(15f); // Replace 20f with your desired font size
         productInfo.setFont(largerFont);
         storeName.setFont(largerFont);
@@ -132,12 +139,11 @@ public class CustomerProductPage extends JComponent implements Runnable {
 
         content.add(westPanel, BorderLayout.WEST);
 
-        //sets up a scroll bar for panel
+        // sets up a scroll bar for panel
         JScrollPane scrollPane = new JScrollPane(westPanel);
         scrollPane.setPreferredSize(new Dimension(200, 300)); // Set preferred size of the scroll pane
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         content.add(scrollPane, BorderLayout.CENTER); // adds the scroll bar to the container
-
 
         JPanel eastPanel = new JPanel();
         eastPanel.setLayout(new GridBagLayout());
@@ -145,14 +151,14 @@ public class CustomerProductPage extends JComponent implements Runnable {
         GridBagConstraints gbcc = new GridBagConstraints();
         gbcc.gridx = 0;
         gbcc.gridy = 0;
-        gbcc.insets = new Insets(5,5,5,5);
+        gbcc.insets = new Insets(5, 5, 5, 5);
 
         JLabel prevPurchase = new JLabel("Previously Purchased Items");
         eastPanel.add(prevPurchase, gbcc);
-        for(int i = 0; i < customer.getProducts().size(); i++){
+        for (int i = 0; i < customer.getProducts().size(); i++) {
             System.out.println(customer.getProducts().get(i));
             gbcc.gridy++;
-            JLabel label = new JLabel( "<html>" +
+            JLabel label = new JLabel("<html>" +
                     "<div style='text-align: center;'>" +
                     "<div>" + "Product Name: " + customer.getProducts().get(i).getName() + "</div>" +
                     "<div>" + "StoreName: " + customer.getProducts().get(i).getQuantity() + "</div>" +
@@ -162,7 +168,6 @@ public class CustomerProductPage extends JComponent implements Runnable {
         }
 
         content.add(eastPanel, BorderLayout.EAST);
-
 
         returnHomeButton = new JButton("Return Home");
         returnHomeButton.addActionListener(actionListener);
@@ -181,8 +186,8 @@ public class CustomerProductPage extends JComponent implements Runnable {
     }
 
     public static void main(String[] args) {
-////        Product product = new Product(1, "Candy", 7, "sweet and sour",2.00, 1, 1);
-////        SwingUtilities.invokeLater(new CustomerProductPage(product));
+        //// Product product = new Product(1, "Candy", 7, "sweet and sour",2.00, 1, 1);
+        //// SwingUtilities.invokeLater(new CustomerProductPage(product));
     }
 
 }

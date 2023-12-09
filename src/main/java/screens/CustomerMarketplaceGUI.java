@@ -46,7 +46,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
 
     // constructor -- needed to create this mock data
     public CustomerMarketplaceGUI(Customer customer) throws IOException {
-//        System.out.println("getting here"); //for debugging
+        // System.out.println("getting here"); //for debugging
         this.customer = customer;
         stores = Store.sortNonDeletedStores(fields.storeId, Query.Direction.ASCENDING);
     }
@@ -100,7 +100,6 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 middlePanel.repaint();
                 middlePanel.setLayout(new GridLayout(0, 1)); // creates layout needed for a vertical arranagement of
                                                              // products in the marketplace
-
 
                 ArrayList<Product> allProducts = new ArrayList<Product>();
                 for (int i = 0; i < stores.size(); i++) {
@@ -215,6 +214,11 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
     // everything that needs to be displayed goes into the run method
     public void run() {
         frame = new JFrame("Customer Marketplace"); // creates frame
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         content = frame.getContentPane(); // creates a container in which things go for that frame
         content.setLayout(new BorderLayout()); // sets layout nicely
@@ -294,7 +298,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 JButton productButton = new JButton( // html used for style purposes only
                         "<html>" +
                                 "<div style='text-align: center;'>" +
-                                "<div>" + "Product Name: " + stores.get(i).getStoreProducts().get(j).getName() + "</div>"
+                                "<div>" + "Product Name: " + stores.get(i).getStoreProducts().get(j).getName()
+                                + "</div>"
                                 +
                                 "<div>" + "StoreName: " + stores.get(i).getName() + "</div>" +
                                 "<div>" + "Product Price: $" + stores.get(i).getStoreProducts().get(j).getPrice() + "0"
@@ -329,11 +334,11 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
 
     }
 
-//    public static void main(String[] args) { // runs the program
-//        try {
-//            SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    // public static void main(String[] args) { // runs the program
+    // try {
+    // SwingUtilities.invokeLater(new CustomerMarketplaceGUI());
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+    // }
 }

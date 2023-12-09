@@ -13,6 +13,7 @@ import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+
 public class SellerCartGUI extends JComponent implements Runnable {
     JFrame frame;
     JButton returnHomeButton;
@@ -21,18 +22,20 @@ public class SellerCartGUI extends JComponent implements Runnable {
     Seller seller;
 
     ArrayList<Sale> sales;
+
     public SellerCartGUI(Seller seller) {
         this.seller = seller;
         sales = seller.getSales();
     }
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == logOutButton) {
+            if (e.getSource() == logOutButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
             }
-            if(e.getSource() == returnHomeButton) {
+            if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
@@ -43,8 +46,14 @@ public class SellerCartGUI extends JComponent implements Runnable {
             }
         }
     };
+
     public void run() {
         frame = new JFrame();
+        try {
+            frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -70,14 +79,14 @@ public class SellerCartGUI extends JComponent implements Runnable {
         content.add(bottomPanel, BorderLayout.SOUTH);
 
         JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new GridLayout(0,1));
+        middlePanel.setLayout(new GridLayout(0, 1));
 
         ArrayList<Customer> customers = new ArrayList<Customer>();
-        for(int i = 0; i < sales.size(); i++) {
+        for (int i = 0; i < sales.size(); i++) {
             Customer customer;
             try {
                 customer = Customer.getCustomerById(sales.get(i).getCustomerId());
-                if(!customers.contains(customer)) {
+                if (!customers.contains(customer)) {
                     customers.add(customer);
                 }
             } catch (IOException e) {
@@ -85,18 +94,19 @@ public class SellerCartGUI extends JComponent implements Runnable {
             }
         }
 
-        for(int i = 0; i < customers.size(); i++) {
+        for (int i = 0; i < customers.size(); i++) {
             ArrayList<Product> cartProducts = customers.get(i).getCart().getCartProducts();
-            if(cartProducts.size() <= 0) {
+            if (cartProducts.size() <= 0) {
                 JLabel label = new JLabel("Nothing in cart currently");
                 middlePanel.add(label);
             } else {
-                for(int j = 0; j < cartProducts.size(); j++) {
+                for (int j = 0; j < cartProducts.size(); j++) {
                     try {
                         JLabel label = new JLabel("<html>" +
                                 "<div style='text-align: center;'>" +
                                 "<div>" + "Customer ID: " + customers.get(i).getCustomerId() + "</div>" +
-                                "<div>" + "Store Name: " + Store.getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
+                                "<div>" + "Store Name: "
+                                + Store.getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
                                 "<div>" + "Product Description: " + cartProducts.get(j).getDescription() + "</div>" +
                                 "<div>" + "Product Price: $" + cartProducts.get(j).getPrice() + "0" + "</div>" +
                                 "</div>" +
@@ -117,7 +127,7 @@ public class SellerCartGUI extends JComponent implements Runnable {
 
         content.add(scrollPane, BorderLayout.CENTER); // adds the scroll bar to the container
     }
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new SellerCartGUI());
-//    }
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(new SellerCartGUI());
+    // }
 }
