@@ -273,6 +273,36 @@ public class Product {
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
+    public static Product getNonDeletedProductLessThanPrice(double price) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereLessThanOrEqualTo(fields.price, price).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getNonDeletedProductGreaterThanPrice(double price) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereGreaterThanOrEqualTo(fields.price, price).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getNonDeletedProductLessThanQuantity(int quantity) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereLessThanOrEqualTo(fields.quantity, quantity).whereNotEqualTo(fields.isDeleted, true).limit(1)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
+    public static Product getNonDeletedProductGreaterThanQuantity(int quantity) throws IOException {
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereGreaterThanOrEqualTo(fields.quantity, quantity).whereNotEqualTo(fields.isDeleted, true).limit(1)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Product(documents.get(0));
+    }
+
     public static Product getProductByDescription(String description) throws IOException {
         ApiFuture<QuerySnapshot> future = productsCollection
                 .whereArrayContains(fields.description, description).limit(1).get();
