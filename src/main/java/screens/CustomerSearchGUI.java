@@ -376,7 +376,7 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
 
         nameButton = new JButton("Name");
         nameButton.addActionListener(actionListener);
-        storeIdButton = new JButton("Store ID");
+        storeIdButton = new JButton("Store Name");
         storeIdButton.addActionListener(actionListener);
         descriptionButton = new JButton("Description");
         descriptionButton.addActionListener(actionListener);
