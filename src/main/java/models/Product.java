@@ -276,22 +276,28 @@ public class Product {
 
     public static ArrayList<Product> getProductsByName(String productName) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : productNames) {
-            Product product = getProductByName(productName);
-            if (product != null) {
-                productList.add(product);
-            }
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereArrayContains(fields.name, productName).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            productList.add(new Product(document));
         }
         return productList;
     }
 
     public static ArrayList<Product> getNonDeletedProductsByName(String productName) throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : productNames) {
-            Product product = getNonDeletedProductByName(productName);
-            if (product != null) {
-                productList.add(product);
-            }
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereArrayContains(fields.name, productName).whereNotEqualTo(fields.isDeleted, true).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            productList.add(new Product(document));
         }
         return productList;
     }
@@ -299,11 +305,14 @@ public class Product {
     public static ArrayList<Product> getProductsByDescription(String productDescription)
             throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : productDescriptions) {
-            Product product = getProductByName(productName);
-            if (product != null) {
-                productList.add(product);
-            }
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereArrayContains(fields.description, productDescription).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            productList.add(new Product(document));
         }
         return productList;
     }
@@ -311,11 +320,15 @@ public class Product {
     public static ArrayList<Product> getNonDeletedProductsByDescription(String productDescription)
             throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : productDescriptions) {
-            Product product = getNonDeletedProductByName(productName);
-            if (product != null) {
-                productList.add(product);
-            }
+        ApiFuture<QuerySnapshot> future = productsCollection
+                .whereArrayContains(fields.description, productDescription).whereNotEqualTo(fields.isDeleted, true)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            productList.add(new Product(document));
         }
         return productList;
     }
@@ -323,11 +336,14 @@ public class Product {
     public static ArrayList<Product> getProductsByStoreName(String storeName)
             throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : storeNames) {
-            Product product = getProductByName(productName);
-            if (product != null) {
-                productList.add(product);
-            }
+        ApiFuture<QuerySnapshot> future = Store.storesCollection
+                .whereArrayContains(fields.name, storeName).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            productList.add(new Product(document));
         }
         return productList;
     }
@@ -335,11 +351,14 @@ public class Product {
     public static ArrayList<Product> getNonDeletedProductsByStoreName(String storeName)
             throws IOException {
         ArrayList<Product> productList = new ArrayList<Product>();
-        for (String productName : productDescriptions) {
-            Product product = getNonDeletedProductByName(productName);
-            if (product != null) {
-                productList.add(product);
-            }
+        ApiFuture<QuerySnapshot> future = Store.storesCollection
+                .whereArrayContains(fields.name, storeName).whereNotEqualTo(fields.isDeleted, true).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return productList;
+        }
+        for (QueryDocumentSnapshot document : documents) {
+            productList.add(new Product(document));
         }
         return productList;
     }
