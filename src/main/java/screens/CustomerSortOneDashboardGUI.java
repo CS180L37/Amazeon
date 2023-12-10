@@ -89,49 +89,19 @@ public class CustomerSortOneDashboardGUI extends JComponent implements Runnable 
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 0);
 
-        ArrayList<Store> sortedStores = new ArrayList<Store>();
-        for (int i = 0; i < stores.size(); i++) {
-            sortedStores.add(stores.get(i));
-        }
-
-        ArrayList<Integer> numProductsSold = new ArrayList<Integer>();
-
-        for (int i = 0; i < stores.size(); i++) {
-            int quantity = 0;
-            for (int j = 0; j < stores.get(i).getStoreProducts().size(); j++) {
-                try {
-                    int sellerId = stores.get(i).getStoreProducts().get(j).getSellerId();
-                    Seller seller = Seller.getSellerById(sellerId);
-                    for (int k = 0; k < seller.getSales().size(); k++) {
-                        quantity += seller.getSales().get(k).getNumPurchased();
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        ArrayList<Store> sortedStores;
+        try {
+            sortedStores = Store.sortStoresByUserPurchased(customer.getCustomerId());
+            if(sortedStores == null) {
+                sortedStores = Store.sortNonDeletedStores(fields.storeId, Query.Direction.ASCENDING);
             }
-            numProductsSold.add(i, quantity);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-        for (int i = 0; i < numProductsSold.size() - 1; i++) {
-            int maxIndex = i;
-            for (int j = 0; j < numProductsSold.size(); j++) {
-                if (numProductsSold.get(j) > numProductsSold.get(maxIndex)) {
-                    maxIndex = j;
-                }
-            }
-
-            int productsSold = numProductsSold.get(maxIndex);
-            numProductsSold.set(maxIndex, numProductsSold.get(i));
-            numProductsSold.set(maxIndex, productsSold);
-
-            Store store = sortedStores.get(maxIndex);
-            sortedStores.set(maxIndex, sortedStores.get(i));
-            sortedStores.set(maxIndex, store);
-        }
 
         for (int i = 0; i < sortedStores.size(); i++) {
-            JLabel storeName = new JLabel(
-                    sortedStores.get(i).getName() + " -- Num Products Sold: " + numProductsSold.get(i));
+            JLabel storeName = new JLabel((i+1) + ") " + sortedStores.get(i).getName());
             middlePanel.add(storeName, gbc);
             gbc.gridy++;
         }
