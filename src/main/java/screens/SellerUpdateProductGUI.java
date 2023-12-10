@@ -24,7 +24,6 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
     JButton logOutButton;
     JTextField strId, nme, desc, quan, prce;
 
-
     Seller seller;
     Product product;
 
@@ -37,9 +36,9 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == editProductButton) {
-                for(int i = 0; i < seller.getProducts().size(); i++) {
-                    if(product.getProductId() == seller.getProducts().get(i).getProductId()) {
-                        try{
+                for (int i = 0; i < seller.getProducts().size(); i++) {
+                    if (product.getProductId() == seller.getProducts().get(i).getProductId()) {
+                        try {
                             if (!nme.getText().equals("")) {
                                 seller.getProducts().get(i).setName(nme.getText());
                             }
@@ -53,7 +52,8 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
                                 seller.getProducts().get(i).setPrice(Double.parseDouble(prce.getText()));
                             }
                         } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(null, "Invalid Input", "Error Message", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Invalid Input", "Error Message",
+                                    JOptionPane.ERROR_MESSAGE);
                             throw new NumberFormatException();
                         }
                     }
@@ -106,7 +106,6 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         JLabel newDescription = new JLabel("Enter new description: ");
         JLabel newQuantity = new JLabel("Enter new quantity: ");
         JLabel newPrice = new JLabel("Enter new price: ");
-
 
         strId = new JTextField(10);
         strId.setText(String.valueOf(product.getStoreId()));

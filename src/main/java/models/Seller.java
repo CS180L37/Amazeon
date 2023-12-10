@@ -1,5 +1,9 @@
 package models;
 
+import static utils.Utils.DOWNLOADS;
+import static utils.Utils.createReader;
+import static utils.Utils.createWriter;
+
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -78,15 +82,46 @@ public class Seller {
         return documents.get(0).getLong(fields.sellerId).intValue() + 1;
     }
 
-    // public void deleteSeller() throws IOException {
-    // try {
-    // this.documentReference.delete().get();
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // } catch (ExecutionException e) {
-    // e.printStackTrace();
-    // }
-    // }
+    // Write products to downloads
+    public boolean exportProducts() {
+        BufferedWriter bw;
+        try {
+            bw = createWriter(DOWNLOADS
+                    + "products.csv");
+            for (Product product : getProducts()) {
+                bw.write(String.format("%d,%s,%d,%s,%f,%d,%d", product.getProductId(), product.getName(),
+                        product.getQuantity(), product.getDescription(), product.getPrice(), product.getSellerId(),
+                        product.getStoreId()));
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Import products from downloads
+    public boolean importProducts(String path) {
+        BufferedReader br;
+        try {
+            br = createReader(path);
+            String line = "";
+            ArrayList<Product> newProducts = new ArrayList<Product>();
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                int id = Integer.parseInt(line.split(",")[0]);
+                newProducts.add(Product.getProductById(id));
+            }
+            setProducts(products);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public static ArrayList<Seller> sortSellers(String field, Direction direction) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection.orderBy(field, direction).get();

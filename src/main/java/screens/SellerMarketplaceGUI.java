@@ -1,6 +1,9 @@
 package screens;
 
 import javax.swing.*;
+
+import static utils.Utils.DOWNLOADS;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -21,11 +24,16 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
     JButton salesButton;
     JButton dashboardButton;
     JButton cartButton;
+    JButton dataMenu;
     JButton logOutButton;
 
     JPopupMenu sortDashboardMenu;
     JMenuItem menuItemSort1;
     JMenuItem menuItemSort2;
+    JMenuItem menuItemExportData;
+    JMenuItem menuItemImportData;
+
+    JFileChooser fileChooser;
 
     Seller seller;
     ArrayList<Product> products;
@@ -63,6 +71,23 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
             if (e.getSource() == menuItemSort2) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new SellerDashboardTwoGUI(seller));
+            }
+            if (e.getSource() == menuItemExportData) {
+                if (seller.exportProducts()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Export to " + DOWNLOADS + "products.csv" + "was successful!", "Export successful",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Export to " + DOWNLOADS + "products.csv" + "was unsuccessful!", "Export unsuccessful",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            if (e.getSource() == menuItemImportData) {
+                // TODO: Open file picker
+                fileChooser = new JFileChooser(DOWNLOADS);
+                frame.dispose();
+                SwingUtilities.invokeLater(new SellerCartGUI(seller));
             }
             if (e.getSource() == salesButton) {
                 frame.dispose();
