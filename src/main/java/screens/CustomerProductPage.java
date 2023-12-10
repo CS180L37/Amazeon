@@ -84,8 +84,13 @@ public class CustomerProductPage extends JComponent implements Runnable {
                 }
             }
             if (e.getSource() == addToCartButton) {
-                cart.addToCart(product);
-                JOptionPane.showMessageDialog(null, "Added To Cart!", "Adds To Cart", JOptionPane.INFORMATION_MESSAGE);
+                if(product.getQuantity() > 0) {
+                    cart.addToCart(product);
+                    JOptionPane.showMessageDialog(null, "Added To Cart!", "Adds To Cart", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Out of Stock!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
             if (e.getSource() == returnHomeButton) {
                 try {
@@ -103,7 +108,7 @@ public class CustomerProductPage extends JComponent implements Runnable {
     };
 
     public void run() {
-        frame = new JFrame("Login");
+        frame = new JFrame("Product Page");
         try {
             frame.setIconImage(javax.imageio.ImageIO.read(new java.io.File("src/main/resources/logo.jpeg")));
         } catch (IOException e) {
@@ -196,14 +201,18 @@ public class CustomerProductPage extends JComponent implements Runnable {
         JLabel prevPurchase = new JLabel("Previously Purchased Items");
         eastPanel.add(prevPurchase, gbcc);
         for (int i = 0; i < customer.getProducts().size(); i++) {
-            gbcc.gridy++;
-            JLabel label = new JLabel("<html>" +
-                    "<div style='text-align: center;'>" +
-                    "<div>" + "Product Name: " + customer.getProducts().get(i).getName() + "</div>" +
-                    "<div>" + "StoreName: " + customer.getProducts().get(i).getQuantity() + "</div>" +
-                    "</div>" +
-                    "</html>");
-            eastPanel.add(label, gbc);
+            try{
+                gbcc.gridy++;
+                JLabel label = new JLabel("<html>" +
+                        "<div style='text-align: center;'>" +
+                        "<div>" + "Product Name: " + customer.getProducts().get(i).getName() + "</div>" +
+                        "<div>" + "StoreName: " + Store.getStoreById(customer.getProducts().get(i).getStoreId()).getName() + "</div>" +
+                        "</div>" +
+                        "</html>");
+                eastPanel.add(label, gbcc);
+            } catch(IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         content.add(eastPanel, BorderLayout.EAST);

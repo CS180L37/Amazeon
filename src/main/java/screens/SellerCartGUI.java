@@ -81,7 +81,12 @@ public class SellerCartGUI extends JComponent implements Runnable {
         content.add(bottomPanel, BorderLayout.SOUTH);
 
         JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new GridLayout(0, 1));
+        middlePanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5,5,5,5);
 
         ArrayList<Customer> customers;
         try {
@@ -112,8 +117,9 @@ public class SellerCartGUI extends JComponent implements Runnable {
                                 + "<div>" + " " + "</div>" +
                                 "</div>" +
                                 "</html>");
-                        label.setPreferredSize(new Dimension(200, 50));
-                        middlePanel.add(label);
+//                        label.setPreferredSize(new Dimension(250, 200));
+                        middlePanel.add(label, gbc);
+                        gbc.gridy++;
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
