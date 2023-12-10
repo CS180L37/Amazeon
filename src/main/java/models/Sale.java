@@ -118,10 +118,9 @@ public class Sale {
     }
 
     // Sort products by number of sales
-    public static ArrayList<Product> sortProductBySales(String field, Direction direction) throws IOException {
+    public static ArrayList<Product> sortProductBySales() throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection.orderBy(fields.isDeleted)
-                .whereNotEqualTo(fields.isDeleted, true)
-                .orderBy(field, direction).get();
+                .whereNotEqualTo(fields.isDeleted, true).get();
         TreeMap<Integer, Integer> productsByNumSales = new TreeMap<Integer, Integer>();
         ArrayList<Product> products = new ArrayList<Product>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -130,20 +129,16 @@ public class Sale {
         }
         for (QueryDocumentSnapshot doc : documents) {
             Sale sale = new Sale(doc);
-            ApiFuture<QuerySnapshot> saleFuture = Sale.salesCollection
-                    .whereEqualTo(fields.customerId, product.getCustomerId()).get();
-            List<QueryDocumentSnapshot> saleDocuments = Utils.retrieveData(saleFuture);
-            if (saleDocuments == null) {
-                continue;
+            sale.getProductId();
+            if (!productsByNumSales.containsKey(sale.getProductId())) {
+                productsByNumSales.put(sale.getProductId(), sale.getNumPurchased());
+            } else {
+                productsByNumSales.put(sale.getProductId(),
+                        productsByNumSales.get(sale.getProductId()) + sale.getNumPurchased());
             }
-            int numProductsSold = 0;
-            for (QueryDocumentSnapshot saleDoc : documents) {
-                numProductsSold += saleDoc.getLong(fields.numPurchased).intValue();
-            }
-            productsByNumSales.put(product.getCustomerId(), numProductsSold);
         }
         for (int id : productsByNumSales.keySet()) {
-            products.add(Customer.getCustomerById(id));
+            products.add(Product.getProductById(id));
         }
         return products;
     }
