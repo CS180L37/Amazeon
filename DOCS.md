@@ -64,9 +64,6 @@ For an example of the process, view the screencast here:
 - [Testing](DOCS.md#Testing)
 
 
-## Documentation
-- frontend
-- backend
 ### Front-End
 #### Customer
 The Customer class foremost has a Login Page which requires the customer to input the email and password. The Login Page
@@ -123,7 +120,7 @@ For testing, we made test cases for every method and they all pass.
 ### Utils
 We have a field of static strings that can be used to query FireStore (such as fields.storeId which represents "storeId"), and some Enums.
 We also have functionality to validate any input by the user, and methods to initialize FireStore and read, write and retrieve data.
->>>>>>> 08a606b976813e9d55f4d5bef8012b728914c7a4
+
 
 ## ValidInterface
 ### Functionality: 
