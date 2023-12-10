@@ -62,7 +62,10 @@ public class Seller {
         this.documentReference = getSellerDocument();
     }
 
-    // Utility method for retrieving a customers document by id
+    /** Utility method for retrieving a customers document by id
+     *
+     * @return DocumentReference
+     */
     private DocumentReference getSellerDocument() throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
                 .whereEqualTo(fields.sellerId, this.getSellerId())
@@ -75,6 +78,10 @@ public class Seller {
         }
         return documents.get(0).getReference();
     }
+
+    /** Utility method for retrieving the next (latest plus 1) seller ID from the database
+     * @return int sellerId
+     */
 
     private static int getNextSellerId() throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection.orderBy(fields.sellerId, Direction.DESCENDING)
@@ -123,6 +130,12 @@ public class Seller {
         }
     }
 
+    /**
+     * Sorts all sellers in the database by the given field in the given direction
+     * @param field, direction by which to sort
+     * @return ArrayList<Seller>
+     * @throws IOException
+     */
     public static ArrayList<Seller> sortSellers(String field, Direction direction) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection.orderBy(field, direction).get();
         ArrayList<Seller> sellers = new ArrayList<Seller>();
@@ -135,6 +148,13 @@ public class Seller {
         }
         return sellers;
     }
+
+    /**
+     * Sorts all non-deleted sellers in the database by the given field in the given direction
+     * @param field, direction by which to sort
+     * @return ArrayList<Seller>
+     * @throws IOException
+     */
 
     public static ArrayList<Seller> sortNonDeletedSellers(String field, Direction direction) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection.orderBy(fields.isDeleted)
@@ -151,12 +171,24 @@ public class Seller {
         return sellers;
     }
 
+    /**
+     * Gets the Seller object corresponding to the given ID
+     * @param sellerId ID of referenced Seller
+     * @return Seller
+     * @throws IOException
+     */
     public static Seller getSellerById(int sellerId) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
                 .where(Filter.equalTo(fields.sellerId, sellerId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Seller(documents.get(0));
     }
+    /**
+     * Gets the Seller object corresponding to the given ID, if it is not deleted
+     * @param sellerId ID of referenced Seller
+     * @return Seller
+     * @throws IOException
+     */
 
     public static Seller getNonDeletedSellerById(int sellerId) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
@@ -165,6 +197,12 @@ public class Seller {
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Seller(documents.get(0));
     }
+    /**
+     * Gets the Seller objects corresponding to the given IDs
+     * @param sellerIds ID of referenced Sellers
+     * @return ArrayList<Seller>
+     * @throws IOException
+     */
 
     public static ArrayList<Seller> getSellersByIds(ArrayList<Integer> sellerIds) throws IOException {
         ArrayList<Seller> sellers = new ArrayList<Seller>();
@@ -177,6 +215,12 @@ public class Seller {
         return sellers;
     }
 
+    /**
+     * Gets the Seller objects corresponding to the given IDs, if they are not deleted
+     * @param sellerIds ID of referenced Sellers
+     * @return ArrayList<Seller>
+     * @throws IOException
+     */
     public static ArrayList<Seller> getNonDeletedSellersByIds(ArrayList<Integer> sellerIds) throws IOException {
         ArrayList<Seller> sellers = new ArrayList<Seller>();
         for (int id : sellerIds) {
@@ -188,7 +232,13 @@ public class Seller {
         return sellers;
     }
 
-    // Called in login
+    /**
+     * Checks if the seller corresponding to the given email and password exists
+     * @param email email
+     * @param password password
+     * @return Boolean true or false
+     * @throws IOException
+     */
     public static Boolean sellerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
                 .where(Filter.and(Filter.equalTo(fields.email, email), Filter.equalTo(fields.password, password)))
@@ -198,7 +248,14 @@ public class Seller {
         return (documents != null) ? true : false;
     }
 
-    // Called to create a seller
+    /**
+     * Create a seller with given parameters
+     * @param email
+     * @param password
+     * @param name
+     * @return Seller
+     * @throws IOException
+     */
     public static Seller createSeller(String email, String password, String name) throws IOException {
         if (!Utils.validateEmail(email)) {
             throw new IOException("Invalid email");
@@ -229,7 +286,12 @@ public class Seller {
         return new Seller(sellerId, name, email, password, products, sales);
     }
 
-    // Called to retrieve a specific seller
+    /**
+     * Retrieve a specific seller from database using given email
+     * @param email
+     * @return Seller
+     * @throws IOException
+     */
     public static Seller getSellerByEmail(String email) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
                 .where(Filter.equalTo(fields.email, email)).limit(1).get();
@@ -275,7 +337,9 @@ public class Seller {
         return email;
     }
 
-    /// Throws an IOException if the email is invalid
+    /**
+     * @throws IOException Throws an IOException if the email is invalid
+     */
     public void setEmail(String email) throws IOException {
         if (!Utils.validateEmail(email)) {
             throw new IOException("Invalid email");
