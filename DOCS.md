@@ -6,136 +6,124 @@ Next, our class goes thorough the login process if our user already has an accou
 After the customer or seller loop's run, all new data in addition to data that needs to be updated will be written to files to make sure that the data is preserved.
 In addition to the flow of the program being run here, Amazeon also has many helper methods that make it easy to access instances of other classes using a simple parameter (almost reminiscent of a NoSQL database). They have come in much handy when implementing the rest of the application.
 
-## MarketInterface
-### Functionality: 
-The market interface takes in generics as parameters. These parameterized types are used in Market.java and represent the user type (customer or seller). The interface contains methods displayMarketplace(), displayDashboard(), displayProductPage(Product product), and displayCart(). Although the implementations of these methods are different for each user type, these are shared methods between the customer market and seller market.
+## TODO
+- Compile into one executable
 
-## Market
-### Functionality: 
-Market.java consists of a list of all the stores in the marketplace, regardless of whether you are a seller or customer. The class takes in generic parameter T which, in this case, represents user type (customer or seller). The main purpose of this class is to provide us with a list of all stores in the marketplace and whether a customer or seller is interacting with it.
+## Client Dependencies
+Just Java :)
+> ok maybe not just java if you want to compile and run from source; just java if you want to run the built jar file; maven will handle a lot of the process for you though
 
-## CustomerMarket
-### Functionality: 
-CustomerMarket has a dashboard field used to display the customer's dashboard. This class implements all methods in the MarketInterface class:
-- displayMarketplace(): the entry point for customer marketplace, which displays every product available for purchase along with product information associated with each such as the 					product's name, description, and store name it is associated with
-- displayProductPage(Product product): displays the page of the product the customer wants to look into (when customer clicks on product); the page includes the product's name, 							description, price, quantity available, name of store the product is associated with, the customer's purchase history in this marketplace, and a 						purchaseProduct option
-- displayDashboard(): calls CustomerDashboard.java displayDashboard() method
-- sort(boolean price, boolean quantityAvailable): customer is given the option to sort the marketplace listing page by price of the product or quantityAvailable of the product
-- search(String name, String storeId, String description): allows customer to search for a product based on name, storeId, or description and outputs a list of all the products containing 								   that name, storeId, or description
-- displayCart() - allows customer to view their cart by calling cart's display method
+## Dev Dependencies
+- firebase CLI (https://firebase.google.com/docs/cli)
+- service_account.json file in `src/main/resources`
+- Maven
+- JUnit
+- google-cloud-firestore
 
-#### Relationship to other classes:
-  ```Java
-    extends Market implements MarketInterface
-  ```
-## SellerMarket
-### Functionality: 
-SellerMarket has a dashboard field used to display the customer's dashboard. This class implements all methods in the MarketInterface class:
-- displayMarketplace(): the entry point for seller marketplace, which displays every product being sold by the seller along with product information associated w/ each just like in 					customer's marketplace
-- displayDashboard(): calls SellerDashboard.java displayDashboard() method
-- displayCart(): allows sellers to view all of their customer's carts by calling cart's display method alog with the store and product details associated with each product
-
-#### Relationship to other classes:
-```Java
-  extends Market implements MarketInterface
+## Usage
+```
+git clone https://github.com/CS180L37/Project4-5.git
+cd Project4-5
+mv service_account.json src/main/resources
+cd src/main/java
+find . -name "*.java" -print | xargs javac
+java Amazeon.java
 ```
 
-## DashboardInterface
-### Functionality: 
-The dashboard interface takes in generics as parameters. These parameterized types are used in Dashboard.java and represent the data contained in the dashboard (different 			types used in customer's dashboard and seller dashboard). The interface contains two sort methods which return a sorted list of desired values. Although the sort options 			are different for customers or sellers, they both have two options, thus making it ideal to put in an interface.
+## Testing
+> For more specifics, see (https://firebase.google.com/docs/cli)
+- Install the firebase CLI via `curl -sL https://firebase.tools/ | bash` or `npm install -g firebase-tools` if you're on a Windows machine. You may need to authenticate your Google account to use the emulator
+- Start the firestore emulator via `firebase emulators:start`
+- Run the test suite
+- Stop the firestore emulator after the tests have completed and you're done! :)
 
-## Dashboard (abstract)
-### Functionality: 
-Dashboard is an abstract class which takes in generic parameters T and U which represent data of some aspect of the marketplace (will be known in customer/seller dashboard 		       classes). The main goal of this class is to provide this data to us to be used in CustomerDashboard.java and SellerDashboard.java
+For an example of the process, view the screencast here:
+[TestCases.webm](https://github.com/CS180L37/Project4-5/assets/86136010/ba9ea788-1bc2-4f1f-8001-7250c13bc2cb)
 
-## CustomerDashboard
-### Functionality: 
-CustomerDashboard.java consists of a customer field used to access a list of products needed to sort the dashboard. It extends Dashboard which implements DashboardInterface 		       which takes in two generics, T and U, which in the case of the customer dashboard represent Store data. Additionally, this class consists of two sort methods and one display 		       method:
-- sort1() --> sorts the customer's dashboard (which displays a list of stores) by the number of products sold by each store in descending order
-- sort2() --> sorts the customer's dashboard (which displays a list of stores) by the number of products purchased by the particular customer at each store in 						      descending order
-- displayDashboard() --> takes in customer input to decide sort1() or sort2(), sorts the dashboard, and displays the list of stores after the sort
+## Documentation
 
-#### Relationship to other classes:
-```Java
-extends Dashboard<Store, Store> implements DashboardInterface<Store, Store>
-```
-## SellerDashboard
-### Functionality: 
-SellerDashboard.java extends Dashboard which implements DasboardInterface which takes in two generics, T and U, which in the case of the seller dasboard represent Customer 		       data and Product data respectively. Aditionally, this class consists of two sort methods and one display method:
-- sort1() --> sorts the sellers's dashboard (which displays a list of customers) by the number of items each customer has purchases in descending order
-- sort2() --> sorts the seller's dashboard (which displays a list of products) by the sales associated with each product in descending order
-- displayDashboard() --> takes in seller input to decide sort1() or sort2(), sorts the dashboard, and displays the list of stores/products after the sort
+- [Amazeon.Java](DOCS.md#Amazeon)
+- [MarketInterface.Java](DOCS.md#MarketInterface)
+- [Market.Java](DOCS.md#Market)
+- [CustomerMarket.java](DOCS.md#CustomerMarket)
+- [SellerMarket.java](DOCS.md#SellerMarket)
+- [DashboardInterface.java](DOCS.md#DashbooardInterface)
+- [Dashboard.java (abstract)](DOCS.md#Dashboard)
+- [CustomerDashboard.java](DOCS.md#CustomerDashboard)
+- [SellerDashboard.java](DOCS.md#SellerDashboard)
+- [UserInterface.java](DOCS.md#UserInterface)
+- [User.java](DOCS.md#User)
+- [Customer.java](DOCS.md#Customer)
+- [Seller.java](DOCS.md#Seller)
+- [Store.java](DOCS.md#Store)
+- [Product.java](DOCS.md#Product)
+- [Sale.java](DOCS.md#Sale)
+- [Cart.java](DOCS.md#Cart)
+- [Utils.java](DOCS.md#Utils)
+- [ValidateInterface.java](DOCS.md#ValidateInterface)
+- [Testing](DOCS.md#Testing)
 
-#### Relationship to other classes:
-```Java
-extends Dashboard<Customer, Product> implements DashboardInterface<Customer, Product>
-```
 
-## UserInterface
-### Functionality: 
-- The User Interface takes in a generic as a parameter. This generic parameterized type is used in User.java and represents either a customer or a seller. The interface consists of 4 methods: expotData(String filepath), importData(String filepath), editAccount(String email, String password), and deleteAccount(). These methods will be implemented in the Customer and Seller classes and are associated with the flexibility of accounts as well as the preservation of user data.
+## Documentation
+- frontend
+- backend
+### Front-End
+#### Customer
+The Customer class foremost has a Login Page which requires the customer to input the email and password. The Login Page
+also has an option to Create an account page. This again requires the customer to input their details in the form of email and password.
+The Customer class has a Customer MarketPlace page which in turn has three JButtons - Search, Purchase and Display Dashboard.
+The Display Dashboard JButton has a dropdown which gives us two ways of sorting.
+The sort 1 sorts the stores by products sold. Whereas sort 2 sorts stores by products purchased by the particular customer.
+Each screen under the Customer has a LogOut and Return Home JButton.
 
-## User
-### Functionality: 
-- User contains fields email, password, id, and products. User's main methods include:
-createAccount() --> creates an account for user based on whether they are a customer or a seller and updates the customer's file to preserve that data
-login() --> validates user email and login and makes sure they exist in the system before being taken to their respective marketplace
+The next screen for implementation is the Product Page
+which has various labels in the order of Store Name, Product Name, Description, Quantity(Stock) and Price. The Product Page
+also has an Add to Cart JButton.
+Next up is the Dashboard Page which has two sort methods as explained earlier.
+The Search Page screen has three JButtons - Name, StoreID and Description. Each of these JButtons in turn have a Text Field for the
+name of Product ID. This is simply done using a JButton called Enter Button which leads to a page with a list of user inputs such as Product Name, Store Name, etc.
+The Purchase Page again includes a Text Field for Product ID using an Enter Button.
+The Cart Page displays the customer's id. The Cart Page includes a list of Products which are inputted by the user.
+This includes JButtons such as Remove and Purchase. Finally the Cart Page also includes an option for Purchasing all the products the customer requires.
 
-## Customer
-### Functionality: 
-The customer class describes an instance of customer and consists of methods describing the actions they can perform:
-- exportData() --> exports customer data to customer file
-- purchaseProduct() --> adds product to customer's prchase history and reduces quantity available of product
-- editAccount(String email, String password) --> allows customer to edit their accounts
-- deleteAccount() --> deletes customer account
-- readCustomers() --> reads file which contains list of all products and carts as parameters
-- writeCustomers() --> writes updated customer data to file to keep data preserved
+#### Seller
+The Seller class has a Seller MarketPlace page which have six JButtons under it. Following are the JButtons - Create, Edit, Delete, Sales, Dashboard and Cart.
+The DashBoard JButton has a dropdown which sorts the inputted data. Sort 1 sorts customers by the number of items purchased.
+Whereas sort 2 sorts the products by sale. Each screen of Seller includes two JButtons knows as LogOut and Return Home.
 
-#### Relationship to other classes:
-```Java
-extends User implements UserInterface<Customer>
-```
+The first screen is the Create Page screen which has various Text Fields under it. The Text Fields include Product Name, Product Description,
+Product Price, Product Stock, Product ID and Store ID. Additionally it includes another JButton called the Create Product Button.
+Next up the Edit Page includes a Text Field for Product ID displayed in the form of Enter Button. The Edit Page in turn has a Product ID page
+which has various text fields such as New Name, New Store ID, New Description, New Quantity(Stock) and New Price. Finally it additionally has a JButton called the Update Button to update the changes made.
+The Sales Page has a five labels under it. These labels include Product Name, Customer Email, Customer ID, Revenue from Sale and Store Name.
+The Dashboard page sorts the data in two possible ways. The sort 1 sorts stores by Customer ID. Sort 2 sorts stores by Product ID. Finally the Cart Page has a listof Customers and information about all the products in their carts.
 
-## Seller
-### Functionality: 
-The seller class describes an instance of seller and consists of methods describing the actions they can perform:
-- displayProducts() -->  displays seller's marketplace
-- viewSales() --> displays a list of sales associated with each of the seller's stores and information associated with each sale such as customer id and revenue generated from the 				  sale
-- editAccount(String email, String password) --> allows seller to edit their accounts
-- deleteAccount() --> deletes seller account
-- readSellers() --> contains list of all products and sales as parameters
-- writeSellers() --> writes updated seller data to file to keep data preserved
-- importData(String filename) --> imports seller information including the products they're listing
-- exportData(String filepath) --> exports seller data to csv file
-- createProduct() --> takes in seller input to create a product which is added to the seller product list and the marketplace's products
-- updateProduct() --> takes in seller input to edit a product
-- deleteProduct() --> removes product from product list
-
-#### Relationship to other classes:
-```Java
-extends User implements UserInterface<Seller>
-```
-
-## Store
-### Functionality: 
-describes an instance of a store, contains fields: store name, store id, store's products, and customers; has methods readStores(String filepath) and writeStores(stores, 		       String filepath) which assist in the preservation of data of the stores
-## Product
-### Functionality: 
-describes an instance of a product, contians fields: product id, product name, product quantity, product description, product price, seller id, and store id; contains method readProducts() and writeProducts(), which assist in the preservation of data of the products
-## Sale
-### Functionality: 
-describes an instance of a sale; contains methods readSales() and writeSales() which assist in the preservation of data of the sales
-## Cart
-### Functionality: 
-describes an instance of a cart; contains readCarts() and writeCarts() methods which assist in the preservation of data of the carts; contains methods:
-- addToCart(Product product) --> adds product to cart
-- removeFromcart(Product product) --> removes product from cart
-- purchaseCart() --> removes all products from cart as customers purchase every product in their cart
-- display() --> displays the customer's cart
-
-## Utils
-### Functionality: 
-contains static shared methods amongst all classes that make our code easier to write, less redundant, and more efficient
+### Back-End
+Each class in the backend individually ensures its data persists.
+Aside from those fields mentioned, every class includes a documentReference field and a CollectionReference object. Generally, getter and setter methods do not exist for these fields. There are generally constructors that take every field other than these two as parameters, and contructors that take a QueryDocumentSnapshot as a parameter for initializing a pre-existing object from the database.
+There are also create<Object> methods (such as createCustomer(<params>)) for every class, as also methods for getting an object from the remote database using its ID (e.g. getCustomerById), sorting a given collection of such objects, with or without filtering deleted ones (e.g. sortNonDeletedCarts(String field, Direction direction), sortCarts(String field, Direction direction)), and getting the ID of the next such object in its collection in the remote database (last ID plus one).
+Finally, all 6 classes also have toString() and equals() methods.
+#### Customer & Seller
+The Customer and Seller classes, which are similar, both have the fields email, password, isDeleted, and products. In addition, Customer has customerId, and cart; Seller has name, sellerId, and sales. Both classes have constructors that take parameters of all these fields. Cart in Customer is the only field without a setter (as it is modified in the Cart class).
+Both of these classes have the functionality to find users from the database by their email, and marking the current user as deleted. In addition, the Customer class can be used to add a product to a customer's purchase history. The Seller class can also be used to add to their sales, and add or remove products from their range of products.
+#### Store
+The Store class has the fields storeId, name, isDeleted, storeProducts, and storeCustomers.
+It has the functionality to get a store's documentReference, and includes a centralized method that can be used to update the database with any changes.
+#### Cart
+The Cart class has the fields customerId, isDeleted, cartProducts, cartsCollection and documentReference.
+it has the functionality to purchase a cart, get a non-deleted by its ID, get multiple carts (with or without the filter of including deleted ones).
+#### Product
+The Product class has the fields productId, name, quantity, description, price, sellerId, storeId, and isDeleted.
+It has the functionality to fetch the document of the current instance of the product from the remote database, and fetch multiple or one product on the basis of their/its name(/s) or description(/s), with or without including deleted products.
+#### Sale
+The Sale class has the fields saleId, customerId, productId, cost, numPurchased, and isDeleted.
+It has the functionality to fetch the document of the current instance of the sale from the remote database and calculate the total of
+### Testing
+For testing, we made test cases for every method and they all pass.
+### Utils
+We have a field of static strings that can be used to query FireStore (such as fields.storeId which represents "storeId"), and some Enums.
+We also have functionality to validate any input by the user, and methods to initialize FireStore and read, write and retrieve data.
+>>>>>>> 08a606b976813e9d55f4d5bef8012b728914c7a4
 
 ## ValidInterface
 ### Functionality: 
