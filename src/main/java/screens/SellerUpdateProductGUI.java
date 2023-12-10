@@ -37,46 +37,24 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == editProductButton) {
-                for (int i = 0; i < seller.getProducts().size(); i++) {
-                    if (seller.getProducts().get(i).equals(product)) {
-                        if (!strId.getText().equals("")) {
-                            seller.getProducts().get(i).setStoreId(Integer.parseInt(strId.getText()));
-                        } else if(strId.getText().equals("")) {
-                            strId.getText();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Invalid Store ID Input!", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-
-                        if (!nme.getText().equals("")) {
-                            seller.getProducts().get(i).setName(nme.getText());
-                        } else if(nme.getText().equals("")) {
-                            nme.getText();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Invalid Name Input!", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-
-                        if (!desc.getText().equals("")) {
-                            seller.getProducts().get(i).setDescription(desc.getText());
-                        } else if(desc.getText().equals("")) {
-                            desc.getText();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Invalid Description Input!", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-
-                        if (!quan.getText().equals("")) {
-                            seller.getProducts().get(i).setQuantity(Integer.parseInt(quan.getText()));
-                        } else if(quan.getText().equals("")) {
-                            quan.getText();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Invalid Quantity Input!", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-
-                        if (!prce.getText().equals("")) {
-                            seller.getProducts().get(i).setPrice(Double.parseDouble(prce.getText()));
-                        } else if(prce.getText().equals("")) {
-                            prce.getText();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Invalid Price Input!", "Error", JOptionPane.ERROR_MESSAGE);
+                for(int i = 0; i < seller.getProducts().size(); i++) {
+                    if(product.getProductId() == seller.getProducts().get(i).getProductId()) {
+                        try{
+                            if (!nme.getText().equals("")) {
+                                seller.getProducts().get(i).setName(nme.getText());
+                            }
+                            if (!desc.getText().equals("")) {
+                                seller.getProducts().get(i).setDescription(desc.getText());
+                            }
+                            if (!quan.getText().equals("")) {
+                                seller.getProducts().get(i).setQuantity(Integer.parseInt(quan.getText()));
+                            }
+                            if (!prce.getText().equals("")) {
+                                seller.getProducts().get(i).setPrice(Double.parseDouble(prce.getText()));
+                            }
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Invalid Input", "Error Message", JOptionPane.ERROR_MESSAGE);
+                            throw new NumberFormatException();
                         }
                     }
                 }
@@ -122,7 +100,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        JLabel productName = new JLabel("Product ID: " + product.getName());
+        JLabel productName = new JLabel("Product Name: " + product.getName());
         JLabel newStoreID = new JLabel("Enter new Store Id: ");
         JLabel newName = new JLabel("Enter new name: ");
         JLabel newDescription = new JLabel("Enter new description: ");
