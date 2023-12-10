@@ -186,7 +186,7 @@ public class Customer {
                 continue;
             }
             int numProductsSold = 0;
-            for (QueryDocumentSnapshot saleDoc : documents) {
+            for (QueryDocumentSnapshot saleDoc : saleDocuments) {
                 numProductsSold += saleDoc.getLong(fields.numPurchased).intValue();
             }
             idNumProducts.put(customer.getCustomerId(), numProductsSold);
