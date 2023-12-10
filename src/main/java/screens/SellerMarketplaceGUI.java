@@ -144,11 +144,11 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
         // dashboard button's dropdown menu
         sortDashboardMenu = new JPopupMenu("Dashboard");
 
-        menuItemSort1 = new JMenuItem("Sort 1");
+        menuItemSort1 = new JMenuItem("Sort Customers By Number of Items Purchased");
         menuItemSort1.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort1);
 
-        menuItemSort2 = new JMenuItem("Sort 2");
+        menuItemSort2 = new JMenuItem("Sort Products By Number of Sales");
         menuItemSort2.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort2);
 

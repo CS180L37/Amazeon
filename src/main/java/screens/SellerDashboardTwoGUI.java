@@ -116,7 +116,7 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
 
         for (int i = 0; i < numSalesPerProduct.size() - 1; i++) {
             int minIndex = i;
-            for (int j = 0; j < numSalesPerProduct.size(); j++) {
+            for (int j = (i+1); j < numSalesPerProduct.size(); j++) {
                 if (numSalesPerProduct.get(j) < numSalesPerProduct.get(minIndex)) {
                     minIndex = j;
                 }
@@ -126,8 +126,8 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
             int numSales = numSalesPerProduct.get(minIndex);
             sortedProducts.set(minIndex, sortedProducts.get(i));
             numSalesPerProduct.set(minIndex, numSalesPerProduct.get(i));
-            sortedProducts.set(minIndex, product);
-            numSalesPerProduct.set(minIndex, numSales);
+            sortedProducts.set(i, product);
+            numSalesPerProduct.set(i, numSales);
         }
 
         for (int i = 0; i < sortedProducts.size(); i++) {

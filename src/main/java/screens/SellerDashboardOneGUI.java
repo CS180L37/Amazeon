@@ -7,12 +7,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.cloud.firestore.Query;
 import models.Cart;
 import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import utils.fields;
 
 public class SellerDashboardOneGUI extends JComponent implements Runnable {
 
@@ -98,20 +100,17 @@ public class SellerDashboardOneGUI extends JComponent implements Runnable {
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        ArrayList<Customer> sortedCust = new ArrayList<Customer>();
-        for (int i = 0; i < seller.getSales().size(); i++) {
-            Customer customer;
-            try {
-                customer = Customer.getCustomerById(seller.getSales().get(i).getCustomerId());
-                sortedCust.add(customer);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
+        ArrayList<Customer> sortedCust;
+        try {
+            sortedCust = Customer.sortNonDeletedCustomers(fields.customerId, Query.Direction.ASCENDING);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         for (int i = 0; i < sortedCust.size() - 1; i++) {
             int minIndex = i;
-            for (int j = 0; j < sortedCust.size(); j++) {
+            for (int j = i + 1; j < sortedCust.size(); j++) {
                 if (sortedCust.get(j).getProducts().size() < sortedCust.get(minIndex).getProducts().size()) {
                     minIndex = j;
                 }
@@ -119,7 +118,7 @@ public class SellerDashboardOneGUI extends JComponent implements Runnable {
 
             Customer customer = sortedCust.get(minIndex);
             sortedCust.set(minIndex, sortedCust.get(i));
-            sortedCust.set(minIndex, customer);
+            sortedCust.set(i, customer);
         }
 
         for (int i = 0; i < sortedCust.size(); i++) {
