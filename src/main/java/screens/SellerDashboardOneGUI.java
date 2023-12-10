@@ -14,6 +14,7 @@ import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import org.checkerframework.checker.units.qual.C;
 import utils.fields;
 
 public class SellerDashboardOneGUI extends JComponent implements Runnable {
@@ -100,32 +101,17 @@ public class SellerDashboardOneGUI extends JComponent implements Runnable {
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-
-        ArrayList<Customer> sortedCust;
         try {
-            sortedCust = Customer.sortNonDeletedCustomers(fields.customerId, Query.Direction.ASCENDING);
+            ArrayList<Customer> sortedCust = Customer.sortNonDeletedCustomersByNumProducts();
+
+            for (int i = 0; i < sortedCust.size(); i++) {
+                JLabel customerName = new JLabel("Customer " + i + " ID: " + sortedCust.get(i).getCustomerId());
+
+                middlePanel.add(customerName, gbc);
+                gbc.gridy++;
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-
-        for (int i = 0; i < sortedCust.size() - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < sortedCust.size(); j++) {
-                if (sortedCust.get(j).getProducts().size() < sortedCust.get(minIndex).getProducts().size()) {
-                    minIndex = j;
-                }
-            }
-
-            Customer customer = sortedCust.get(minIndex);
-            sortedCust.set(minIndex, sortedCust.get(i));
-            sortedCust.set(i, customer);
-        }
-
-        for (int i = 0; i < sortedCust.size(); i++) {
-            JLabel customerName = new JLabel("Customer " + i + " ID: " + sortedCust.get(i).getCustomerId());
-
-            middlePanel.add(customerName, gbc);
-            gbc.gridy++;
         }
         content.add(middlePanel, BorderLayout.CENTER);
 
