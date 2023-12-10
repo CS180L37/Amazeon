@@ -5,17 +5,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import com.google.cloud.firestore.Query;
 import models.Cart;
 import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import utils.fields;
 
 public class SellerEditProductGUI extends JComponent implements Runnable {
     JFrame frame;
-    JTextField productIdField;
+    JComboBox<String> productIdField;
     JButton editButton;
     JButton returnHomeButton;
     JButton logOutButton;
@@ -32,7 +35,7 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
             if (e.getSource() == editButton) {
                 Product product;
                 try {
-                    product = Product.getProductById(Integer.parseInt(productIdField.getText()));
+                    product = Product.getProductById(Integer.parseInt(productIdField.getSelectedItem().toString()));
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerUpdateProductGUI(seller, product));
                 } catch (IOException ex) {
@@ -87,9 +90,24 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
         content.add(bottomPanel, BorderLayout.SOUTH);
 
         JLabel productIdLabel = new JLabel("Enter Product ID:");
-        productIdField = new JTextField(10);
+        ArrayList<Store> stores;
+        ArrayList<String> productIds = new ArrayList<String>();
+        try {
+            stores = Store.sortStores(fields.storeId, Query.Direction.ASCENDING);
+            if (stores != null) {
+                for (Store store : stores) {
+                    productIds.add(String.valueOf(Product.getProductByStoreName(store.getName()).getProductId()));
+                }
+                String[] productIdsList = new String[stores.size()];
+
+                productIdField = new JComboBox<String>(productIds.toArray(productIdsList));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         editButton = new JButton("Edit Product");
         editButton.addActionListener(actionListener);
+
 
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new GridBagLayout());

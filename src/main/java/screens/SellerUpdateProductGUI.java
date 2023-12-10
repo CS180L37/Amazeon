@@ -5,14 +5,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import com.google.cloud.firestore.Query;
 import models.Cart;
 import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import utils.fields;
 
 public class SellerUpdateProductGUI extends JComponent implements Runnable {
     JFrame frame;
@@ -128,7 +131,10 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         JLabel newQuantity = new JLabel("Enter new quantity: ");
         JLabel newPrice = new JLabel("Enter new price: ");
 
+
         strId = new JTextField(10);
+        strId.setText(String.valueOf(product.getStoreId()));
+        strId.setEnabled(false);
         nme = new JTextField(10);
         desc = new JTextField(10);
         quan = new JTextField(10);
