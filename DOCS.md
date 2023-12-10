@@ -6,7 +6,7 @@ Next, our class goes thorough the login process if our user already has an accou
 After the customer or seller loop's run, all new data in addition to data that needs to be updated will be written to files to make sure that the data is preserved.
 In addition to the flow of the program being run here, Amazeon also has many helper methods that make it easy to access instances of other classes using a simple parameter (almost reminiscent of a NoSQL database). They have come in much handy when implementing the rest of the application.
 
-### Front-End
+## Front-End
 #### Customer
 The Customer class foremost has a Login Page which requires the customer to input the email and password. The Login Page
 also has an option to Create an account page. This again requires the customer to input their details in the form of email and password.
@@ -37,7 +37,7 @@ which has various text fields such as New Name, New Store ID, New Description, N
 The Sales Page has a five labels under it. These labels include Product Name, Customer Email, Customer ID, Revenue from Sale and Store Name.
 The Dashboard page sorts the data in two possible ways. The sort 1 sorts stores by Customer ID. Sort 2 sorts stores by Product ID. Finally the Cart Page has a listof Customers and information about all the products in their carts.
 
-### Back-End
+## Back-End
 Each class in the backend individually ensures its data persists.
 Aside from those fields mentioned, every class:
 - includes a documentReference field and a CollectionReference object (Generally, getter and setter methods do not exist for these fields.)
