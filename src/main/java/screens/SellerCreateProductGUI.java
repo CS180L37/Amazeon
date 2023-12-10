@@ -52,7 +52,7 @@ public class SellerCreateProductGUI extends JComponent implements Runnable {
                             Double.parseDouble(productPriceField.getText()), Integer.parseInt(productIDField.getText()),
                             Integer.parseInt(productStockField.getText()), Integer.parseInt(sellerIDField.getText()),
                             storeId);
-                } catch (IOException ex) {
+                } catch (IOException | NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid Input!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 try {

@@ -31,11 +31,14 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == deleteButton) {
+                if (productName.getItemCount() == 0) {
+                    JOptionPane.showMessageDialog(null, "Cannot delete an item if you have no items to delete!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    throw new RuntimeException("Cannot delete an item");
+                }
                 Product product;
                 try {
-                    System.out.println(productName.getSelectedItem().toString());
                     product = Product.getProductByName(productName.getSelectedItem().toString());
-                    System.out.println(product.toString());
                     ArrayList<Product> newProductList = seller.getProducts();
                     newProductList.remove(product);
                     seller.setProducts(newProductList);
