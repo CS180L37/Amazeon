@@ -24,7 +24,6 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
     JButton logOutButton;
     JTextField strId, nme, desc, quan, prce;
 
-    int productId;
 
     Seller seller;
     Product product;
@@ -32,7 +31,6 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
     public SellerUpdateProductGUI(Seller seller, Product product) {
         this.seller = seller;
         this.product = product;
-        productId = product.getProductId();
     }
 
     ActionListener actionListener = new ActionListener() {
@@ -124,7 +122,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        JLabel productID = new JLabel("Product ID: " + productId);
+        JLabel productName = new JLabel("Product ID: " + product.getName());
         JLabel newStoreID = new JLabel("Enter new Store Id: ");
         JLabel newName = new JLabel("Enter new name: ");
         JLabel newDescription = new JLabel("Enter new description: ");
@@ -148,7 +146,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         logOutButton.addActionListener(actionListener);
 
         JPanel topPanel = new JPanel();
-        topPanel.add(productID);
+        topPanel.add(productName);
         content.add(topPanel, BorderLayout.NORTH);
 
         JPanel bottomPanel = new JPanel();

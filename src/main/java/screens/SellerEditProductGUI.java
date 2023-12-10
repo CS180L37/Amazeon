@@ -18,7 +18,7 @@ import utils.fields;
 
 public class SellerEditProductGUI extends JComponent implements Runnable {
     JFrame frame;
-    JComboBox<String> productIdField;
+    JComboBox<String> productNameField;
     JButton editButton;
     JButton returnHomeButton;
     JButton logOutButton;
@@ -35,7 +35,7 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
             if (e.getSource() == editButton) {
                 Product product;
                 try {
-                    product = Product.getProductById(Integer.parseInt(productIdField.getSelectedItem().toString()));
+                    product = Product.getProductByName(productNameField.getSelectedItem().toString());
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerUpdateProductGUI(seller, product));
                 } catch (IOException ex) {
@@ -76,7 +76,7 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
         frame.setVisible(true);
 
         JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Enter Product Id"));
+        topPanel.add(new JLabel("Enter Product Name"));
         content.add(topPanel, BorderLayout.NORTH);
 
         returnHomeButton = new JButton("Return Home");
@@ -89,21 +89,16 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
         bottomPanel.add(logOutButton);
         content.add(bottomPanel, BorderLayout.SOUTH);
 
-        JLabel productIdLabel = new JLabel("Enter Product ID:");
-        ArrayList<Store> stores;
-        ArrayList<String> productIds = new ArrayList<String>();
-        try {
-            stores = Store.sortStores(fields.storeId, Query.Direction.ASCENDING);
-            if (stores != null) {
-                for (Store store : stores) {
-                    productIds.add(String.valueOf(Product.getProductByStoreName(store.getName()).getProductId()));
-                }
-                String[] productIdsList = new String[stores.size()];
-
-                productIdField = new JComboBox<String>(productIds.toArray(productIdsList));
+        JLabel productIdLabel = new JLabel("Enter Product Name:");
+        ArrayList<Product> products = seller.getProducts();
+        ArrayList<String> productNames = new ArrayList<String>();
+        if (products != null) {
+            for (Product product : products) {
+                productNames.add(String.valueOf(product.getName()));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            String[] productIdsList = new String[products.size()];
+
+            productNameField = new JComboBox<String>(productNames.toArray(productIdsList));
         }
         editButton = new JButton("Edit Product");
         editButton.addActionListener(actionListener);
@@ -119,7 +114,7 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
 
         middlePanel.add(productIdLabel, gbc);
         gbc.gridx++;
-        middlePanel.add(productIdField, gbc);
+        middlePanel.add(productNameField, gbc);
         gbc.gridy++;
         gbc.gridx = 0;
         middlePanel.add(editButton, gbc);
