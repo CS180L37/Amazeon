@@ -19,7 +19,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable {
     JButton deleteButton;
     JButton returnHomeButton;
     JButton logOutButton;
-    JTextField productId;
+    JComboBox<String> productName;
 
     Seller seller;
 
@@ -33,7 +33,9 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable {
             if (e.getSource() == deleteButton) {
                 Product product;
                 try {
-                    product = Product.getProductById(Integer.parseInt(productId.getText()));
+                    System.out.println(productName.getSelectedItem().toString());
+                    product = Product.getProductByName(productName.getSelectedItem().toString());
+                    System.out.println(product.toString());
                     ArrayList<Product> newProductList = seller.getProducts();
                     newProductList.remove(product);
                     seller.setProducts(newProductList);
@@ -78,8 +80,14 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        JLabel deleteLabel = new JLabel("Enter the product if of the product you would like to remove");
-        productId = new JTextField(10);
+        JLabel deleteLabel = new JLabel("Select the product that you would like to delete");
+        ArrayList<Product> products = seller.getProducts();
+        ArrayList<String> productNames = new ArrayList<String>();
+        for (Product product : products) {
+            productNames.add(product.getName());
+        }
+        String[] productNamesList = new String[productNames.size()];
+        productName = new JComboBox<String>(productNames.toArray(productNamesList));
 
         deleteButton = new JButton("Delete Product");
         deleteButton.addActionListener(actionListener);
@@ -108,7 +116,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable {
 
         middlePanel.add(deleteLabel, gbc);
         gbc.gridy++;
-        middlePanel.add(productId, gbc);
+        middlePanel.add(productName, gbc);
         gbc.gridy++;
         middlePanel.add(deleteButton, gbc);
 

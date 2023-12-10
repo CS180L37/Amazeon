@@ -41,7 +41,8 @@ public class SellerCreateProductGUI extends JComponent implements Runnable {
                 Product product = null;
                 int storeId = -1;
                 try {
-                    storeId = Store.getStoreByStoreName(storeNameField.getSelectedItem().toString()).getStoreId();
+                    storeId = Store.getNonDeletedStoreByStoreName(storeNameField.getSelectedItem().toString())
+                            .getStoreId();
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

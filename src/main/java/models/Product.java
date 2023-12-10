@@ -235,42 +235,42 @@ public class Product {
 
     public static Product getProductByName(String name) throws IOException {
         ApiFuture<QuerySnapshot> future = productsCollection
-                .whereArrayContains(fields.name, name).limit(1).get();
+                .whereEqualTo(fields.name, name).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
     public static Product getNonDeletedProductByName(String name) throws IOException {
         ApiFuture<QuerySnapshot> future = productsCollection
-                .whereArrayContains(fields.name, name).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
+                .whereEqualTo(fields.name, name).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
     public static Product getProductByStoreName(String storeName) throws IOException {
         ApiFuture<QuerySnapshot> future = Store.storesCollection
-                .whereArrayContains(fields.name, storeName).limit(1).get();
+                .whereEqualTo(fields.name, storeName).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
     public static Product getNonDeletedProductByStoreName(String storeName) throws IOException {
         ApiFuture<QuerySnapshot> future = Store.storesCollection
-                .whereArrayContains(fields.name, storeName).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
+                .whereEqualTo(fields.name, storeName).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
     public static Product getProductByDescription(String description) throws IOException {
         ApiFuture<QuerySnapshot> future = productsCollection
-                .whereArrayContains(fields.description, description).limit(1).get();
+                .whereEqualTo(fields.description, description).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Product(documents.get(0));
     }
 
     public static Product getNonDeletedProductByDescription(String description) throws IOException {
         ApiFuture<QuerySnapshot> future = productsCollection
-                .whereArrayContains(fields.description, description).whereNotEqualTo(fields.isDeleted, true).limit(1)
+                .whereEqualTo(fields.description, description).whereNotEqualTo(fields.isDeleted, true).limit(1)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Product(documents.get(0));
