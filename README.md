@@ -2,9 +2,6 @@
 Amazon watch out, there's a new competitor on the block! This is our submission for option 3 of Purdue's CS 180 Project 4 and 5
 > Report, Video, & Code submitted by TODO
 
-## TODO
-- Compile into one executable
-
 ## Client Dependencies
 Just Java :)
 > ok maybe not just java if you want to compile and run from source; just java if you want to run the built jar file; maven will handle a lot of the process for you though
