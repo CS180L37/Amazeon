@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.Query.Direction;
+
 import models.Cart;
 import models.Customer;
 import models.Product;
@@ -19,8 +21,9 @@ import utils.fields;
 public class SellerCreateProductGUI extends JComponent implements Runnable {
     JFrame frame;
     // Text fields
-    JTextField productNameField, productDescField, productPriceField, productStockField, productIDField, storeIDField,
+    JTextField productNameField, productDescField, productPriceField, productStockField, productIDField,
             sellerIDField;
+    JComboBox<String> storeNameField;
     JButton createProductButton;
     JButton logOutButton;
     JButton returnHomeButton;
@@ -40,15 +43,17 @@ public class SellerCreateProductGUI extends JComponent implements Runnable {
                     product = Product.createProduct(productDescField.getText(), productNameField.getText(),
                             Double.parseDouble(productPriceField.getText()), Integer.parseInt(productIDField.getText()),
                             Integer.parseInt(productStockField.getText()), Integer.parseInt(sellerIDField.getText()),
-                            Integer.parseInt(storeIDField.getText()));
+                            Integer.parseInt(storeNameField.getSelectedItem().toString()));
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid Input!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 try {
-                    ArrayList<Product> storeProducts = Store.getStoreById(Integer.parseInt(storeIDField.getText()))
+                    ArrayList<Product> storeProducts = Store
+                            .getStoreById(Integer.parseInt(storeNameField.getSelectedItem().toString()))
                             .getStoreProducts();
                     storeProducts.add(product);
-                    Store.getStoreById(Integer.parseInt(storeIDField.getText())).setStoreProducts(storeProducts);
+                    Store.getStoreById(Integer.parseInt(storeNameField.getSelectedItem().toString()))
+                            .setStoreProducts(storeProducts);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -103,7 +108,7 @@ public class SellerCreateProductGUI extends JComponent implements Runnable {
         JLabel productPriceLabel = new JLabel("Product Price:");
         JLabel productStockLabel = new JLabel("Product Stock:");
         JLabel productIDLabel = new JLabel("Product ID:");
-        JLabel storeIDLabel = new JLabel("Store ID:");
+        JLabel storeIDLabel = new JLabel("Store Name:");
         JLabel sellerIDLabel = new JLabel("Seller ID:");
 
         // Creating text fields
@@ -118,8 +123,26 @@ public class SellerCreateProductGUI extends JComponent implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        storeIDField = new JTextField(20);
+        ArrayList<Store> stores;
+        ArrayList<String> storeNames = new ArrayList<String>();
+        try {
+            stores = Store.sortStores(fields.storeId, Direction.ASCENDING);
+
+            if (stores != null) {
+                for (Store store : stores) {
+                    storeNames.add(store.getName());
+                }
+                String[] storeNamesList = new String[stores.size()];
+
+                storeNameField = new JComboBox<String>(storeNames.toArray(storeNamesList));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         sellerIDField = new JTextField(20);
+        sellerIDField.setText(String.valueOf(seller.getSellerId()));
+        sellerIDField.setEnabled(false);
 
         // Creating buttons
         createProductButton = new JButton("Create Product");
@@ -179,7 +202,7 @@ public class SellerCreateProductGUI extends JComponent implements Runnable {
         gbc.gridy++;
         middlePanel.add(storeIDLabel, gbc);
         gbc.gridx++;
-        middlePanel.add(storeIDField, gbc);
+        middlePanel.add(storeNameField, gbc);
         gbc.gridx--;
         gbc.gridy++;
         middlePanel.add(sellerIDLabel, gbc);

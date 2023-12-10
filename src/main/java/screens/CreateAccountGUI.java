@@ -35,21 +35,48 @@ public class CreateAccountGUI extends JComponent implements Runnable {
                 password = String.valueOf(passwordTextField.getText());
                 if (customerButton.isSelected()) {
                     try {
-                        Customer.createCustomer(email, password);
-                        Customer customer = Customer.getCustomerByEmail(email);
-                        frame.dispose();
-                        SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Invalid Email/Password. Please try again!", "Error Message", JOptionPane.ERROR_MESSAGE);
+                        if (Customer.customerExists(email, password)) {
+                            JOptionPane.showMessageDialog(null, "Sorry, that user already exists as a customer!",
+                                    "Error Message", JOptionPane.ERROR_MESSAGE);
+
+                        } else if (Seller.sellerExists(email, password)) {
+                            JOptionPane.showMessageDialog(null, "Sorry, that user already exists as a seller!",
+                                    "Error Message", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            try {
+                                Customer.createCustomer(email, password);
+                                Customer customer = Customer.getCustomerByEmail(email);
+                                frame.dispose();
+                                SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, "Invalid Email/Password. Please try again!",
+                                        "Error Message", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
                 } else {
                     try {
-                        Seller.createSeller(email, password, name);
-                        Seller seller = Seller.getSellerByEmail(email);
-                        frame.dispose();
-                        SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Invalid Email/Password. Please try again!", "Error Message", JOptionPane.ERROR_MESSAGE);
+                        if (Customer.customerExists(email, password)) {
+                            JOptionPane.showMessageDialog(null, "Sorry, that user already exists as a customer!",
+                                    "Error Message", JOptionPane.ERROR_MESSAGE);
+                        } else if (Seller.sellerExists(email, password)) {
+                            JOptionPane.showMessageDialog(null, "Sorry, that user already exists as a seller!",
+                                    "Error Message", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            try {
+                                Seller.createSeller(email, password, name);
+                                Seller seller = Seller.getSellerByEmail(email);
+                                frame.dispose();
+                                SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, "Invalid Email/Password. Please try again!",
+                                        "Error Message", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
                 }
             }
