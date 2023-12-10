@@ -193,7 +193,7 @@ public class Customer {
             idNumProducts.put(customer.getCustomerId(), numProductsSold);
         }
         for (Map.Entry<Integer, Integer> entry : idNumProducts.entrySet()) {
-            if (sortedCustomers.containsKey(entry.getValue())) {
+            if (sortedCustomers.containsKey(entry.getValue().doubleValue())) {
                 sortedCustomers.put(entry.getValue() - Math.random(), entry.getKey());
             }
             sortedCustomers.put(entry.getValue().doubleValue(), entry.getKey());
