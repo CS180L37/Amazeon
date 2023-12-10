@@ -171,7 +171,8 @@ public class Customer {
             throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection.orderBy(fields.isDeleted)
                 .whereNotEqualTo(fields.isDeleted, true).get();
-        TreeMap<Integer, Integer> idNumProducts = new TreeMap<Integer, Integer>();
+        HashMap<Integer, Integer> idNumProducts = new HashMap<Integer, Integer>();
+        TreeMap<Double, Integer> sortedCustomers = new TreeMap<Double, Integer>();
         ArrayList<Customer> customers = new ArrayList<Customer>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -190,6 +191,12 @@ public class Customer {
                 numProductsSold += saleDoc.getLong(fields.numPurchased).intValue();
             }
             idNumProducts.put(customer.getCustomerId(), numProductsSold);
+        }
+        for (Map.Entry<Integer, Integer> entry : idNumProducts.entrySet()) {
+            if (sortedCustomers.containsKey(entry.getValue())) {
+                sortedCustomers.put(entry.getValue() - Math.random(), entry.getKey());
+            }
+            sortedCustomers.put(entry.getValue().doubleValue(), entry.getKey());
         }
         for (int id : idNumProducts.keySet()) {
             customers.add(Customer.getCustomerById(id));
