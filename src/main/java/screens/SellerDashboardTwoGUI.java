@@ -7,12 +7,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.cloud.firestore.Query;
 import models.Cart;
 import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import utils.fields;
 
 public class SellerDashboardTwoGUI extends JComponent implements Runnable {
     // sorts products by number of sales
@@ -99,11 +101,15 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         try {
             ArrayList<Product> sortedProducts = Sale.sortProductBySales();
 
-            for (int i = 0; i < sortedProducts.size(); i++) {
-                JLabel productName = new JLabel("Product " + (i+1) + " Name: " + sortedProducts.get(i).getName());
+            if(sortedProducts != null) {
+                for (int i = 0; i < sortedProducts.size(); i++) {
+                    JLabel productName = new JLabel("Product " + (i+1) + " Name: " + sortedProducts.get(i).getName());
 
-                middlePanel.add(productName, gbc);
-                gbc.gridy++;
+                    middlePanel.add(productName, gbc);
+                    gbc.gridy++;
+                }
+            } else {
+                sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.ASCENDING);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

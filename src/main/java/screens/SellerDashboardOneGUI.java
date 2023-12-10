@@ -103,12 +103,15 @@ public class SellerDashboardOneGUI extends JComponent implements Runnable {
 
         try {
             ArrayList<Customer> sortedCust = Customer.sortNonDeletedCustomersByNumProducts();
+            if(sortedCust != null) {
+                for (int i = 0; i < sortedCust.size(); i++) {
+                    JLabel customerName = new JLabel("Customer Email: " + sortedCust.get(i).getEmail());
 
-            for (int i = 0; i < sortedCust.size(); i++) {
-                JLabel customerName = new JLabel("Customer Email: " + sortedCust.get(i).getEmail());
-
-                middlePanel.add(customerName, gbc);
-                gbc.gridy++;
+                    middlePanel.add(customerName, gbc);
+                    gbc.gridy++;
+                }
+            } else {
+                sortedCust = Customer.sortNonDeletedCustomers(fields.customerId, Query.Direction.ASCENDING);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
