@@ -91,8 +91,8 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable 
 
         ArrayList<Store> sortedStores;
         try {
-            sortedStores = Seller.sortStoresBySales();
-            if(sortedStores == null) {
+            sortedStores = Store.sortStoresByNumProductsSold();
+            if (sortedStores == null) {
                 sortedStores = Store.sortNonDeletedStores(fields.storeId, Query.Direction.ASCENDING);
             }
         } catch (IOException e) {
@@ -100,7 +100,7 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable 
         }
 
         for (int i = 0; i < sortedStores.size(); i++) {
-            JLabel storeName = new JLabel((i+1) + ") " + sortedStores.get(i).getName());
+            JLabel storeName = new JLabel((i + 1) + ") " + sortedStores.get(i).getName());
             middlePanel.add(storeName, gbc);
             gbc.gridy++;
         }

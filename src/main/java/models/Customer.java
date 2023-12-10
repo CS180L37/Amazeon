@@ -171,8 +171,7 @@ public class Customer {
             throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection.orderBy(fields.isDeleted)
                 .whereNotEqualTo(fields.isDeleted, true).get();
-        HashMap<Integer, Integer> idNumProducts = new HashMap<Integer, Integer>();
-        TreeMap<Double, Integer> sortedCustomers = new TreeMap<Double, Integer>();
+        TreeMap<Integer, List<Customer>> sortedCustomers = new TreeMap<Integer, List<Customer>>();
         ArrayList<Customer> customers = new ArrayList<Customer>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -190,17 +189,17 @@ public class Customer {
             for (QueryDocumentSnapshot saleDoc : saleDocuments) {
                 numProductsSold += saleDoc.getLong(fields.numPurchased).intValue();
             }
-            idNumProducts.put(customer.getCustomerId(), numProductsSold);
-        }
-        for (Map.Entry<Integer, Integer> entry : idNumProducts.entrySet()) {
-            if (sortedCustomers.containsKey(entry.getValue().doubleValue())) {
-                sortedCustomers.put(entry.getValue() - Math.random(), entry.getKey());
+            if (sortedCustomers.containsKey(numProductsSold)) {
+                sortedCustomers.get(numProductsSold).add(customer);
+                sortedCustomers.put(numProductsSold, sortedCustomers.get(customer));
             }
-            sortedCustomers.put(entry.getValue().doubleValue(), entry.getKey());
+            sortedCustomers.put(numProductsSold, List.of(customer));
         }
-        NavigableMap<Double, Integer> sortedCustomersDescending = sortedCustomers.descendingMap();
-        for (int id : sortedCustomersDescending.values()) {
-            customers.add(Customer.getCustomerById(id));
+        NavigableMap<Integer, List<Customer>> sortedCustomersDescending = sortedCustomers.descendingMap();
+        for (List<Customer> customerList : sortedCustomersDescending.values()) {
+            for (Customer customer : customerList) {
+                customers.add(customer);
+            }
         }
         return customers;
     }

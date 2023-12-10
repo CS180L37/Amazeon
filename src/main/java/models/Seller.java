@@ -188,34 +188,6 @@ public class Seller {
         return sellers;
     }
 
-    public static ArrayList<Store> sortStoresBySales() throws IOException {
-        int latestStoreId = Store.getNextStoreId() - 1;
-        ArrayList<Store> stores = new ArrayList<Store>();
-        TreeMap<Integer, Integer> storeSales = new TreeMap<Integer, Integer>();
-        for (int i = 0; i < latestStoreId; i++) {
-            ApiFuture<QuerySnapshot> future = sellersCollection.whereEqualTo(fields.sellerId, i).select(fields.saleIds)
-                    .get();
-            List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-            if (documents == null) {
-                continue;
-            } else {
-                storeSales.put(documents.size(), i);
-            }
-        }
-        for (int storeId : storeSales.values()) {
-            stores.add(Store.getStoreById(storeId));
-        }
-        ArrayList<Store> allStores = Store.sortStores(fields.storeId, Direction.ASCENDING);
-        if (allStores.size() != stores.size()) {
-            for (Store store : allStores) {
-                if (!stores.contains(store)) {
-                    stores.add(store);
-                }
-            }
-        }
-        return stores;
-    }
-
     // Called in login
     public static Boolean sellerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
