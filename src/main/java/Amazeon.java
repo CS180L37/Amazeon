@@ -37,6 +37,7 @@ public class Amazeon {
             JOptionPane.showMessageDialog(null, "Error", "title", JOptionPane.ERROR_MESSAGE);
             return;
         }
+<<<<<<< HEAD
 //        try {
 //            ArrayList<Customer> customers = Customer.sortNonDeletedCustomersByNumProducts();
 //            System.out.println(customers.toString());
@@ -47,5 +48,17 @@ public class Amazeon {
 //            e.printStackTrace();
 //        }
          SwingUtilities.invokeLater(new LoginGUI());
+=======
+        try {
+            ArrayList<Customer> customers = Customer.sortNonDeletedCustomersByNumProducts();
+            // System.out.println(customers.toString());
+            ArrayList<Product> products = Sale.sortProductBySales();
+            // System.out.println(products.toString());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // SwingUtilities.invokeLater(new LoginGUI());
+>>>>>>> 9e9b031a57a6771003514dbcc60c358c3ec90609
     }
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.concurrent.ExecutionException;
 
 import com.google.api.core.ApiFuture;
@@ -198,7 +199,8 @@ public class Customer {
             }
             sortedCustomers.put(entry.getValue().doubleValue(), entry.getKey());
         }
-        for (int id : idNumProducts.keySet()) {
+        NavigableMap<Double, Integer> sortedCustomersDescending = sortedCustomers.descendingMap();
+        for (int id : sortedCustomersDescending.values()) {
             customers.add(Customer.getCustomerById(id));
         }
         return customers;
