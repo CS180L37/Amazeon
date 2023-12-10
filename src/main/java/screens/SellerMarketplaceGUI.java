@@ -24,12 +24,13 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
     JButton salesButton;
     JButton dashboardButton;
     JButton cartButton;
-    JButton dataMenu;
+    JButton dataButton;
     JButton logOutButton;
 
     JPopupMenu sortDashboardMenu;
     JMenuItem menuItemSort1;
     JMenuItem menuItemSort2;
+    JPopupMenu dataMenu;
     JMenuItem menuItemExportData;
     JMenuItem menuItemImportData;
 
@@ -71,6 +72,9 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
             if (e.getSource() == menuItemSort2) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new SellerDashboardTwoGUI(seller));
+            }
+            if (e.getSource() == dataButton) {
+                dataMenu.show(dataButton, 0, dataButton.getHeight());
             }
             if (e.getSource() == menuItemExportData) {
                 if (seller.exportProducts()) {
@@ -138,6 +142,9 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
         dashboardButton = new JButton("Dashboard");
         dashboardButton.addActionListener(actionListener);
 
+        dataButton = new JButton("Data");
+        dataButton.addActionListener(actionListener);
+
         cartButton = new JButton("Cart");
         cartButton.addActionListener(actionListener);
 
@@ -152,6 +159,17 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
         menuItemSort2.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort2);
 
+        // data dropdown menu
+        dataMenu = new JPopupMenu("Data");
+
+        menuItemExportData = new JMenuItem("Export Product Data");
+        menuItemExportData.addActionListener(actionListener);
+        dataMenu.add(menuItemExportData);
+
+        menuItemImportData = new JMenuItem("Import Product Data");
+        menuItemImportData.addActionListener(actionListener);
+        dataMenu.add(menuItemImportData);
+
         // creates panel at top of frame and adds buttons
         JPanel topPanel = new JPanel();
         topPanel.add(createButton);
@@ -160,6 +178,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
         topPanel.add(salesButton);
         topPanel.add(dashboardButton);
         topPanel.add(cartButton);
+        topPanel.add(dataButton);
 
         content.add(topPanel, BorderLayout.NORTH); // adds the panel to the container
 
