@@ -188,8 +188,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 // products in the marketplace
 
                 try {
-                    ArrayList<Product> sortedProducts = Product.sortNonDeletedProducts(fields.quantity,
-                            Query.Direction.DESCENDING);
+                    ArrayList<Product> sortedProducts = Product.sortNonDeletedProducts(fields.quantity, Query.Direction.DESCENDING);
 
                     if(sortedProducts != null) {
                         for (int i = 0; i < sortedProducts.size(); i++) {

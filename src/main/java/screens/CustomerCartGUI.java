@@ -51,6 +51,8 @@ public class CustomerCartGUI extends JComponent implements Runnable {
                         ArrayList<Sale> newSales = seller.getSales();
                         newSales.add(sale);
                         seller.setSales(newSales);
+                        frame.dispose();
+                        SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }

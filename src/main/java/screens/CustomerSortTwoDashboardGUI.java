@@ -81,7 +81,6 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable 
         topPanel.add(sortByProductsSoldButton);
         content.add(topPanel, BorderLayout.NORTH);
 
-        // sorting
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new GridBagLayout());
 
@@ -90,59 +89,18 @@ public class CustomerSortTwoDashboardGUI extends JComponent implements Runnable 
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 0);
 
-        ArrayList<Integer> numPurchasedEachStore = new ArrayList<Integer>();
-
-        ArrayList<Store> sortedStores = new ArrayList<Store>();
-        for (int i = 0; i < stores.size(); i++) {
-            sortedStores.add(stores.get(i));
-        }
-
-        ArrayList<Product> products = new ArrayList<Product>();
-        for (int i = 0; i < customer.getProducts().size(); i++) {
-            products.add(customer.getProducts().get(i));
-        }
-
-        for (int i = 0; i < stores.size(); i++) {
-            int numProductsPurchased = 0;
-            for (Product product : products) {
-                if (product.getStoreId() == stores.get(i).getStoreId()) {
-                    ArrayList<Sale> sales;
-                    try {
-                        sales = Seller.getSellerById(product.getSellerId()).getSales();
-                        for (int j = 0; j < sales.size(); j++) {
-                            if (sales.get(i).getCustomerId() == customer.getCustomerId()
-                                    && sales.get(i).getProductId() == product.getProductId())
-                                numProductsPurchased += sales.get(i).getNumPurchased();
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+        ArrayList<Store> sortedStores;
+        try {
+            sortedStores = Seller.sortStoresBySales();
+            if(sortedStores == null) {
+                sortedStores = Store.sortNonDeletedStores(fields.storeId, Query.Direction.ASCENDING);
             }
-            numPurchasedEachStore.add(i, numProductsPurchased);
-        }
-
-        // sorts stores
-        for (int i = 0; i < numPurchasedEachStore.size() - 1; i++) {
-            int maxIndex = i;
-            for (int j = 0; j < numPurchasedEachStore.size(); j++) {
-                if (numPurchasedEachStore.get(j) > numPurchasedEachStore.get(maxIndex)) {
-                    maxIndex = j;
-                }
-            }
-
-            int productsPurchased = numPurchasedEachStore.get(maxIndex);
-            numPurchasedEachStore.set(maxIndex, numPurchasedEachStore.get(i));
-            numPurchasedEachStore.set(maxIndex, productsPurchased);
-
-            Store store = sortedStores.get(maxIndex);
-            sortedStores.set(maxIndex, sortedStores.get(i));
-            sortedStores.set(maxIndex, store);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         for (int i = 0; i < sortedStores.size(); i++) {
-            JLabel storeName = new JLabel(
-                    sortedStores.get(i).getName() + " -- Num Products Purchased: " + numPurchasedEachStore.get(i));
+            JLabel storeName = new JLabel((i+1) + ") " + sortedStores.get(i).getName());
             middlePanel.add(storeName, gbc);
             gbc.gridy++;
         }
