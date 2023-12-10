@@ -172,7 +172,7 @@ public class Customer {
         ApiFuture<QuerySnapshot> future = customersCollection.orderBy(fields.isDeleted)
                 .whereNotEqualTo(fields.isDeleted, true).get();
         HashMap<Integer, Integer> idNumProducts = new HashMap<Integer, Integer>();
-        TreeMap<Double, Integer> sortedCustomers = new TreeMap<Double, Integer>();
+        TreeMap<Integer, List<Integer>> sortedCustomers = new TreeMap<Integer, List<Integer>>();
         ArrayList<Customer> customers = new ArrayList<Customer>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -193,14 +193,17 @@ public class Customer {
             idNumProducts.put(customer.getCustomerId(), numProductsSold);
         }
         for (Map.Entry<Integer, Integer> entry : idNumProducts.entrySet()) {
-            if (sortedCustomers.containsKey(entry.getValue().doubleValue())) {
-                sortedCustomers.put(entry.getValue() - Math.random(), entry.getKey());
+            if (sortedCustomers.containsKey(entry.getValue())) {
+                sortedCustomers.get(entry.getValue()).add(entry.getKey());
+                sortedCustomers.put(entry.getValue(), sortedCustomers.get(entry.getValue()));
             }
-            sortedCustomers.put(entry.getValue().doubleValue(), entry.getKey());
+            sortedCustomers.put(entry.getValue(), List.of(entry.getKey()));
         }
-        NavigableMap<Double, Integer> sortedCustomersDescending = sortedCustomers.descendingMap();
-        for (int id : sortedCustomersDescending.values()) {
-            customers.add(Customer.getCustomerById(id));
+        NavigableMap<Integer, List<Integer>> sortedCustomersDescending = sortedCustomers.descendingMap();
+        for (List<Integer> idList : sortedCustomersDescending.values()) {
+            for (int id : idList) {
+                customers.add(Customer.getCustomerById(id));
+            }
         }
         return customers;
     }
