@@ -191,7 +191,9 @@ public class Seller {
     // Called in login
     public static Boolean sellerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection
-                .where(Filter.equalTo(fields.email, email)).limit(1).get();
+                .where(Filter.and(Filter.equalTo(fields.email, email), Filter.equalTo(fields.password, password)))
+                .limit(1)
+                .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents != null) ? true : false;
     }
