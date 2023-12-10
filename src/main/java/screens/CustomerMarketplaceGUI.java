@@ -195,7 +195,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                         "<div>" + "StoreName: " + sortedProducts.get(i).getName() + "</div>" +
                                         "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0" + "</div>"
                                         +
-                                        "<div>" + "Product Quantity: $" + sortedProducts.get(i).getQuantity() + "0"
+                                        "<div>" + "Product Quantity: " + sortedProducts.get(i).getQuantity() + "0"
                                         + "</div>" +
                                         "</div>" +
                                         "</html>");
@@ -236,7 +236,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                         "<div>" + "StoreName: " + sortedProducts.get(i).getName() + "</div>" +
                                         "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0" + "</div>"
                                         +
-                                        "<div>" + "Product Quantity: $" + sortedProducts.get(i).getQuantity() + "0"
+                                        "<div>" + "Product Quantity: " + sortedProducts.get(i).getQuantity() + "0"
                                         + "</div>" +
                                         "</div>" +
                                         "</html>");
