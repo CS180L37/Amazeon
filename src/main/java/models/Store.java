@@ -214,6 +214,14 @@ public class Store {
         return storeList;
     }
 
+    public static Store getStoreByStoreName(String storeName)
+            throws IOException {
+        ApiFuture<QuerySnapshot> future = storesCollection
+                .where(Filter.equalTo(fields.name, storeName)).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Store(documents.get(0));
+    }
+
     public static ArrayList<Store> getNonDeletedStoresByStoreName(String storeName)
             throws IOException {
         ArrayList<Store> storeList = new ArrayList<Store>();

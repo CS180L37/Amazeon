@@ -39,20 +39,27 @@ public class SellerCreateProductGUI extends JComponent implements Runnable {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == createProductButton) {
                 Product product = null;
+                int storeId = -1;
+                try {
+                    storeId = Store.getStoreByStoreName(storeNameField.getSelectedItem().toString()).getStoreId();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
                 try {
                     product = Product.createProduct(productDescField.getText(), productNameField.getText(),
                             Double.parseDouble(productPriceField.getText()), Integer.parseInt(productIDField.getText()),
                             Integer.parseInt(productStockField.getText()), Integer.parseInt(sellerIDField.getText()),
-                            Integer.parseInt(storeNameField.getSelectedItem().toString()));
+                            storeId);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid Input!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 try {
                     ArrayList<Product> storeProducts = Store
-                            .getStoreById(Integer.parseInt(storeNameField.getSelectedItem().toString()))
+                            .getStoreById(storeId)
                             .getStoreProducts();
                     storeProducts.add(product);
-                    Store.getStoreById(Integer.parseInt(storeNameField.getSelectedItem().toString()))
+                    Store.getStoreById(storeId)
                             .setStoreProducts(storeProducts);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
