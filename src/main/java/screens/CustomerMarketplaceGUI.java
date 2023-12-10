@@ -333,6 +333,9 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
         cartButton = new JButton("Cart");
         cartButton.addActionListener(actionListener);
 
+        exportButton = new JButton("Export");
+        exportButton.addActionListener(actionListener);
+
         // dashboard button's dropdown menu
         sortDashboardMenu = new JPopupMenu("Dashboard");
 
@@ -370,6 +373,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
         topPanel.add(dashboardButton);
         topPanel.add(sortMarketplaceButton);
         topPanel.add(cartButton);
+        topPanel.add(exportButton);
 
         content.add(topPanel, BorderLayout.NORTH); // adds the panel to the container
 
