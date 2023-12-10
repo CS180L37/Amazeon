@@ -6,8 +6,7 @@ Next, our class goes thorough the login process if our user already has an accou
 After the customer or seller loop's run, all new data in addition to data that needs to be updated will be written to files to make sure that the data is preserved.
 In addition to the flow of the program being run here, Amazeon also has many helper methods that make it easy to access instances of other classes using a simple parameter (almost reminiscent of a NoSQL database). They have come in much handy when implementing the rest of the application.
 
-## TODO
-- Compile into one executable
+
 
 ## Client Dependencies
 For compiling and running from source: Java, and Maven dependencies for FireStore and JUnit. Maven handles a lot of the process for you.
