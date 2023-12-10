@@ -58,7 +58,7 @@ public class CustomerProductPage extends JComponent implements Runnable {
                     JOptionPane.showMessageDialog(null, "Out of Stock!", "Out of Stock",
                             JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    try{
+                    try {
                         int numPurchase = Integer.parseInt(
                                 (String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
                                         JOptionPane.PLAIN_MESSAGE, null, options, null));
@@ -76,13 +76,14 @@ public class CustomerProductPage extends JComponent implements Runnable {
                         ArrayList<Sale> newSales = seller.getSales();
                         newSales.add(sale);
                         seller.setSales(newSales);
-                        JOptionPane.showMessageDialog(null, "products", "Purchased Product", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Product Purchased", "Purchased Product",
+                                JOptionPane.INFORMATION_MESSAGE);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
             }
-            if(e.getSource() == addToCartButton) {
+            if (e.getSource() == addToCartButton) {
                 cart.addToCart(product);
                 JOptionPane.showMessageDialog(null, "Added To Cart!", "Adds To Cart", JOptionPane.INFORMATION_MESSAGE);
             }
