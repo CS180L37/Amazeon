@@ -39,9 +39,9 @@ public class Amazeon {
         }
         try {
             ArrayList<Customer> customers = Customer.sortNonDeletedCustomersByNumProducts();
-            System.out.println(customers.toString());
+            // System.out.println(customers.toString());
             ArrayList<Product> products = Sale.sortProductBySales();
-            System.out.println(products.toString());
+            // System.out.println(products.toString());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

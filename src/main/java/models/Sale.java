@@ -121,7 +121,8 @@ public class Sale {
     public static ArrayList<Product> sortProductBySales() throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection.orderBy(fields.isDeleted)
                 .whereNotEqualTo(fields.isDeleted, true).get();
-        TreeMap<Integer, Integer> productsByNumSales = new TreeMap<Integer, Integer>();
+        HashMap<Integer, Integer> productsByNumSales = new HashMap<Integer, Integer>();
+        TreeMap<Double, Integer> sortedProducts = new TreeMap<Double, Integer>();
         ArrayList<Product> products = new ArrayList<Product>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -137,7 +138,14 @@ public class Sale {
                         productsByNumSales.get(sale.getProductId()) + sale.getNumPurchased());
             }
         }
-        for (int id : productsByNumSales.keySet()) {
+        for (Map.Entry<Integer, Integer> entry : productsByNumSales.entrySet()) {
+            if (productsByNumSales.containsKey(entry.getValue())) {
+                sortedProducts.put(entry.getValue().doubleValue() - Math.random(), entry.getKey());
+            }
+            sortedProducts.put(entry.getValue().doubleValue(), entry.getKey());
+        }
+        NavigableMap<Double, Integer> sortedProductsDescending = sortedProducts.descendingMap();
+        for (int id : sortedProductsDescending.values()) {
             products.add(Product.getProductById(id));
         }
         return products;
