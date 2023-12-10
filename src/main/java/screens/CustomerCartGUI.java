@@ -179,6 +179,8 @@ public class CustomerCartGUI extends JComponent implements Runnable {
                                 ArrayList<Sale> newSales = seller.getSales();
                                 newSales.add(sale);
                                 seller.setSales(newSales);
+                                frame.dispose();
+                                SwingUtilities.invokeLater(new CustomerCartGUI(customer));
                             }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
