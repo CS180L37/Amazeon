@@ -167,11 +167,10 @@ public class Customer {
         return customers;
     }
 
-    public static ArrayList<Customer> sortNonDeletedCustomersByNumProducts(String field, Direction direction)
+    public static ArrayList<Customer> sortNonDeletedCustomersByNumProducts()
             throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection.orderBy(fields.isDeleted)
-                .whereNotEqualTo(fields.isDeleted, true)
-                .orderBy(field, direction).get();
+                .whereNotEqualTo(fields.isDeleted, true).get();
         TreeMap<Integer, Integer> idNumProducts = new TreeMap<Integer, Integer>();
         ArrayList<Customer> customers = new ArrayList<Customer>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);

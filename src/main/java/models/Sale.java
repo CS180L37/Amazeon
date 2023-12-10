@@ -117,6 +117,37 @@ public class Sale {
         return sales;
     }
 
+    // Sort products by number of sales
+    public static ArrayList<Product> sortProductBySales(String field, Direction direction) throws IOException {
+        ApiFuture<QuerySnapshot> future = salesCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true)
+                .orderBy(field, direction).get();
+        TreeMap<Integer, Integer> productsByNumSales = new TreeMap<Integer, Integer>();
+        ArrayList<Product> products = new ArrayList<Product>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            Sale sale = new Sale(doc);
+            ApiFuture<QuerySnapshot> saleFuture = Sale.salesCollection
+                    .whereEqualTo(fields.customerId, product.getCustomerId()).get();
+            List<QueryDocumentSnapshot> saleDocuments = Utils.retrieveData(saleFuture);
+            if (saleDocuments == null) {
+                continue;
+            }
+            int numProductsSold = 0;
+            for (QueryDocumentSnapshot saleDoc : documents) {
+                numProductsSold += saleDoc.getLong(fields.numPurchased).intValue();
+            }
+            productsByNumSales.put(product.getCustomerId(), numProductsSold);
+        }
+        for (int id : productsByNumSales.keySet()) {
+            products.add(Customer.getCustomerById(id));
+        }
+        return products;
+    }
+
     public int getCustomerId() {
         return customerId;
     }
