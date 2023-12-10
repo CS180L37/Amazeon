@@ -151,6 +151,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                 }
                             });
                         }
+                    } else {
+                        sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.ASCENDING);
                     }
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Check your connection!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -197,6 +199,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                 }
                             });
                         }
+                    }  else {
+                        sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.DESCENDING);
                     }
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Check your connection!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -242,6 +246,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                 }
                             });
                         }
+                    } else {
+                        sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.ASCENDING);
                     }
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Check your connection!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -286,6 +292,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                 }
                             });
                         }
+                    } else {
+                        sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.DESCENDING);
                     }
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Check your connection!", "Error", JOptionPane.ERROR_MESSAGE);
