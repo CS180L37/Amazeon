@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -160,6 +161,44 @@ public class Customer {
         }
         return customers;
     }
+
+    // public static ArrayList<Store> sortStoresByUserPurchasedProducts(int userId)
+    // throws IOException {
+    // ApiFuture<QuerySnapshot> future = customersCollection
+    // .whereEqualTo(fields.customerId, userId)
+    // .select(fields.productIds).get();
+    // List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+    // HashMap<Integer, Integer> storeProducts = new HashMap<Integer, Integer>();
+    // if (documents == null) {
+    // return null;
+    // }
+    // for (QueryDocumentSnapshot doc : documents) {
+    // ApiFuture<QuerySnapshot> productFuture = Product.productsCollection
+    // .whereEqualTo(fields.productId,
+    // doc.getLong(fields.productId).intValue()).get();
+    // List<QueryDocumentSnapshot> productDocs = Utils.retrieveData(productFuture);
+    // if (storeProducts.keySet().contains(productDocs.get(0).get(fields.storeId)))
+    // {
+    // storeProducts.put(productDocs.get(0).getLong(fields.storeId).intValue(),
+    // storeProducts.get(productDocs.get(0).getLong(fields.storeId)).intValue() +
+    // 1);
+    // } else {
+    // storeProducts.put(productDocs.get(0).getLong(fields.storeId).intValue(), 1);
+    // }
+    // }
+    // Map.Entry<Integer, Integer> maxEntry =
+    // storeProducts.entrySet().iterator().next();
+    // ArrayList<Store> stores = new ArrayList<Store>();
+    // for (Map.Entry<Integer, Integer> temp : storeProducts.entrySet()) {
+    // for (Map.Entry<Integer, Integer> entry : storeProducts.entrySet()) {
+    // if (entry.getValue() > maxEntry.getValue()) {
+    // maxEntry = entry;
+    // }
+    // }
+    // stores.add(Store.getStoreById(maxEntry.getKey()));
+    // }
+    // return stores;
+    // }
 
     // Called in login
     public static Boolean customerExists(String email, String password) throws IOException {

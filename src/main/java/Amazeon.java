@@ -32,22 +32,10 @@ public class Amazeon {
         try {
             Utils.initializeDatabase();
         } catch (IOException e) {
-            // TODO: display error message
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error", "title", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        // try {
-        // ArrayList<Product> products = Product.getNonDeletedProductsByName("and");
-        // System.out.println(products.size());
-        // products = Product.getNonDeletedProductsByDescription("percy");
-        // System.out.println(products.size());
-        // products = Product.getNonDeletedProductsByStoreName("i");
-        // System.out.println(products.size());
-        // } catch (IOException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
         SwingUtilities.invokeLater(new LoginGUI());
     }
 }

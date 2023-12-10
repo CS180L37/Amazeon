@@ -11,6 +11,8 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+import javax.annotation.Nonnull;
+
 public class Sale {
     private int saleId;
     private int customerId;

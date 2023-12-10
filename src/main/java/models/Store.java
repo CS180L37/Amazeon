@@ -161,26 +161,27 @@ public class Store {
         return stores;
     }
 
-    public static ArrayList<Store> sortNonDeletedStoresByNumProductsSold(
-            @Nonnull Direction direction)
+    public static ArrayList<Store> sortStoresByUserPurchased(int userId)
             throws IOException {
-        ApiFuture<QuerySnapshot> future = storesCollection.orderBy(fields.isDeleted)
-                .whereNotEqualTo(fields.isDeleted, true).get();
+        ApiFuture<QuerySnapshot> future = storesCollection.whereArrayContains(fields.customerIds, userId).get();
         ArrayList<Store> stores = new ArrayList<Store>();
-        ArrayList<Store> sortedStores = new ArrayList<Store>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
             return null;
         }
         for (QueryDocumentSnapshot doc : documents) {
-            stores.add(new Store(doc));
+            if (!doc.getBoolean(fields.isDeleted)) {
+                stores.add(new Store(doc));
+            }
+            ArrayList<Store> allStores = sortStores(fields.storeId, Direction.ASCENDING);
+            if (allStores.size() != stores.size()) {
+                for (Store store : allStores) {
+                    if (!stores.contains(store)) {
+                        stores.add(store);
+                    }
+                }
+            }
         }
-        // stores.sort(new Comparator<Integer>() {
-        // public int compare(Store store1, Store store2) {
-        // return
-        // store2.getStoreProducts().size().compare(store1.getStoreProducts().size());
-        // }
-        // });
         return stores;
     }
 
