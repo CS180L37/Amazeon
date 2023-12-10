@@ -6,21 +6,6 @@ Next, our class goes thorough the login process if our user already has an accou
 After the customer or seller loop's run, all new data in addition to data that needs to be updated will be written to files to make sure that the data is preserved.
 In addition to the flow of the program being run here, Amazeon also has many helper methods that make it easy to access instances of other classes using a simple parameter (almost reminiscent of a NoSQL database). They have come in much handy when implementing the rest of the application.
 
-## Documentation
-
-- [Amazeon.Java](DOCS.md#Amazeon)
-- [Customer.java](DOCS.md#Customer)
-- [Seller.java](DOCS.md#Seller)
-- [Store.java](DOCS.md#Store)
-- [Product.java](DOCS.md#Product)
-- [Sale.java](DOCS.md#Sale)
-- [Cart.java](DOCS.md#Cart)
-- [Utils.java](DOCS.md#Utils)
-- [ValidateInterface.java](DOCS.md#ValidateInterface)
-- [Testing](DOCS.md#Testing)
-
-
-
 ### Front-End
 #### Customer
 The Customer class foremost has a Login Page which requires the customer to input the email and password. The Login Page
