@@ -105,7 +105,7 @@ public class SellerDashboardOneGUI extends JComponent implements Runnable {
             ArrayList<Customer> sortedCust = Customer.sortNonDeletedCustomersByNumProducts();
 
             for (int i = 0; i < sortedCust.size(); i++) {
-                JLabel customerName = new JLabel("Customer " + i + " ID: " + sortedCust.get(i).getCustomerId());
+                JLabel customerName = new JLabel("Customer Email: " + sortedCust.get(i).getEmail());
 
                 middlePanel.add(customerName, gbc);
                 gbc.gridy++;

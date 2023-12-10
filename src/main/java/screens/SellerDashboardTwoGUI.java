@@ -96,46 +96,17 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        ArrayList<Product> sortedProducts = new ArrayList<Product>();
-        for (int i = 0; i < seller.getProducts().size(); i++) {
-            sortedProducts.add(seller.getProducts().get(i));
-        }
+        try {
+            ArrayList<Product> sortedProducts = Sale.sortProductBySales();
 
-        ArrayList<Integer> numSalesPerProduct = new ArrayList<Integer>();
-        for (int i = 0; i < sortedProducts.size(); i++) {
-            int numPurchased = 0;
-            for (int j = 0; j < seller.getSales().size(); j++) {
-                if (seller.getSales().get(j).getProductId() == sortedProducts.get(i).getProductId()) {
-                    numPurchased += seller.getSales().get(j).getNumPurchased();
-                } else {
-                    numPurchased += 0;
-                }
+            for (int i = 0; i < sortedProducts.size(); i++) {
+                JLabel productName = new JLabel("Product " + (i+1) + " Name: " + sortedProducts.get(i).getName());
+
+                middlePanel.add(productName, gbc);
+                gbc.gridy++;
             }
-            numSalesPerProduct.add(i, numPurchased);
-        }
-
-        for (int i = 0; i < numSalesPerProduct.size() - 1; i++) {
-            int minIndex = i;
-            for (int j = (i+1); j < numSalesPerProduct.size(); j++) {
-                if (numSalesPerProduct.get(j) < numSalesPerProduct.get(minIndex)) {
-                    minIndex = j;
-                }
-            }
-
-            Product product = sortedProducts.get(minIndex);
-            int numSales = numSalesPerProduct.get(minIndex);
-            sortedProducts.set(minIndex, sortedProducts.get(i));
-            numSalesPerProduct.set(minIndex, numSalesPerProduct.get(i));
-            sortedProducts.set(i, product);
-            numSalesPerProduct.set(i, numSales);
-        }
-
-        for (int i = 0; i < sortedProducts.size(); i++) {
-            JLabel productName = new JLabel("Product " + i + " Name: " + sortedProducts.get(i).getName()
-                    + "       Num Sales: " + numSalesPerProduct.get(i));
-
-            middlePanel.add(productName, gbc);
-            gbc.gridy++;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         content.add(middlePanel, BorderLayout.CENTER);
 
