@@ -40,18 +40,42 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
                     if (seller.getProducts().get(i).equals(product)) {
                         if (!strId.getText().equals("")) {
                             seller.getProducts().get(i).setStoreId(Integer.parseInt(strId.getText()));
+                        } else if(strId.getText().equals("")) {
+                            strId.getText();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Invalid Store ID Input!", "Error", JOptionPane.ERROR_MESSAGE);
                         }
+
                         if (!nme.getText().equals("")) {
                             seller.getProducts().get(i).setName(nme.getText());
+                        } else if(nme.getText().equals("")) {
+                            nme.getText();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Invalid Name Input!", "Error", JOptionPane.ERROR_MESSAGE);
                         }
+
                         if (!desc.getText().equals("")) {
                             seller.getProducts().get(i).setDescription(desc.getText());
+                        } else if(desc.getText().equals("")) {
+                            desc.getText();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Invalid Description Input!", "Error", JOptionPane.ERROR_MESSAGE);
                         }
+
                         if (!quan.getText().equals("")) {
                             seller.getProducts().get(i).setQuantity(Integer.parseInt(quan.getText()));
+                        } else if(quan.getText().equals("")) {
+                            quan.getText();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Invalid Quantity Input!", "Error", JOptionPane.ERROR_MESSAGE);
                         }
+
                         if (!prce.getText().equals("")) {
                             seller.getProducts().get(i).setPrice(Double.parseDouble(prce.getText()));
+                        } else if(prce.getText().equals("")) {
+                            prce.getText();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Invalid Price Input!", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }

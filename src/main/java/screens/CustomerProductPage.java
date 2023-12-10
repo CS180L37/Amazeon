@@ -18,7 +18,8 @@ import models.Store;
 public class CustomerProductPage extends JComponent implements Runnable {
     JFrame frame;
 
-    JButton purchaseButton;// should be add to cart button
+    JButton purchaseButton;
+    JButton addToCartButton;
     JButton returnHomeButton;
     JButton logOutButton;
 
@@ -81,6 +82,10 @@ public class CustomerProductPage extends JComponent implements Runnable {
                     }
                 }
             }
+            if(e.getSource() == addToCartButton) {
+                cart.addToCart(product);
+                JOptionPane.showMessageDialog(null, "Added To Cart!", "Adds To Cart", JOptionPane.INFORMATION_MESSAGE);
+            }
             if (e.getSource() == returnHomeButton) {
                 try {
                     frame.dispose();
@@ -140,6 +145,8 @@ public class CustomerProductPage extends JComponent implements Runnable {
 
         purchaseButton = new JButton("Purchase");
         purchaseButton.addActionListener(actionListener);
+        addToCartButton = new JButton("Add To Cart");
+        addToCartButton.addActionListener(actionListener);
 
         JPanel westPanel = new JPanel();
         westPanel.setLayout(new GridBagLayout());
@@ -159,7 +166,15 @@ public class CustomerProductPage extends JComponent implements Runnable {
         gbc.gridy++;
         westPanel.add(price, gbc);
         gbc.gridy++;
-        westPanel.add(purchaseButton, gbc);
+
+        JPanel purchaseTypePanel = new JPanel();
+        purchaseTypePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        purchaseTypePanel.add(purchaseButton);
+        purchaseTypePanel.add(addToCartButton);
+
+        gbc.gridy++;
+        gbc.gridx = 0;
+        westPanel.add(purchaseTypePanel, gbc);
 
         content.add(westPanel, BorderLayout.WEST);
 

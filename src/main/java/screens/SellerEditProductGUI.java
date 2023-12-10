@@ -36,7 +36,7 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerUpdateProductGUI(seller, product));
                 } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, "Invalid Product ID!", "Error Message", JOptionPane.ERROR_MESSAGE);
                 }
             }
             if (e.getSource() == logOutButton) {
