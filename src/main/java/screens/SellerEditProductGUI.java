@@ -39,7 +39,8 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerUpdateProductGUI(seller, product));
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Invalid Product ID!", "Error Message", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Invalid Product ID!", "Error Message",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
             if (e.getSource() == logOutButton) {
@@ -102,7 +103,6 @@ public class SellerEditProductGUI extends JComponent implements Runnable {
         }
         editButton = new JButton("Edit Product");
         editButton.addActionListener(actionListener);
-
 
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new GridBagLayout());

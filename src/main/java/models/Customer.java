@@ -14,11 +14,16 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Filter;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
 import com.google.cloud.firestore.Query.Direction;
 
 import utils.Utils;
 import utils.fields;
 
+import static utils.Utils.DOWNLOADS;
+import static utils.Utils.createWriter;
+
+import java.io.BufferedWriter;
 import java.io.IOException;
 
 public class Customer {
@@ -203,6 +208,23 @@ public class Customer {
                 .where(Filter.equalTo(fields.email, email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Customer(documents.get(0));
+    }
+
+    // Write file to user
+    public boolean exportPurchaseHistory() {
+        BufferedWriter bw;
+        try {
+            bw = createWriter(DOWNLOADS
+                    + "purchase_history.csv");
+            for (Product product : getProducts()) {
+                bw.write(String.format("%d,%s,%d,%s,%f", product.getProductId(), product.getName(),
+                        product.getQuantity(), product.getDescription(), product.getPrice()));
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public Cart getCart() {

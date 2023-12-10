@@ -43,6 +43,8 @@ public class Utils {
     public static final int ERROR = -1;
     public static final Scanner SCANNER = new Scanner(System.in);
     public static final String NA = "NA";
+    public static final String DOWNLOADS = System.getProperty("user.home") + File.separator + "Downloads"
+            + File.separator;
 
     public static boolean validateYesOrNo(String input) {
         input = input.toLowerCase();
@@ -78,17 +80,15 @@ public class Utils {
         return password.length() >= 7;
     }
 
-    // public static BufferedReader createReader(String filename) throws IOException
-    // {
-    // BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
-    // return br;
-    // }
+    public static BufferedReader createReader(String filename) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
+        return br;
+    }
 
-    // public static BufferedWriter createWriter(String filename) throws IOException
-    // {
-    // BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
-    // return bw;
-    // }
+    public static BufferedWriter createWriter(String filename) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
+        return bw;
+    }
 
     // public static String inputPrompt(String prompt, ValidateInterface
     // validateInterface, String... reprompt) {

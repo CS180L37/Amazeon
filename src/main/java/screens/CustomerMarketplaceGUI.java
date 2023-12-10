@@ -1,6 +1,9 @@
 package screens;
 
 import javax.swing.*;
+
+import static utils.Utils.DOWNLOADS;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -28,6 +31,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
     JButton sortMarketplaceButton;
     JButton cartButton;
     JButton logOutButton;
+    JButton exportButton;
 
     // dashboard button's dropdown menu (for sorts)
     JPopupMenu sortDashboardMenu;
@@ -67,6 +71,18 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
             if (e.getSource() == logOutButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
+            }
+            if (e.getSource() == exportButton) {
+                if (customer.exportPurchaseHistory()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Export to " + DOWNLOADS + "purchase_history.csv" + "was successful!", "Export successful",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Export to " + DOWNLOADS + "purchase_history.csv" + "was unsuccessful!",
+                            "Export unsuccessful",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
             // if (e.getSource() == purchaseButton) {
             // frame.dispose();
