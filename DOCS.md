@@ -6,39 +6,6 @@ Next, our class goes thorough the login process if our user already has an accou
 After the customer or seller loop's run, all new data in addition to data that needs to be updated will be written to files to make sure that the data is preserved.
 In addition to the flow of the program being run here, Amazeon also has many helper methods that make it easy to access instances of other classes using a simple parameter (almost reminiscent of a NoSQL database). They have come in much handy when implementing the rest of the application.
 
-
-
-## Client Dependencies
-For compiling and running from source: Java, and Maven dependencies for FireStore and JUnit. Maven handles a lot of the process for you.
-For the built JAR file: just Java. :)
-
-## Dev Dependencies
-- firebase CLI (https://firebase.google.com/docs/cli)
-- service_account.json file in `src/main/resources`
-- Maven
-- JUnit
-- google-cloud-firestore
-
-## Usage
-```
-git clone https://github.com/CS180L37/Project4-5.git
-cd Project4-5
-mv service_account.json src/main/resources
-cd src/main/java
-find . -name "*.java" -print | xargs javac
-java Amazeon.java
-```
-
-## Testing
-> For more specifics, see (https://firebase.google.com/docs/cli)
-- Install the firebase CLI via `curl -sL https://firebase.tools/ | bash` or `npm install -g firebase-tools` if you're on a Windows machine. You may need to authenticate your Google account to use the emulator
-- Start the firestore emulator via `firebase emulators:start`
-- Run the test suite
-- Stop the firestore emulator after the tests have completed and you're done! :)
-
-For an example of the process, view the screencast here:
-[TestCases.webm](https://github.com/CS180L37/Project4-5/assets/86136010/ba9ea788-1bc2-4f1f-8001-7250c13bc2cb)
-
 ## Documentation
 
 - [Amazeon.Java](DOCS.md#Amazeon)
@@ -127,7 +94,7 @@ It has the functionality to
 The Sale class has the fields saleId, customerId, productId, cost, numPurchased, and isDeleted.
 It has the functionality to fetch the document of the current instance of the sale from the remote database and calculate the total price of all products in the sale.
 
-### Testing
+#### Testing
 For testing, we used the Junit testing framework for testing and created helper ```@Before``` and ```@After``` methods in TestUtils which we then extended into the rest of the test classes. We wrote test cases for almost all our methods, located in the test directory in src. All 63 of them pass.
 We utilized the FireStore emulator so as to keep the actual data safe, and we clear and reinitialize the emulator before each test class.
 We also wrote an integration test for the whole application.
