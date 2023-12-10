@@ -64,7 +64,7 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
 
-        frame.setTitle("Dashboard Sort One Page");
+        frame.setTitle("Dashboard Sort Products by Number of Products Sold");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -101,9 +101,9 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         try {
             ArrayList<Product> sortedProducts = Sale.sortProductBySales();
 
-            if(sortedProducts != null) {
+            if (sortedProducts != null) {
                 for (int i = 0; i < sortedProducts.size(); i++) {
-                    JLabel productName = new JLabel("Product " + (i+1) + " Name: " + sortedProducts.get(i).getName());
+                    JLabel productName = new JLabel("Product " + (i + 1) + " Name: " + sortedProducts.get(i).getName());
 
                     middlePanel.add(productName, gbc);
                     gbc.gridy++;

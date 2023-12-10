@@ -174,7 +174,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
         menuItemSort1.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort1);
 
-        menuItemSort2 = new JMenuItem("Sort Products By Number of Sales");
+        menuItemSort2 = new JMenuItem("Sort Products By Number of Products Sold");
         menuItemSort2.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort2);
 
