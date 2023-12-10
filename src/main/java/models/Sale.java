@@ -121,8 +121,7 @@ public class Sale {
     public static ArrayList<Product> sortProductBySales() throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection.orderBy(fields.isDeleted)
                 .whereNotEqualTo(fields.isDeleted, true).get();
-        HashMap<Integer, Integer> productsByNumSales = new HashMap<Integer, Integer>();
-        TreeMap<Integer, List<Integer>> sortedProducts = new TreeMap<Integer, List<Integer>>();
+        TreeMap<Integer, ArrayList<Integer>> sortedProducts = new TreeMap<Integer, ArrayList<Integer>>();
         ArrayList<Product> products = new ArrayList<Product>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -130,26 +129,18 @@ public class Sale {
         }
         for (QueryDocumentSnapshot doc : documents) {
             Sale sale = new Sale(doc);
-            sale.getProductId();
-            if (!productsByNumSales.containsKey(sale.getProductId())) {
-                productsByNumSales.put(sale.getProductId(), sale.getNumPurchased());
+            if (sortedProducts.containsKey(sale.getNumPurchased())) {
+                ArrayList<Integer> productIdList = sortedProducts.get(sale.getNumPurchased());
+                productIdList.add(sale.getProductId());
+                sortedProducts.put(sale.getNumPurchased(), productIdList);
             } else {
-                productsByNumSales.put(sale.getProductId(),
-                        productsByNumSales.get(sale.getProductId()) + sale.getNumPurchased());
+                sortedProducts.put(sale.getNumPurchased(), new ArrayList<Integer>(List.of(sale.getProductId())));
             }
         }
-        for (Map.Entry<Integer, Integer> entry : productsByNumSales.entrySet()) {
-            if (productsByNumSales.containsKey(entry.getValue())) {
-                sortedProducts.get(entry.getValue()).add(entry.getKey());
-                sortedProducts.put(entry.getValue(), sortedProducts.get(entry.getValue()));
-            }
-            sortedProducts.put(entry.getValue(), List.of(entry.getKey()));
-        }
-        NavigableMap<Integer, List<Integer>> sortedProductsDescending = sortedProducts.descendingMap();
+        NavigableMap<Integer, ArrayList<Integer>> sortedProductsDescending = sortedProducts.descendingMap();
         for (List<Integer> idList : sortedProductsDescending.values()) {
             for (int id : idList) {
                 products.add(Product.getProductById(id));
-
             }
         }
         return products;

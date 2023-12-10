@@ -104,7 +104,7 @@ public class Store {
 
     public static ArrayList<Store> sortStoresByNumProductsSold() throws IOException {
         ArrayList<Store> stores = new ArrayList<Store>();
-        TreeMap<Integer, List<Store>> sortedStores = new TreeMap<Integer, List<Store>>();
+        TreeMap<Integer, ArrayList<Store>> sortedStores = new TreeMap<Integer, ArrayList<Store>>();
         ApiFuture<QuerySnapshot> future = storesCollection.whereNotEqualTo(fields.isDeleted, true)
                 .get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
@@ -115,15 +115,22 @@ public class Store {
             int numPurchased = 0;
             Store store = new Store(doc);
             for (int productId : store.getStoreProductIds()) {
-                numPurchased += Sale.getSaleByProductId(productId).getNumPurchased();
+                Sale sale = Sale.getSaleByProductId(productId);
+                if (sale == null) {
+                    continue;
+                } else {
+                    numPurchased += sale.getNumPurchased();
+                }
             }
             if (sortedStores.containsKey(numPurchased)) {
-                sortedStores.get(numPurchased).add(store);
-                sortedStores.put(numPurchased, sortedStores.get(numPurchased));
+                ArrayList<Store> storeList = new ArrayList<Store>(sortedStores.get(numPurchased));
+                storeList.add(store);
+                sortedStores.put(numPurchased, storeList);
+            } else {
+                sortedStores.put(numPurchased, new ArrayList<Store>(List.of(store)));
             }
-            sortedStores.put(numPurchased, List.of(store));
         }
-        NavigableMap<Integer, List<Store>> sortedStoresDescending = sortedStores.descendingMap();
+        NavigableMap<Integer, ArrayList<Store>> sortedStoresDescending = sortedStores.descendingMap();
         for (List<Store> storeList : sortedStoresDescending.values()) {
             for (Store store : storeList) {
                 stores.add(store);
@@ -205,7 +212,7 @@ public class Store {
     public static ArrayList<Store> sortStoresByUserPurchased(int userId)
             throws IOException {
         ApiFuture<QuerySnapshot> future = storesCollection.whereNotEqualTo(fields.isDeleted, true).get();
-        TreeMap<Integer, List<Store>> sortedStores = new TreeMap<Integer, List<Store>>();
+        TreeMap<Integer, ArrayList<Store>> sortedStores = new TreeMap<Integer, ArrayList<Store>>();
         ArrayList<Store> stores = new ArrayList<Store>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -217,16 +224,22 @@ public class Store {
             for (int customerId : store.getStoreCustomerIds()) {
                 if (customerId == userId) {
                     Sale sale = Sale.getSaleByCustomerId(customerId);
-                    numPurchased += sale.getNumPurchased();
+                    if (sale == null) {
+                        continue;
+                    } else {
+                        numPurchased += sale.getNumPurchased();
+                    }
                 }
             }
             if (sortedStores.containsKey(numPurchased)) {
-                sortedStores.get(numPurchased).add(store);
-                sortedStores.put(numPurchased, sortedStores.get(numPurchased));
+                ArrayList<Store> storeList = sortedStores.get(numPurchased);
+                storeList.add(store);
+                sortedStores.put(numPurchased, storeList);
+            } else {
+                sortedStores.put(numPurchased, new ArrayList<Store>(List.of(store)));
             }
-            sortedStores.put(numPurchased, List.of(store));
         }
-        NavigableMap<Integer, List<Store>> sortedStoresDescending = sortedStores.descendingMap();
+        NavigableMap<Integer, ArrayList<Store>> sortedStoresDescending = sortedStores.descendingMap();
         for (List<Store> storeList : sortedStoresDescending.values()) {
             for (Store store : storeList) {
                 stores.add(store);

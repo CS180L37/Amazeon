@@ -171,7 +171,7 @@ public class Customer {
             throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection.orderBy(fields.isDeleted)
                 .whereNotEqualTo(fields.isDeleted, true).get();
-        TreeMap<Integer, List<Customer>> sortedCustomers = new TreeMap<Integer, List<Customer>>();
+        TreeMap<Integer, ArrayList<Customer>> sortedCustomers = new TreeMap<Integer, ArrayList<Customer>>();
         ArrayList<Customer> customers = new ArrayList<Customer>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
@@ -190,12 +190,14 @@ public class Customer {
                 numProductsSold += saleDoc.getLong(fields.numPurchased).intValue();
             }
             if (sortedCustomers.containsKey(numProductsSold)) {
-                sortedCustomers.get(numProductsSold).add(customer);
-                sortedCustomers.put(numProductsSold, sortedCustomers.get(numProductsSold));
+                ArrayList<Customer> customerList = sortedCustomers.get(numProductsSold);
+                customerList.add(customer);
+                sortedCustomers.put(numProductsSold, customerList);
+            } else {
+                sortedCustomers.put(numProductsSold, new ArrayList<Customer>(List.of(customer)));
             }
-            sortedCustomers.put(numProductsSold, List.of(customer));
         }
-        NavigableMap<Integer, List<Customer>> sortedCustomersDescending = sortedCustomers.descendingMap();
+        NavigableMap<Integer, ArrayList<Customer>> sortedCustomersDescending = sortedCustomers.descendingMap();
         for (List<Customer> customerList : sortedCustomersDescending.values()) {
             for (Customer customer : customerList) {
                 customers.add(customer);
