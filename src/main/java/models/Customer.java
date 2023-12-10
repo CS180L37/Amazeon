@@ -191,7 +191,7 @@ public class Customer {
             }
             if (sortedCustomers.containsKey(numProductsSold)) {
                 sortedCustomers.get(numProductsSold).add(customer);
-                sortedCustomers.put(numProductsSold, sortedCustomers.get(customer));
+                sortedCustomers.put(numProductsSold, sortedCustomers.get(numProductsSold));
             }
             sortedCustomers.put(numProductsSold, List.of(customer));
         }

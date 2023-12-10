@@ -44,16 +44,20 @@ public class SellerCreateProductGUI extends JComponent implements Runnable {
                     storeId = Store.getNonDeletedStoreByStoreName(storeNameField.getSelectedItem().toString())
                             .getStoreId();
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
                 try {
+                    if (Integer.parseInt(productPriceField.getText()) < 0
+                            || Integer.parseInt(productStockField.getText()) < 0) {
+                        throw new NumberFormatException();
+                    }
                     product = Product.createProduct(productDescField.getText(), productNameField.getText(),
                             Double.parseDouble(productPriceField.getText()), Integer.parseInt(productIDField.getText()),
                             Integer.parseInt(productStockField.getText()), Integer.parseInt(sellerIDField.getText()),
                             storeId);
                 } catch (IOException | NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid Input!", "Error", JOptionPane.ERROR_MESSAGE);
+                    throw new RuntimeException(ex);
                 }
                 try {
                     ArrayList<Product> storeProducts = Store

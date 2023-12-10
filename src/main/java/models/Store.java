@@ -204,23 +204,32 @@ public class Store {
 
     public static ArrayList<Store> sortStoresByUserPurchased(int userId)
             throws IOException {
-        ApiFuture<QuerySnapshot> future = storesCollection.whereArrayContains(fields.customerIds, userId).get();
+        ApiFuture<QuerySnapshot> future = storesCollection.whereNotEqualTo(fields.isDeleted, true).get();
+        TreeMap<Integer, List<Store>> sortedStores = new TreeMap<Integer, List<Store>>();
         ArrayList<Store> stores = new ArrayList<Store>();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         if (documents == null) {
             return null;
         }
         for (QueryDocumentSnapshot doc : documents) {
-            if (!doc.getBoolean(fields.isDeleted)) {
-                stores.add(new Store(doc));
-            }
-            ArrayList<Store> allStores = sortStores(fields.storeId, Direction.ASCENDING);
-            if (allStores.size() != stores.size()) {
-                for (Store store : allStores) {
-                    if (!stores.contains(store)) {
-                        stores.add(store);
-                    }
+            Store store = new Store(doc);
+            int numPurchased = 0;
+            for (int customerId : store.getStoreCustomerIds()) {
+                if (customerId == userId) {
+                    Sale sale = Sale.getSaleByCustomerId(customerId);
+                    numPurchased += sale.getNumPurchased();
                 }
+            }
+            if (sortedStores.containsKey(numPurchased)) {
+                sortedStores.get(numPurchased).add(store);
+                sortedStores.put(numPurchased, sortedStores.get(numPurchased));
+            }
+            sortedStores.put(numPurchased, List.of(store));
+        }
+        NavigableMap<Integer, List<Store>> sortedStoresDescending = sortedStores.descendingMap();
+        for (List<Store> storeList : sortedStoresDescending.values()) {
+            for (Store store : storeList) {
+                stores.add(store);
             }
         }
         return stores;
