@@ -254,6 +254,13 @@ public class Sale {
         return (documents == null) ? null : new Sale(documents.get(0));
     }
 
+    public static Sale getSaleByProductId(int productId) throws IOException {
+        ApiFuture<QuerySnapshot> future = salesCollection
+                .where(Filter.equalTo(fields.productId, productId)).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Sale(documents.get(0));
+    }
+
     public static Sale getNonDeletedSaleById(int id) throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection
                 .where(Filter.equalTo(fields.saleId, id)).whereNotEqualTo(fields.isDeleted, true).limit(1).get();
