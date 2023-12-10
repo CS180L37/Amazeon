@@ -89,7 +89,7 @@ public class CustomerCartGUI extends JComponent implements Runnable {
         frame.setVisible(true);
 
         JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Cart"));
+        topPanel.add(new JLabel("Cart---Customer ID: " + customer.getCustomerId()));
         content.add(topPanel, BorderLayout.NORTH);
 
         returnHomeButton = new JButton("Return Home");
@@ -111,8 +111,6 @@ public class CustomerCartGUI extends JComponent implements Runnable {
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        middlePanel.add(new JLabel("Customer ID: " + customer.getCustomerId()), gbc);
-        gbc.gridy++;
         if (cart.getCartProducts().size() > 0) {
             middlePanel.add(new JLabel("Products"), gbc);
             for (int i = 0; i < cart.getCartProducts().size(); i++) {
@@ -126,12 +124,18 @@ public class CustomerCartGUI extends JComponent implements Runnable {
                         "</html>");
                 middlePanel.add(label, gbc);
                 Product product = cart.getCartProducts().get(i);
-                gbc.gridy++;
+
                 JButton removeButton = new JButton("Remove");
-                middlePanel.add(removeButton, gbc);
-                gbc.gridy++;
                 JButton purchaseButton = new JButton("Purchase");
-                middlePanel.add(purchaseButton, gbc);
+
+                JPanel productOptionPanel = new JPanel();
+                productOptionPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+                productOptionPanel.add(removeButton);
+                productOptionPanel.add(purchaseButton);
+
+                gbc.gridy++;
+                gbc.gridx = 0;
+                middlePanel.add(productOptionPanel, gbc);
 
                 removeButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -152,23 +156,28 @@ public class CustomerCartGUI extends JComponent implements Runnable {
                             for (int i = 0; i < options.length; i++) {
                                 options[i] = String.valueOf(i + 1);
                             }
-                            int numPurchase = Integer.parseInt(
-                                    (String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
-                                            JOptionPane.PLAIN_MESSAGE, null, options, null));
-                            product.setQuantity(product.getQuantity() - numPurchase);
-                            // 1) remove from cart
-                            cart.removeFromCart(product);
-                            // 2) add to customer's product list
-                            ArrayList<Product> newProducts = customer.getProducts();
-                            newProducts.add(product);
-                            customer.setProducts(newProducts);
-                            // add to sales list of seller
-                            Seller seller = Seller.getSellerById(product.getSellerId());
-                            Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(),
-                                    customer.getCustomerId(), product.getProductId(), numPurchase);
-                            ArrayList<Sale> newSales = seller.getSales();
-                            newSales.add(sale);
-                            seller.setSales(newSales);
+                            String numPurchased = (String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
+                                            JOptionPane.PLAIN_MESSAGE, null, options, null);
+                            if(numPurchased == null) {
+                                System.out.println("User canceled input dialog.");
+                            }
+                            else {
+                                int numPurchase = Integer.parseInt(numPurchased);
+                                product.setQuantity(product.getQuantity() - numPurchase);
+                                // 1) remove from cart
+                                cart.removeFromCart(product);
+                                // 2) add to customer's product list
+                                ArrayList<Product> newProducts = customer.getProducts();
+                                newProducts.add(product);
+                                customer.setProducts(newProducts);
+                                // add to sales list of seller
+                                Seller seller = Seller.getSellerById(product.getSellerId());
+                                Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(),
+                                        customer.getCustomerId(), product.getProductId(), numPurchase);
+                                ArrayList<Sale> newSales = seller.getSales();
+                                newSales.add(sale);
+                                seller.setSales(newSales);
+                            }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }

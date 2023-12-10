@@ -41,6 +41,7 @@ public class SellerDeleteProductGUI extends JComponent implements Runnable {
                     frame.dispose();
                     SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Invalid Product ID", "Error", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(ex);
                 }
             }

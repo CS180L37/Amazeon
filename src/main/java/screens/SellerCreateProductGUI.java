@@ -35,20 +35,29 @@ public class SellerCreateProductGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == createProductButton) {
+                Product product = null;
                 try {
-                    Product product = Product.createProduct(productDescField.getText(), productNameField.getText(),
+                    product = Product.createProduct(productDescField.getText(), productNameField.getText(),
                             Double.parseDouble(productPriceField.getText()), Integer.parseInt(productIDField.getText()),
                             Integer.parseInt(productStockField.getText()), Integer.parseInt(sellerIDField.getText()),
                             Integer.parseInt(storeIDField.getText()));
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Invalid Input!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                try {
                     ArrayList<Product> storeProducts = Store.getStoreById(Integer.parseInt(storeIDField.getText()))
                             .getStoreProducts();
                     storeProducts.add(product);
                     Store.getStoreById(Integer.parseInt(storeIDField.getText())).setStoreProducts(storeProducts);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
-                    ArrayList<Product> newProductList = seller.getProducts();
-                    newProductList.add(product);
-                    seller.setProducts(newProductList);
-                    frame.dispose();
+                ArrayList<Product> newProductList = seller.getProducts();
+                newProductList.add(product);
+                seller.setProducts(newProductList);
+                frame.dispose();
+                try {
                     SwingUtilities.invokeLater(new SellerMarketplaceGUI(seller));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
