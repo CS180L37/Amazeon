@@ -5,14 +5,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import com.google.cloud.firestore.Query;
 import models.Cart;
 import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import utils.fields;
 
 public class SellerUpdateProductGUI extends JComponent implements Runnable {
     JFrame frame;
@@ -21,7 +24,6 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
     JButton logOutButton;
     JTextField strId, nme, desc, quan, prce;
 
-    int productId;
 
     Seller seller;
     Product product;
@@ -29,7 +31,6 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
     public SellerUpdateProductGUI(Seller seller, Product product) {
         this.seller = seller;
         this.product = product;
-        productId = product.getProductId();
     }
 
     ActionListener actionListener = new ActionListener() {
@@ -121,14 +122,17 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        JLabel productID = new JLabel("Product ID: " + productId);
+        JLabel productName = new JLabel("Product ID: " + product.getName());
         JLabel newStoreID = new JLabel("Enter new Store Id: ");
         JLabel newName = new JLabel("Enter new name: ");
         JLabel newDescription = new JLabel("Enter new description: ");
         JLabel newQuantity = new JLabel("Enter new quantity: ");
         JLabel newPrice = new JLabel("Enter new price: ");
 
+
         strId = new JTextField(10);
+        strId.setText(String.valueOf(product.getStoreId()));
+        strId.setEnabled(false);
         nme = new JTextField(10);
         desc = new JTextField(10);
         quan = new JTextField(10);
@@ -142,7 +146,7 @@ public class SellerUpdateProductGUI extends JComponent implements Runnable {
         logOutButton.addActionListener(actionListener);
 
         JPanel topPanel = new JPanel();
-        topPanel.add(productID);
+        topPanel.add(productName);
         content.add(topPanel, BorderLayout.NORTH);
 
         JPanel bottomPanel = new JPanel();
