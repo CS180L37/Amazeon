@@ -1,6 +1,6 @@
 # Amazeon
 Amazon watch out, there's a new competitor on the block! This is our submission for option 3 of Purdue's CS 180 Project 4 and 5
-> Report, Video, & Code submitted by TODO
+> Report & Video submitted by Shlok, Code submitted by Neha
 
 ## Client Dependencies
 Just Java :)
