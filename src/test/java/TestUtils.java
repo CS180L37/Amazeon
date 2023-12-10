@@ -178,7 +178,7 @@ public class TestUtils {
 
                         Seller.sellersCollection.add(Map.of(
                                         "email", "ceat@gmail.com", "name", "Ceat",
-                                        "password", "magic", "productIds", Arrays.asList(2),
+                                        "password", "cricket", "productIds", Arrays.asList(2),
                                         "saleIds", Arrays.asList(), "sellerId", 2, fields.isDeleted, false)).get();
 
                         Seller.sellersCollection.add(Map.of(
