@@ -39,12 +39,10 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
     JFileChooser fileChooser;
 
     Seller seller;
-    ArrayList<Product> products;
 
     // constructor -- needed to create this mock data
     public SellerMarketplaceGUI(Seller seller) throws IOException {
         this.seller = seller;
-        products = seller.getProducts();
     }
 
     // action listeners --> depending on what button you click, you do certain
@@ -81,11 +79,11 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
             if (e.getSource() == menuItemExportData) {
                 if (seller.exportProducts()) {
                     JOptionPane.showMessageDialog(null,
-                            "Export to " + DOWNLOADS + "products.csv" + "was successful!", "Export successful",
+                            "Export to " + DOWNLOADS + "products.csv" + " was successful!", "Export successful",
                             JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null,
-                            "Export to " + DOWNLOADS + "products.csv" + "was unsuccessful!", "Export unsuccessful",
+                            "Export to " + DOWNLOADS + "products.csv" + " was unsuccessful!", "Export unsuccessful",
                             JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -99,10 +97,14 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
                         JOptionPane.showMessageDialog(null, "Invalid file type", "File Selection",
                                 JOptionPane.ERROR_MESSAGE);
                     }
-                    if (seller.importProducts(filePath)) {
-                        JOptionPane.showMessageDialog(null, "Import from " + filePath + "was successful!",
+                    ArrayList<Product> newProducts = seller.importProducts(filePath);
+                    if (!newProducts.isEmpty()) {
+                        seller.setProducts(newProducts);
+                        JOptionPane.showMessageDialog(null, "Import from " + filePath + " was successful!",
                                 "Import successful",
                                 JOptionPane.INFORMATION_MESSAGE);
+                        frame.dispose();
+                        run();
                     } else {
                         JOptionPane.showMessageDialog(null,
                                 "Import from " + filePath + "was unsuccessful!", "Import unsuccessful",
@@ -216,16 +218,17 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
         // iterates through stores list and each stores products' list in order to
         // display product information
         // change to seller's products (currently it is customer's products)
-        for (int i = 0; i < products.size(); i++) {
+        for (int i = 0; i < seller.getProducts().size(); i++) {
             JButton productButton;
             try {
                 productButton = new JButton( // html used for style purposes only
                         "<html>" +
                                 "<div style='text-align: center;'>" +
-                                "<div>" + "Product Name: " + products.get(i).getName() + "</div>" +
-                                "<div>" + "StoreName: " + Store.getStoreById(products.get(i).getStoreId()).getName()
+                                "<div>" + "Product Name: " + seller.getProducts().get(i).getName() + "</div>" +
+                                "<div>" + "StoreName: "
+                                + Store.getStoreById(seller.getProducts().get(i).getStoreId()).getName()
                                 + "</div>" +
-                                "<div>" + "Product Stock: " + products.get(i).getQuantity() + "</div>" +
+                                "<div>" + "Product Stock: " + seller.getProducts().get(i).getQuantity() + "</div>" +
                                 "</div>" +
                                 "</html>");
             } catch (IOException e) {

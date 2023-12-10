@@ -5,6 +5,7 @@ import static utils.Utils.createReader;
 import static utils.Utils.createWriter;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -101,7 +102,7 @@ public class Seller {
     }
 
     // Import products from downloads
-    public boolean importProducts(String path) {
+    public ArrayList<Product> importProducts(String path) {
         BufferedReader br;
         try {
             br = createReader(path);
@@ -115,11 +116,10 @@ public class Seller {
                 int id = Integer.parseInt(line.split(",")[0]);
                 newProducts.add(Product.getProductById(id));
             }
-            setProducts(products);
-            return true;
+            return newProducts;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return new ArrayList<Product>();
         }
     }
 
