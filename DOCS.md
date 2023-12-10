@@ -43,15 +43,14 @@ Aside from those fields mentioned, every class:
 - includes a documentReference field and a CollectionReference object (Generally, getter and setter methods do not exist for these fields.)
 - has a constructor that takes every field other than these two as parameters,
 - has a constructor that take a QueryDocumentSnapshot as a parameter for initializing a pre-existing object from the database.
+
   Each class also has methods for:
-- create<Object> (such as createCustomer(<params>))
+-create \<Object\> (such as createCustomer(\<params\>))
 - getting an object from the remote database using its ID (e.g. getCustomerById)
 - sorting a given collection of such objects, with or without filtering deleted ones (e.g. sortNonDeletedCarts(String field, Direction direction), sortCarts(String field, Direction direction))
 - and getting the ID of the next such object in its collection in the remote database (last ID plus one).
-</a>
 
 Finally, all 6 classes also have toString() and equals() methods.
-
 
 #### Customer & Seller
 The Customer and Seller classes, which are similar, both have the fields email, password, isDeleted, and products. In addition, Customer has customerId, and cart; Seller has name, sellerId, and sales. Both classes have constructors that take parameters of all these fields. Cart in Customer is the only field without a setter (as it is modified in the Cart class).
@@ -109,7 +108,11 @@ This class has only static strings that can be used to query FireStore:
 This is an interface for designing methods that can be used to validate input by the user.
 
 ### AuthenticationType
-This class contains the Enums LOGIN and CREATE, for logging in and creating an account, respectively.
+This class contains the Enums:
+- LOGIN
+- CREATE
+  
+for logging in and creating an account, respectively.
 
 
 
