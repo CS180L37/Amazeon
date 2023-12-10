@@ -1,6 +1,11 @@
 package models;
 
+import static utils.Utils.DOWNLOADS;
+import static utils.Utils.createReader;
+import static utils.Utils.createWriter;
+
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -78,15 +83,45 @@ public class Seller {
         return documents.get(0).getLong(fields.sellerId).intValue() + 1;
     }
 
-    // public void deleteSeller() throws IOException {
-    // try {
-    // this.documentReference.delete().get();
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // } catch (ExecutionException e) {
-    // e.printStackTrace();
-    // }
-    // }
+    // Write products to downloads
+    public boolean exportProducts() {
+        BufferedWriter bw;
+        try {
+            bw = createWriter(DOWNLOADS
+                    + "products.csv");
+            for (Product product : getProducts()) {
+                bw.write(String.format("%d,%s,%d,%s,%f,%d,%d", product.getProductId(), product.getName(),
+                        product.getQuantity(), product.getDescription(), product.getPrice(), product.getSellerId(),
+                        product.getStoreId()));
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Import products from downloads
+    public ArrayList<Product> importProducts(String path) {
+        BufferedReader br;
+        try {
+            br = createReader(path);
+            String line = "";
+            ArrayList<Product> newProducts = new ArrayList<Product>();
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                int id = Integer.parseInt(line.split(",")[0]);
+                newProducts.add(Product.getProductById(id));
+            }
+            return newProducts;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<Product>();
+        }
+    }
 
     public static ArrayList<Seller> sortSellers(String field, Direction direction) throws IOException {
         ApiFuture<QuerySnapshot> future = sellersCollection.orderBy(field, direction).get();
@@ -151,34 +186,6 @@ public class Seller {
             }
         }
         return sellers;
-    }
-
-    public static ArrayList<Store> sortStoresBySales() throws IOException {
-        int latestStoreId = Store.getNextStoreId() - 1;
-        ArrayList<Store> stores = new ArrayList<Store>();
-        TreeMap<Integer, Integer> storeSales = new TreeMap<Integer, Integer>();
-        for (int i = 0; i < latestStoreId; i++) {
-            ApiFuture<QuerySnapshot> future = sellersCollection.whereEqualTo(fields.sellerId, i).select(fields.saleIds)
-                    .get();
-            List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
-            if (documents == null) {
-                continue;
-            } else {
-                storeSales.put(documents.size(), i);
-            }
-        }
-        for (int storeId : storeSales.values()) {
-            stores.add(Store.getStoreById(storeId));
-        }
-        ArrayList<Store> allStores = Store.sortStores(fields.storeId, Direction.ASCENDING);
-        if (allStores.size() != stores.size()) {
-            for (Store store : allStores) {
-                if (!stores.contains(store)) {
-                    stores.add(store);
-                }
-            }
-        }
-        return stores;
     }
 
     // Called in login

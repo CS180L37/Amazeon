@@ -1,27 +1,7 @@
-import static utils.Utils.initializeDatabase;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.File;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import java.util.concurrent.ExecutionException;
 
-import models.Cart;
-import models.Customer;
-import models.Product;
-import models.Sale;
-import models.Seller;
-import models.Store;
 import screens.LoginGUI;
 import utils.Utils;
-import utils.fields;
-
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.FirestoreOptions;
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.Query.Direction;
 
 import javax.swing.*;
 

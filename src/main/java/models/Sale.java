@@ -117,6 +117,44 @@ public class Sale {
         return sales;
     }
 
+    // Sort products by number of sales
+    public static ArrayList<Product> sortProductBySales() throws IOException {
+        ApiFuture<QuerySnapshot> future = salesCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true).get();
+        HashMap<Integer, Integer> productsByNumSales = new HashMap<Integer, Integer>();
+        TreeMap<Integer, List<Integer>> sortedProducts = new TreeMap<Integer, List<Integer>>();
+        ArrayList<Product> products = new ArrayList<Product>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            Sale sale = new Sale(doc);
+            sale.getProductId();
+            if (!productsByNumSales.containsKey(sale.getProductId())) {
+                productsByNumSales.put(sale.getProductId(), sale.getNumPurchased());
+            } else {
+                productsByNumSales.put(sale.getProductId(),
+                        productsByNumSales.get(sale.getProductId()) + sale.getNumPurchased());
+            }
+        }
+        for (Map.Entry<Integer, Integer> entry : productsByNumSales.entrySet()) {
+            if (productsByNumSales.containsKey(entry.getValue())) {
+                sortedProducts.get(entry.getValue()).add(entry.getKey());
+                sortedProducts.put(entry.getValue(), sortedProducts.get(entry.getValue()));
+            }
+            sortedProducts.put(entry.getValue(), List.of(entry.getKey()));
+        }
+        NavigableMap<Integer, List<Integer>> sortedProductsDescending = sortedProducts.descendingMap();
+        for (List<Integer> idList : sortedProductsDescending.values()) {
+            for (int id : idList) {
+                products.add(Product.getProductById(id));
+
+            }
+        }
+        return products;
+    }
+
     public int getCustomerId() {
         return customerId;
     }
@@ -212,6 +250,13 @@ public class Sale {
     public static Sale getSaleById(int id) throws IOException {
         ApiFuture<QuerySnapshot> future = salesCollection
                 .where(Filter.equalTo(fields.saleId, id)).limit(1).get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        return (documents == null) ? null : new Sale(documents.get(0));
+    }
+
+    public static Sale getSaleByProductId(int productId) throws IOException {
+        ApiFuture<QuerySnapshot> future = salesCollection
+                .where(Filter.equalTo(fields.productId, productId)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Sale(documents.get(0));
     }

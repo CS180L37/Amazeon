@@ -30,7 +30,6 @@ public class LoginGUI extends JComponent implements Runnable {
             if (e.getSource() == loginButton) {
                 email = String.valueOf(emailTextField.getText());
                 password = String.valueOf(passwordTextField.getText());
-                System.out.println(email + " " + password);
                 try {
                     if (Customer.customerExists(email, password)) {
                         Customer customer = Customer.getCustomerByEmail(email);

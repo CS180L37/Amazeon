@@ -10,8 +10,8 @@ In addition to the flow of the program being run here, Amazeon also has many hel
 - Compile into one executable
 
 ## Client Dependencies
-Just Java :)
-> ok maybe not just java if you want to compile and run from source; just java if you want to run the built jar file; maven will handle a lot of the process for you though
+For compiling and running from source: Java, and Maven dependencies for FireStore and JUnit. Maven handles a lot of the process for you.
+For the built JAR file: just Java. :)
 
 ## Dev Dependencies
 - firebase CLI (https://firebase.google.com/docs/cli)
@@ -64,6 +64,7 @@ For an example of the process, view the screencast here:
 - [Testing](DOCS.md#Testing)
 
 
+
 ### Front-End
 #### Customer
 The Customer class foremost has a Login Page which requires the customer to input the email and password. The Login Page
@@ -97,34 +98,77 @@ The Dashboard page sorts the data in two possible ways. The sort 1 sorts stores 
 
 ### Back-End
 Each class in the backend individually ensures its data persists.
-Aside from those fields mentioned, every class includes a documentReference field and a CollectionReference object. Generally, getter and setter methods do not exist for these fields. There are generally constructors that take every field other than these two as parameters, and contructors that take a QueryDocumentSnapshot as a parameter for initializing a pre-existing object from the database.
-There are also create<Object> methods (such as createCustomer(<params>)) for every class, as also methods for getting an object from the remote database using its ID (e.g. getCustomerById), sorting a given collection of such objects, with or without filtering deleted ones (e.g. sortNonDeletedCarts(String field, Direction direction), sortCarts(String field, Direction direction)), and getting the ID of the next such object in its collection in the remote database (last ID plus one).
+Aside from those fields mentioned, every class:
+- includes a documentReference field and a CollectionReference object (Generally, getter and setter methods do not exist for these fields.)
+- has a constructor that takes every field other than these two as parameters,
+- has a constructor that take a QueryDocumentSnapshot as a parameter for initializing a pre-existing object from the database.
+  Each class also has methods for:
+- create<Object> (such as createCustomer(<params>))
+- getting an object from the remote database using its ID (e.g. getCustomerById)
+- sorting a given collection of such objects, with or without filtering deleted ones (e.g. sortNonDeletedCarts(String field, Direction direction), sortCarts(String field, Direction direction))
+- and getting the ID of the next such object in its collection in the remote database (last ID plus one).
+</a>
+
 Finally, all 6 classes also have toString() and equals() methods.
+
+
 #### Customer & Seller
 The Customer and Seller classes, which are similar, both have the fields email, password, isDeleted, and products. In addition, Customer has customerId, and cart; Seller has name, sellerId, and sales. Both classes have constructors that take parameters of all these fields. Cart in Customer is the only field without a setter (as it is modified in the Cart class).
 Both of these classes have the functionality to find users from the database by their email, and marking the current user as deleted. In addition, the Customer class can be used to add a product to a customer's purchase history. The Seller class can also be used to add to their sales, and add or remove products from their range of products.
+
 #### Store
 The Store class has the fields storeId, name, isDeleted, storeProducts, and storeCustomers.
-It has the functionality to get a store's documentReference, and includes a centralized method that can be used to update the database with any changes.
+It has the functionality to
+- get a store's documentReference,
+- and includes a centralized method that can be used to update the database with any changes.
+
 #### Cart
 The Cart class has the fields customerId, isDeleted, cartProducts, cartsCollection and documentReference.
-it has the functionality to purchase a cart, get a non-deleted by its ID, get multiple carts (with or without the filter of including deleted ones).
+it has the functionality to
+- purchase a cart, get a non-deleted by its ID,
+- get multiple carts (with or without the filter of including deleted ones).
+
 #### Product
 The Product class has the fields productId, name, quantity, description, price, sellerId, storeId, and isDeleted.
-It has the functionality to fetch the document of the current instance of the product from the remote database, and fetch multiple or one product on the basis of their/its name(/s) or description(/s), with or without including deleted products.
+It has the functionality to
+- fetch the document of the current instance of the product from the remote database,
+- and fetch multiple or one product on the basis of their/its name(/s) or description(/s) (with or without including deleted products).
+
 #### Sale
 The Sale class has the fields saleId, customerId, productId, cost, numPurchased, and isDeleted.
-It has the functionality to fetch the document of the current instance of the sale from the remote database and calculate the total of
+It has the functionality to fetch the document of the current instance of the sale from the remote database and calculate the total price of all products in the sale.
+
 ### Testing
-For testing, we made test cases for every method and they all pass.
-### Utils
-We have a field of static strings that can be used to query FireStore (such as fields.storeId which represents "storeId"), and some Enums.
-We also have functionality to validate any input by the user, and methods to initialize FireStore and read, write and retrieve data.
+For testing, we used the Junit testing framework for testing and created helper ```@Before``` and ```@After``` methods in TestUtils which we then extended into the rest of the test classes. We wrote test cases for almost all our methods, located in the test directory in src. All 63 of them pass.
+We utilized the FireStore emulator so as to keep the actual data safe, and we clear and reinitialize the emulator before each test class.
+We also wrote an integration test for the whole application.
+
+## utils
+### Fields
+This class has only static strings that can be used to query FireStore:
+- fields.customerId --> customerId
+- fields.customerIds --> customerIds
+- fields.sellerId --> sellerId
+- fields.email --> email
+- fields.password --> password
+- fields.description --> description
+- fields.name --> name
+- fields.price --> price
+- fields.quantity --> quantity
+- fields.productId --> productId
+- fields.saleIds --> saleIds
+- fields.saleId --> saleId
+- fields.productIds --> productIds
+- fields.storeId --> storeId
+- fields.numPurchased --> numPurchased
+- fields.cost --> cost
+- fields.isDeleted --> isDeleted
+
+### ValidateInterface
+This is an interface for designing methods that can be used to validate input by the user.
+
+### AuthenticationType
+This class contains the Enums LOGIN and CREATE, for logging in and creating an account, respectively.
 
 
-## ValidInterface
-### Functionality: 
-validates user input
 
-## Testing
-We used the Junit testing framework for testing and created helper ```@Before``` and ```@After``` methods in TestUtils which we then extended into the rest of the test classes. We wrote unit tests for methods and an integration test for the whole program 

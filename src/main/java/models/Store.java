@@ -1,18 +1,29 @@
 package models;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.*;
-import com.google.cloud.firestore.Query.Direction;
-
-import utils.Utils;
-import utils.fields;
-
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.Filter;
+import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.Query.Direction;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
+
+import utils.Utils;
+import utils.fields;
 
 public class Store {
     private int storeId;
@@ -85,6 +96,36 @@ public class Store {
         for (int id : storeIds) {
             Store store = getStoreById(id);
             if (store != null) {
+                stores.add(store);
+            }
+        }
+        return stores;
+    }
+
+    public static ArrayList<Store> sortStoresByNumProductsSold() throws IOException {
+        ArrayList<Store> stores = new ArrayList<Store>();
+        TreeMap<Integer, List<Store>> sortedStores = new TreeMap<Integer, List<Store>>();
+        ApiFuture<QuerySnapshot> future = storesCollection.whereNotEqualTo(fields.isDeleted, true)
+                .get();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            int numPurchased = 0;
+            Store store = new Store(doc);
+            for (int productId : store.getStoreProductIds()) {
+                numPurchased += Sale.getSaleByProductId(productId).getNumPurchased();
+            }
+            if (sortedStores.containsKey(numPurchased)) {
+                sortedStores.get(numPurchased).add(store);
+                sortedStores.put(numPurchased, sortedStores.get(numPurchased));
+            }
+            sortedStores.put(numPurchased, List.of(store));
+        }
+        NavigableMap<Integer, List<Store>> sortedStoresDescending = sortedStores.descendingMap();
+        for (List<Store> storeList : sortedStoresDescending.values()) {
+            for (Store store : storeList) {
                 stores.add(store);
             }
         }

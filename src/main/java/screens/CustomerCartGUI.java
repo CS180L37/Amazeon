@@ -34,27 +34,29 @@ public class CustomerCartGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == purchaseAllButton) {
-                for (int i = 0; i < cart.getCartProducts().size(); i++) {
-                    try {
-                        Product product = cart.getCartProducts().get(i);
-                        product.setQuantity(product.getQuantity() - 1);
-                        // 1) remove from cart
-                        cart.removeFromCart(product);
-                        // 2) add to customer's product list
-                        ArrayList<Product> newProducts = customer.getProducts();
-                        newProducts.add(product);
-                        customer.setProducts(newProducts);
-                        // add to sales list of seller
-                        Seller seller = Seller.getSellerById(product.getSellerId());
-                        Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(), customer.getCustomerId(),
-                                product.getProductId(), 1);
-                        ArrayList<Sale> newSales = seller.getSales();
-                        newSales.add(sale);
-                        seller.setSales(newSales);
-                        frame.dispose();
-                        SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                if(cart.getCartProducts().size() > 0) {
+                    for (int i = 0; i < cart.getCartProducts().size(); i++) {
+                        try {
+                            Product product = cart.getCartProducts().get(i);
+                            product.setQuantity(product.getQuantity() - 1);
+                            // 1) remove from cart
+                            cart.removeFromCart(product);
+                            // 2) add to customer's product list
+                            ArrayList<Product> newProducts = customer.getProducts();
+                            newProducts.add(product);
+                            customer.setProducts(newProducts);
+                            // add to sales list of seller
+                            Seller seller = Seller.getSellerById(product.getSellerId());
+                            Sale sale = Sale.createSale(product.getPrice(), Sale.getNextSaleId(), customer.getCustomerId(),
+                                    product.getProductId(), 1);
+                            ArrayList<Sale> newSales = seller.getSales();
+                            newSales.add(sale);
+                            seller.setSales(newSales);
+                            frame.dispose();
+                            SwingUtilities.invokeLater(new CustomerMarketplaceGUI(customer));
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 }
             }
@@ -116,7 +118,6 @@ public class CustomerCartGUI extends JComponent implements Runnable {
         if (cart.getCartProducts().size() > 0) {
             middlePanel.add(new JLabel("Products"), gbc);
             for (int i = 0; i < cart.getCartProducts().size(); i++) {
-                System.out.println(cart.getCartProducts().size());
                 gbc.gridy++;
                 JLabel label = new JLabel("<html>" +
                         "<div style='text-align: center;'>" +
@@ -158,12 +159,12 @@ public class CustomerCartGUI extends JComponent implements Runnable {
                             for (int i = 0; i < options.length; i++) {
                                 options[i] = String.valueOf(i + 1);
                             }
-                            String numPurchased = (String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
-                                            JOptionPane.PLAIN_MESSAGE, null, options, null);
-                            if(numPurchased == null) {
+                            String numPurchased = (String) JOptionPane.showInputDialog(null, "Select quantity ",
+                                    "Quantity Form",
+                                    JOptionPane.PLAIN_MESSAGE, null, options, null);
+                            if (numPurchased == null) {
                                 System.out.println("User canceled input dialog.");
-                            }
-                            else {
+                            } else {
                                 int numPurchase = Integer.parseInt(numPurchased);
                                 product.setQuantity(product.getQuantity() - numPurchase);
                                 // 1) remove from cart

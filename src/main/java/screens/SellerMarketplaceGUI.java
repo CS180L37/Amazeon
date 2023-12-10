@@ -1,6 +1,11 @@
 package screens;
 
 import javax.swing.*;
+
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
+
+import static utils.Utils.DOWNLOADS;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -21,19 +26,23 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
     JButton salesButton;
     JButton dashboardButton;
     JButton cartButton;
+    JButton dataButton;
     JButton logOutButton;
 
     JPopupMenu sortDashboardMenu;
     JMenuItem menuItemSort1;
     JMenuItem menuItemSort2;
+    JPopupMenu dataMenu;
+    JMenuItem menuItemExportData;
+    JMenuItem menuItemImportData;
+
+    JFileChooser fileChooser;
 
     Seller seller;
-    ArrayList<Product> products;
 
     // constructor -- needed to create this mock data
     public SellerMarketplaceGUI(Seller seller) throws IOException {
         this.seller = seller;
-        products = seller.getProducts();
     }
 
     // action listeners --> depending on what button you click, you do certain
@@ -63,6 +72,45 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
             if (e.getSource() == menuItemSort2) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new SellerDashboardTwoGUI(seller));
+            }
+            if (e.getSource() == dataButton) {
+                dataMenu.show(dataButton, 0, dataButton.getHeight());
+            }
+            if (e.getSource() == menuItemExportData) {
+                if (seller.exportProducts()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Export to " + DOWNLOADS + "products.csv" + " was successful!", "Export successful",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Export to " + DOWNLOADS + "products.csv" + " was unsuccessful!", "Export unsuccessful",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            if (e.getSource() == menuItemImportData) {
+                fileChooser = new JFileChooser(DOWNLOADS);
+                int result = fileChooser.showOpenDialog(frame);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    java.io.File selectedFile = fileChooser.getSelectedFile();
+                    String filePath = selectedFile.getAbsolutePath();
+                    if (!filePath.contains(".csv")) {
+                        JOptionPane.showMessageDialog(null, "Invalid file type", "File Selection",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                    ArrayList<Product> newProducts = seller.importProducts(filePath);
+                    if (!newProducts.isEmpty()) {
+                        seller.setProducts(newProducts);
+                        JOptionPane.showMessageDialog(null, "Import from " + filePath + " was successful!",
+                                "Import successful",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        frame.dispose();
+                        run();
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "Import from " + filePath + "was unsuccessful!", "Import unsuccessful",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
             if (e.getSource() == salesButton) {
                 frame.dispose();
@@ -113,19 +161,33 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
         dashboardButton = new JButton("Dashboard");
         dashboardButton.addActionListener(actionListener);
 
+        dataButton = new JButton("Data");
+        dataButton.addActionListener(actionListener);
+
         cartButton = new JButton("Cart");
         cartButton.addActionListener(actionListener);
 
         // dashboard button's dropdown menu
         sortDashboardMenu = new JPopupMenu("Dashboard");
 
-        menuItemSort1 = new JMenuItem("Sort 1");
+        menuItemSort1 = new JMenuItem("Sort Customers By Number of Items Purchased");
         menuItemSort1.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort1);
 
-        menuItemSort2 = new JMenuItem("Sort 2");
+        menuItemSort2 = new JMenuItem("Sort Products By Number of Products Sold");
         menuItemSort2.addActionListener(actionListener);
         sortDashboardMenu.add(menuItemSort2);
+
+        // data dropdown menu
+        dataMenu = new JPopupMenu("Data");
+
+        menuItemExportData = new JMenuItem("Export Product Data");
+        menuItemExportData.addActionListener(actionListener);
+        dataMenu.add(menuItemExportData);
+
+        menuItemImportData = new JMenuItem("Import Product Data");
+        menuItemImportData.addActionListener(actionListener);
+        dataMenu.add(menuItemImportData);
 
         // creates panel at top of frame and adds buttons
         JPanel topPanel = new JPanel();
@@ -135,6 +197,7 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
         topPanel.add(salesButton);
         topPanel.add(dashboardButton);
         topPanel.add(cartButton);
+        topPanel.add(dataButton);
 
         content.add(topPanel, BorderLayout.NORTH); // adds the panel to the container
 
@@ -155,16 +218,17 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
         // iterates through stores list and each stores products' list in order to
         // display product information
         // change to seller's products (currently it is customer's products)
-        for (int i = 0; i < products.size(); i++) {
+        for (int i = 0; i < seller.getProducts().size(); i++) {
             JButton productButton;
             try {
                 productButton = new JButton( // html used for style purposes only
                         "<html>" +
                                 "<div style='text-align: center;'>" +
-                                "<div>" + "Product Name: " + products.get(i).getName() + "</div>" +
-                                "<div>" + "StoreName: " + Store.getStoreById(products.get(i).getStoreId()).getName()
+                                "<div>" + "Product Name: " + seller.getProducts().get(i).getName() + "</div>" +
+                                "<div>" + "StoreName: "
+                                + Store.getStoreById(seller.getProducts().get(i).getStoreId()).getName()
                                 + "</div>" +
-                                "<div>" + "Product Stock: " + products.get(i).getQuantity() + "</div>" +
+                                "<div>" + "Product Stock: " + seller.getProducts().get(i).getQuantity() + "</div>" +
                                 "</div>" +
                                 "</html>");
             } catch (IOException e) {

@@ -1,6 +1,9 @@
 package screens;
 
 import javax.swing.*;
+
+import static utils.Utils.DOWNLOADS;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -28,6 +31,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
     JButton sortMarketplaceButton;
     JButton cartButton;
     JButton logOutButton;
+    JButton exportButton;
 
     // dashboard button's dropdown menu (for sorts)
     JPopupMenu sortDashboardMenu;
@@ -67,6 +71,18 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
             if (e.getSource() == logOutButton) {
                 frame.dispose();
                 SwingUtilities.invokeLater(new LoginGUI());
+            }
+            if (e.getSource() == exportButton) {
+                if (customer.exportPurchaseHistory()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Export to " + DOWNLOADS + "purchase_history.csv" + "was successful!", "Export successful",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Export to " + DOWNLOADS + "purchase_history.csv" + "was unsuccessful!",
+                            "Export unsuccessful",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
             // if (e.getSource() == purchaseButton) {
             // frame.dispose();
@@ -135,6 +151,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                 }
                             });
                         }
+                    } else {
+                        sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.ASCENDING);
                     }
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Check your connection!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -181,6 +199,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                 }
                             });
                         }
+                    }  else {
+                        sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.DESCENDING);
                     }
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Check your connection!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -226,6 +246,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                 }
                             });
                         }
+                    } else {
+                        sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.ASCENDING);
                     }
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Check your connection!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -270,6 +292,8 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                                 }
                             });
                         }
+                    } else {
+                        sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.DESCENDING);
                     }
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Check your connection!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -317,6 +341,9 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
         cartButton = new JButton("Cart");
         cartButton.addActionListener(actionListener);
 
+        exportButton = new JButton("Export");
+        exportButton.addActionListener(actionListener);
+
         // dashboard button's dropdown menu
         sortDashboardMenu = new JPopupMenu("Dashboard");
 
@@ -354,6 +381,7 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
         topPanel.add(dashboardButton);
         topPanel.add(sortMarketplaceButton);
         topPanel.add(cartButton);
+        topPanel.add(exportButton);
 
         content.add(topPanel, BorderLayout.NORTH); // adds the panel to the container
 

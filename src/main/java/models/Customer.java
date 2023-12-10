@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.concurrent.ExecutionException;
 
 import com.google.api.core.ApiFuture;
@@ -19,6 +20,10 @@ import com.google.cloud.firestore.Query.Direction;
 import utils.Utils;
 import utils.fields;
 
+import static utils.Utils.DOWNLOADS;
+import static utils.Utils.createWriter;
+
+import java.io.BufferedWriter;
 import java.io.IOException;
 
 public class Customer {
@@ -162,6 +167,43 @@ public class Customer {
         return customers;
     }
 
+    public static ArrayList<Customer> sortNonDeletedCustomersByNumProducts()
+            throws IOException {
+        ApiFuture<QuerySnapshot> future = customersCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true).get();
+        TreeMap<Integer, List<Customer>> sortedCustomers = new TreeMap<Integer, List<Customer>>();
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            Customer customer = new Customer(doc);
+            ApiFuture<QuerySnapshot> saleFuture = Sale.salesCollection
+                    .whereEqualTo(fields.customerId, customer.getCustomerId()).get();
+            List<QueryDocumentSnapshot> saleDocuments = Utils.retrieveData(saleFuture);
+            if (saleDocuments == null) {
+                continue;
+            }
+            int numProductsSold = 0;
+            for (QueryDocumentSnapshot saleDoc : saleDocuments) {
+                numProductsSold += saleDoc.getLong(fields.numPurchased).intValue();
+            }
+            if (sortedCustomers.containsKey(numProductsSold)) {
+                sortedCustomers.get(numProductsSold).add(customer);
+                sortedCustomers.put(numProductsSold, sortedCustomers.get(customer));
+            }
+            sortedCustomers.put(numProductsSold, List.of(customer));
+        }
+        NavigableMap<Integer, List<Customer>> sortedCustomersDescending = sortedCustomers.descendingMap();
+        for (List<Customer> customerList : sortedCustomersDescending.values()) {
+            for (Customer customer : customerList) {
+                customers.add(customer);
+            }
+        }
+        return customers;
+    }
+
     // Called in login
     public static Boolean customerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection
@@ -203,6 +245,23 @@ public class Customer {
                 .where(Filter.equalTo(fields.email, email)).limit(1).get();
         List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
         return (documents == null) ? null : new Customer(documents.get(0));
+    }
+
+    // Write file to user
+    public boolean exportPurchaseHistory() {
+        BufferedWriter bw;
+        try {
+            bw = createWriter(DOWNLOADS
+                    + "purchase_history.csv");
+            for (Product product : getProducts()) {
+                bw.write(String.format("%d,%s,%d,%s,%f", product.getProductId(), product.getName(),
+                        product.getQuantity(), product.getDescription(), product.getPrice()));
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public Cart getCart() {

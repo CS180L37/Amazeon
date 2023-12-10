@@ -7,12 +7,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.cloud.firestore.Query;
 import models.Cart;
 import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import utils.fields;
 
 public class SellerCartGUI extends JComponent implements Runnable {
     JFrame frame;
@@ -79,39 +81,45 @@ public class SellerCartGUI extends JComponent implements Runnable {
         content.add(bottomPanel, BorderLayout.SOUTH);
 
         JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new GridLayout(0, 1));
+        middlePanel.setLayout(new GridBagLayout());
 
-        ArrayList<Customer> customers = new ArrayList<Customer>();
-        for (int i = 0; i < sales.size(); i++) {
-            Customer customer;
-            try {
-                customer = Customer.getCustomerById(sales.get(i).getCustomerId());
-                if (!customers.contains(customer)) {
-                    customers.add(customer);
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5,5,5,5);
+
+        ArrayList<Customer> customers;
+        try {
+            customers = Customer.sortNonDeletedCustomers(fields.customerId, Query.Direction.ASCENDING);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         for (int i = 0; i < customers.size(); i++) {
             ArrayList<Product> cartProducts = customers.get(i).getCart().getCartProducts();
             if (cartProducts.size() <= 0) {
-                JLabel label = new JLabel("Nothing in cart currently");
-                middlePanel.add(label);
+                // JLabel label = new JLabel("Nothing in cart currently");
+                // middlePanel.add(label);
             } else {
                 for (int j = 0; j < cartProducts.size(); j++) {
                     try {
                         JLabel label = new JLabel("<html>" +
                                 "<div style='text-align: center;'>" +
                                 "<div>" + "Customer ID: " + customers.get(i).getCustomerId() + "</div>" +
+                                "<div>" + " " + "</div>" +
+                                "<div>" + " " + "</div>" +
                                 "<div>" + "Store Name: "
                                 + Store.getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
-                                "<div>" + "Product Description: " + cartProducts.get(j).getDescription() + "</div>" +
+                                "<div>" + " " + "</div>" +
                                 "<div>" + "Product Price: $" + cartProducts.get(j).getPrice() + "0" + "</div>" +
+                                "<div>" + " " + "</div>" +
+                                "<div>" + "Product Description: " + cartProducts.get(j).getDescription() + "</div>"
+                                + "<div>" + " " + "</div>" +
                                 "</div>" +
                                 "</html>");
-                        middlePanel.add(label);
+//                        label.setPreferredSize(new Dimension(250, 200));
+                        middlePanel.add(label, gbc);
+                        gbc.gridy++;
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

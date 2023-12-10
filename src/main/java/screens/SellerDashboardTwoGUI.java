@@ -7,12 +7,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.cloud.firestore.Query;
 import models.Cart;
 import models.Customer;
 import models.Product;
 import models.Sale;
 import models.Seller;
 import models.Store;
+import utils.fields;
 
 public class SellerDashboardTwoGUI extends JComponent implements Runnable {
     // sorts products by number of sales
@@ -62,7 +64,7 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
 
-        frame.setTitle("Dashboard Sort One Page");
+        frame.setTitle("Dashboard Sort Products by Number of Products Sold");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -96,46 +98,21 @@ public class SellerDashboardTwoGUI extends JComponent implements Runnable {
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        ArrayList<Product> sortedProducts = new ArrayList<Product>();
-        for (int i = 0; i < seller.getProducts().size(); i++) {
-            sortedProducts.add(seller.getProducts().get(i));
-        }
+        try {
+            ArrayList<Product> sortedProducts = Sale.sortProductBySales();
 
-        ArrayList<Integer> numSalesPerProduct = new ArrayList<Integer>();
-        for (int i = 0; i < sortedProducts.size(); i++) {
-            int numPurchased = 0;
-            for (int j = 0; j < seller.getSales().size(); j++) {
-                if (seller.getSales().get(j).getProductId() == sortedProducts.get(i).getProductId()) {
-                    numPurchased += seller.getSales().get(j).getNumPurchased();
-                } else {
-                    numPurchased += 0;
+            if (sortedProducts != null) {
+                for (int i = 0; i < sortedProducts.size(); i++) {
+                    JLabel productName = new JLabel("Product " + (i + 1) + " Name: " + sortedProducts.get(i).getName());
+
+                    middlePanel.add(productName, gbc);
+                    gbc.gridy++;
                 }
+            } else {
+                sortedProducts = Product.sortNonDeletedProducts(fields.productId, Query.Direction.ASCENDING);
             }
-            numSalesPerProduct.add(i, numPurchased);
-        }
-
-        for (int i = 0; i < numSalesPerProduct.size() - 1; i++) {
-            int minIndex = i;
-            for (int j = 0; j < numSalesPerProduct.size(); j++) {
-                if (numSalesPerProduct.get(j) < numSalesPerProduct.get(minIndex)) {
-                    minIndex = j;
-                }
-            }
-
-            Product product = sortedProducts.get(minIndex);
-            int numSales = numSalesPerProduct.get(minIndex);
-            sortedProducts.set(minIndex, sortedProducts.get(i));
-            numSalesPerProduct.set(minIndex, numSalesPerProduct.get(i));
-            sortedProducts.set(minIndex, product);
-            numSalesPerProduct.set(minIndex, numSales);
-        }
-
-        for (int i = 0; i < sortedProducts.size(); i++) {
-            JLabel productName = new JLabel("Product " + i + " Name: " + sortedProducts.get(i).getName()
-                    + "       Num Sales: " + numSalesPerProduct.get(i));
-
-            middlePanel.add(productName, gbc);
-            gbc.gridy++;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         content.add(middlePanel, BorderLayout.CENTER);
 
