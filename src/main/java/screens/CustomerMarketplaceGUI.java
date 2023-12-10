@@ -106,14 +106,18 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 try {
                     ArrayList<Product> sortedProducts = Product.sortNonDeletedProducts(fields.price,
                             Query.Direction.ASCENDING);
-                    if(sortedProducts != null) {
+                    if (sortedProducts != null) {
                         for (int i = 0; i < sortedProducts.size(); i++) {
                             JButton productButton = new JButton( // html used for style purposes only
                                     "<html>" +
                                             "<div style='text-align: center;'>" +
                                             "<div>" + "Product Name: " + sortedProducts.get(i).getName() + "</div>" +
                                             "<div>" + "StoreName: " + sortedProducts.get(i).getName() + "</div>" +
-                                            "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0" + "</div>"
+                                            "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0"
+                                            + "</div>" +
+                                            "<div>" + "Product Quantity: " + sortedProducts.get(i).getQuantity() + "0"
+                                            + "</div>"
+                                            + "</div>"
                                             +
                                             "</div>" +
                                             "</html>");
@@ -149,14 +153,17 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 try {
                     ArrayList<Product> sortedProducts = Product.sortNonDeletedProducts(fields.price,
                             Query.Direction.DESCENDING);
-                    if(sortedProducts != null) {
+                    if (sortedProducts != null) {
                         for (int i = 0; i < sortedProducts.size(); i++) {
                             JButton productButton = new JButton( // html used for style purposes only
                                     "<html>" +
                                             "<div style='text-align: center;'>" +
                                             "<div>" + "Product Name: " + sortedProducts.get(i).getName() + "</div>" +
                                             "<div>" + "StoreName: " + sortedProducts.get(i).getName() + "</div>" +
-                                            "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0" + "</div>"
+                                            "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0"
+                                            + "</div>"
+                                            + "<div>" + "Product Quantity: " + sortedProducts.get(i).getQuantity() + "0"
+                                            + "</div>"
                                             +
                                             "</div>" +
                                             "</html>");
@@ -188,16 +195,18 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 // products in the marketplace
 
                 try {
-                    ArrayList<Product> sortedProducts = Product.sortNonDeletedProducts(fields.quantity, Query.Direction.DESCENDING);
+                    ArrayList<Product> sortedProducts = Product.sortNonDeletedProducts(fields.quantity,
+                            Query.Direction.ASCENDING);
 
-                    if(sortedProducts != null) {
+                    if (sortedProducts != null) {
                         for (int i = 0; i < sortedProducts.size(); i++) {
                             JButton productButton = new JButton( // html used for style purposes only
                                     "<html>" +
                                             "<div style='text-align: center;'>" +
                                             "<div>" + "Product Name: " + sortedProducts.get(i).getName() + "</div>" +
                                             "<div>" + "StoreName: " + sortedProducts.get(i).getName() + "</div>" +
-                                            "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0" + "</div>"
+                                            "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0"
+                                            + "</div>"
                                             +
                                             "<div>" + "Product Quantity: " + sortedProducts.get(i).getQuantity() + "0"
                                             + "</div>" +
@@ -233,14 +242,15 @@ public class CustomerMarketplaceGUI extends JComponent implements Runnable {
                 try {
                     ArrayList<Product> sortedProducts = Product.sortNonDeletedProducts(fields.quantity,
                             Query.Direction.DESCENDING);
-                    if(sortedProducts != null) {
+                    if (sortedProducts != null) {
                         for (int i = 0; i < sortedProducts.size(); i++) {
                             JButton productButton = new JButton( // html used for style purposes only
                                     "<html>" +
                                             "<div style='text-align: center;'>" +
                                             "<div>" + "Product Name: " + sortedProducts.get(i).getName() + "</div>" +
                                             "<div>" + "StoreName: " + sortedProducts.get(i).getName() + "</div>" +
-                                            "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0" + "</div>"
+                                            "<div>" + "Product Price: $" + sortedProducts.get(i).getPrice() + "0"
+                                            + "</div>"
                                             +
                                             "<div>" + "Product Quantity: " + sortedProducts.get(i).getQuantity() + "0"
                                             + "</div>" +

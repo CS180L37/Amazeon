@@ -20,6 +20,7 @@ import utils.fields;
 
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.Query.Direction;
 
 import javax.swing.*;
