@@ -93,9 +93,8 @@ public class SellerCartGUI extends JComponent implements Runnable {
         for (int i = 0; i < customers.size(); i++) {
             ArrayList<Product> cartProducts = customers.get(i).getCart().getCartProducts();
             if (cartProducts.size() <= 0) {
-//                JLabel label = new JLabel("Nothing in cart currently");
-//                middlePanel.add(label);
-                System.out.println("Nothing");
+                // JLabel label = new JLabel("Nothing in cart currently");
+                // middlePanel.add(label);
             } else {
                 for (int j = 0; j < cartProducts.size(); j++) {
                     try {
@@ -104,12 +103,13 @@ public class SellerCartGUI extends JComponent implements Runnable {
                                 "<div>" + "Customer ID: " + customers.get(i).getCustomerId() + "</div>" +
                                 "<div>" + " " + "</div>" +
                                 "<div>" + " " + "</div>" +
-                                "<div>" + "Store Name: " + Store.getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
+                                "<div>" + "Store Name: "
+                                + Store.getStoreById(cartProducts.get(j).getStoreId()).getName() + "</div>" +
                                 "<div>" + " " + "</div>" +
                                 "<div>" + "Product Price: $" + cartProducts.get(j).getPrice() + "0" + "</div>" +
                                 "<div>" + " " + "</div>" +
                                 "<div>" + "Product Description: " + cartProducts.get(j).getDescription() + "</div>"
-                                +"<div>" + " " + "</div>" +
+                                + "<div>" + " " + "</div>" +
                                 "</div>" +
                                 "</html>");
                         label.setPreferredSize(new Dimension(200, 50));

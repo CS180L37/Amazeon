@@ -1,27 +1,7 @@
-import static utils.Utils.initializeDatabase;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.File;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import java.util.concurrent.ExecutionException;
 
-import models.Cart;
-import models.Customer;
-import models.Product;
-import models.Sale;
-import models.Seller;
-import models.Store;
 import screens.LoginGUI;
 import utils.Utils;
-import utils.fields;
-
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.FirestoreOptions;
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.Query.Direction;
 
 import javax.swing.*;
 
@@ -37,15 +17,6 @@ public class Amazeon {
             JOptionPane.showMessageDialog(null, "Error", "title", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        try {
-            ArrayList<Customer> customers = Customer.sortNonDeletedCustomersByNumProducts();
-            // System.out.println(customers.toString());
-            ArrayList<Product> products = Sale.sortProductBySales();
-            // System.out.println(products.toString());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // SwingUtilities.invokeLater(new LoginGUI());
+        SwingUtilities.invokeLater(new LoginGUI());
     }
 }

@@ -116,7 +116,6 @@ public class CustomerCartGUI extends JComponent implements Runnable {
         if (cart.getCartProducts().size() > 0) {
             middlePanel.add(new JLabel("Products"), gbc);
             for (int i = 0; i < cart.getCartProducts().size(); i++) {
-                System.out.println(cart.getCartProducts().size());
                 gbc.gridy++;
                 JLabel label = new JLabel("<html>" +
                         "<div style='text-align: center;'>" +
@@ -158,12 +157,12 @@ public class CustomerCartGUI extends JComponent implements Runnable {
                             for (int i = 0; i < options.length; i++) {
                                 options[i] = String.valueOf(i + 1);
                             }
-                            String numPurchased = (String) JOptionPane.showInputDialog(null, "Select quantity ", "Quantity Form",
-                                            JOptionPane.PLAIN_MESSAGE, null, options, null);
-                            if(numPurchased == null) {
+                            String numPurchased = (String) JOptionPane.showInputDialog(null, "Select quantity ",
+                                    "Quantity Form",
+                                    JOptionPane.PLAIN_MESSAGE, null, options, null);
+                            if (numPurchased == null) {
                                 System.out.println("User canceled input dialog.");
-                            }
-                            else {
+                            } else {
                                 int numPurchase = Integer.parseInt(numPurchased);
                                 product.setQuantity(product.getQuantity() - numPurchase);
                                 // 1) remove from cart

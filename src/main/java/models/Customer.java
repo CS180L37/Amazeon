@@ -15,7 +15,6 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Filter;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
 import com.google.cloud.firestore.Query.Direction;
 
 import utils.Utils;

@@ -196,7 +196,6 @@ public class CustomerProductPage extends JComponent implements Runnable {
         JLabel prevPurchase = new JLabel("Previously Purchased Items");
         eastPanel.add(prevPurchase, gbcc);
         for (int i = 0; i < customer.getProducts().size(); i++) {
-            System.out.println(customer.getProducts().get(i));
             gbcc.gridy++;
             JLabel label = new JLabel("<html>" +
                     "<div style='text-align: center;'>" +

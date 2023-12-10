@@ -21,10 +21,6 @@ public class Cart {
     public static CollectionReference cartsCollection;
     private DocumentReference documentReference;
 
-    public static void main(String[] args) {
-        System.out.println(cartsCollection.toString());
-    }
-
     Cart(int customerID, ArrayList<Product> cartProducts) throws IOException {
         this.customerID = customerID;
         this.cartProducts = (cartProducts != null) ? cartProducts : new ArrayList<Product>();

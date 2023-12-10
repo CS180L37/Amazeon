@@ -2,6 +2,8 @@ package screens;
 
 import javax.swing.*;
 
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
+
 import static utils.Utils.DOWNLOADS;
 
 import java.awt.*;
@@ -88,10 +90,25 @@ public class SellerMarketplaceGUI extends JComponent implements Runnable {
                 }
             }
             if (e.getSource() == menuItemImportData) {
-                // TODO: Open file picker
                 fileChooser = new JFileChooser(DOWNLOADS);
-                frame.dispose();
-                SwingUtilities.invokeLater(new SellerCartGUI(seller));
+                int result = fileChooser.showOpenDialog(frame);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    java.io.File selectedFile = fileChooser.getSelectedFile();
+                    String filePath = selectedFile.getAbsolutePath();
+                    if (!filePath.contains(".csv")) {
+                        JOptionPane.showMessageDialog(null, "Invalid file type", "File Selection",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (seller.importProducts(filePath)) {
+                        JOptionPane.showMessageDialog(null, "Import from " + filePath + "was successful!",
+                                "Import successful",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "Import from " + filePath + "was unsuccessful!", "Import unsuccessful",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
             if (e.getSource() == salesButton) {
                 frame.dispose();
