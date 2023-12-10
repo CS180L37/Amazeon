@@ -180,10 +180,9 @@ public class Customer {
         }
         for (QueryDocumentSnapshot doc : documents) {
             Customer customer = new Customer(doc);
-            customers.add(customer);
             ApiFuture<QuerySnapshot> saleFuture = Sale.salesCollection
                     .whereEqualTo(fields.customerId, customer.getCustomerId()).get();
-            List<QueryDocumentSnapshot> saleDocuments = Utils.retrieveData(future);
+            List<QueryDocumentSnapshot> saleDocuments = Utils.retrieveData(saleFuture);
             if (saleDocuments == null) {
                 continue;
             }
@@ -192,6 +191,9 @@ public class Customer {
                 numProductsSold += saleDoc.getLong(fields.numPurchased).intValue();
             }
             idNumProducts.put(customer.getCustomerId(), numProductsSold);
+        }
+        for (int id : idNumProducts.keySet()) {
+            customers.add(Customer.getCustomerById(id));
         }
         return customers;
     }
