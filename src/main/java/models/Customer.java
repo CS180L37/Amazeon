@@ -167,6 +167,37 @@ public class Customer {
         return customers;
     }
 
+    public static ArrayList<Customer> sortNonDeletedCustomersByNumProducts(String field, Direction direction)
+            throws IOException {
+        ApiFuture<QuerySnapshot> future = customersCollection.orderBy(fields.isDeleted)
+                .whereNotEqualTo(fields.isDeleted, true)
+                .orderBy(field, direction).get();
+        TreeMap<Integer, Integer> idNumProducts = new TreeMap<Integer, Integer>();
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        List<QueryDocumentSnapshot> documents = Utils.retrieveData(future);
+        if (documents == null) {
+            return null;
+        }
+        for (QueryDocumentSnapshot doc : documents) {
+            Customer customer = new Customer(doc);
+            ApiFuture<QuerySnapshot> saleFuture = Sale.salesCollection
+                    .whereEqualTo(fields.customerId, customer.getCustomerId()).get();
+            List<QueryDocumentSnapshot> saleDocuments = Utils.retrieveData(saleFuture);
+            if (saleDocuments == null) {
+                continue;
+            }
+            int numProductsSold = 0;
+            for (QueryDocumentSnapshot saleDoc : documents) {
+                numProductsSold += saleDoc.getLong(fields.numPurchased).intValue();
+            }
+            idNumProducts.put(customer.getCustomerId(), numProductsSold);
+        }
+        for (int id : idNumProducts.keySet()) {
+            customers.add(Customer.getCustomerById(id));
+        }
+        return customers;
+    }
+
     // Called in login
     public static Boolean customerExists(String email, String password) throws IOException {
         ApiFuture<QuerySnapshot> future = customersCollection
