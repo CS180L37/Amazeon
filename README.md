@@ -18,7 +18,7 @@ Just Java :)
 git clone https://github.com/CS180L37/Project4-5.git
 cd Project4-5
 mv service_account.json src/main/resources
-cd src/main/java
+cd src/main/javaUtils
 find . -name "*.java" -print | xargs javac
 java Amazeon.java
 ```
@@ -41,7 +41,7 @@ For an example of the process, view the screencast here:
 - [Store.java](DOCS.md#Store)
 - [Product.java](DOCS.md#Product)
 - [Sale.java](DOCS.md#Sale)
-- [Cart.java](DOCS.md#Cart)
+- [Cart.java](DOCS.md#Amazeon-Backend-Cart)
 - [Utils.java](DOCS.md#Utils)
 - [ValidateInterface.java](DOCS.md#ValidateInterface)
 - [Testing](DOCS.md#Testing)
