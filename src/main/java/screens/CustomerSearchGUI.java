@@ -111,8 +111,8 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                         JButton productButton;
                         try {
                             products = Product.getNonDeletedProductsByName(name.getText());
-                            if(products.size() > 0) {
-                                for(int i = 0; i < products.size(); i++) {
+                            if (products.size() > 0) {
+                                for (int i = 0; i < products.size(); i++) {
                                     productButton = new JButton("<html>" + "<div style='text-align: center;'>"
                                             + "<div>" + "Product Name: " + products.get(i).getName()
                                             + "</div>" + "<div>" + "StoreName: " + Store.getStoreById(products.get(i).getStoreId()).getName() + "</div>"
@@ -343,8 +343,8 @@ public class CustomerSearchGUI extends JComponent implements Runnable {
                         JButton productButton;
                         try {
                             products = Product.getNonDeletedProductsByDescription(description.getText());
-                            if(products.size() > 0) {
-                                for(int i = 0; i < products.size(); i++) {
+                            if (products.size() > 0) {
+                                for (int i = 0; i < products.size(); i++) {
                                     productButton = new JButton("<html>" + "<div style='text-align: center;'>"
                                             + "<div>" + "Product Name: " + products.get(i).getName()
                                             + "</div>" + "<div>" + "StoreName: " + Store.getStoreById(products.get(i).getStoreId()).getName() + "</div>"

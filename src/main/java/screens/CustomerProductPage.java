@@ -84,7 +84,7 @@ public class CustomerProductPage extends JComponent implements Runnable {
                 }
             }
             if (e.getSource() == addToCartButton) {
-                if(product.getQuantity() > 0) {
+                if (product.getQuantity() > 0) {
                     cart.addToCart(product);
                     JOptionPane.showMessageDialog(null, "Added To Cart!", "Adds To Cart", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -201,7 +201,7 @@ public class CustomerProductPage extends JComponent implements Runnable {
         JLabel prevPurchase = new JLabel("Previously Purchased Items");
         eastPanel.add(prevPurchase, gbcc);
         for (int i = 0; i < customer.getProducts().size(); i++) {
-            try{
+            try {
                 gbcc.gridy++;
                 JLabel label = new JLabel("<html>" +
                         "<div style='text-align: center;'>" +

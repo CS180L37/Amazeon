@@ -34,7 +34,7 @@ public class CustomerCartGUI extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == purchaseAllButton) {
-                if(cart.getCartProducts().size() > 0) {
+                if (cart.getCartProducts().size() > 0) {
                     for (int i = 0; i < cart.getCartProducts().size(); i++) {
                         try {
                             Product product = cart.getCartProducts().get(i);
